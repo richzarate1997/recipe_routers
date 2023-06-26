@@ -18,7 +18,8 @@ By: Alice Wu, Coren Frankel, Richard Zarate
 * [ ] Models & Packages (1.5 hr)
     * [ ] App User
         * `int id`
-        * `String username`
+        * `String email`
+        * `String displayName`
         * `Password password / hash`
         * `boolean enabled`
         * `Authorities authorities`
@@ -30,6 +31,7 @@ By: Alice Wu, Coren Frankel, Richard Zarate
         * `int id`
         * `String title`
         * `String imgUrl`
+        * `String image` binary string - blob
         * (FK in DB)`List of Ingredients`
         * `List String Cuisine Type`
         * `String Instructions`
