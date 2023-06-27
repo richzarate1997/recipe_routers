@@ -3,12 +3,12 @@ package learn.agileaprons.models;
 public class Unit {
     private int id;
     private String name;
-    private String abbreviation;
+    private String abbrev;
 
-    public Unit(int id, String name, String abbreviation) {
+    public Unit(int id, String name, String abbrev) {
         this.id = id;
         this.name = name;
-        this.abbreviation = abbreviation;
+        this.abbrev = abbrev;
     }
 
     public Unit(){
@@ -32,10 +32,10 @@ public class Unit {
     }
 
     public String getAbbreviation() {
-        return abbreviation;
+        return abbrev;
     }
 
-    public void setAbbreviation(String abbreviation) {
-        this.abbreviation = abbreviation;
+    public void setAbbreviation(String abbrev) {
+        this.abbrev = abbrev;
     }
 }
