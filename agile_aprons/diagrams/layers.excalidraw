@@ -1,7 +1,7 @@
 {
   "type": "excalidraw",
   "version": 2,
-  "source": "https://excalidraw.com",
+  "source": "https://excalidraw-jetbrains-plugin",
   "elements": [
     {
       "type": "rectangle",
@@ -3241,11 +3241,62 @@
       "originalText": "Unit",
       "lineHeight": 1.25,
       "baseline": 18
+    },
+    {
+      "id": "ZloVsia4_ZwdCOIP8eNII",
+      "type": "rectangle",
+      "x": 745,
+      "y": 921,
+      "width": 259,
+      "height": 43,
+      "angle": 0,
+      "strokeColor": "#000000",
+      "backgroundColor": "transparent",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "strokeSharpness": "sharp",
+      "seed": 981816396,
+      "version": 42,
+      "versionNonce": 539993204,
+      "isDeleted": false,
+      "boundElementIds": null
+    },
+    {
+      "id": "Gq8W_f0sQQYecvqmaXD39",
+      "type": "text",
+      "x": 783,
+      "y": 930,
+      "width": 183,
+      "height": 25,
+      "angle": 0,
+      "strokeColor": "#000000",
+      "backgroundColor": "transparent",
+      "fillStyle": "hachure",
+      "strokeWidth": 1,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "strokeSharpness": "sharp",
+      "seed": 60724044,
+      "version": 25,
+      "versionNonce": 535396684,
+      "isDeleted": false,
+      "boundElementIds": null,
+      "text": "AppUserControllerº",
+      "fontSize": 20,
+      "fontFamily": 1,
+      "textAlign": "center",
+      "verticalAlign": "middle",
+      "baseline": 18
     }
   ],
   "appState": {
     "gridSize": null,
     "viewBackgroundColor": "#ffffff"
-  },
-  "files": {}
+  }
 }
