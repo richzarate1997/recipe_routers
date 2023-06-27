@@ -71,13 +71,13 @@ Today we will return a schedule of tasks, database schema, class diagram with la
         * `String imgUrl`
         * `int id`
         * `String Aisle`
-        * `Measurement`
+        * `Unit`
     * [ ] Recipe Ingredient
         * `double quantity`
         * `int recipeId`
         * `int ingredientId`
-        * `int measurementId`
-    * [ ] Measurement
+        * `int unitId`
+    * [ ] Unit
         * `String name`
         * `String abbrv`
         * `int id`
