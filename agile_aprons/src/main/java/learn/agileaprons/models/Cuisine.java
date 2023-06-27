@@ -1,17 +1,15 @@
 package learn.agileaprons.models;
 
-public class Unit {
+public class Cuisine {
     private int id;
     private String name;
-    private String abbreviation;
 
-    public Unit(int id, String name, String abbreviation) {
+    public Cuisine(int id, String name) {
         this.id = id;
         this.name = name;
-        this.abbreviation = abbreviation;
     }
 
-    public Unit(){
+    public Cuisine(){
 
     }
 
@@ -29,13 +27,5 @@ public class Unit {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getAbbreviation() {
-        return abbreviation;
-    }
-
-    public void setAbbreviation(String abbreviation) {
-        this.abbreviation = abbreviation;
     }
 }

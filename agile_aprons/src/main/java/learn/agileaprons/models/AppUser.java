@@ -12,23 +12,35 @@ import java.util.stream.Collectors;
 public class AppUser implements UserDetails {
 
     private int appUserId;
-    private final String username;
+    private final String email;
+    private final String displayName;
     private final String password;
     private final boolean enabled;
     private final Collection<GrantedAuthority> authorities;
+    private List<Recipe> myRecipes;
+    private List<Recipe> myFavorites;
+    private List<GroceryList> myLists;
 
-    public AppUser(int appUserId, String username, String password, boolean enabled, List<String> roles) {
+
+
+    public AppUser(int appUserId, String email, String displayName, String password, boolean enabled, List<String> roles) {
         this.appUserId = appUserId;
-        this.username = username;
+        this.email = email;
+        this.displayName = displayName;
         this.password = password;
         this.enabled = enabled;
         this.authorities = convertRolesToAuthorities(roles);
+        this.myLists = new ArrayList<>();
     }
 
     private static Collection<GrantedAuthority> convertRolesToAuthorities(List<String> roles) {
         return roles.stream()
                 .map(r -> new SimpleGrantedAuthority(r))
                 .collect(Collectors.toList());
+    }
+
+    public String getDisplayName() {
+        return displayName;
     }
 
     @Override
@@ -43,7 +55,7 @@ public class AppUser implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return email;
     }
 
     @Override
@@ -72,5 +84,28 @@ public class AppUser implements UserDetails {
 
     public void setAppUserId(int appUserId) {
         this.appUserId = appUserId;
+    }
+    public List<Recipe> getMyRecipes() {
+        return myRecipes;
+    }
+
+    public void setMyRecipes(List<Recipe> myRecipes) {
+        this.myRecipes = myRecipes;
+    }
+
+    public List<Recipe> getMyFavorites() {
+        return myFavorites;
+    }
+
+    public void setMyFavorites(List<Recipe> myFavorites) {
+        this.myFavorites = myFavorites;
+    }
+
+    public List<GroceryList> getMyLists() {
+        return myLists;
+    }
+
+    public void setMyLists(List<GroceryList> myLists) {
+        this.myLists = myLists;
     }
 }
