@@ -63,7 +63,7 @@ public class AuthController {
 
     @PostMapping("/create-account")
     public ResponseEntity<Object> create(@RequestBody Credentials credentials) {
-        Result<learn.agileaprons.security.AppUser> result = appUserService.create(credentials);
+        Result<AppUser> result = appUserService.create(credentials);
 
         if (!result.isSuccess()) {
             return new ResponseEntity<>(result.getMessages(), HttpStatus.BAD_REQUEST);

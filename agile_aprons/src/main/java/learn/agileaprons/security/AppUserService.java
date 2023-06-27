@@ -2,6 +2,7 @@ package learn.agileaprons.security;
 
 import learn.agileaprons.data.AppUserRepository;
 import learn.agileaprons.domain.Result;
+import learn.agileaprons.models.AppUser;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,7 +26,7 @@ public class AppUserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        learn.agileaprons.security.AppUser appUser = repository.findByUsername(username);
+        AppUser appUser = repository.findByUsername(username);
 
         if (appUser == null) {
             throw new UsernameNotFoundException(username + " not found.");
@@ -34,15 +35,15 @@ public class AppUserService implements UserDetailsService {
         return appUser;
     }
 
-    public Result<learn.agileaprons.security.AppUser> create(Credentials credentials) {
-        Result<learn.agileaprons.security.AppUser> result = validate(credentials);
+    public Result<AppUser> create(Credentials credentials) {
+        Result<AppUser> result = validate(credentials);
         if (!result.isSuccess()) {
             return result;
         }
 
         String hashedPassword = encoder.encode(credentials.getPassword());
 
-        learn.agileaprons.security.AppUser appUser = new learn.agileaprons.security.AppUser(0, credentials.getUsername(),
+        AppUser appUser = new AppUser(0, credentials.getUsername(),
                 hashedPassword, true, List.of("USER"));
 
         try {
@@ -55,8 +56,8 @@ public class AppUserService implements UserDetailsService {
         return result;
     }
 
-    private Result<learn.agileaprons.security.AppUser> validate(Credentials credentials) {
-        Result<learn.agileaprons.security.AppUser> result = new Result<>();
+    private Result<AppUser> validate(Credentials credentials) {
+        Result<AppUser> result = new Result<>();
         if (credentials.getUsername() == null || credentials.getUsername().isBlank()) {
             result.addMessage("username is required");
             return result;

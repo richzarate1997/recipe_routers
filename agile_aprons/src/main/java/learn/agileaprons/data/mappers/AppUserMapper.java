@@ -1,7 +1,7 @@
 package learn.agileaprons.data.mappers;
 
 import org.springframework.jdbc.core.RowMapper;
-import learn.agileaprons.security.AppUser;
+import learn.agileaprons.models.AppUser;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
