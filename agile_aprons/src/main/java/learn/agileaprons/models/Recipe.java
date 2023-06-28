@@ -2,6 +2,7 @@ package learn.agileaprons.models;
 
 import com.mysql.cj.jdbc.Blob;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Recipe {
@@ -18,8 +19,8 @@ public class Recipe {
     private String sourceUrl;
     private int appUserId;
     private Blob image;
-    private List<Ingredient> ingredients;
-    private List<Cuisine> cuisines;
+    private List<Ingredient> ingredients = new ArrayList<>();
+    private List<Cuisine> cuisines = new ArrayList<>();
 
     public Recipe() {
 
