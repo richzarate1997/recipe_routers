@@ -12,9 +12,7 @@ CREATE TABLE `app_user` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
   `username` VARCHAR(255) NOT NULL UNIQUE,
   `password_hash` VARCHAR(2048) NOT NULL,
-  `display_name` VARCHAR(255) NOT NULL,
-  `enabled` BIT(1) NOT NULL DEFAULT 1,
-  `is_metric` BIT(1) NOT NULL DEFAULT 1
+  `enabled` BIT(1) NOT NULL DEFAULT 1
   );
 
 -- -----------------------------------------------------
@@ -42,10 +40,25 @@ CREATE TABLE `app_user_role` (
 );
 
 -- -----------------------------------------------------
+-- Table `recipe_list`.`user`
+-- -----------------------------------------------------
+CREATE TABLE `user` (
+  `app_user_id` INT NOT NULL,
+  `display_name` VARCHAR(255) NOT NULL,
+  `is_metric` BIT(1) NOT NULL DEFAULT 1,
+  CONSTRAINT `pk_user_id`
+	PRIMARY KEY (`app_user_id`),
+  CONSTRAINT `fk_user_app_user_id`
+	FOREIGN KEY (`app_user_id`)
+    REFERENCES `app_user`(`id`)
+  );
+
+-- -----------------------------------------------------
 -- Table `recipe_list`.`recipe`
 -- -----------------------------------------------------
 CREATE TABLE `recipe` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
+  `user_app_user_id` INT NOT NULL,
   `title` VARCHAR(255) NOT NULL,
   `image_url` VARCHAR(255) NULL,
   `image` BLOB NULL,
@@ -56,41 +69,27 @@ CREATE TABLE `recipe` (
   `dairy_free` BIT(1) NOT NULL DEFAULT 0,
   `servings` INT NOT NULL,
   `src_url` VARCHAR(255) NOT NULL,
-  `app_user_id` INT NULL,
-  `cook_minutes` INT NOT NULL
+  `cook_minutes` INT NOT NULL,
+  CONSTRAINT `fk_user_app_user`
+	FOREIGN KEY (`user_app_user_id`)
+    REFERENCES `user`(`app_user_id`)
   );
-
--- -----------------------------------------------------
--- Table `recipe_list`.`app_user_recipe`
--- -----------------------------------------------------
-CREATE TABLE `app_user_recipe` (
-  `recipe_id` INT NOT NULL,
-  `app_user_id` INT NOT NULL,
-  CONSTRAINT `pk_app_user_recipe`
-	PRIMARY KEY (`recipe_id`, `app_user_id`),
-  CONSTRAINT `fk_app_user_has_recipe`
-    FOREIGN KEY (`recipe_id`)
-    REFERENCES `recipe`(`id`),
-  CONSTRAINT `fk_recipe_has_app_user`
-    FOREIGN KEY (`app_user_id`)
-    REFERENCES `app_user`(`id`)
-);
 
 
 -- -----------------------------------------------------
 -- Table `recipe_list`.`app_user_favorite`
 -- -----------------------------------------------------
-CREATE TABLE `app_user_favorite` (
+CREATE TABLE `user_favorite` (
   `recipe_id` INT NOT NULL,
-  `app_user_id` INT NOT NULL,
-  CONSTRAINT `pk_app_user_favorite`
+  `user_app_user_id` INT NOT NULL,
+  CONSTRAINT `pk_user_favorite`
 	PRIMARY KEY (`recipe_id`, `app_user_id`),
-  CONSTRAINT `fk_app_user_has_favorite`
+  CONSTRAINT `fk_user_has_favorite`
     FOREIGN KEY (`recipe_id`)
     REFERENCES `recipe`(`id`),
-  CONSTRAINT `fk_favorite_has_app_user`
-    FOREIGN KEY (`app_user_id`)
-    REFERENCES `app_user`(`id`)
+  CONSTRAINT `fk_favorite_has_user`
+    FOREIGN KEY (`user_app_user_id`)
+    REFERENCES `user`(`app_user_id`)
 );
 
 
@@ -148,16 +147,16 @@ CREATE TABLE `grocery_list` (
 -- -----------------------------------------------------
 CREATE TABLE `grocery_list_ingredient` (
   `ingredient_id` INT NOT NULL,
-  `app_user_id` INT NOT NULL,
+  `user_app_user_id` INT NOT NULL,
   `list_id` INT NOT NULL,
   CONSTRAINT `pk_grocery_list_ingredient`
-	PRIMARY KEY (`list_id`, `ingredient_id`, `app_user_id`),
+	PRIMARY KEY (`list_id`, `ingredient_id`, `user_app_user_id`),
   CONSTRAINT `fk_grocery_list_ingredient_ingredient`
     FOREIGN KEY (`ingredient_id`)
     REFERENCES `ingredient`(`id`),
   CONSTRAINT `fk_grocery_list__ingredient_app_user`
-    FOREIGN KEY (`app_user_id`)
-    REFERENCES `app_user`(`id`),
+    FOREIGN KEY (`user_app_user_id`)
+    REFERENCES `user`(`app_user_id`),
 CONSTRAINT `fk_grocery_list_ingredient_list`
     FOREIGN KEY (`list_id`)
     REFERENCES `grocery_list`(`id`)
@@ -196,13 +195,19 @@ INSERT INTO `app_role` (`name`) VALUE
     ('ADMIN');
 
 -- passwords are set to "P@ssw0rd!"
-INSERT INTO `app_user` (username, password_hash, enabled, display_name, is_metric)
+INSERT INTO `app_user` (username, password_hash, enabled)
     VALUES
-    ('john@smith.com', '$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa', 1, 'John Smith', 1),
-    ('sally@jones.com', '$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa', 1, 'Sally Jones', 1);
+    ('admin@reciperouters.com', '$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa', 1),
+    ('sally@jones.com', '$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa', 1);
 
 INSERT INTO `app_user_role`
-    VALUES (1, 2), (2, 1);
+    VALUES 
+    (1, 2), 
+    (2, 1);
+
+INSERT INTO `user` (app_user_id, display_name, is_metric)
+	VALUES
+    (1, 'ADMIN', 1);
 
 INSERT INTO `unit` (`name`, `abbrev`)
 	VALUES
