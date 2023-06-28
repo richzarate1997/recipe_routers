@@ -16,11 +16,7 @@ public class AppUser implements UserDetails {
     private String password;
     private boolean enabled;
     private Collection<GrantedAuthority> authorities;
-    private String displayName;
-    private boolean isMetric;
-    private List<Recipe> myRecipes;
-    private List<Recipe> myFavorites;
-    private List<GroceryList> myLists;
+
 
     public AppUser(int appUserId, String username, String password, boolean enabled, List<String> roles) {
         this.appUserId = appUserId;
@@ -38,21 +34,7 @@ public class AppUser implements UserDetails {
                 .collect(Collectors.toList());
     }
 
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
 
-    public boolean isMetric() {
-        return isMetric;
-    }
-
-    public void setMetric(boolean metric) {
-        isMetric = metric;
-    }
-
-    public String getDisplayName() {
-        return displayName;
-    }
 
     @Override
     public Collection<GrantedAuthority> getAuthorities() {
@@ -96,27 +78,5 @@ public class AppUser implements UserDetails {
     public void setAppUserId(int appUserId) {
         this.appUserId = appUserId;
     }
-    public List<Recipe> getMyRecipes() {
-        return myRecipes;
-    }
 
-    public void setMyRecipes(List<Recipe> myRecipes) {
-        this.myRecipes = myRecipes;
-    }
-
-    public List<Recipe> getMyFavorites() {
-        return myFavorites;
-    }
-
-    public void setMyFavorites(List<Recipe> myFavorites) {
-        this.myFavorites = myFavorites;
-    }
-
-    public List<GroceryList> getMyLists() {
-        return myLists;
-    }
-
-    public void setMyLists(List<GroceryList> myLists) {
-        this.myLists = myLists;
-    }
 }

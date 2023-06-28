@@ -23,8 +23,6 @@ public class AppUserMapper implements RowMapper<AppUser> {
                 rs.getBoolean("enabled"),
                 roles);
 
-        appUser.setDisplayName(rs.getString("display_name"));
-        appUser.setMetric(rs.getBoolean("is_metric"));
 
         //FIXME: Implement mappers for myRecipes, myFavorites, & myLists
 
