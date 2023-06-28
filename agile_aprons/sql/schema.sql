@@ -10,7 +10,7 @@ USE `recipe_list`;
 -- -----------------------------------------------------
 CREATE TABLE `app_user` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `email` VARCHAR(255) NOT NULL UNIQUE,
+  `username` VARCHAR(255) NOT NULL UNIQUE,
   `password_hash` VARCHAR(2048) NOT NULL,
   `display_name` VARCHAR(255) NOT NULL,
   `enabled` BIT(1) NOT NULL DEFAULT 1,
@@ -100,7 +100,7 @@ CREATE TABLE `app_user_favorite` (
 CREATE TABLE `ingredient` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
   `name` VARCHAR(255) NOT NULL,
-  `img_url` VARCHAR(255) NOT NULL,
+  `image_url` VARCHAR(255) NOT NULL,
   `aisle` VARCHAR(45) NULL
 );
 
@@ -114,42 +114,53 @@ CREATE TABLE `unit` (
   `abbrev` VARCHAR(10) NOT NULL
   );
 
-
 -- -----------------------------------------------------
 -- Table `recipe_list`.`recipe_ingredient`
 -- -----------------------------------------------------
 CREATE TABLE `recipe_ingredient` (
   `recipe_id` INT NOT NULL,
-  `ingredients_id` INT NOT NULL,
+  `ingredient_id` INT NOT NULL,
   `unit_id` INT NOT NULL,
   `quantity` DECIMAL(25) NOT NULL,
   CONSTRAINT `pk_recipe_ingredient`
-	PRIMARY KEY (`recipe_id`, `ingredients_id`, `unit_id`),
+	PRIMARY KEY (`recipe_id`, `ingredient_id`, `unit_id`),
   CONSTRAINT `fk_recipe_ingredient_recipe`
     FOREIGN KEY (`recipe_id`)
     REFERENCES `recipe`(`id`),
   CONSTRAINT `fk_recipe_ingredient_ingredient`
-    FOREIGN KEY (`ingredients_id`)
+    FOREIGN KEY (`ingredient_id`)
     REFERENCES `ingredient`(`id`),
   CONSTRAINT `fk_recipe_ingredient_unit`
     FOREIGN KEY (`unit_id`)
     REFERENCES `unit`(`id`)
 );
 
+-- -----------------------------------------------------
+-- Table `recipe_list`.`grocery_list`
+-- -----------------------------------------------------
+CREATE TABLE `grocery_list` (
+	`id` INT PRIMARY KEY AUTO_INCREMENT,
+    `name` VARCHAR(40) NOT NULL
+);
 
 -- -----------------------------------------------------
 -- Table `recipe_list`.`grocery_list_ingredient`
 -- -----------------------------------------------------
 CREATE TABLE `grocery_list_ingredient` (
-  `list_id` INT PRIMARY KEY AUTO_INCREMENT,
   `ingredient_id` INT NOT NULL,
   `app_user_id` INT NOT NULL,
-  CONSTRAINT `fk_grocery_list_ingredient`
+  `list_id` INT NOT NULL,
+  CONSTRAINT `pk_grocery_list_ingredient`
+	PRIMARY KEY (`list_id`, `ingredient_id`, `app_user_id`),
+  CONSTRAINT `fk_grocery_list_ingredient_ingredient`
     FOREIGN KEY (`ingredient_id`)
     REFERENCES `ingredient`(`id`),
-  CONSTRAINT `fk_grocery_list_app_user`
+  CONSTRAINT `fk_grocery_list__ingredient_app_user`
     FOREIGN KEY (`app_user_id`)
-    REFERENCES `app_user`(`id`)
+    REFERENCES `app_user`(`id`),
+CONSTRAINT `fk_grocery_list_ingredient_list`
+    FOREIGN KEY (`list_id`)
+    REFERENCES `grocery_list`(`id`)
 );
 
 
@@ -168,7 +179,7 @@ CREATE TABLE `cuisine` (
 CREATE TABLE `recipe_cuisine` (
   `cuisine_id` INT NOT NULL,
   `recipe_id` INT NOT NULL,
-  CONSTRAINT `pk_recipe_cusine`
+  CONSTRAINT `pk_recipe_cuisine`
 	PRIMARY KEY (`cuisine_id`, `recipe_id`),
   CONSTRAINT `fk_recipe_cuisine`
     FOREIGN KEY (`cuisine_id`)
@@ -185,7 +196,7 @@ INSERT INTO `app_role` (`name`) VALUE
     ('ADMIN');
 
 -- passwords are set to "P@ssw0rd!"
-INSERT INTO `app_user` (email, password_hash, enabled, display_name, is_metric)
+INSERT INTO `app_user` (username, password_hash, enabled, display_name, is_metric)
     VALUES
     ('john@smith.com', '$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa', 1, 'John Smith', 1),
     ('sally@jones.com', '$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa', 1, 'Sally Jones', 1);
