@@ -1,14 +1,21 @@
 package learn.agileaprons.models;
 
+import org.springframework.beans.factory.annotation.Value;
+
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 public class User {
+    @NotNull
     private int id;
+    @NotNull
+    @Value("")
     private String displayName;
-    private boolean isMetric;
-    private List<Recipe> myRecipes;
-    private List<Recipe> myFavorites;
-    private List<GroceryList> myLists;
+    private boolean isMetric = true;
+    private List<Recipe> myRecipes = new ArrayList<>();
+    private List<Recipe> myFavorites = new ArrayList<>();
+    private List<GroceryList> myLists = new ArrayList<>();
 
     public int getId() {
         return id;

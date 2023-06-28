@@ -60,7 +60,7 @@ CREATE TABLE `recipe` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
   `user_app_user_id` INT NOT NULL,
   `title` VARCHAR(255) NOT NULL,
-  `image_url` VARCHAR(255) NULL,
+  `image_url` VARCHAR(255) NOT NULL,
   `image` BLOB NULL,
   `instructions` VARCHAR(255) NOT NULL,
   `vegetarian` BIT(1) NOT NULL DEFAULT 0,
@@ -83,7 +83,7 @@ CREATE TABLE `user_favorite` (
   `recipe_id` INT NOT NULL,
   `user_app_user_id` INT NOT NULL,
   CONSTRAINT `pk_user_favorite`
-	PRIMARY KEY (`recipe_id`, `app_user_id`),
+	PRIMARY KEY (`recipe_id`, `user_app_user_id`),
   CONSTRAINT `fk_user_has_favorite`
     FOREIGN KEY (`recipe_id`)
     REFERENCES `recipe`(`id`),
@@ -188,6 +188,13 @@ CREATE TABLE `recipe_cuisine` (
     REFERENCES `recipe`(`id`)
 );
 
+ALTER TABLE `app_user` AUTO_INCREMENT = 1;
+ALTER TABLE `app_role` AUTO_INCREMENT = 1;
+ALTER TABLE `recipe` AUTO_INCREMENT = 1;
+ALTER TABLE `ingredient` AUTO_INCREMENT = 1;
+ALTER TABLE `unit` AUTO_INCREMENT = 1;
+ALTER TABLE `cuisine` AUTO_INCREMENT = 1;
+ALTER TABLE `grocery_list` AUTO_INCREMENT = 1;
 
 
 INSERT INTO `app_role` (`name`) VALUE

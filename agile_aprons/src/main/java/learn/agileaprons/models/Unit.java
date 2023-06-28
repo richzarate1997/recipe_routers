@@ -1,19 +1,15 @@
 package learn.agileaprons.models;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 public class Unit {
+    @NotNull
     private int id;
+    @NotBlank
     private String name;
+    @NotBlank
     private String abbrev;
-
-    public Unit(int id, String name, String abbrev) {
-        this.id = id;
-        this.name = name;
-        this.abbrev = abbrev;
-    }
-
-    public Unit(){
-
-    }
 
     public int getId() {
         return id;

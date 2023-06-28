@@ -1,5 +1,7 @@
 package learn.agileaprons.models;
 
+import javax.validation.constraints.NotBlank;
+
 public class Cuisine {
     private int id;
     private String name;
