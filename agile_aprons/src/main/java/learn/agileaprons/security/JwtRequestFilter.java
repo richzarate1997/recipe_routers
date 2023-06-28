@@ -1,5 +1,6 @@
 package learn.agileaprons.security;
 
+import learn.agileaprons.models.AppUser;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

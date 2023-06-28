@@ -18,7 +18,7 @@ Today we will return a schedule of tasks, database schema, class diagram with la
     * [x] Draft schema with DDL
     * [x] Table Diagram with Relationships
 
-* [ ] Dependencies (10 min)
+* [x] Dependencies (10 min)
     * [x] Spring framework boot/starter
       * [x] devtools
       * [x] validation

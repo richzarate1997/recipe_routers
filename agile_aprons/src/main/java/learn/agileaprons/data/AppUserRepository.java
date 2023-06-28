@@ -1,7 +1,7 @@
 package learn.agileaprons.data;
 
-
+import learn.agileaprons.models.AppUser;
 public interface AppUserRepository {
-    learn.agileaprons.security.AppUser findByUsername(String username);
-    learn.agileaprons.security.AppUser create(learn.agileaprons.security.AppUser user);
+    AppUser findByUsername(String username);
+    AppUser create(AppUser user);
 }

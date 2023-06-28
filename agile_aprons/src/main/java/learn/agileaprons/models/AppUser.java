@@ -12,31 +12,42 @@ import java.util.stream.Collectors;
 public class AppUser implements UserDetails {
 
     private int appUserId;
-    private final String email;
-    private final String displayName;
-    private final String password;
-    private final boolean enabled;
-    private final Collection<GrantedAuthority> authorities;
+    private String username;
+    private String password;
+    private boolean enabled;
+    private Collection<GrantedAuthority> authorities;
+    private String displayName;
+    private boolean isMetric;
     private List<Recipe> myRecipes;
     private List<Recipe> myFavorites;
     private List<GroceryList> myLists;
 
-
-
-    public AppUser(int appUserId, String email, String displayName, String password, boolean enabled, List<String> roles) {
+    public AppUser(int appUserId, String username, String password, boolean enabled, List<String> roles) {
         this.appUserId = appUserId;
-        this.email = email;
-        this.displayName = displayName;
+        this.username = username;
         this.password = password;
         this.enabled = enabled;
         this.authorities = convertRolesToAuthorities(roles);
-        this.myLists = new ArrayList<>();
     }
+
+    public AppUser() {}
 
     private static Collection<GrantedAuthority> convertRolesToAuthorities(List<String> roles) {
         return roles.stream()
-                .map(r -> new SimpleGrantedAuthority(r))
+                .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public boolean isMetric() {
+        return isMetric;
+    }
+
+    public void setMetric(boolean metric) {
+        isMetric = metric;
     }
 
     public String getDisplayName() {
@@ -55,7 +66,7 @@ public class AppUser implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return username;
     }
 
     @Override

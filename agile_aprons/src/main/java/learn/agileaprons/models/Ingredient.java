@@ -1,8 +1,14 @@
 package learn.agileaprons.models;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 public class Ingredient {
     private int id;
+    @NotBlank(message = "Ingredient name is required.")
+    @Size(max = 50, message = "Ingredient name cannot be greater than 30 characters.")
     private String name;
+    @NotBlank(message = "Ingredient image url is required")
     private String imageUrl;
     private String aisle;
     private Double quantity;

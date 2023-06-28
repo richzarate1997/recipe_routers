@@ -1,5 +1,6 @@
 package learn.agileaprons.data;
 
+import learn.agileaprons.models.AppUser;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.security.core.GrantedAuthority;
@@ -23,7 +24,7 @@ public class AppUserJdbcTemplate implements AppUserRepository {
 
     @Override
     @Transactional
-    public learn.agileaprons.security.AppUser findByUsername(String username) {
+    public AppUser findByUsername(String username) {
         List<String> roles = getRolesByUsername(username);
 
         final String sql = """
@@ -39,15 +40,16 @@ public class AppUserJdbcTemplate implements AppUserRepository {
 
     @Override
     @Transactional
-    public learn.agileaprons.security.AppUser create(learn.agileaprons.security.AppUser user) {
+    public AppUser create(AppUser user) {
 
-        final String sql = "insert into app_user (username, password_hash) values (?, ?);";
+        final String sql = "insert into app_user (username, password_hash, display_name) values (?, ?, ?);";
 
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
         int rowsAffected = jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, user.getUsername());
             ps.setString(2, user.getPassword());
+            ps.setString(3, user.getDisplayName());
             return ps;
         }, keyHolder);
 
@@ -63,17 +65,21 @@ public class AppUserJdbcTemplate implements AppUserRepository {
     }
 
     @Transactional
-    public boolean update(learn.agileaprons.security.AppUser user) {
+    public boolean update(AppUser user) {
 
         final String sql = """
                 update app_user set
                     username = ?,
-                    enabled = ?
+                    enabled = ?,
+                    display_name = ?,
+                    is_metric = ?
                 where app_user_id = ?
                 """;
 
         int rowsReturned = jdbcTemplate.update(sql,
-                user.getUsername(), user.isEnabled(), user.getAppUserId());
+                user.getUsername(), user.isEnabled(),
+                user.getDisplayName(), user.isMetric(),
+                user.getAppUserId());
 
         if (rowsReturned > 0) {
             updateRoles(user);
@@ -83,7 +89,7 @@ public class AppUserJdbcTemplate implements AppUserRepository {
         return false;
     }
 
-    private void updateRoles(learn.agileaprons.security.AppUser user) {
+    private void updateRoles(AppUser user) {
         // delete all roles, then re-add
         jdbcTemplate.update("delete from app_user_role where app_user_id = ?;", user.getAppUserId());
 
