@@ -16,11 +16,18 @@ public class AppUserMapper implements RowMapper<AppUser> {
 
     @Override
     public AppUser mapRow(ResultSet rs, int i) throws SQLException {
-        return new AppUser(
+        AppUser appUser = new AppUser(
                 rs.getInt("app_user_id"),
                 rs.getString("username"),
                 rs.getString("password_hash"),
                 rs.getBoolean("enabled"),
                 roles);
+
+        appUser.setDisplayName(rs.getString("display_name"));
+        appUser.setMetric(rs.getBoolean("is_metric"));
+
+        //FIXME: Implement mappers for myRecipes, myFavorites, & myLists
+
+        return appUser;
     }
 }
