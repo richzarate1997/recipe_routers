@@ -1,25 +1,25 @@
 package learn.agileaprons.models;
 
-public class RecipeIngredient {
-    private int recipeId;
-    private Ingredient ingredient;
+public class IngredientRecipe {
+    private int ingredientId;
+    private Recipe recipe;
     private double quantity;
     private int unitId;
 
-    public int getRecipeId() {
-        return recipeId;
+    public int getIngredientId() {
+        return ingredientId;
     }
 
-    public void setRecipeId(int recipeId) {
-        this.recipeId = recipeId;
+    public void setIngredientId(int ingredientId) {
+        this.ingredientId = ingredientId;
     }
 
-    public Ingredient getIngredient() {
-        return ingredient;
+    public Recipe getRecipe() {
+        return recipe;
     }
 
-    public void setIngredient(Ingredient ingredient) {
-        this.ingredient = ingredient;
+    public void setRecipe(Recipe recipe) {
+        this.recipe = recipe;
     }
 
     public double getQuantity() {
