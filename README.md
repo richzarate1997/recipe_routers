@@ -14,46 +14,45 @@ Today we will return a schedule of tasks, database schema, class diagram with la
 ## Schedule of Tasks
 
 ### Back End (17.5 hrs/ 3 Days)
-* [ ] Build database (1 hr)
-    * [ ] Draft schema with DDL
-    * [ ] Table Diagram with Relationships
+* [x] Build database (1 hr)
+    * [x] Draft schema with DDL
+    * [x] Table Diagram with Relationships
 
 * [ ] Dependencies (10 min)
-    * [ ] Spring framework boot/starter
-      * [ ] devtools
-      * [ ] validation
-      * [ ] web
-      * [ ] test
-      * [ ] jdbc
-      * [ ] security
-    * [ ] JUnit Testing
-    * [ ] JJWT 
-      * [ ] api
-      * [ ] impl
-      * [ ] jackson
-    * [ ] MySQL Connector
+    * [x] Spring framework boot/starter
+      * [x] devtools
+      * [x] validation
+      * [x] web
+      * [x] test
+      * [x] jdbc
+      * [x] security
+    * [x] JUnit Testing
+    * [x] JJWT 
+      * [x] api
+      * [x] impl
+      * [x] jackson
+    * [x] MySQL Connector
 
-* [ ] Models & Packages (2 - 2.5 hr)
+* [x] Models & Packages (2 - 2.5 hr)
   * [ ] Java Validation API Annotations
-    * [ ] App User
+    * [x] App User
         * `int id`
         * `String email`
         * `String displayName`
-        * `Password password / hash`
+        * `String password`
         * `boolean enabled`
-        * `Authorities authorities`
-        * `<Granted Authority> grantedAuthority`
-        * `List of Recipes myRecipes`
-        * `List of Recipes favoriteRecipes`
-        * `List of Grocery Lists` can add more lists
-    * [ ] Recipes
+        * `Collection<Granted Authority> grantedAuthority`
+        * `List<Recipe> myRecipes`
+        * `List<Recipe> myFavorites`
+        * `List<GroceryList> myLists`
+    * [x] Recipes
         * `int id`
         * `String title`
         * `String imgUrl`
-        * `String image` binary string - blob
-        * (FK in DB)`List of Ingredients`
-        * `List String Cuisine Type`
-        * `String Instructions`
+        * `Blob image`
+        * `List<Ingredients> ingredients`
+        * `List<Cuisine> cuisines`
+        * `String instructions`
         * `boolean isVegetarian`
         * `boolean isGlutenFree`
         * `boolean isDairy`
@@ -61,26 +60,25 @@ Today we will return a schedule of tasks, database schema, class diagram with la
         * `int servings`
         * `String srcUrl` links back to original recipe or our users page
         * `int appUserId` can be null if not original
-        * `LocalTime cookTime`
-    * [ ] Grocery List
-        * `int userId`
-        * `List of Ingredients`
-        * `int groceryListId`
-    * [ ] Ingredients
-        * `String name`
-        * `String imgUrl`
+        * `int cookMinutes`
+    * [x] Grocery List
         * `int id`
-        * `String Aisle`
-        * `Unit`
-    * [ ] Recipe Ingredient
-        * `double quantity`
-        * `int recipeId`
-        * `int ingredientId`
-        * `int unitId`
-    * [ ] Unit
         * `String name`
-        * `String abbrv`
+        * `List<Ingredient> list`
+    * [x] Ingredient
         * `int id`
+        * `String name`
+        * `Double quantity`
+        * `Unit unit`
+        * `String imageUrl`
+        * `String aisle`
+    * [x] Unit
+        * `int id`
+        * `String name`
+        * `String abbrev`
+    * [x] Cuisine
+        * `int id`
+        * `String name`
 
 * [ ] Data (3-3.5 hrs)
     * [ ] Mappers
@@ -109,6 +107,7 @@ Today we will return a schedule of tasks, database schema, class diagram with la
 
 * [ ] Controller (3 hrs)
     * [ ] Recipe Controller
+    * [ ] AppUserController
     * [ ] Auth Controller
     * [ ] ErrorResponse
     * [ ] GlobalExceptionHandler
@@ -117,13 +116,13 @@ Today we will return a schedule of tasks, database schema, class diagram with la
     * [ ] Testing
 
 * [ ] Root / learn (5 mins)
-    * [ ] App
+    * [x] App
     * [ ] App Config
 
 
 
 ### Front End (20 hr - 4 days)
-* [ ] Wire frames / "User Stories" (3 hrs)
+* [x] Wire frames / "User Stories" (3 hrs)
   * Style Inspirations: 
     * Google Minimalism
     * Light theme -- AllRecipes.com
@@ -188,10 +187,10 @@ Today we will return a schedule of tasks, database schema, class diagram with la
   * [ ] Successes / Extra-Curricular Endeavours
 
 * [ ] Application Demonstration (~7 min duration)
-  * [ ] Landing Page - Login
-  * [ ] Registration - App Usage
-  * [ ] Recipe Search - Favoriting
-  * [ ] Recipe View - Grocery List
+  * [ ] Landing Page -> Login
+  * [ ] Registration -> App Usage
+  * [ ] Recipe Search -> Favoriting
+  * [ ] Recipe View -> Grocery List
   * [ ] Grocery List Ingredient Checking / Removal
   * [ ] Mobile vs. Web UI
 

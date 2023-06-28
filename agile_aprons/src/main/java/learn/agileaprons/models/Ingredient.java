@@ -5,16 +5,34 @@ public class Ingredient {
     private String name;
     private String imageUrl;
     private String aisle;
+    private Double quantity;
+    private Unit unit;
 
-    public Ingredient() {
 
-    }
+    public Ingredient() {}
 
-    public Ingredient(int id, String name, String imageUrl, String aisle) {
+    public Ingredient(int id, String name, String imageUrl, String aisle, Double quantity, Unit unit) {
         this.id = id;
         this.name = name;
         this.imageUrl = imageUrl;
         this.aisle = aisle;
+        this.quantity = quantity;
+        this.unit = unit;
+    }
+    public Unit getUnit() {
+        return unit;
+    }
+
+    public void setUnit(Unit unit) {
+        this.unit = unit;
+    }
+
+    public Double getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Double quantity) {
+        this.quantity = quantity;
     }
 
     public int getId() {
