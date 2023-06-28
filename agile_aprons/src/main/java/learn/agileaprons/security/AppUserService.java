@@ -15,7 +15,6 @@ import java.util.List;
 
 @Service
 public class AppUserService implements UserDetailsService {
-    //FIXME Work out how to validate and create displayName on creation
     private final AppUserRepository repository;
     private final PasswordEncoder encoder;
 
