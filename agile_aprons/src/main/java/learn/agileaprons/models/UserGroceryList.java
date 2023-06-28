@@ -1,8 +1,8 @@
 package learn.agileaprons.models;
 
-public class AppUserGroceryList {
+public class UserGroceryList {
     private GroceryList groceryList;
-    private AppUser appUser;
+    private User user;
     private int ingredientId;
 
     public GroceryList getGroceryList() {
@@ -13,12 +13,12 @@ public class AppUserGroceryList {
         this.groceryList = groceryList;
     }
 
-    public AppUser getAppUser() {
-        return appUser;
+    public User getUser() {
+        return user;
     }
 
-    public void setAppUser(AppUser appUser) {
-        this.appUser = appUser;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public int getIngredientId() {

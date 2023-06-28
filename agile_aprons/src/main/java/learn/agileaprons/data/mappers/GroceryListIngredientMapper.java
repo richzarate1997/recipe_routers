@@ -10,7 +10,7 @@ public class GroceryListIngredientMapper implements RowMapper<GroceryListIngredi
     @Override
     public GroceryListIngredient mapRow(ResultSet rs, int rowNum) throws SQLException {
         GroceryListIngredient groceryListIngredient = new GroceryListIngredient();
-        groceryListIngredient.setAppUserId(rs.getInt("app_user_id"));
+        groceryListIngredient.setAppUserId(rs.getInt("user_app_user_id"));
 
         IngredientMapper ingredientMapper = new IngredientMapper();
         groceryListIngredient.setIngredient(ingredientMapper.mapRow(rs, rowNum));
