@@ -1,7 +1,6 @@
 package learn.agileaprons.data.mappers;
 
 import learn.agileaprons.models.CuisineRecipe;
-import learn.agileaprons.models.Recipe;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;

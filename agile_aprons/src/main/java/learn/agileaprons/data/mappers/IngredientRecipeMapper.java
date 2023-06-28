@@ -12,7 +12,9 @@ public class IngredientRecipeMapper implements RowMapper<IngredientRecipe> {
         IngredientRecipe ingredientRecipe = new IngredientRecipe();
         ingredientRecipe.setIngredientId(rs.getInt("ingredient_id"));
         ingredientRecipe.setQuantity(rs.getDouble("quantity"));
-        ingredientRecipe.setUnitId(rs.getInt("unit_id"));
+
+        UnitMapper unitMapper = new UnitMapper();
+        ingredientRecipe.setUnit(unitMapper.mapRow(rs, rowNum));
 
         RecipeMapper recipeMapper = new RecipeMapper();
         ingredientRecipe.setRecipe(recipeMapper.mapRow(rs, rowNum));

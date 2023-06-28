@@ -12,6 +12,6 @@ public class UnitMapper implements RowMapper<Unit> {
         Unit unit = new Unit();
         unit.setId(rs.getInt("id"));
         unit.setName(rs.getString("name"));
-        return null;
+        return unit;
     }
 }

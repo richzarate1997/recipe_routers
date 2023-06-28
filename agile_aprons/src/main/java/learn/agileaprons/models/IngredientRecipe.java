@@ -4,7 +4,7 @@ public class IngredientRecipe {
     private int ingredientId;
     private Recipe recipe;
     private double quantity;
-    private int unitId;
+    private Unit unit;
 
     public int getIngredientId() {
         return ingredientId;
@@ -30,11 +30,11 @@ public class IngredientRecipe {
         this.quantity = quantity;
     }
 
-    public int getUnitId() {
-        return unitId;
+    public Unit getUnit() {
+        return unit;
     }
 
-    public void setUnitId(int unitId) {
-        this.unitId = unitId;
+    public void setUnit(Unit unit) {
+        this.unit = unit;
     }
 }
