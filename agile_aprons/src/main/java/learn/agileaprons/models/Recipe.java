@@ -17,7 +17,7 @@ public class Recipe {
     private boolean glutenFree;
     private boolean dairyFree;
     private String sourceUrl;
-    private int appUserId;
+    private int userId;
     private Blob image;
     private List<Ingredient> ingredients = new ArrayList<>();
     private List<Cuisine> cuisines = new ArrayList<>();
@@ -106,12 +106,12 @@ public class Recipe {
         this.sourceUrl = sourceUrl;
     }
 
-    public int getAppUserId() {
-        return appUserId;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setAppUserId(int appUserId) {
-        this.appUserId = appUserId;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public Blob getImage() {

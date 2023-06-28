@@ -42,14 +42,14 @@ public class AppUserJdbcTemplate implements AppUserRepository {
     @Transactional
     public AppUser create(AppUser user) {
 
-        final String sql = "insert into app_user (username, password_hash, display_name) values (?, ?, ?);";
+        final String sql = "insert into app_user (username, password_hash ) values (?, ?);";
 
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
         int rowsAffected = jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, user.getUsername());
             ps.setString(2, user.getPassword());
-            ps.setString(3, user.getDisplayName());
+
             return ps;
         }, keyHolder);
 
@@ -71,14 +71,12 @@ public class AppUserJdbcTemplate implements AppUserRepository {
                 update app_user set
                     username = ?,
                     enabled = ?,
-                    display_name = ?,
-                    is_metric = ?
                 where app_user_id = ?
                 """;
 
         int rowsReturned = jdbcTemplate.update(sql,
                 user.getUsername(), user.isEnabled(),
-                user.getDisplayName(), user.isMetric(),
+
                 user.getAppUserId());
 
         if (rowsReturned > 0) {
