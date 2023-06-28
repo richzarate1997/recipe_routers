@@ -3,7 +3,11 @@ package learn.agileaprons.data;
 import learn.agileaprons.data.mappers.IngredientMapper;
 import learn.agileaprons.models.Ingredient;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,16 +48,41 @@ public class IngredientJdbcTemplateRepository implements IngredientRepository {
 
     @Override
     public Ingredient create(Ingredient ingredient) {
-        return null;
+        final String sql = "insert into ingredient (id, name, image_url, aisle) " +
+                "values (?, ?, ?, ?);";
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        int rowsAffected = jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, ingredient.getId());
+            ps.setString(2, ingredient.getName());
+            ps.setString(3, ingredient.getImageUrl());
+            ps.setString(4, ingredient.getAisle());
+            return ps;
+        }, keyHolder);
+
+        if(rowsAffected <= 0){
+            return null;
+        }
+
+        ingredient.setId(keyHolder.getKey().intValue());
+        return ingredient;
     }
 
     @Override
     public boolean update(Ingredient ingredient) {
-        return false;
+        final String sql = "update ingredient set "
+                + "name = ?, "
+                + "image_url = ?, "
+                + "aisle = ? "
+                + "where id = ?;";
+        return jdbcTemplate.update(sql, ingredient.getName(), ingredient.getImageUrl(), ingredient.getAisle(),
+                ingredient.getId()) > 0;
     }
 
     @Override
     public boolean deleteById(int id) {
-        return false;
+        final String sql = "delete from ingredient where id = ?;";
+        return jdbcTemplate.update(sql, id) > 0;
+
     }
 }
