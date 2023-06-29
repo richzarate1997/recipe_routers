@@ -4,11 +4,12 @@ import learn.agileaprons.models.Recipe;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+@SpringBootTest
 class RecipeJdbcTemplateRepositoryTest {
 
     @Autowired
@@ -56,7 +57,7 @@ class RecipeJdbcTemplateRepositoryTest {
     @Test
     void shouldUpdate() {
 
-        Recipe recipe = new Recipe();
+        Recipe recipe = repository.findById(2);
         recipe.setInstructions("Mix ingredients together and toss in oven at 400 for 25 minutes");
 
         assertTrue(repository.update(recipe));
