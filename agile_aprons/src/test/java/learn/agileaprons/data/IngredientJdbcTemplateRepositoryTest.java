@@ -9,9 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@SpringBootTest//(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class IngredientJdbcTemplateRepositoryTest {
-    final static int NEXT_ID = 5;
 
     @Autowired
     IngredientJdbcTemplateRepository repository;
@@ -45,13 +44,12 @@ class IngredientJdbcTemplateRepositoryTest {
         ingredient.setAisle("Deli");
         Ingredient actual = repository.create(ingredient);
         assertNotNull(actual);
-        assertEquals(5, actual.getId());
+        assertEquals(6, actual.getId());
 
     }
     @Test
     void shouldUpdate() {
-        Ingredient ingredient = new Ingredient();
-        ingredient.setId(2);
+        Ingredient ingredient = repository.findById(3);
         ingredient.setName("Tomatoe");
 
         assertTrue(repository.update(ingredient));
