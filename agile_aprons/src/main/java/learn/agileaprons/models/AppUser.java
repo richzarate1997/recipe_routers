@@ -34,8 +34,6 @@ public class AppUser implements UserDetails {
                 .collect(Collectors.toList());
     }
 
-
-
     @Override
     public Collection<GrantedAuthority> getAuthorities() {
         return new ArrayList<>(authorities);
@@ -54,6 +52,22 @@ public class AppUser implements UserDetails {
     @Override
     public boolean isAccountNonExpired() {
         return true;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public void setAuthorities(Collection<GrantedAuthority> authorities) {
+        this.authorities = authorities;
     }
 
     @Override
