@@ -9,9 +9,9 @@ public interface RecipeRepository {
     List<Recipe> findAll();
 
     Recipe findById(int id);
-    Recipe findByName(String name);
+    List<Recipe> findByTitle(String title);
 
-    Recipe add(Recipe recipe);
+    Recipe create(Recipe recipe);
 
     boolean update(Recipe recipe);
 
