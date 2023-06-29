@@ -36,6 +36,14 @@ class IngredientJdbcTemplateRepositoryTest {
         assertEquals(1, cheese.getId());
         assertEquals("Cheese", cheese.getName());
     }
+
+    @Test
+    void shouldFindCheeseAndCornTortillas(){
+        String testName = "C";
+        List<Ingredient> result = repository.findByName(testName);
+        assertEquals(2, result.size());
+
+    }
     @Test
     void shouldCreate() {
         Ingredient ingredient = new Ingredient();
