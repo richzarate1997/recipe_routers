@@ -2,16 +2,10 @@ package learn.agileaprons.data;
 
 import learn.agileaprons.models.GroceryList;
 
-import java.util.List;
 
 public class GroceryListJdbcTemplateRepository implements GroceryListRepository{
     @Override
     public GroceryList findById(int id) {
-        return null;
-    }
-
-    @Override
-    public List<GroceryList> findByUserId(int id) {
         return null;
     }
 

@@ -249,7 +249,7 @@ BEGIN
 		(11, 'liter','L'),
 		(12, 'gram','g'),
 		(13, 'kilogram','kg'),
-        (14, 's', 's');
+        (14, 'count', 'ct');
         
 	INSERT INTO `cuisine` (`id`, `name`)
 		VALUES

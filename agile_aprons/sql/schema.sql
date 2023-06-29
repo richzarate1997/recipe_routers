@@ -205,7 +205,7 @@ INSERT INTO `app_role` (`name`) VALUE
 INSERT INTO `app_user` (username, password_hash, enabled)
     VALUES
     ('admin@reciperouters.com', '$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa', 1),
-    ('sally@jones.com', '$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa', 1);
+    ('test@user.com', '$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa', 1);
 
 INSERT INTO `app_user_role`
     VALUES 
@@ -214,7 +214,8 @@ INSERT INTO `app_user_role`
 
 INSERT INTO `user` (app_user_id, display_name, is_metric)
 	VALUES
-    (1, 'ADMIN', 1);
+    (1, 'ADMIN', 1),
+    (2, 'TESTER', 0);
 
 INSERT INTO `unit` (`name`, `abbrev`)
 	VALUES
@@ -230,4 +231,5 @@ INSERT INTO `unit` (`name`, `abbrev`)
     ('milliliter','mL'),
     ('liter','L'),
     ('gram','g'),
-    ('kilogram','kg');
+    ('kilogram','kg'),
+	( 'count', 'ct');
