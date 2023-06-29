@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface GroceryListRepository {
     GroceryList findById(int id);
-    GroceryList create(GroceryList list);
-    boolean update(GroceryList list);
+    GroceryList create(GroceryList groceryList);
+    boolean update(GroceryList groceryList);
     boolean deleteById(int id);
 }
