@@ -3,11 +3,17 @@ package learn.agileaprons.data;
 import learn.agileaprons.data.mappers.CuisineMapper;
 import learn.agileaprons.data.mappers.IngredientMapper;
 import learn.agileaprons.data.mappers.RecipeMapper;
+import learn.agileaprons.models.Ingredient;
 import learn.agileaprons.models.Recipe;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class RecipeJdbcTemplateRepository implements RecipeRepository {
 
@@ -43,23 +49,72 @@ public class RecipeJdbcTemplateRepository implements RecipeRepository {
     }
 
     @Override
-    public Recipe findByName(String name) {
-        return null;
+    public List<Recipe> findByTitle(String title) {
+        return findAll().stream()
+                .filter(i -> i.getTitle().startsWith(title))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Recipe add(Recipe recipe) {
-        return null;
+    public Recipe create(Recipe recipe) {
+        final String sql = "insert into recipe (id, title, instructions, servings, cook_minutes, image_url, vegetarian, " +
+                "vegan, gluten_free, dairy_free, src_url, user_app_user_id, image) " +
+                "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        int rowsAffected = jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, recipe.getId());
+            ps.setString(2, recipe.getTitle());
+            ps.setString(3, recipe.getInstructions());
+            ps.setInt(4, recipe.getServings());
+            ps.setInt(5, recipe.getCookMinutes());
+            ps.setString(6, recipe.getImageUrl());
+            ps.setBoolean(7, recipe.isVegetarian());
+            ps.setBoolean(8, recipe.isVegan());
+            ps.setBoolean(9, recipe.isGlutenFree());
+            ps.setBoolean(10, recipe.isDairyFree());
+            ps.setString(11, recipe.getSourceUrl());
+            ps.setInt(12, recipe.getUserId()); //is this correct? or is it recipe.User,getId
+            ps.setBlob(13, recipe.getImage()); //is this correct?
+            return ps;
+        }, keyHolder);
+
+        if(rowsAffected <= 0){
+            return null;
+        }
+
+        recipe.setId(keyHolder.getKey().intValue());
+        return recipe;
     }
 
     @Override
     public boolean update(Recipe recipe) {
-        return false;
+        final String sql = "update recipe set "
+                + "title = ?, "
+                + "instructions = ?, "
+                + "servings = ?, "
+                + "cook_minutes = ?, "
+                + "image_url = ?, "
+                + "vegetarian = ?, "
+                + "vegan = ?, "
+                + "gluten_free = ?, "
+                + "dairy_free = ?, "
+                + "src_url = ?, "
+                + "user_app_user_id = ?, "
+                + "image = ?, "
+                + "where id = ?;";
+
+
+        return jdbcTemplate.update(sql, recipe.getTitle(), recipe.getInstructions(), recipe.getServings(),recipe.getCookMinutes(),
+                recipe.getImageUrl(), recipe.isVegetarian(), recipe.isVegan(), recipe.isGlutenFree(), recipe.isDairyFree(),
+                recipe.getSourceUrl(), recipe.getUserId(), recipe.getImage(), recipe.getId()) > 0;
     }
 
     @Override
     public boolean deleteById(int id) {
-        return false;
+        final String sql = "delete from recipe where id = ?;";
+        return jdbcTemplate.update(sql, id) > 0;
+
     }
 
     private void addIngredients(Recipe recipe){
