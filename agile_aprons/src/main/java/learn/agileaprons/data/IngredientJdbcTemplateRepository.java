@@ -5,12 +5,14 @@ import learn.agileaprons.models.Ingredient;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
 import java.util.stream.Collectors;
-
+@Repository
 public class IngredientJdbcTemplateRepository implements IngredientRepository {
     private final JdbcTemplate jdbcTemplate;
 
@@ -30,7 +32,7 @@ public class IngredientJdbcTemplateRepository implements IngredientRepository {
     public Ingredient findById(int id) {
         final String sql = "select i.id, i.name, i.image_url, i.aisle " +
                 "from ingredient i " +
-                "where id = ?";
+                "where i.id = ?";
 
         return jdbcTemplate.query(sql, new IngredientMapper(), id)
                 .stream()
@@ -80,7 +82,10 @@ public class IngredientJdbcTemplateRepository implements IngredientRepository {
     }
 
     @Override
+    @Transactional
     public boolean deleteById(int id) {
+        jdbcTemplate.update("delete from recipe_ingredient where ingredient_id = ?;", id);
+        jdbcTemplate.update("delete from grocery_list_ingredient where ingredient_id = ?;", id);
         final String sql = "delete from ingredient where id = ?;";
         return jdbcTemplate.update(sql, id) > 0;
 
