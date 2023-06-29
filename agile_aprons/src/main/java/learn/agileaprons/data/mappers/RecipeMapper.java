@@ -11,7 +11,7 @@ public class RecipeMapper implements RowMapper<Recipe> {
     @Override
     public Recipe mapRow(ResultSet rs, int rowNum) throws SQLException {
         Recipe recipe = new Recipe();
-        recipe.setId(rs.getInt("recipe.id"));
+        recipe.setId(rs.getInt("id"));
         recipe.setTitle(rs.getString("title"));
         recipe.setServings(rs.getInt("servings"));
         recipe.setCookMinutes(rs.getInt("cook_minutes"));
@@ -26,6 +26,6 @@ public class RecipeMapper implements RowMapper<Recipe> {
 
 
 
-        return null;
+        return recipe;
     }
 }

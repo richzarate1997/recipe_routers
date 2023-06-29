@@ -8,13 +8,14 @@ import learn.agileaprons.models.Recipe;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
 import java.util.stream.Collectors;
-
+@Repository
 public class RecipeJdbcTemplateRepository implements RecipeRepository {
 
     private final JdbcTemplate jdbcTemplate;
@@ -26,7 +27,7 @@ public class RecipeJdbcTemplateRepository implements RecipeRepository {
     @Override
     public List<Recipe> findAll() {
         final String sql = "select r.id, r.title, r.instructions, r.servings, r.cook_minutes, r.image_url, r.vegetarian, "
-                + "r.vegan, r.gluten_free, r.dairy_free, r.src_url, r.user_app_user_id, r.image"
+                + "r.vegan, r.gluten_free, r.dairy_free, r.src_url, r.user_app_user_id, r.image "
                 + "from recipe r;";
 
         return jdbcTemplate.query(sql, new RecipeMapper());
@@ -36,8 +37,8 @@ public class RecipeJdbcTemplateRepository implements RecipeRepository {
     @Transactional
     public Recipe findById(int id) {
         final String sql = "select r.id, r.title, r.instructions, r.servings, r.cook_minutes, r.image_url, r.vegetarian, "
-                + "r.vegan, r.gluten_free, r.dairy_free, r.src_url, r.user_app_user_id, r.image"
-                + "from recipe r"
+                + "r.vegan, r.gluten_free, r.dairy_free, r.src_url, r.user_app_user_id, r.image "
+                + "from recipe r "
                 + "where id = ?;";
         Recipe recipe = jdbcTemplate.query(sql, new RecipeMapper(), id).stream()
                 .findFirst().orElse(null);
@@ -101,7 +102,7 @@ public class RecipeJdbcTemplateRepository implements RecipeRepository {
                 + "dairy_free = ?, "
                 + "src_url = ?, "
                 + "user_app_user_id = ?, "
-                + "image = ?, "
+                + "image = ? "
                 + "where id = ?;";
 
 
@@ -111,7 +112,11 @@ public class RecipeJdbcTemplateRepository implements RecipeRepository {
     }
 
     @Override
+    @Transactional
     public boolean deleteById(int id) {
+        jdbcTemplate.update("delete from recipe_ingredient where recipe_id = ?;", id);
+        jdbcTemplate.update("delete from recipe_cuisine where recipe_id = ?;", id);
+        jdbcTemplate.update("delete from user_favorite where recipe_id = ?;", id);
         final String sql = "delete from recipe where id = ?;";
         return jdbcTemplate.update(sql, id) > 0;
 
