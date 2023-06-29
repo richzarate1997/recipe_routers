@@ -1,9 +1,17 @@
 package learn.agileaprons.models;
 
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
+
 public class RecipeIngredient {
+    @NotNull
     private int recipeId;
+    @NotNull
     private Ingredient ingredient;
+    @NotNull
+    @DecimalMin(value = "0.0001", message = "Quantity must be greater than 0.0001")
     private double quantity;
+    @NotNull
     private Unit unit;
 
     public int getRecipeId() {

@@ -1,15 +1,17 @@
 package learn.agileaprons.models;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GroceryList {
+    @NotNull
     private int id;
+    @NotBlank(message = "Grocery List name cannot be blank.")
     private String name;
-    private List<Ingredient> list;
+    private List<Ingredient> list = new ArrayList<>();
 
-    public GroceryList() {
-    }
 
     public void setId(int id) {
         this.id = id;

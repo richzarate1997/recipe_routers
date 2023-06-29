@@ -1,30 +1,43 @@
 package learn.agileaprons.models;
 
 import com.mysql.cj.jdbc.Blob;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
+import javax.validation.constraints.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Recipe {
+    @NotNull
     private int id;
+    @NotNull
+    private int userId;
+    @NotBlank(message = "Recipe name cannot be blank.")
+    @Size(max = 50, message = "Recipe name must be less than 50 characters.")
     private String title;
+    @NotBlank(message = "Recipe instructions cannot be blank.")
     private String instructions;
+    @Min(value = 1, message = "Recipe servings cannot be less than 1.")
+    @Max(value = 50, message = "Recipe servings cannot be greater than 50.")
     private int servings;
+    @Min(value = 1, message = "Recipe cook time cannot be less than 1 minute.")
+    @Max(value = 25200, message = "Recipe cook time cannot be greater than 1 week.")
     private int cookMinutes;
+    @NotNull
+    @Pattern(regexp = "(http://|https://)?(www.)?([a-zA-Z0-9]+).[a-zA-Z0-9]*.[a-z]{3}.?([a-zA-Z0-9/.-]+)?|")
     private String imageUrl;
+    @NotNull
+    @Pattern(regexp = "(http://|https://)?(www.)?([a-zA-Z0-9]+).[a-zA-Z0-9]*.[a-z]{3}.?([a-zA-Z0-9/.-]+)?|")
+    private String sourceUrl;
+    private Blob image;
     private boolean vegetarian;
     private boolean vegan;
     private boolean glutenFree;
     private boolean dairyFree;
-    private String sourceUrl;
-    private int userId;
-    private Blob image;
+    @Size(min = 1, max=50, message = "Recipe ingredient count must be between at least 1 and 50 ingredients.")
     private List<Ingredient> ingredients = new ArrayList<>();
+    @Max(value = 4, message = "Whoa, calm down! Fusion Confusion! Keep it under 5 cuisines.")
     private List<Cuisine> cuisines = new ArrayList<>();
-
-    public Recipe() {
-
-    }
 
     public int getId() {
         return id;

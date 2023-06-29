@@ -1,17 +1,13 @@
 package learn.agileaprons.models;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 public class Cuisine {
+    @NotNull
     private int id;
+    @NotBlank(message = "Cuisine name cannot be blank.")
     private String name;
-
-    public Cuisine(int id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public Cuisine(){
-
-    }
 
     public int getId() {
         return id;
