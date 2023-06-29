@@ -1,5 +1,6 @@
 package learn.agileaprons.data;
 
+import learn.agileaprons.models.Ingredient;
 import learn.agileaprons.models.Recipe;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,12 +32,20 @@ class RecipeJdbcTemplateRepositoryTest {
 
     }
     @Test
-    void shouldFindPepperTacos() {
+    void shouldFindPepperTacosById() {
         Recipe pepperTacos = repository.findById(2);
         assertEquals(2, pepperTacos.getId());
         assertEquals("Pepper Tacos", pepperTacos.getTitle());
 
     }
+
+    @Test
+    void shouldFindPepperPizzaByName(){
+        String testName = "Pepper Pizza";
+        List<Recipe> result = repository.findByTitle(testName);
+        assertEquals(1, result.size());
+    }
+
     @Test
     void shouldCreate() {
         Recipe recipe = new Recipe();

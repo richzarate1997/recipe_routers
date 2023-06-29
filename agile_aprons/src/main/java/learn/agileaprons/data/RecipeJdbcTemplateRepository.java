@@ -75,7 +75,7 @@ public class RecipeJdbcTemplateRepository implements RecipeRepository {
             ps.setBoolean(9, recipe.isGlutenFree());
             ps.setBoolean(10, recipe.isDairyFree());
             ps.setString(11, recipe.getSourceUrl());
-            ps.setInt(12, recipe.getUserId()); //is this correct? or is it recipe.User,getId
+            ps.setInt(12, recipe.getUserId());
             ps.setBlob(13, recipe.getImage()); //is this correct?
             return ps;
         }, keyHolder);
