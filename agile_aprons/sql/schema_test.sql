@@ -192,18 +192,19 @@ DELIMITER //
 CREATE PROCEDURE set_known_good_state()
 BEGIN
 
+	SET sql_safe_updates = 0;
 	DELETE FROM `app_user_role`;
     DELETE FROM `recipe_cuisine`;
     DELETE FROM `recipe_ingredient`;
     DELETE FROM `grocery_list_ingredient`;
     DELETE FROM `user_favorite`;
+    DELETE FROM `recipe`;
+	ALTER TABLE `recipe` AUTO_INCREMENT = 1;
     DELETE FROM `user`;
     DELETE FROM `app_user`;
 	ALTER TABLE `app_user` AUTO_INCREMENT = 1;
     DELETE FROM `app_role`;
 	ALTER TABLE `app_role` AUTO_INCREMENT = 1;
-    DELETE FROM `recipe`;
-	ALTER TABLE `recipe` AUTO_INCREMENT = 1;
     DELETE FROM `ingredient`;
 	ALTER TABLE `ingredient` AUTO_INCREMENT = 1;
     DELETE FROM `unit`;
@@ -212,6 +213,7 @@ BEGIN
 	ALTER TABLE `cuisine` AUTO_INCREMENT = 1;
     DELETE FROM `grocery_list`;
 	ALTER TABLE `grocery_list` AUTO_INCREMENT = 1;
+    SET sql_safe_updates = 1;
 
 
 	INSERT INTO `app_role` (`name`) VALUE
@@ -269,8 +271,8 @@ BEGIN
         
 	INSERT INTO `recipe` (`id`, `user_app_user_id`, `title`, `image_url`, `image`, `instructions`, `vegetarian`, `vegan`, `gluten_free`, `dairy_free`, `servings`, `src_url`, `cook_minutes`)
 		VALUES
-		(1, 2, 'Pepper Pizza', 'http://pepper-pizza.jpg', null, 'Mix ingredients together and throw in the oven at 400 for 20 minutes', 1, 0, 0, 0, 4, "https://recipes.com/pepper-pizza", 45),
-        (2, 1, 'Pepper Tacos', '', '010101011101011101011110101110101100010100010100101', 'Make tacos for dinner, and enjoy them.', 1, 0, 1, 0, 6, "", 90);
+		(1, 2, 'Pepper Pizza', 'http://pepper-pizza.jpg', null, 'Mix ingredients together and throw in the oven at 400 for 20 minutes', 1, 0, 0, 0, 4, 'https://recipes.com/pepper-pizza', 45),
+        (2, 1, 'Pepper Tacos', '', '010101011101011101011110101110101100010100010100101', 'Make tacos for dinner, and enjoy them.', 1, 0, 1, 0, 6, '', 90);
         
 	INSERT INTO `recipe_ingredient` (`recipe_id`, `ingredient_id`, `unit_id`, `quantity`)
 		VALUES
