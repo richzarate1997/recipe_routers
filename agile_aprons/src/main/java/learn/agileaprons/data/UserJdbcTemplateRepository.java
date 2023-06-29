@@ -1,12 +1,18 @@
 package learn.agileaprons.data;
 
+import learn.agileaprons.data.mappers.GroceryListMapper;
 import learn.agileaprons.data.mappers.RecipeMapper;
 import learn.agileaprons.data.mappers.UserMapper;
 import learn.agileaprons.models.Recipe;
 import learn.agileaprons.models.User;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 
 @Repository
 public class UserJdbcTemplateRepository implements UserRepository {
@@ -41,12 +47,30 @@ public class UserJdbcTemplateRepository implements UserRepository {
 
     @Override
     public User create(User user) {
-        return null;
+
+        final String sql = "insert into user (app_user_id, display_name, is_metric) " +
+                "values (?, ?, ?);";
+
+        int rowsAffected = jdbcTemplate.update(sql,
+            user.getId(),
+            user.getDisplayName(),
+            user.isMetric());
+
+        return rowsAffected <= 0 ? null : user;
     }
 
     @Override
-    public User update(User user) {
-        return null;
+    public boolean update(User user) {
+
+        final String sql = "update user set " +
+                "display_name = ? " +
+                "is_metric = ? " +
+                "where app_user_id = ?;";
+
+        return jdbcTemplate.update(sql,
+                user.getDisplayName(),
+                user.isMetric(),
+                user.getId()) > 0;
     }
 
     private void addRecipes(User user) {
@@ -77,7 +101,14 @@ public class UserJdbcTemplateRepository implements UserRepository {
     }
 
     private void addLists(User user) {
-        
+
+        final String sql = "select gl.id, gl.name from grocery list gl " +
+                "join grocery_list_ingredient gli on gl.id = gli.list_id " +
+                "join user u on gli.user_app_user_id = u.app_user_id " +
+                "where u.app_user_id = ?;";
+
+        var userLists = jdbcTemplate.query(sql, new GroceryListMapper(), user.getId());
+        user.setMyLists(userLists);
     }
 
 
