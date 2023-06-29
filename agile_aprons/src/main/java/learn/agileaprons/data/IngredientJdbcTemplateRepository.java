@@ -88,6 +88,5 @@ public class IngredientJdbcTemplateRepository implements IngredientRepository {
         jdbcTemplate.update("delete from grocery_list_ingredient where ingredient_id = ?;", id);
         final String sql = "delete from ingredient where id = ?;";
         return jdbcTemplate.update(sql, id) > 0;
-
     }
 }
