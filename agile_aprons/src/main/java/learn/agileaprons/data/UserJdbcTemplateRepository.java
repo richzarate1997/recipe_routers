@@ -29,9 +29,9 @@ public class UserJdbcTemplateRepository implements UserRepository {
     @Transactional
     public User findById(int id) {
 
-        final String sql = "select id, display_name, is_metric " +
-                "from user" +
-                "where id = ?;";
+        final String sql = "select app_user_id, display_name, is_metric " +
+                "from user " +
+                "where app_user_id = ?;";
 
         User user = jdbcTemplate.query(sql, new UserMapper(), id).stream()
                 .findFirst().orElse(null);
@@ -63,7 +63,7 @@ public class UserJdbcTemplateRepository implements UserRepository {
     public boolean update(User user) {
 
         final String sql = "update user set " +
-                "display_name = ? " +
+                "display_name = ?, " +
                 "is_metric = ? " +
                 "where app_user_id = ?;";
 
@@ -76,8 +76,8 @@ public class UserJdbcTemplateRepository implements UserRepository {
     private void addRecipes(User user) {
 
         final String sql = "select r.id, r.user_app_user_id, r.title, r.instructions, r.servings, " +
-                "r.cookMinutes, r.imageUrl, r.sourceUrl, r.image, r.vegetarian, r.vegan, " +
-                "r.glutenFree, r.dairyFree " +
+                "r.cook_minutes, r.image_url, r.src_url, r.image, r.vegetarian, r.vegan, " +
+                "r.gluten_free, r.dairy_free " +
                 "from recipe r " +
                 "join user u on r.user_app_user_id = u.app_user_id " +
                 "where r.user_app_user_id = ?;";
@@ -89,11 +89,11 @@ public class UserJdbcTemplateRepository implements UserRepository {
     private void addFavorites(User user) {
 
         final String sql = "select r.id, r.user_app_user_id, r.title, r.instructions, r.servings, " +
-                "r.cookMinutes, r.imageUrl, r.sourceUrl, r.image, r.vegetarian, r.vegan, " +
-                "r.glutenFree, r.dairyFree " +
+                "r.cook_minutes, r.image_url, r.src_url, r.image, r.vegetarian, r.vegan, " +
+                "r.gluten_free, r.dairy_free " +
                 "from recipe r " +
                 "join user_favorite uf on r.id = uf.recipe_id " +
-                "join user u on uf.user_app_user_id = u.app_user_id" +
+                "join user u on uf.user_app_user_id = u.app_user_id " +
                 "where u.app_user_id = ?;";
 
         var userFavorites = jdbcTemplate.query(sql, new RecipeMapper(), user.getId());
@@ -102,12 +102,13 @@ public class UserJdbcTemplateRepository implements UserRepository {
 
     private void addLists(User user) {
 
-        final String sql = "select gl.id, gl.name from grocery list gl " +
+        final String sql = "select gl.id, gl.name from grocery_list gl " +
                 "join grocery_list_ingredient gli on gl.id = gli.list_id " +
                 "join user u on gli.user_app_user_id = u.app_user_id " +
                 "where u.app_user_id = ?;";
 
         var userLists = jdbcTemplate.query(sql, new GroceryListMapper(), user.getId());
+        userLists.forEach(System.out::println);
         user.setMyLists(userLists);
     }
 
