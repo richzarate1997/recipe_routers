@@ -12,7 +12,7 @@ public class UserMapper implements RowMapper<User> {
         User user = new User();
         user.setId(rs.getInt("app_user_id"));
         user.setDisplayName(rs.getString("display_name"));
-        user.setMetric(rs.getBoolean("metric"));
+        user.setMetric(rs.getBoolean("is_metric"));
         return user;
     }
 }

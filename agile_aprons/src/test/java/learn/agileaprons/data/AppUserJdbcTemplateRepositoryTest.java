@@ -31,7 +31,7 @@ class AppUserJdbcTemplateRepositoryTest {
     }
 
     @Test
-    void shouldFindJohnSmithByUsername() {
+    void shouldFindAdminByUsername() {
         AppUser actual = repository.findByUsername("admin@reciperouters.com");
 
         assertTrue(actual.isEnabled());
@@ -40,7 +40,7 @@ class AppUserJdbcTemplateRepositoryTest {
     }
 
     @Test
-    void shouldFindSallyJonesByUsername() {
+    void shouldFindTesterByUsername() {
         AppUser actual = repository.findByUsername("test@user.com");
 
         assertEquals(1, actual.getAuthorities().size());
@@ -65,7 +65,7 @@ class AppUserJdbcTemplateRepositoryTest {
     }
 
     @Test
-    void shouldUpdateSallyJones() {
+    void shouldUpdateTester() {
         AppUser tester = repository.findByUsername("test@user.com");
         tester.setEnabled(false);
 
