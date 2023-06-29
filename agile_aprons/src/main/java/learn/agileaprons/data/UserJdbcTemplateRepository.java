@@ -1,5 +1,6 @@
 package learn.agileaprons.data;
 
+import learn.agileaprons.data.mappers.RecipeMapper;
 import learn.agileaprons.data.mappers.UserMapper;
 import learn.agileaprons.models.Recipe;
 import learn.agileaprons.models.User;
@@ -57,8 +58,8 @@ public class UserJdbcTemplateRepository implements UserRepository {
                 "join user u on r.user_app_user_id = u.app_user_id " +
                 "where r.user_app_user_id = ?;";
 
-
-
+        var userRecipes = jdbcTemplate.query(sql, new RecipeMapper(), user.getId());
+        user.setMyRecipes(userRecipes);
     }
 
     private void addFavorites(User user) {
@@ -71,16 +72,13 @@ public class UserJdbcTemplateRepository implements UserRepository {
                 "join user u on uf.user_app_user_id = u.app_user_id" +
                 "where u.app_user_id = ?;";
 
-        
-
+        var userFavorites = jdbcTemplate.query(sql, new RecipeMapper(), user.getId());
+        user.setMyFavorites(userFavorites);
     }
 
     private void addLists(User user) {
 
     }
 
-    private void addIngredients(Recipe recipe) {
-
-    }
 
 }
