@@ -1,7 +1,6 @@
 package learn.agileaprons.models;
 
 import com.mysql.cj.jdbc.Blob;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import javax.validation.constraints.*;
 import java.util.ArrayList;
@@ -38,7 +37,7 @@ public class Recipe {
     private boolean glutenFree;
     private boolean dairyFree;
     @Size(min = 1, max=50, message = "Recipe ingredient count must be between at least 1 and 50 ingredients.")
-    private List<Ingredient> ingredients = new ArrayList<>();
+    private List<RecipeIngredient> ingredients = new ArrayList<>();
     @Max(value = 4, message = "Whoa, calm down! Fusion Confusion! Keep it under 5 cuisines.")
     private List<Cuisine> cuisines = new ArrayList<>();
 
@@ -138,11 +137,11 @@ public class Recipe {
         this.image = image;
     }
 
-    public List<Ingredient> getIngredients() {
+    public List<RecipeIngredient> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(List<Ingredient> ingredients) {
+    public void setIngredients(List<RecipeIngredient> ingredients) {
         this.ingredients = ingredients;
     }
 

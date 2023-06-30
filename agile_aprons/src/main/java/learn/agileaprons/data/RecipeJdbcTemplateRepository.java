@@ -2,6 +2,7 @@ package learn.agileaprons.data;
 
 import learn.agileaprons.data.mappers.CuisineMapper;
 import learn.agileaprons.data.mappers.IngredientMapper;
+import learn.agileaprons.data.mappers.RecipeIngredientMapper;
 import learn.agileaprons.data.mappers.RecipeMapper;
 import learn.agileaprons.models.Ingredient;
 import learn.agileaprons.models.Recipe;
@@ -123,12 +124,12 @@ public class RecipeJdbcTemplateRepository implements RecipeRepository {
     }
 
     private void addIngredients(Recipe recipe){
-        final String sql = "select i.id, i.name, i.image_url, i.aisle " +
+        final String sql = "select i.id, i.name, i.image_url, i.aisle, ri.recipe_id, ri.quantity, ri.unit_id " +
                 "from ingredient i " +
                 "join recipe_ingredient ri on i.id = ri.ingredient_id " +
                 "join recipe r on r.id = ri.recipe_id where r.id = ?;";
-        var ingredients = jdbcTemplate.query(sql, new IngredientMapper(), recipe.getId());
-        recipe.setIngredients(ingredients);
+        var recipeIngredients = jdbcTemplate.query(sql, new RecipeIngredientMapper(), recipe.getId());
+        recipe.setIngredients(recipeIngredients);
     }
 
     private void addCuisines(Recipe recipe){

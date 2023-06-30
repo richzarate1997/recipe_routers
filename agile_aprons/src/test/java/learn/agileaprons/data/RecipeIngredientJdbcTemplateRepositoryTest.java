@@ -41,7 +41,6 @@ class RecipeIngredientJdbcTemplateRepositoryTest {
     @Test
     void shouldUpdate() {
         RecipeIngredient recipeIngredient = makeRecipeIngredient();
-//        recipeIngredient.getIngredient().setId(5);
         recipeIngredient.setQuantity(5);
         assertTrue(repository.update(recipeIngredient));
 
