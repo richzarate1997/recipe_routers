@@ -33,8 +33,7 @@ public class UserJdbcTemplateRepository implements UserRepository {
                 "from user " +
                 "where app_user_id = ?;";
 
-        User user = jdbcTemplate.query(sql, new UserMapper(), id).stream()
-                .findFirst().orElse(null);
+        User user = jdbcTemplate.queryForObject(sql, new UserMapper(), id);
 
         if (user != null) {
             addRecipes(user);
@@ -102,13 +101,11 @@ public class UserJdbcTemplateRepository implements UserRepository {
 
     private void addLists(User user) {
 
-        final String sql = "select gl.id, gl.name from grocery_list gl " +
-                "join grocery_list_ingredient gli on gl.id = gli.list_id " +
-                "join user u on gli.user_app_user_id = u.app_user_id " +
+        final String sql = "select gl.id, gl.user_app_user_id, gl.name from grocery_list gl " +
+                "join user u on gl.user_app_user_id = u.app_user_id " +
                 "where u.app_user_id = ?;";
 
         var userLists = jdbcTemplate.query(sql, new GroceryListMapper(), user.getId());
-        userLists.forEach(System.out::println);
         user.setMyLists(userLists);
     }
 

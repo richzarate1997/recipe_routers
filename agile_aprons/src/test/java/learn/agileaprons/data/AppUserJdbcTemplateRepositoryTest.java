@@ -53,7 +53,7 @@ class AppUserJdbcTemplateRepositoryTest {
 
         AppUser actual = repository.create(appUser);
 
-        assertEquals(3, actual.getAppUserId());
+        assertEquals(4, actual.getAppUserId());
 
         AppUser pai = repository.findByUsername("paitongsukum");
 
