@@ -1,0 +1,5 @@
+@url = http://localhost:8080/api/ingredient
+
+GET {{url}} HTTP/1.1
+
+GET{{url}}/add
