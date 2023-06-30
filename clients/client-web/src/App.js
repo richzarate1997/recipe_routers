@@ -1,12 +1,19 @@
+import Home from "./components/Home";
 import ResponsiveAppBar from "./components/ResponsiveAppBar";
-import SearchBar from "./components/SearchBar";
-import FunFact from "./components/FunFact";
+import Recipe from "./components/Recipe";
+
+import { Route, Routes, BrowserRouter as Router } from "react-router-dom";
 function App() {
   return (
     <>
-    <ResponsiveAppBar />
-    <SearchBar />
-    <FunFact />
+      <ResponsiveAppBar />
+      <Router>
+        <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/recipes" element={<Recipe />} />
+        </Routes>
+      </Router>
+
     </>
   );
 }
