@@ -4,6 +4,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import TextField from "@mui/material/TextField";
 import "./SearchBar.css";
 import { Box, Grid } from "@mui/material";
+import logo from "../logo.png";
 
 function SearchBar() {
     const [searchQuery, setSearchQuery] = useState("");
@@ -11,17 +12,17 @@ function SearchBar() {
 
     const SearchBar = () => (
         <form>
-            <Grid container pt={40} style={{
+            <Grid container pt={2} style={{
                 display: "flex",
                 alignSelf: "center",
                 justifyContent: "center"
             }}>
                 <Grid item xs={6} xl={11} md={9} sm={8} style={{
-                display: "flex",
-                alignSelf: "center",
-                justifyContent: "center",
-                flexDirection: "column"
-            }}>
+                    display: "flex",
+                    alignSelf: "center",
+                    justifyContent: "center",
+                    flexDirection: "column"
+                }}>
                     <TextField
                         fullWidth
                         id="search-bar"
@@ -29,17 +30,17 @@ function SearchBar() {
                         onChange={handleChangeSearch}
                         label="Search for a recipe"
                         variant="outlined"
-                        placeholder="Search..."
+                        placeholder="example: pasta"
                         size="small"
                     />
                 </Grid>
                 <Grid item xs={1} style={{
-                display: "flex",
-                alignSelf: "center",
-                justifyContent: "center",
-                flexDirection: "column"
-                
-            }}>
+                    display: "flex",
+                    alignSelf: "center",
+                    justifyContent: "center",
+                    flexDirection: "column"
+
+                }}>
                     <IconButton type="submit" aria-label="search" onSubmit={handleSubmitSearch}>
                         <SearchIcon style={{ fill: "#CA5953" }} />
                     </IconButton>
@@ -60,20 +61,35 @@ function SearchBar() {
     };
 
     return (
-
-        <Box px={10}
-            style={{
+        <Box>
+            <Box pt={8} style={{
                 display: "flex",
                 alignSelf: "center",
                 justifyContent: "center",
                 flexDirection: "column"
+            }}>
+            <img src={logo} alt="hambuger logo" style={{
+                    maxWidth: '20%',
+                    display: "flex",
+                    alignSelf: "center",
+                    justifyContent: "center",
+                    flexDirection: "column"
+                }} />
+            </Box>
                 
-            }}
-        >
-            <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+
+            <Box px={10}
+                style={{
+                    display: "flex",
+                    alignSelf: "center",
+                    justifyContent: "center",
+                    flexDirection: "column"
+
+                }}
+            >
+                <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+            </Box>
         </Box>
-
-
 
 
 

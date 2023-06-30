@@ -1,8 +1,16 @@
 
+import { getRandomFunFact, getRandomTrivia } from "../service/fetchApi";
+
 function FunFact(){
-    return (
-        <h2>FunFact</h2>
-    );
+    let text;
+    if(Math.floor(Math.random() * 2) === 0){
+        //text = getRandomFunFact();
+        text = "haha fun fact";
+    } else{
+       // text = getRandomTrivia();
+       text = "haha trivia";
+    }
+    return text;
 }
 
 export default FunFact;
