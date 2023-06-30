@@ -13,20 +13,23 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler
     public ResponseEntity<?> handleException(DuplicateKeyException ex) {
-        return reportException("Duplicate entry.");
+        return reportBadRequest("Duplicate entry.");
     }
 
     @ExceptionHandler
     public ResponseEntity<?> handleException(HttpMessageNotReadableException ex) {
-        return reportException("Badly formed JSON.");
+        return reportBadRequest("Badly formed JSON.");
     }
 
     @ExceptionHandler
     public ResponseEntity<?> handleException(Exception ex) {
-        return reportException("Something went wrong :(");
+        return reportException("Something went wrong :(", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    private ResponseEntity<?> reportException(String message) {
+    private ResponseEntity<?> reportBadRequest(String message) {
+        return reportException(message, HttpStatus.BAD_REQUEST);
+    }
+    private ResponseEntity<?> reportException(String message, HttpStatus httpStatus) {
         List<String> messages = List.of(message);
         return new ResponseEntity<>(messages, HttpStatus.BAD_REQUEST);
     }
