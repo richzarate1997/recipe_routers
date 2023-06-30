@@ -7,7 +7,7 @@ export async function getRandomFunFact() {
         method: 'GET',
         url: 'https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/food/jokes/random',
         headers: {
-            'X-RapidAPI-Key': env.SPOONACULAR_API_KEY,
+            'X-RapidAPI-Key': env.REACT_APP_SPOONACULAR_API_KEY,
             'X-RapidAPI-Host': 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com'
         }
     };
@@ -30,7 +30,7 @@ export async function getRandomTrivia() {
         method: 'GET',
         url: 'https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/food/trivia/random',
         headers: {
-            'X-RapidAPI-Key': env.SPOONACULAR_API_KEY,
+            'X-RapidAPI-Key': env.REACT_APP_SPOONACULAR_API_KEY,
             'X-RapidAPI-Host': 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com'
         }
     };
