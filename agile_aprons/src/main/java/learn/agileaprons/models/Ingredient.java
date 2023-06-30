@@ -12,9 +12,9 @@ public class Ingredient {
     @Size(max = 50, message = "Ingredient name cannot be greater than 50 characters.")
     private String name;
     @NotBlank(message = "Ingredient image url is required")
-    @Max(value = 255, message = "Ingredient image url too long.")
+    @Size(max = 255, message = "Ingredient image url too long.")
     private String imageUrl;
-    @Max(value = 20, message = "Aisle name cannot be greater than 20 characters.")
+    @Size(max = 20, message = "Aisle name cannot be greater than 20 characters.")
     private String aisle;
 
     public int getId() {
