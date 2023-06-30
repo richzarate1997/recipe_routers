@@ -13,7 +13,8 @@ export async function getRandomFunFact() {
 
     try {
         const response = await axios.request(options);
-        console.log(response.data);
+        console.log(response.data.text);
+        return response.data.text;
     } catch (error) {
         console.error(error);
     }
@@ -36,7 +37,8 @@ export async function getRandomTrivia() {
 
     try {
         const response = await axios.request(options);
-        console.log(response.data);
+        console.log(response.data.text);
+        return response.data.text;
     } catch (error) {
         console.error(error);
     }
