@@ -1,5 +1,6 @@
 package learn.agileaprons.models;
 
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -8,7 +9,10 @@ import java.util.List;
 public class GroceryList {
     @NotNull
     private int id;
+    @NotNull
+    private int userId;
     @NotBlank(message = "Grocery List name cannot be blank.")
+    @Max(value = 40, message = "Grocery list name cannot be greater than 40 characters.")
     private String name;
     private List<Ingredient> list = new ArrayList<>();
 
@@ -19,6 +23,14 @@ public class GroceryList {
 
     public int getId() {
         return id;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getName() {

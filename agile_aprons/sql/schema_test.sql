@@ -62,7 +62,7 @@ CREATE TABLE `recipe` (
   `title` VARCHAR(255) NOT NULL,
   `image_url` VARCHAR(255) NOT NULL,
   `image` BLOB NULL,
-  `instructions` VARCHAR(255) NOT NULL,
+  `instructions` TEXT(1000) NOT NULL,
   `vegetarian` BIT(1) NOT NULL DEFAULT 0,
   `vegan` BIT(1) NOT NULL DEFAULT 0,
   `gluten_free` BIT(1) NOT NULL DEFAULT 0,
@@ -109,7 +109,7 @@ CREATE TABLE `ingredient` (
 -- -----------------------------------------------------
 CREATE TABLE `unit` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `name` VARCHAR(100) NOT NULL,
+  `name` VARCHAR(15) NOT NULL,
   `abbrev` VARCHAR(10) NOT NULL
   );
 
@@ -140,8 +140,12 @@ CREATE TABLE `recipe_ingredient` (
 -- Table `recipe_list_test`.`grocery_list`
 -- -----------------------------------------------------
 CREATE TABLE `grocery_list` (
-	`id` INT PRIMARY KEY AUTO_INCREMENT,
-    `name` VARCHAR(40) NOT NULL
+  `id` INT PRIMARY KEY AUTO_INCREMENT,
+  `user_app_user_id` INT NOT NULL,
+  `name` VARCHAR(40) NOT NULL,
+  CONSTRAINT `fk_grocery_list_user`
+	FOREIGN KEY (`user_app_user_id`)
+	REFERENCES `user`(`app_user_id`)
 );
 
 -- -----------------------------------------------------
@@ -149,18 +153,14 @@ CREATE TABLE `grocery_list` (
 -- -----------------------------------------------------
 CREATE TABLE `grocery_list_ingredient` (
   `ingredient_id` INT NOT NULL,
-  `user_app_user_id` INT NOT NULL,
-  `list_id` INT NOT NULL,
+  `grocery_list_id` INT NOT NULL,
   CONSTRAINT `pk_grocery_list_ingredient`
-	PRIMARY KEY (`list_id`, `ingredient_id`, `user_app_user_id`),
+	PRIMARY KEY (`grocery_list_id`, `ingredient_id`),
   CONSTRAINT `fk_grocery_list_ingredient_ingredient`
     FOREIGN KEY (`ingredient_id`)
     REFERENCES `ingredient`(`id`),
-  CONSTRAINT `fk_grocery_list__ingredient_app_user`
-    FOREIGN KEY (`user_app_user_id`)
-    REFERENCES `user`(`app_user_id`),
-CONSTRAINT `fk_grocery_list_ingredient_list`
-    FOREIGN KEY (`list_id`)
+  CONSTRAINT `fk_grocery_list_ingredient_list`
+    FOREIGN KEY (`grocery_list_id`)
     REFERENCES `grocery_list`(`id`)
 );
 
@@ -202,6 +202,8 @@ BEGIN
     DELETE FROM `user_favorite`;
     DELETE FROM `recipe`;
 	ALTER TABLE `recipe` AUTO_INCREMENT = 1;
+    DELETE FROM `grocery_list`;
+	ALTER TABLE `grocery_list` AUTO_INCREMENT = 1;
     DELETE FROM `user`;
     DELETE FROM `app_user`;
 	ALTER TABLE `app_user` AUTO_INCREMENT = 1;
@@ -213,8 +215,6 @@ BEGIN
 	ALTER TABLE `unit` AUTO_INCREMENT = 1;
     DELETE FROM `cuisine`;
 	ALTER TABLE `cuisine` AUTO_INCREMENT = 1;
-    DELETE FROM `grocery_list`;
-	ALTER TABLE `grocery_list` AUTO_INCREMENT = 1;
     SET sql_safe_updates = 1;
 
 
@@ -226,14 +226,15 @@ BEGIN
 	INSERT INTO `app_user` (username, password_hash, enabled)
 		VALUES
 		('admin@reciperouters.com', '$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa', 1),
-		('test@user.com', '$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa', 1);
+		('test@user.com', '$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa', 1),
+        ('another@user.com', '$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa', 1);
 
 	INSERT INTO `app_user_role`
 		VALUES 
 		(1, 2), 
 		(2, 1);
 
-	INSERT INTO `user` (app_user_id, display_name, is_metric)
+	INSERT INTO `user` (`app_user_id`, `display_name`, `is_metric`)
 		VALUES
 		(1, 'ADMIN', 1),
 		(2, 'TESTER', 0);
@@ -295,19 +296,20 @@ BEGIN
 		VALUES
         (1, 1), (2, 1);
         
-	INSERT INTO `grocery_list` (`id`, `name`)
+	INSERT INTO `grocery_list` (`id`, `user_app_user_id`, `name`)
 		VALUES
-        (1, 'Main'),
-        (2, 'Pepper Tacos');
+        (1, 1, 'Main'),
+        (2, 1, 'Pepper Tacos'),
+        (3, 2, 'Main');
         
-	INSERT INTO `grocery_list_ingredient` (`ingredient_id`, `list_id`, `user_app_user_id`)
+	INSERT INTO `grocery_list_ingredient` (`ingredient_id`, `grocery_list_id`)
 		VALUES
-        (1, 2, 1),
-        (3, 2, 1),
-        (4, 2, 1),
-        (5, 2, 1),
-        (1, 1, 1),
-        (1, 1, 2);
+        (1, 2),
+        (3, 2),
+        (4, 2),
+        (5, 2),
+        (1, 1),
+        (1, 3);
         
 END //
 DELIMITER ;

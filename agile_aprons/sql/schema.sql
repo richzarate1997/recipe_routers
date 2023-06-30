@@ -1,12 +1,12 @@
 -- -----------------------------------------------------
--- Schema recipe_list
+-- Schema recipe_list_test
 -- -----------------------------------------------------
-DROP DATABASE IF EXISTS `recipe_list`;
-CREATE DATABASE `recipe_list`;
-USE `recipe_list`;
+DROP DATABASE IF EXISTS `recipe_list_test`;
+CREATE DATABASE `recipe_list_test`;
+USE `recipe_list_test`;
 
 -- -----------------------------------------------------
--- Table `recipe_list`.`app_user`
+-- Table `recipe_list_test`.`app_user`
 -- -----------------------------------------------------
 CREATE TABLE `app_user` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
@@ -16,7 +16,7 @@ CREATE TABLE `app_user` (
   );
 
 -- -----------------------------------------------------
--- Table `recipe_list`.`app_role`
+-- Table `recipe_list_test`.`app_role`
 -- -----------------------------------------------------
 CREATE TABLE `app_role` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
@@ -24,7 +24,7 @@ CREATE TABLE `app_role` (
 );
 
 -- -----------------------------------------------------
--- Table `recipe_list`.`app_user_role`
+-- Table `recipe_list_test`.`app_user_role`
 -- -----------------------------------------------------
 CREATE TABLE `app_user_role` (
   `app_user_role_id` INT NOT NULL,
@@ -40,7 +40,7 @@ CREATE TABLE `app_user_role` (
 );
 
 -- -----------------------------------------------------
--- Table `recipe_list`.`user`
+-- Table `recipe_list_test`.`user`
 -- -----------------------------------------------------
 CREATE TABLE `user` (
   `app_user_id` INT NOT NULL,
@@ -54,7 +54,7 @@ CREATE TABLE `user` (
   );
 
 -- -----------------------------------------------------
--- Table `recipe_list`.`recipe`
+-- Table `recipe_list_test`.`recipe`
 -- -----------------------------------------------------
 CREATE TABLE `recipe` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
@@ -62,7 +62,7 @@ CREATE TABLE `recipe` (
   `title` VARCHAR(255) NOT NULL,
   `image_url` VARCHAR(255) NOT NULL,
   `image` BLOB NULL,
-  `instructions` VARCHAR(255) NOT NULL,
+  `instructions` TEXT(1000) NOT NULL,
   `vegetarian` BIT(1) NOT NULL DEFAULT 0,
   `vegan` BIT(1) NOT NULL DEFAULT 0,
   `gluten_free` BIT(1) NOT NULL DEFAULT 0,
@@ -77,7 +77,7 @@ CREATE TABLE `recipe` (
 
 
 -- -----------------------------------------------------
--- Table `recipe_list`.`app_user_favorite`
+-- Table `recipe_list_test`.`app_user_favorite`
 -- -----------------------------------------------------
 CREATE TABLE `user_favorite` (
   `recipe_id` INT NOT NULL,
@@ -94,7 +94,7 @@ CREATE TABLE `user_favorite` (
 
 
 -- -----------------------------------------------------
--- Table `recipe_list`.`ingredient`
+-- Table `recipe_list_test`.`ingredient`
 -- -----------------------------------------------------
 CREATE TABLE `ingredient` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
@@ -105,16 +105,16 @@ CREATE TABLE `ingredient` (
 
 
 -- -----------------------------------------------------
--- Table `recipe_list`.`unit`
+-- Table `recipe_list_test`.`unit`
 -- -----------------------------------------------------
 CREATE TABLE `unit` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `name` VARCHAR(100) NOT NULL,
+  `name` VARCHAR(15) NOT NULL,
   `abbrev` VARCHAR(10) NOT NULL
   );
 
 -- -----------------------------------------------------
--- Table `recipe_list`.`recipe_ingredient`
+-- Table `recipe_list_test`.`recipe_ingredient`
 -- -----------------------------------------------------
 CREATE TABLE `recipe_ingredient` (
   `recipe_id` INT NOT NULL,
@@ -137,36 +137,36 @@ CREATE TABLE `recipe_ingredient` (
 );
 
 -- -----------------------------------------------------
--- Table `recipe_list`.`grocery_list`
+-- Table `recipe_list_test`.`grocery_list`
 -- -----------------------------------------------------
 CREATE TABLE `grocery_list` (
-	`id` INT PRIMARY KEY AUTO_INCREMENT,
-    `name` VARCHAR(40) NOT NULL
+  `id` INT PRIMARY KEY AUTO_INCREMENT,
+  `user_app_user_id` INT NOT NULL,
+  `name` VARCHAR(40) NOT NULL,
+  CONSTRAINT `fk_grocery_list_app_user`
+	FOREIGN KEY (`user_app_user_id`)
+	REFERENCES `user`(`app_user_id`)
 );
 
 -- -----------------------------------------------------
--- Table `recipe_list`.`grocery_list_ingredient`
+-- Table `recipe_list_test`.`grocery_list_ingredient`
 -- -----------------------------------------------------
 CREATE TABLE `grocery_list_ingredient` (
   `ingredient_id` INT NOT NULL,
-  `user_app_user_id` INT NOT NULL,
-  `list_id` INT NOT NULL,
+  `grocery_list_id` INT NOT NULL,
   CONSTRAINT `pk_grocery_list_ingredient`
-	PRIMARY KEY (`list_id`, `ingredient_id`, `user_app_user_id`),
+	PRIMARY KEY (`grocery_list_id`, `ingredient_id`),
   CONSTRAINT `fk_grocery_list_ingredient_ingredient`
     FOREIGN KEY (`ingredient_id`)
     REFERENCES `ingredient`(`id`),
-  CONSTRAINT `fk_grocery_list__ingredient_app_user`
-    FOREIGN KEY (`user_app_user_id`)
-    REFERENCES `user`(`app_user_id`),
-CONSTRAINT `fk_grocery_list_ingredient_list`
-    FOREIGN KEY (`list_id`)
+  CONSTRAINT `fk_grocery_list_ingredient_list`
+    FOREIGN KEY (`grocery_list_id`)
     REFERENCES `grocery_list`(`id`)
 );
 
 
 -- -----------------------------------------------------
--- Table `recipe_list`.`cuisine`
+-- Table `recipe_list_test`.`cuisine`
 -- -----------------------------------------------------
 CREATE TABLE `cuisine` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
@@ -175,7 +175,7 @@ CREATE TABLE `cuisine` (
 
 
 -- -----------------------------------------------------
--- Table `recipe_list`.`recipe_cuisine`
+-- Table `recipe_list_test`.`recipe_cuisine`
 -- -----------------------------------------------------
 CREATE TABLE `recipe_cuisine` (
   `cuisine_id` INT NOT NULL,
@@ -214,7 +214,7 @@ INSERT INTO `app_user_role`
     (1, 2), 
     (2, 1);
 
-INSERT INTO `user` (app_user_id, display_name, is_metric)
+INSERT INTO `user` (`app_user_id`, `display_name`, `is_metric`)
 	VALUES
     (1, 'ADMIN', 1),
     (2, 'TESTER', 0);

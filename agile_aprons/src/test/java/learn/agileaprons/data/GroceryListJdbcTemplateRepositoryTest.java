@@ -1,13 +1,10 @@
 package learn.agileaprons.data;
 
 import learn.agileaprons.models.GroceryList;
-import learn.agileaprons.models.Recipe;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -35,12 +32,12 @@ class GroceryListJdbcTemplateRepositoryTest {
     @Test
     void shouldCreate() {
         GroceryList groceryList = new GroceryList();
-        groceryList.setId(3);;
+        groceryList.setUserId(2);
         groceryList.setName("My list");
 
         GroceryList actual = repository.create(groceryList);
         assertNotNull(actual);
-        assertEquals(3, actual.getId());
+        assertEquals(4, actual.getId());
 
     }
 
