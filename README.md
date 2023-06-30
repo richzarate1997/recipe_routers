@@ -14,7 +14,7 @@ Today we will return a schedule of tasks, database schema, class diagram with la
 ## Schedule of Tasks
 
 ### Back End (17.5 hrs/ 3 Days)
-* [x] Build database (1 hr)
+* [x] Build database (5 hr)
     * [x] Draft schema with DDL
     * [x] Table Diagram with Relationships
 
@@ -33,8 +33,8 @@ Today we will return a schedule of tasks, database schema, class diagram with la
       * [x] jackson
     * [x] MySQL Connector
 
-* [x] Models & Packages (2 - 2.5 hr)
-  * [ ] Java Validation API Annotations
+* [x] Models & Packages (3 - 3.5 hr)
+  * [x] Java Validation API Annotations
     * [x] App User
         * `int id`
         * `String email`
@@ -80,44 +80,47 @@ Today we will return a schedule of tasks, database schema, class diagram with la
         * `int id`
         * `String name`
 
-* [ ] Data (3-3.5 hrs)
-    * [ ] Mappers
-        * [ ] Map ingredient quantity to recipe
-    * [ ] App Users Repo / Interface
-    * [ ] DataAccessException
-    * [ ] Recipes Repo / Interface   
-    * [ ] Grocery List Repo / Interface
-    * [ ] Ingredients Repo / Interface
+* [ ] Data (13-13.5 hrs)
+    * [x] Mappers
+    * [x] App User Repo / Interface
+    * [x] User Repo / Interface
+    * [x] DataAccessException
+    * [ ] Recipe Repo / Interface
+    * [x] RecipeIngredient Repo / Interface
+    * [x] Grocery List Repo / Interface
+    * [x] Ingredients Repo / Interface
+    * [x] Unit Repo / Interface
     * [ ] Testing
 
 * [ ] Domain (4-4.5 hrs)
   * Java Validation API
-    * [ ] Result / Result Type 
+    * [x] Result / Result Type 
+    * [ ] User Service
     * [ ] Recipe Service
     * [ ] Grocery List Service
     * [ ] Ingredients Service
     * [ ] Testing
 
-* [ ] Security (3.5-4 hrs)
+* [ ] Security (1.5 hrs)
     * [ ] App User Service
-    * [ ] JWT Converter
-    * [ ] JWT Request Filter
+    * [ ] Credentials
+    * [x] JWT Converter
+    * [x] JWT Request Filter
     * [ ] Security Config
     * [ ] Testing
 
 * [ ] Controller (3 hrs)
-    * [ ] Recipe Controller
-    * [ ] AppUserController
     * [ ] Auth Controller
-    * [ ] ErrorResponse
-    * [ ] GlobalExceptionHandler
-    * [ ] Ingredient Controller?????
-    * [ ] Grocery List Controller
-    * [ ] Testing
+    * [ ] UserController
+    * [ ] Ingredient Controller
+    * [ ] Recipe Controller
+    * [x] ErrorResponse
+    * [x] GlobalExceptionHandler
+    * [ ] Manual Testing
 
-* [ ] Root / learn (5 mins)
+* [x] Root / learn (5 mins)
     * [x] App
-    * [ ] App Config
+    * [x] App Config
 
 
 
@@ -134,44 +137,46 @@ Today we will return a schedule of tasks, database schema, class diagram with la
     * [ ] Prepare development environment for Mobile
 
 * [ ] Dependecies: `npm install`:
-  * [ ] ==materialUI== `@mui/material @emotion/react @emotion/styled`
-  * [ ] ==mui icons== `@mui/icons-material`
-  * [ ] ==axios== `axios` ==Add'l Learning Goal==
-  * [ ] ==axios-jwt== `--save axios-jwt` 
+  * [x] ==materialUI== `@mui/material @emotion/react @emotion/styled`
+  * [x] ==mui icons== `@mui/icons-material`
+  * [x] ==axios== `axios` ==Add'l Learning Goal==
+  * [x] ==axios-jwt== `--save axios-jwt`
+  * [x] ==dotenv== `dotenv`
     * dependant on jwt-decode
-  * [ ] ==any-unit-converter== `any-unit-converter@latest`
+  * [x] ==any-unit-converter== `any-unit-converter@latest`
   * Mobile Specific:
     * [ ] ==React Native== `react-native` + `npm install --save @react-native-async-storage/async-storage` + `npx pod-install`
 
 * [ ] Components (10 hrs)
-  * [ ] Home
   * [ ] Form - Add/Update Recipes
   * [ ] List - Search Results
   * [ ] Card - Individual Result
-  * [ ] NavBar - Perhaps include search bar
-  * [ ] Search Bar
+  * [x] NavBar - Perhaps include search bar
+  * [x] Search Bar
   * [ ] LoginForm
   * [ ] RegisterForm
   * [ ] Footer - Sticky Footer
   * [ ] About
-  * [ ] UserHome
+  * [ ] Profile
     * [ ] Tabs for Faves, User Recipes, & Lists
     * [ ] Lists for grocery lists
   * [ ] GroceryList
-* [ ] Routes (1 hr)
-
-  * [ ] `/` Home - Search Bar - NavBar
+* [ ] Routes (1.5 hr)
+  * [x] `/` Home - Search Bar - NavBar
   * [ ] `/login` LoginForm
   * [ ] `/register` RegisterForm
   * [ ] `/search/:query` List - Card
   * [ ] `/about` About
-  * [ ] `/home` UserHome
+  * [ ] `/profile` Profile
   * [ ] `/add` Form
   * [ ] `/update/:id` Form
   * [ ] `/list/:list_id` GroceryList
 * [ ] Services (2 - 3.5 hrs)
 
   * [ ] Spoonacular Endpoints using Axios
+    * [ ] Search Recipes
+    * [ ] Get Recipe
+    * [x] Get Joke/Trivia
   * [ ] Java API Endpoints using Axios
   * [ ] State Management - Contexts (1 hr)
     * [ ] AuthContext
@@ -197,7 +202,6 @@ Today we will return a schedule of tasks, database schema, class diagram with la
 * [ ] Time for Questions (5+ min)
 
 ### Add'l Feature Ideas
-* [ ] Food Fact / Joke Under Search Bar (title page / login only)
 * [ ] Display nutrition facts / info -- implement widget call
 
 
