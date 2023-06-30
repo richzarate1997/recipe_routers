@@ -11,6 +11,7 @@ public class GroceryListMapper implements RowMapper<GroceryList> {
     public GroceryList mapRow(ResultSet rs, int rowNum) throws SQLException {
         GroceryList groceryList = new GroceryList();
         groceryList.setId(rs.getInt("id"));
+        groceryList.setUserId(rs.getInt("user_app_user_id"));
         groceryList.setName(rs.getString("name"));
 
         return groceryList;

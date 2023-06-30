@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.util.Objects;
 
 @Repository
 public class GroceryListJdbcTemplateRepository implements GroceryListRepository{
@@ -25,12 +26,10 @@ public class GroceryListJdbcTemplateRepository implements GroceryListRepository{
 
     @Override
     public GroceryList findById(int id) {
-        final String sql = "Select gi.id, gi.name "
-                + "from grocery_list gi"
+        final String sql = "select id, user_app_user_id, name "
+                + "from grocery_list "
                 + " where id = ?;";
-        GroceryList result =  jdbcTemplate.query(sql, new GroceryListMapper(), id).stream()
-                .findFirst()
-                .orElse(null);
+        GroceryList result =  jdbcTemplate.queryForObject(sql, new GroceryListMapper(), id);
         if (result != null){
             addIngredients(result);
         }
@@ -38,13 +37,14 @@ public class GroceryListJdbcTemplateRepository implements GroceryListRepository{
     }
 
     @Override
+    @Transactional
     public GroceryList create(GroceryList groceryList) {
-        final String sql = "insert into grocery_list (id, name)" +
+        final String sql = "insert into grocery_list (user_app_user_id, name)" +
                 "values (?, ?);";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         int rowsAffected = jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setInt(1, groceryList.getId());
+            ps.setInt(1, groceryList.getUserId());
             ps.setString(2, groceryList.getName());
             return ps;
         }, keyHolder);
@@ -52,34 +52,47 @@ public class GroceryListJdbcTemplateRepository implements GroceryListRepository{
         if(rowsAffected <= 0){
             return null;
         }
-        groceryList.setId(keyHolder.getKey().intValue());
+
+        addGroceryListIngredients(groceryList);
+        groceryList.setId(Objects.requireNonNull(keyHolder.getKey()).intValue());
         return groceryList;
     }
 
     @Override
+    @Transactional
     public boolean update(GroceryList groceryList) {
-        final String sql = "Update grocery_list set " +
+        final String sql = "update grocery_list set " +
                 "name = ? " +
                 "where id = ?;";
 
+        removeGroceryListIngredients(groceryList.getId());
+        addGroceryListIngredients(groceryList);
         return jdbcTemplate.update(sql, groceryList.getName(), groceryList.getId()) > 0;
     }
     @Transactional
     @Override
     public boolean deleteById(int id) {
-        jdbcTemplate.update("delete from grocery_list_ingredient where list_id = ?;",id);
-
-        return jdbcTemplate.update(
-                "delete from grocery_list where id = ?", id) > 0;
+        removeGroceryListIngredients(id);
+        return jdbcTemplate.update("delete from grocery_list where id = ?;", id) > 0;
     }
 
     private void addIngredients(GroceryList groceryList){
         final String sql = "select i.id, i.name, i.aisle, i.image_url " +
                 "from ingredient i " +
                 "join grocery_list_ingredient gli on i.id = gli.ingredient_id " +
-                "join grocery_list gl on gl.id = gli.list_id " +
+                "join grocery_list gl on gl.id = gli.grocery_list_id " +
                 "where gl.id = ?;";
         var ingredients = jdbcTemplate.query(sql, new IngredientMapper(), groceryList.getId());
         groceryList.setList(ingredients);
+    }
+
+    @Transactional
+    private void addGroceryListIngredients(GroceryList groceryList) {
+        final String sql = "insert into grocery_list_ingredient (ingredient_id, grocery_list_id) values (?, ?);";
+        groceryList.getList().forEach(ingredient -> jdbcTemplate.update(sql, ingredient.getId(), groceryList.getId()));
+    }
+
+    private void removeGroceryListIngredients(int id) {
+        jdbcTemplate.update("delete from grocery_list_ingredient where grocery_list_id = ?", id);
     }
 }
