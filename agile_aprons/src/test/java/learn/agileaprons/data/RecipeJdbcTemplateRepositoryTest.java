@@ -2,11 +2,14 @@ package learn.agileaprons.data;
 
 import learn.agileaprons.models.Ingredient;
 import learn.agileaprons.models.Recipe;
+import learn.agileaprons.models.RecipeIngredient;
+import learn.agileaprons.models.Unit;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -29,7 +32,6 @@ class RecipeJdbcTemplateRepositoryTest {
         List<Recipe> recipes = repository.findAll();
         assertNotNull(recipes);
         assertTrue(recipes.size() >= 2);
-
     }
 
     @Test
@@ -69,22 +71,22 @@ class RecipeJdbcTemplateRepositoryTest {
         Recipe actual = repository.create(recipe);
         assertNotNull(actual);
         assertEquals(3, actual.getId());
-
     }
+
     @Test
     void shouldUpdate() {
-
         Recipe recipe = repository.findById(2);
         recipe.setInstructions("Mix ingredients together and toss in oven at 400 for 25 minutes");
-
         assertTrue(repository.update(recipe));
-
     }
     @Test
     void shouldDeleteById() {
         assertTrue(repository.deleteById(1));
     }
 
-
+    @Test
+    void shouldNotDeleteById() {
+        assertFalse(repository.deleteById(90));
+    }
 
 }

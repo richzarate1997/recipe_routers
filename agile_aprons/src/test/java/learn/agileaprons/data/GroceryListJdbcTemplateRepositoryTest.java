@@ -27,8 +27,8 @@ class GroceryListJdbcTemplateRepositoryTest {
         GroceryList pepperTacos = repository.findById(2);
         assertEquals(2, pepperTacos.getId());
         assertEquals("Pepper Tacos", pepperTacos.getName());
-
     }
+    
     @Test
     void shouldCreate() {
         GroceryList groceryList = new GroceryList();
@@ -38,14 +38,12 @@ class GroceryListJdbcTemplateRepositoryTest {
         GroceryList actual = repository.create(groceryList);
         assertNotNull(actual);
         assertEquals(4, actual.getId());
-
     }
 
     @Test
     void shouldUpdate() {
         GroceryList groceryList = repository.findById(2);
         groceryList.setName("Pepper Pizza");
-
         assertTrue(repository.update(groceryList));
     }
 
