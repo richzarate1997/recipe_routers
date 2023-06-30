@@ -36,9 +36,9 @@ public class Recipe {
     private boolean vegan;
     private boolean glutenFree;
     private boolean dairyFree;
-    @Size(min = 1, max=50, message = "Recipe ingredient count must be between at least 1 and 50 ingredients.")
+    @Size(min = 1, max=50, message = "Recipe ingredient count must be between 1 and 50 ingredients.")
     private List<RecipeIngredient> ingredients = new ArrayList<>();
-    @Max(value = 4, message = "Whoa, calm down! Fusion Confusion! Keep it under 5 cuisines.")
+    @Size(max = 4, message = "Whoa, calm down! Fusion Confusion! Keep it under 5 cuisines.")
     private List<Cuisine> cuisines = new ArrayList<>();
 
     public int getId() {
