@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
 
 @SpringBootTest
 public class IngredientServiceTest {
@@ -20,6 +21,27 @@ public class IngredientServiceTest {
     IngredientService service;
 
 
+    @Test
+    void shouldFindPepperoni(){
+        Ingredient expected = makeIngredient();
+        when(repository.findById(6)).thenReturn(expected);
+
+        Ingredient actual = service.findById(6);
+        assertEquals(expected, actual);
+    }
+    @Test
+    void shouldCreate(){
+        Ingredient ingredient = makeIngredient();
+        Ingredient mockout = makeIngredient();
+        mockout.setId(6);
+
+        when(repository.create(ingredient)).thenReturn(mockout);
+
+        Result<Ingredient> actual = service.create(ingredient);
+        assertTrue(actual.isSuccess());
+        assertEquals(mockout, actual.getPayload());
+
+    }
     @Test
     void shouldNotCreateWhenEmptyName() throws DataException {
         Ingredient ingredient = makeIngredient();
@@ -52,7 +74,6 @@ public class IngredientServiceTest {
 
     private Ingredient makeIngredient(){
         Ingredient ingredient = new Ingredient();
-        ingredient.setId(6);
         ingredient.setName("Pepperoni");
         ingredient.setImageUrl("fake.png");
         ingredient.setAisle("Deli");

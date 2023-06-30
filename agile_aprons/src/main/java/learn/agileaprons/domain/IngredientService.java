@@ -31,8 +31,8 @@ public class IngredientService {
 
     public Ingredient findById(int id) {return ingredientRepository.findById(id);}
 
-    public Result create(Ingredient ingredient) {
-        Result result = validate(ingredient);
+    public Result<Ingredient> create(Ingredient ingredient) {
+        Result<Ingredient> result = validate(ingredient);
 
         if (!result.isSuccess()) {
             return result;
@@ -48,8 +48,8 @@ public class IngredientService {
         return result;
     }
 
-    private Result validate(Ingredient ingredient) {
-        Result result = new Result();
+    private Result<Ingredient> validate(Ingredient ingredient) {
+        Result<Ingredient> result = new Result<>();
 
         if (ingredient == null) {
             result.addMessage("Ingredient cannot be null");
