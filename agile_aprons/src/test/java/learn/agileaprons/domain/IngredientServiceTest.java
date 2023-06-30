@@ -15,8 +15,10 @@ public class IngredientServiceTest {
     @MockBean
     IngredientRepository repository;
 
+
     @Autowired
     IngredientService service;
+
 
     @Test
     void shouldNotCreateWhenEmptyName() throws DataException {

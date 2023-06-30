@@ -1,5 +1,41 @@
 @url = http://localhost:8080/api/ingredient
 
+
+### [ ] GET all ingredients
 GET {{url}} HTTP/1.1
 
-GET{{url}}/add
+
+### [ ] GET ingredient by ID
+GET {{url}}/1 HTTP/1.1
+
+
+### [ ] For GET return a 404 if ingredient is not found
+GET {{url}}/999 HTTP/1.1
+
+### [ ] POST an ingredient
+POST {{url}} HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "Test",
+  "imageURL": "test.png",
+  "aisle": "TestAisle"
+}
+
+### [ ] For POST return a 400 if the ingredient fails one of the domain rules
+### [ ] Ingredient name is required
+POST {{url}} HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": ""
+}
+
+### [ ] For POST return a 400 if the ingredient fails one of the domain rules
+### [ ] Ingredient name is required
+POST {{url}} HTTP/1.1
+Content-Type: application/json
+
+{
+  "aisle": "1234567891234567891234"
+}
