@@ -1,10 +1,8 @@
 package learn.agileaprons.data;
 
 import learn.agileaprons.data.mappers.CuisineMapper;
-import learn.agileaprons.data.mappers.IngredientMapper;
 import learn.agileaprons.data.mappers.RecipeIngredientMapper;
 import learn.agileaprons.data.mappers.RecipeMapper;
-import learn.agileaprons.models.Ingredient;
 import learn.agileaprons.models.Recipe;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;

@@ -31,19 +31,27 @@ class RecipeJdbcTemplateRepositoryTest {
         assertTrue(recipes.size() >= 2);
 
     }
+
     @Test
     void shouldFindPepperTacosById() {
         Recipe pepperTacos = repository.findById(2);
         assertEquals(2, pepperTacos.getId());
         assertEquals("Pepper Tacos", pepperTacos.getTitle());
-
+        assertTrue( pepperTacos.getIngredients().stream().anyMatch(i -> i.getIngredient().getName().equalsIgnoreCase("cheese")));
     }
 
     @Test
     void shouldFindPepperPizzaByName(){
-        String testName = "Pepper Pizza";
-        List<Recipe> result = repository.findByTitle(testName);
+        String testQuery = "Pepper Pizza";
+        List<Recipe> result = repository.findByTitle(testQuery);
         assertEquals(1, result.size());
+    }
+
+    @Test
+    void shouldFindRecipesWithPepperInTitle() {
+        String testQuery = "Pepper";
+        List<Recipe> result = repository.findByTitle(testQuery);
+        assertEquals(2, result.size());
     }
 
     @Test
