@@ -18,7 +18,7 @@ Content-Type: application/json
 
 {
   "name": "Test",
-  "imageURL": "test.png",
+  "imageUrl": "test.png",
   "aisle": "TestAisle"
 }
 

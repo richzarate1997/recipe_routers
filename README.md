@@ -80,17 +80,17 @@ Today we will return a schedule of tasks, database schema, class diagram with la
         * `int id`
         * `String name`
 
-* [ ] Data (13-13.5 hrs)
+* [x] Data (13-13.5 hrs)
     * [x] Mappers
     * [x] App User Repo / Interface
     * [x] User Repo / Interface
     * [x] DataAccessException
-    * [ ] Recipe Repo / Interface
+    * [x] Recipe Repo / Interface
     * [x] RecipeIngredient Repo / Interface
     * [x] Grocery List Repo / Interface
     * [x] Ingredients Repo / Interface
     * [x] Unit Repo / Interface
-    * [ ] Testing
+    * [x] Testing
 
 * [ ] Domain (4-4.5 hrs)
   * Java Validation API
@@ -99,11 +99,12 @@ Today we will return a schedule of tasks, database schema, class diagram with la
     * [ ] Recipe Service
     * [ ] Grocery List Service
     * [ ] Ingredients Service
+    * [x] Unit Service 
     * [ ] Testing
 
 * [ ] Security (1.5 hrs)
     * [ ] App User Service
-    * [ ] Credentials
+    * [x] Credentials
     * [x] JWT Converter
     * [x] JWT Request Filter
     * [ ] Security Config
@@ -112,8 +113,9 @@ Today we will return a schedule of tasks, database schema, class diagram with la
 * [ ] Controller (3 hrs)
     * [ ] Auth Controller
     * [ ] UserController
-    * [ ] Ingredient Controller
+    * [x] Ingredient Controller
     * [ ] Recipe Controller
+    * [x] Unit Controller
     * [x] ErrorResponse
     * [x] GlobalExceptionHandler
     * [ ] Manual Testing

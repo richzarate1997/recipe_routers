@@ -67,25 +67,6 @@ public class IngredientService {
         return result;
     }
 
-//    public Result<Ingredient> create(Ingredient ingredient) throws DataException {
-//        Result<Ingredient> result = new Result<>();
-//
-//        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-//
-//        Validator validator = factory.getValidator();
-//
-//        Set<ConstraintViolation<Ingredient>> violations = validator.validate(ingredient);
-//
-//        if (!violations.isEmpty()){
-//            for (ConstraintViolation<Ingredient> violation : violations){
-//                result.addMessage(violation.getMessage());
-//            }
-//            return result;
-//        }
-//        result.setPayload(ingredientRepository.create(ingredient));
-//
-//        return result;
-//    }
     //update and delete tbd, not necessary for mvp
 
 

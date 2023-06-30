@@ -1,0 +1,4 @@
+@url = http://localhost:8080/api/unit
+
+### [ ] GET all units
+GET {{url}} HTTP/1.1
