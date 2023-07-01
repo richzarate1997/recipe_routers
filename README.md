@@ -217,9 +217,9 @@ Today we will return a schedule of tasks, database schema, class diagram with la
 
 
 ### Considerations
-* [ ] Use @Transactional annotation to ensure all ingredients are added before adding a recipe?
 * [ ] App User Roles include Guest, Admin, User
   * Guest Exp: Persist recipe until login/register then return redirect to recipe view
+* [ ] Deal with duplicate Ingredients/Recipes by overriding equals methods and preparing for equivalence comparison with internal objects.
 
 
 

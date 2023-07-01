@@ -42,7 +42,13 @@ public class RecipeService {
             return result;
         }
 
-        result.setPayload(recipeRepository.create(recipe));
+        if (recipe.getId() > 0) {
+            result.addMessage("Cannot create existing recipe.");
+            return result;
+        }
+
+        recipe = recipeRepository.create(recipe);
+        result.setPayload(recipe);
         return result;
     }
 
@@ -100,7 +106,7 @@ public class RecipeService {
         Result<Recipe> result = new Result<>();
 
         if (recipe == null) {
-            result.addMessage("Result cannot be null.");
+            result.addMessage("Recipe cannot be null.");
             return result;
         }
 

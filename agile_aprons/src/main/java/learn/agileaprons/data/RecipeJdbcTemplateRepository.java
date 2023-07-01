@@ -4,7 +4,6 @@ import learn.agileaprons.data.mappers.CuisineMapper;
 import learn.agileaprons.data.mappers.RecipeIngredientMapper;
 import learn.agileaprons.data.mappers.RecipeMapper;
 import learn.agileaprons.models.Recipe;
-import learn.agileaprons.models.RecipeIngredient;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -14,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Repository
@@ -41,8 +41,7 @@ public class RecipeJdbcTemplateRepository implements RecipeRepository {
                 + "r.vegan, r.gluten_free, r.dairy_free, r.src_url, r.user_app_user_id, r.image "
                 + "from recipe r "
                 + "where id = ?;";
-        Recipe recipe = jdbcTemplate.query(sql, new RecipeMapper(), id).stream()
-                .findFirst().orElse(null);
+        Recipe recipe = jdbcTemplate.queryForObject(sql, new RecipeMapper(), id);
         if (recipe != null) {
             addIngredients(recipe);
             addCuisines(recipe);
@@ -78,7 +77,7 @@ public class RecipeJdbcTemplateRepository implements RecipeRepository {
             ps.setBoolean(10, recipe.isDairyFree());
             ps.setString(11, recipe.getSourceUrl());
             ps.setInt(12, recipe.getUserId());
-            ps.setBlob(13, recipe.getImage()); //is this correct?
+            ps.setBytes(13, recipe.getImage()); //is this correct?
             return ps;
         }, keyHolder);
 
@@ -86,16 +85,17 @@ public class RecipeJdbcTemplateRepository implements RecipeRepository {
             return null;
         }
 
-        recipe.setId(keyHolder.getKey().intValue());
-        addRecipeCuisines(recipe);
+        recipe.setId(Objects.requireNonNull(keyHolder.getKey()).intValue());
+        recipe.getCuisines().forEach(cuisine -> addRecipeCuisines(cuisine.getId(), recipe.getId()));
         return recipe;
     }
 
     @Override
+    @Transactional
     public boolean update(Recipe recipe) {
 
         removeRecipeCuisines(recipe.getId());
-        addRecipeCuisines(recipe);
+        recipe.getCuisines().forEach(cuisine -> addRecipeCuisines(cuisine.getId(), recipe.getId()));
 
         final String sql = "update recipe set "
                 + "title = ?, "
@@ -161,10 +161,10 @@ public class RecipeJdbcTemplateRepository implements RecipeRepository {
         recipe.setCuisines(cuisines);
     }
 
-    private void addRecipeCuisines(Recipe recipe) {
+    private void addRecipeCuisines(int cuisineId, int recipeId) {
         final String sql = "insert into recipe_cuisine (cuisine_id, recipe_id) " +
                 "values (?, ?);";
-        recipe.getCuisines().forEach(cuisine -> jdbcTemplate.update(sql, cuisine.getId(), recipe.getId()));
+        jdbcTemplate.update(sql, cuisineId, recipeId);
     }
 
     private void removeRecipeCuisines(int recipeId) {

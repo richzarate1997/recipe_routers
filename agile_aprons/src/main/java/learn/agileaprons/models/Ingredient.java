@@ -4,6 +4,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Objects;
 
 public class Ingredient {
     @NotNull
@@ -49,5 +50,16 @@ public class Ingredient {
         this.aisle = aisle;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ingredient that = (Ingredient) o;
+        return id == that.id && Objects.equals(name, that.name) && Objects.equals(imageUrl, that.imageUrl) && Objects.equals(aisle, that.aisle);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, imageUrl, aisle);
+    }
 }
