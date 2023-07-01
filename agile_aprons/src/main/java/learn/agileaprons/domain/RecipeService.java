@@ -42,7 +42,7 @@ public class RecipeService {
             return result;
         }
 
-        if (recipe.getId() != 0) {
+        if (recipe.getId() > 0) {
             result.addMessage("Cannot create existing recipe.");
             return result;
         }
@@ -60,8 +60,7 @@ public class RecipeService {
         }
 
         if (!recipeRepository.update(recipe)) {
-            String msg = String.format("Recipe with id: %s, not found.", recipe.getId());
-            result.addMessage(msg, ResultType.NOT_FOUND);
+            result.addMessage("Recipe doesn't exist.", ResultType.NOT_FOUND);
         }
 
         return result;

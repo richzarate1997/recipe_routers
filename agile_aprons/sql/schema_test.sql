@@ -259,7 +259,10 @@ BEGIN
 	INSERT INTO `cuisine` (`id`, `name`)
 		VALUES
         (1, 'Italian'),
-        (2, 'Mexican');
+        (2, 'Mexican'),
+        (3, 'Vietnamese'),
+        (4, 'Greek'),
+        (5, 'Southern');
         
 	INSERT INTO `ingredient` (`id`, `name`, `image_url`, `aisle`)
 		VALUES
