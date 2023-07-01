@@ -1,17 +1,11 @@
 package learn.agileaprons.domain;
 
-import learn.agileaprons.data.DataException;
 import learn.agileaprons.data.IngredientRepository;
 import learn.agileaprons.models.Ingredient;
 import org.springframework.stereotype.Service;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
 import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class IngredientService {
@@ -58,10 +52,6 @@ public class IngredientService {
 
         for (var violation : validator.validate(ingredient)) {
             result.addMessage(violation.getMessage());
-        }
-
-        if (!result.isSuccess()) {
-            return result;
         }
 
         return result;

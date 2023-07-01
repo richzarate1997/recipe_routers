@@ -15,7 +15,7 @@ public class Recipe {
     @Size(max = 50, message = "Recipe name must be less than 50 characters.")
     private String title;
     @NotBlank(message = "Recipe instructions cannot be blank.")
-    @Max(value = 1000, message = "Recipe instructions must be 1000 characters or less")
+    @Size(max = 1000, message = "Recipe instructions must be 1000 characters or less.")
     private String instructions;
     @Min(value = 1, message = "Recipe servings cannot be less than 1.")
     @Max(value = 50, message = "Recipe servings cannot be greater than 50.")
@@ -25,11 +25,11 @@ public class Recipe {
     private int cookMinutes;
     @NotNull
     @Pattern(regexp = "(http://|https://)?(www.)?([a-zA-Z0-9]+).[a-zA-Z0-9]*.[a-z]{3}.?([a-zA-Z0-9/.-]+)?|")
-    @Max(value = 255, message = "Recipe image url too long.")
+    @Size(max = 255, message = "Recipe image url too long.")
     private String imageUrl;
     @NotNull
     @Pattern(regexp = "(http://|https://)?(www.)?([a-zA-Z0-9]+).[a-zA-Z0-9]*.[a-z]{3}.?([a-zA-Z0-9/.-]+)?|")
-    @Max(value = 255, message = "Recipe source url too long.")
+    @Size(max = 255, message = "Recipe source url too long.")
     private String sourceUrl;
     private Blob image;
     private boolean vegetarian;
