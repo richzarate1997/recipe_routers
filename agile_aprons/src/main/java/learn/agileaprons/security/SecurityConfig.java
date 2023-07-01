@@ -32,11 +32,17 @@ public class SecurityConfig {
                         "/security/authenticate", "/security/create-account").permitAll()
                 .antMatchers(HttpMethod.POST, "/security/refresh-token").authenticated()
                 .antMatchers(HttpMethod.GET,
-                        "/api/ingredient", "/api/ingredient/*", "/api/recipe/*" ,"/api/recipe/search/*",
-                        "/api/unit", "/api/cuisine").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/ingredient", "/api/recipe").authenticated()
-                // Replace ^ with authenticated permission only for posts below later
-//                .antMatchers(HttpMethod.POST, "/api/ingredient", "/api/recipe").authenticated()
+                        "/api/ingredient",
+                        "/api/ingredient/*",
+                        "/api/recipe/*",
+                        "/api/recipe/search/*",
+                        "/api/unit",
+                        "/api/cuisine",
+                        "/api/user/*", "/api/user"
+                ).permitAll()
+                .antMatchers(HttpMethod.POST, "/api/ingredient", "/api/recipe").permitAll()
+                // Replace ^ with authenticated permission only for posts below later \/
+//                .antMatchers(HttpMethod.POST, "/api/ingredient", "/api/recipe", "/api/user").authenticated()
                 .antMatchers(HttpMethod.PUT, "/api/*").authenticated()
                 .antMatchers(HttpMethod.DELETE, "/api/*").hasAuthority("ADMIN")
                 .antMatchers("/**").denyAll()

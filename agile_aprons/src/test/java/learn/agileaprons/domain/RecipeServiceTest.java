@@ -78,11 +78,12 @@ public class RecipeServiceTest {
     }
 
     @Test
-    void shouldNotCreateWithNonZeroId() throws DataException {
+    void shouldNotCreateWithExistingRecipe() throws DataException {
         Recipe recipe = makeRecipe();
-        recipe.setId(20);
+        recipe.setId(3);
         Result<Recipe> actual = service.create(recipe);
         assertEquals(ResultType.INVALID, actual.getResultType());
+        assertTrue(actual.getMessages().get(0).contains("existing"));
     }
 
     @Test
@@ -152,12 +153,13 @@ public class RecipeServiceTest {
     }
 
     @Test
-    void shouldNotCreateWhenImageUrlTooLong() throws DataException {
+    void shouldNotCreateWhenImageUrlTooLongAndInvalidPattern() throws DataException {
         Recipe recipe = makeRecipe();
         recipe.setImageUrl(lorem());
         Result<Recipe> actual = service.create(recipe);
         assertEquals(ResultType.INVALID, actual.getResultType());
-        assertEquals("Recipe image url too long.", actual.getMessages().get(0));
+        assertTrue(actual.getMessages().contains("Recipe image url too long."));
+        assertTrue(actual.getMessages().contains("Image url does not appear valid."));
     }
 
     @Test
@@ -169,17 +171,103 @@ public class RecipeServiceTest {
         assertEquals("Image url does not appear valid.", actual.getMessages().get(0));
     }
 
+    @Test
+    void shouldNotCreateWhenSourceUrlNull() throws DataException {
+        Recipe recipe = makeRecipe();
+        recipe.setSourceUrl(null);
+        Result<Recipe> actual = service.create(recipe);
+        assertEquals(ResultType.INVALID, actual.getResultType());
+    }
 
+    @Test
+    void shouldNotCreateWhenSourceUrlTooLong() throws DataException {
+        Recipe recipe = makeRecipe();
+        recipe.setSourceUrl(lorem());
+        Result<Recipe> actual = service.create(recipe);
+        assertEquals(ResultType.INVALID, actual.getResultType());
+        assertTrue(actual.getMessages().contains("Recipe source url too long."));
+        assertTrue(actual.getMessages().contains("Source url does not appear valid."));
+    }
 
+    @Test
+    void shouldNotCreateWhenSourceUrlFailsRegex() throws DataException {
+        Recipe recipe = makeRecipe();
+        recipe.setSourceUrl("099812348583295284198647326912489");
+        Result<Recipe> actual = service.create(recipe);
+        assertEquals(ResultType.INVALID, actual.getResultType());
+        assertEquals("Source url does not appear valid.", actual.getMessages().get(0));
+    }
 
+    @Test
+    void shouldNotCreateWhenIngredientsEmpty() throws DataException {
+        Recipe recipe = makeRecipe();
+        recipe.setIngredients(new ArrayList<>());
+        Result<Recipe> actual = service.create(recipe);
+        assertEquals(ResultType.INVALID, actual.getResultType());
+        assertEquals("Recipe ingredient count must be between 1 and 50 ingredients.", actual.getMessages().get(0));
+    }
 
+    @Test
+    void shouldNotCreateWhenIngredientsListTooLarge() throws DataException {
+        Recipe recipe = makeRecipe();
+        List<RecipeIngredient> ingredients = new ArrayList<>();
+        for (int i = 0; i < 51; i++) {
+            ingredients.add(makeIngredient());
+        }
+        recipe.setIngredients(ingredients);
+        Result<Recipe> actual = service.create(recipe);
+        assertEquals(ResultType.INVALID, actual.getResultType());
+        assertEquals("Recipe ingredient count must be between 1 and 50 ingredients.", actual.getMessages().get(0));
+    }
 
+    @Test
+    void shouldNotCreateWhenIngredientsNull() throws DataException {
+        Recipe recipe = makeRecipe();
+        recipe.setIngredients(null);
+        Result<Recipe> actual = service.create(recipe);
+        assertEquals(ResultType.INVALID, actual.getResultType());
+        assertEquals("Ingredients list cannot be null.", actual.getMessages().get(0));
+    }
 
+    @Test
+    void shouldNotCreateWhenCuisinesNull() throws DataException {
+        Recipe recipe = makeRecipe();
+        recipe.setCuisines(null);
+        Result<Recipe> actual = service.create(recipe);
+        assertEquals(ResultType.INVALID, actual.getResultType());
+        assertEquals("Cuisine list cannot be null.", actual.getMessages().get(0));
+    }
 
+    @Test
+    void shouldNotCreateWhenCuisineListTooLarge() throws DataException {
+        Recipe recipe = makeRecipe();
+        List<Cuisine> cuisines = recipe.getCuisines();
+        Cuisine cuisine = new Cuisine();
+        cuisine.setId(2);
+        cuisine.setName("Mexican");
+        cuisines.add(cuisine);
+        cuisine.setId(3);
+        cuisine.setName("Vietnamese");
+        cuisines.add(cuisine);
+        cuisine.setId(4);
+        cuisine.setName("Greek");
+        cuisines.add(cuisine);
+        cuisine.setId(5);
+        cuisine.setName("Southern");
+        cuisines.add(cuisine);
+        assertEquals(5, cuisines.size());
+        recipe.setCuisines(cuisines);
+        Result<Recipe> actual = service.create(recipe);
+        assertEquals(ResultType.INVALID, actual.getResultType());
+        assertEquals("Whoa, calm down! Fusion Confusion! Keep it under 5 cuisines.", actual.getMessages().get(0));
+    }
 
 //    @Test
 //    void shouldNotCreateExistingRecipe() {
+//        Recipe recipe = makeRecipe();
+//        Result<Recipe> actual = service.create(recipe);
 //
+//        assertTrue(actual.isSuccess());
 //    }
 
     @Test
@@ -222,6 +310,18 @@ public class RecipeServiceTest {
         assertEquals("Recipe cannot be null.", actual.getMessages().get(0));
     }
 
+    @Test
+    void shouldNotUpdateNonExistingRecipe() throws DataException {
+        Recipe recipe = makeRecipe();
+        Result<Recipe> actual = service.update(recipe);
+
+        assertFalse(actual.isSuccess());
+        assertEquals(1, actual.getMessages().size());
+        assertEquals(ResultType.NOT_FOUND, actual.getResultType());
+        assertEquals("Recipe doesn't exist.", actual.getMessages().get(0));
+    }
+
+
     private Recipe makeRecipe() {
         Recipe recipe = new Recipe();
         recipe.setUserId(1);
@@ -232,20 +332,8 @@ public class RecipeServiceTest {
         recipe.setSourceUrl("https://recipes.com/pepper-rice");
         recipe.setCookMinutes(1000);
 
-        RecipeIngredient ingredient = new RecipeIngredient();
-
-        ingredient.setQuantity(10);
-
-        Ingredient ing = new Ingredient();
-        ing.setId(4);
-        ingredient.setIngredient(ing);
-
-        Unit unit = new Unit();
-        unit.setId(1);
-        ingredient.setUnit(unit);
-
         List<RecipeIngredient> ingredients = new ArrayList<>();
-        ingredients.add(ingredient);
+        ingredients.add(makeIngredient());
         recipe.setIngredients(ingredients);
 
         Cuisine cuisine = new Cuisine();
@@ -258,6 +346,21 @@ public class RecipeServiceTest {
         recipe.setImage(generateRandomBlob(10));
 
         return recipe;
+    }
+
+    private RecipeIngredient makeIngredient() {
+        RecipeIngredient ingredient = new RecipeIngredient();
+
+        ingredient.setQuantity(10);
+
+        Ingredient ing = new Ingredient();
+        ing.setId(4);
+        ingredient.setIngredient(ing);
+
+        Unit unit = new Unit();
+        unit.setId(1);
+        ingredient.setUnit(unit);
+        return ingredient;
     }
 
     public static byte[] generateRandomBlob(int size) {

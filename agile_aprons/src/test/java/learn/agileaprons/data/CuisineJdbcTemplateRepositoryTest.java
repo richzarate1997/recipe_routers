@@ -29,7 +29,7 @@ class CuisineJdbcTemplateRepositoryTest {
     void shouldFindAll() {
         List<Cuisine> cuisines = repository.findAll();
         assertNotNull(cuisines);
-        assertTrue(cuisines.size() == 2);
+        assertTrue(cuisines.size() == 5);
     }
 
 }

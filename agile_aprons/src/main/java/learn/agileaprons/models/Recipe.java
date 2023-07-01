@@ -34,8 +34,10 @@ public class Recipe {
     private boolean vegan;
     private boolean glutenFree;
     private boolean dairyFree;
+    @NotNull(message = "Ingredients list cannot be null.")
     @Size(min = 1, max=50, message = "Recipe ingredient count must be between 1 and 50 ingredients.")
     private List<RecipeIngredient> ingredients = new ArrayList<>();
+    @NotNull(message = "Cuisine list cannot be null.")
     @Size(max = 4, message = "Whoa, calm down! Fusion Confusion! Keep it under 5 cuisines.")
     private List<Cuisine> cuisines = new ArrayList<>();
 
