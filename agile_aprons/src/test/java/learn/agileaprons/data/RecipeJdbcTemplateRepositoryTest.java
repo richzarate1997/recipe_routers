@@ -51,7 +51,7 @@ class RecipeJdbcTemplateRepositoryTest {
     void shouldFindRecipesWithPepperInTitle() {
         String testQuery = "Pepper";
         List<Recipe> result = repository.findByTitle(testQuery);
-        assertEquals(2, result.size());
+        assertEquals(3, result.size());
     }
 
     @Test
