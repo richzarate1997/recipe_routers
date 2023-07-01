@@ -1,6 +1,7 @@
 package learn.agileaprons.controllers;
 
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -21,8 +22,15 @@ public class GlobalExceptionHandler {
         return reportBadRequest("Badly formed JSON.");
     }
 
+    @ExceptionHandler // Seen when unable to find a recipe by id
+    public ResponseEntity<?> handleException(EmptyResultDataAccessException ex) {
+        System.out.println(ex.getMessage());
+        return reportException("Not Found", HttpStatus.NOT_FOUND);
+    }
+
     @ExceptionHandler
     public ResponseEntity<?> handleException(Exception ex) {
+        System.out.println(ex.getMessage());
         return reportException("Something went wrong :(", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
@@ -31,6 +39,6 @@ public class GlobalExceptionHandler {
     }
     private ResponseEntity<?> reportException(String message, HttpStatus httpStatus) {
         List<String> messages = List.of(message);
-        return new ResponseEntity<>(messages, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(messages, httpStatus);
     }
 }

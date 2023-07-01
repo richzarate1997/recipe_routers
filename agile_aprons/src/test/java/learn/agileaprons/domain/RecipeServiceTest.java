@@ -169,6 +169,52 @@ public class RecipeServiceTest {
         assertEquals("Image url does not appear valid.", actual.getMessages().get(0));
     }
 
+    @Test
+    void shouldNotCreateWhenSourceUrlNull() throws DataException {
+        Recipe recipe = makeRecipe();
+        recipe.setSourceUrl(null);
+        Result<Recipe> actual = service.create(recipe);
+        assertEquals(ResultType.INVALID, actual.getResultType());
+    }
+
+    @Test
+    void shouldNotCreateWhenSourceUrlTooLong() throws DataException {
+        Recipe recipe = makeRecipe();
+        recipe.setSourceUrl(lorem());
+        Result<Recipe> actual = service.create(recipe);
+        assertEquals(ResultType.INVALID, actual.getResultType());
+        assertEquals("Recipe source url too long.", actual.getMessages().get(0));
+    }
+
+    @Test
+    void shouldNotCreateWhenSourceUrlFailsRegex() throws DataException {
+        Recipe recipe = makeRecipe();
+        recipe.setSourceUrl("099812348583295284198647326912489");
+        Result<Recipe> actual = service.create(recipe);
+        assertEquals(ResultType.INVALID, actual.getResultType());
+        assertEquals("Source url does not appear valid.", actual.getMessages().get(0));
+    }
+
+    @Test
+    void shouldNotCreateWhenIngredientsEmpty() throws DataException {
+        Recipe recipe = makeRecipe();
+        recipe.setIngredients(new ArrayList<>());
+        Result<Recipe> actual = service.create(recipe);
+        assertEquals(ResultType.INVALID, actual.getResultType());
+        assertEquals("Recipe ingredient count must be between 1 and 50 ingredients.", actual.getMessages().get(0));
+    }
+
+    @Test
+    void shouldNotCreateWhenIngredientsNull() throws DataException {
+        Recipe recipe = makeRecipe();
+        recipe.setIngredients(null);
+        Result<Recipe> actual = service.create(recipe);
+        assertEquals(ResultType.INVALID, actual.getResultType());
+        assertEquals("Source url does not appear valid.", actual.getMessages().get(0));
+    }
+
+
+
 
 
 

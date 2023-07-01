@@ -34,7 +34,7 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.GET,
                         "/api/ingredient", "/api/ingredient/*", "/api/recipe/*" ,"/api/recipe/search/*",
                         "/api/unit", "/api/cuisine").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/ingredient", "/api/recipe").authenticated()
+                .antMatchers(HttpMethod.POST, "/api/ingredient", "/api/recipe").permitAll()
                 // Replace ^ with authenticated permission only for posts below later
 //                .antMatchers(HttpMethod.POST, "/api/ingredient", "/api/recipe").authenticated()
                 .antMatchers(HttpMethod.PUT, "/api/*").authenticated()
