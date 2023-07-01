@@ -3,10 +3,7 @@ package learn.agileaprons.domain;
 import learn.agileaprons.data.DataException;
 import learn.agileaprons.data.RecipeIngredientRepository;
 import learn.agileaprons.data.RecipeRepository;
-import learn.agileaprons.models.Ingredient;
-import learn.agileaprons.models.Recipe;
-import learn.agileaprons.models.RecipeIngredient;
-import learn.agileaprons.models.Unit;
+import learn.agileaprons.models.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,22 +26,14 @@ public class RecipeServiceTest {
     @Autowired
     RecipeService service;
 
-//    @Test
-//    void shouldFindPepperPizzaAndIngredients() {
-//        when()
-//
-//        Recipe recipe = service.findById(1);
-//        assertNotNull(recipe);
-//        assertEquals("Pepper Pizza", recipe.getTitle());
-//        assertEquals(4, recipe.getIngredients().size());
-//    }
 
     @Test
     void shouldCreateRecipe() throws DataException {
         Recipe recipe = makeRecipe();
         Result<Recipe> actual = service.create(recipe);
-        System.out.println(actual.getMessages());
         assertEquals(ResultType.SUCCESS, actual.getResultType());
+        System.out.println(actual.getPayload());
+//        assertEquals("Italian", actual.getPayload().getCuisines().get(0));
     }
 
     @Test
@@ -81,6 +70,14 @@ public class RecipeServiceTest {
         List<RecipeIngredient> ingredients = new ArrayList<>();
         ingredients.add(ingredient);
         recipe.setIngredients(ingredients);
+
+        Cuisine cuisine = new Cuisine();
+        cuisine.setId(1);
+        cuisine.setName("Italian");
+
+        List<Cuisine> cuisines = new ArrayList<>();
+        cuisines.add(cuisine);
+        recipe.setCuisines(cuisines);
 
         return recipe;
     }
