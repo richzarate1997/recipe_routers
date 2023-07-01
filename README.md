@@ -90,6 +90,7 @@ Today we will return a schedule of tasks, database schema, class diagram with la
     * [x] Grocery List Repo / Interface
     * [x] Ingredients Repo / Interface
     * [x] Unit Repo / Interface
+    * [x] Cuisine Repo / Interface
     * [x] Testing
 
 * [ ] Domain (4-4.5 hrs)
@@ -98,8 +99,9 @@ Today we will return a schedule of tasks, database schema, class diagram with la
     * [ ] User Service
     * [ ] Recipe Service
     * [ ] Grocery List Service
-    * [ ] Ingredients Service
-    * [x] Unit Service 
+    * [x] Ingredient Service
+    * [x] Unit Service
+    * [x] Cuisine Service
     * [ ] Testing
 
 * [ ] Security (1.5 hrs)
@@ -215,9 +217,9 @@ Today we will return a schedule of tasks, database schema, class diagram with la
 
 
 ### Considerations
-* [ ] Use @Transactional annotation to ensure all ingredients are added before adding a recipe?
 * [ ] App User Roles include Guest, Admin, User
   * Guest Exp: Persist recipe until login/register then return redirect to recipe view
+* [ ] Deal with duplicate Ingredients/Recipes by overriding equals methods and preparing for equivalence comparison with internal objects.
 
 
 

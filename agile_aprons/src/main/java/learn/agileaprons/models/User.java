@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User {
-    @NotNull
     private int id;
     @NotNull
     @Value("")

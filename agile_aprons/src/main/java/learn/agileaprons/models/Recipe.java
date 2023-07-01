@@ -1,21 +1,19 @@
 package learn.agileaprons.models;
 
-import com.mysql.cj.jdbc.Blob;
-
 import javax.validation.constraints.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class Recipe {
-    @NotNull
     private int id;
-    @NotNull
     private int userId;
     @NotBlank(message = "Recipe name cannot be blank.")
     @Size(max = 50, message = "Recipe name must be less than 50 characters.")
     private String title;
     @NotBlank(message = "Recipe instructions cannot be blank.")
-    @Max(value = 1000, message = "Recipe instructions must be 1000 characters or less")
+    @Size(max = 1000, message = "Recipe instructions must be 1000 characters or less.")
     private String instructions;
     @Min(value = 1, message = "Recipe servings cannot be less than 1.")
     @Max(value = 50, message = "Recipe servings cannot be greater than 50.")
@@ -24,14 +22,14 @@ public class Recipe {
     @Max(value = 25200, message = "Recipe cook time cannot be greater than 1 week.")
     private int cookMinutes;
     @NotNull
-    @Pattern(regexp = "(http://|https://)?(www.)?([a-zA-Z0-9]+).[a-zA-Z0-9]*.[a-z]{3}.?([a-zA-Z0-9/.-]+)?|")
-    @Max(value = 255, message = "Recipe image url too long.")
+    @Pattern(regexp = "(http://|https://)?(www.)?([a-zA-Z0-9]+).[a-zA-Z0-9]*.[a-z]{3}.?([a-zA-Z0-9/.-]+)?|", message = "Image url does not appear valid.")
+    @Size(max = 255, message = "Recipe image url too long.")
     private String imageUrl;
     @NotNull
-    @Pattern(regexp = "(http://|https://)?(www.)?([a-zA-Z0-9]+).[a-zA-Z0-9]*.[a-z]{3}.?([a-zA-Z0-9/.-]+)?|")
-    @Max(value = 255, message = "Recipe source url too long.")
+    @Pattern(regexp = "(http://|https://)?(www.)?([a-zA-Z0-9]+).[a-zA-Z0-9]*.[a-z]{3}.?([a-zA-Z0-9/.-]+)?|", message = "Source url does not appear valid.")
+    @Size(max = 255, message = "Recipe source url too long.")
     private String sourceUrl;
-    private Blob image;
+    private byte [] image;
     private boolean vegetarian;
     private boolean vegan;
     private boolean glutenFree;
@@ -129,11 +127,11 @@ public class Recipe {
         this.userId = userId;
     }
 
-    public Blob getImage() {
+    public byte[] getImage() {
         return image;
     }
 
-    public void setImage(Blob image) {
+    public void setImage(byte[] image) {
         this.image = image;
     }
 
@@ -159,5 +157,20 @@ public class Recipe {
 
     public void setCuisines(List<Cuisine> cuisines) {
         this.cuisines = cuisines;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Recipe recipe = (Recipe) o;
+        return id == recipe.id && userId == recipe.userId && servings == recipe.servings && cookMinutes == recipe.cookMinutes && vegetarian == recipe.vegetarian && vegan == recipe.vegan && glutenFree == recipe.glutenFree && dairyFree == recipe.dairyFree && Objects.equals(title, recipe.title) && Objects.equals(instructions, recipe.instructions) && Objects.equals(imageUrl, recipe.imageUrl) && Objects.equals(sourceUrl, recipe.sourceUrl) && Arrays.equals(image, recipe.image) && Objects.equals(ingredients, recipe.ingredients) && Objects.equals(cuisines, recipe.cuisines);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(id, userId, title, instructions, servings, cookMinutes, imageUrl, sourceUrl, vegetarian, vegan, glutenFree, dairyFree, ingredients, cuisines);
+        result = 31 * result + Arrays.hashCode(image);
+        return result;
     }
 }

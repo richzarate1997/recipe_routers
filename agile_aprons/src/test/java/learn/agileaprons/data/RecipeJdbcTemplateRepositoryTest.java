@@ -1,16 +1,18 @@
 package learn.agileaprons.data;
 
-import learn.agileaprons.models.Ingredient;
+import learn.agileaprons.models.Cuisine;
 import learn.agileaprons.models.Recipe;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class RecipeJdbcTemplateRepositoryTest {
 
     @Autowired
@@ -51,25 +53,16 @@ class RecipeJdbcTemplateRepositoryTest {
     void shouldFindRecipesWithPepperInTitle() {
         String testQuery = "Pepper";
         List<Recipe> result = repository.findByTitle(testQuery);
-        assertEquals(2, result.size());
+        assertEquals(3, result.size());
     }
 
     @Test
     void shouldCreate() {
-        Recipe recipe = new Recipe();
-        recipe.setId(3);
-        recipe.setUserId(1);
-        recipe.setTitle("Pepper Rice");
-        recipe.setImageUrl("http://pepper-rice.jpg");
-        recipe.setInstructions("put pepper and rice together.... maybe.... idk if this is even a thing");
-        recipe.setServings(5);
-        recipe.setSourceUrl("https://recipes.com/pepper-rice");
-        recipe.setCookMinutes(1000);
-
+        Recipe recipe = makeRecipe();
         Recipe actual = repository.create(recipe);
         assertNotNull(actual);
         assertEquals(3, actual.getId());
-
+        assertEquals(1, actual.getCuisines().size());
     }
     @Test
     void shouldUpdate() {
@@ -85,6 +78,33 @@ class RecipeJdbcTemplateRepositoryTest {
         assertTrue(repository.deleteById(1));
     }
 
+    private Recipe makeRecipe() {
+        Recipe recipe = new Recipe();
+        recipe.setUserId(1);
+        recipe.setTitle("Pepper Rice");
+        recipe.setImageUrl("http://pepper-rice.jpg");
+        recipe.setInstructions("put pepper and rice together.... maybe.... idk if this is even a thing");
+        recipe.setServings(5);
+        recipe.setSourceUrl("https://recipes.com/pepper-rice");
+        recipe.setCookMinutes(1000);
+        recipe.setVegan(true);
+        recipe.setVegetarian(true);
+        recipe.setImage(generateRandomBlob(10));
 
+        Cuisine cuisine = new Cuisine();
+        cuisine.setId(1);
+        cuisine.setName("Italian");
+        List<Cuisine> cuisines = new ArrayList<>();
+        cuisines.add(cuisine);
+        recipe.setCuisines(cuisines);
+
+        return recipe;
+    }
+
+    public static byte[] generateRandomBlob(int size) {
+        byte[] blob = new byte[size];
+        new Random().nextBytes(blob);
+        return blob;
+    }
 
 }

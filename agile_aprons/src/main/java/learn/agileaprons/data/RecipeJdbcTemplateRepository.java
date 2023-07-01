@@ -13,7 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
+
 @Repository
 public class RecipeJdbcTemplateRepository implements RecipeRepository {
 
@@ -39,9 +41,8 @@ public class RecipeJdbcTemplateRepository implements RecipeRepository {
                 + "r.vegan, r.gluten_free, r.dairy_free, r.src_url, r.user_app_user_id, r.image "
                 + "from recipe r "
                 + "where id = ?;";
-        Recipe recipe = jdbcTemplate.query(sql, new RecipeMapper(), id).stream()
-                .findFirst().orElse(null);
-        if(recipe != null){
+        Recipe recipe = jdbcTemplate.queryForObject(sql, new RecipeMapper(), id);
+        if (recipe != null) {
             addIngredients(recipe);
             addCuisines(recipe);
         }
@@ -56,6 +57,7 @@ public class RecipeJdbcTemplateRepository implements RecipeRepository {
     }
 
     @Override
+    @Transactional
     public Recipe create(Recipe recipe) {
         final String sql = "insert into recipe (id, title, instructions, servings, cook_minutes, image_url, vegetarian, " +
                 "vegan, gluten_free, dairy_free, src_url, user_app_user_id, image) " +
@@ -75,20 +77,26 @@ public class RecipeJdbcTemplateRepository implements RecipeRepository {
             ps.setBoolean(10, recipe.isDairyFree());
             ps.setString(11, recipe.getSourceUrl());
             ps.setInt(12, recipe.getUserId());
-            ps.setBlob(13, recipe.getImage()); //is this correct?
+            ps.setBytes(13, recipe.getImage()); //is this correct?
             return ps;
         }, keyHolder);
 
-        if(rowsAffected <= 0){
+        if (rowsAffected <= 0) {
             return null;
         }
 
-        recipe.setId(keyHolder.getKey().intValue());
+        recipe.setId(Objects.requireNonNull(keyHolder.getKey()).intValue());
+        recipe.getCuisines().forEach(cuisine -> addRecipeCuisines(cuisine.getId(), recipe.getId()));
         return recipe;
     }
 
     @Override
+    @Transactional
     public boolean update(Recipe recipe) {
+
+        removeRecipeCuisines(recipe.getId());
+        recipe.getCuisines().forEach(cuisine -> addRecipeCuisines(cuisine.getId(), recipe.getId()));
+
         final String sql = "update recipe set "
                 + "title = ?, "
                 + "instructions = ?, "
@@ -105,32 +113,44 @@ public class RecipeJdbcTemplateRepository implements RecipeRepository {
                 + "where id = ?;";
 
 
-        return jdbcTemplate.update(sql, recipe.getTitle(), recipe.getInstructions(), recipe.getServings(),recipe.getCookMinutes(),
-                recipe.getImageUrl(), recipe.isVegetarian(), recipe.isVegan(), recipe.isGlutenFree(), recipe.isDairyFree(),
-                recipe.getSourceUrl(), recipe.getUserId(), recipe.getImage(), recipe.getId()) > 0;
+        return jdbcTemplate.update(sql,
+                recipe.getTitle(),
+                recipe.getInstructions(),
+                recipe.getServings(),
+                recipe.getCookMinutes(),
+                recipe.getImageUrl(),
+                recipe.isVegetarian(),
+                recipe.isVegan(),
+                recipe.isGlutenFree(),
+                recipe.isDairyFree(),
+                recipe.getSourceUrl(),
+                recipe.getUserId(),
+                recipe.getImage(),
+                recipe.getId()) > 0;
     }
 
     @Override
     @Transactional
     public boolean deleteById(int id) {
         jdbcTemplate.update("delete from recipe_ingredient where recipe_id = ?;", id);
-        jdbcTemplate.update("delete from recipe_cuisine where recipe_id = ?;", id);
+        removeRecipeCuisines(id);
         jdbcTemplate.update("delete from user_favorite where recipe_id = ?;", id);
-        final String sql = "delete from recipe where id = ?;";
-        return jdbcTemplate.update(sql, id) > 0;
+        return jdbcTemplate.update("delete from recipe where id = ?;", id) > 0;
 
     }
 
-    private void addIngredients(Recipe recipe){
-        final String sql = "select i.id, i.name, i.image_url, i.aisle, ri.recipe_id, ri.quantity, ri.unit_id " +
+    private void addIngredients(Recipe recipe) {
+        final String sql = "select i.id, i.name, i.image_url, i.aisle, ri.recipe_id, ri.quantity, u.name unit_name, u.abbrev " +
                 "from ingredient i " +
                 "join recipe_ingredient ri on i.id = ri.ingredient_id " +
-                "join recipe r on r.id = ri.recipe_id where r.id = ?;";
+                "join recipe r on r.id = ri.recipe_id " +
+                "join unit u on ri.unit_id = u.id " +
+                "where r.id = ?;";
         var recipeIngredients = jdbcTemplate.query(sql, new RecipeIngredientMapper(), recipe.getId());
         recipe.setIngredients(recipeIngredients);
     }
 
-    private void addCuisines(Recipe recipe){
+    private void addCuisines(Recipe recipe) {
         final String sql = "select c.id, c.name " +
                 "from cuisine c " +
                 "join recipe_cuisine rc on c.id = rc.cuisine_id " +
@@ -139,5 +159,15 @@ public class RecipeJdbcTemplateRepository implements RecipeRepository {
 
         var cuisines = jdbcTemplate.query(sql, new CuisineMapper(), recipe.getId());
         recipe.setCuisines(cuisines);
+    }
+
+    private void addRecipeCuisines(int cuisineId, int recipeId) {
+        final String sql = "insert into recipe_cuisine (cuisine_id, recipe_id) " +
+                "values (?, ?);";
+        jdbcTemplate.update(sql, cuisineId, recipeId);
+    }
+
+    private void removeRecipeCuisines(int recipeId) {
+        jdbcTemplate.update("delete from recipe_cuisine where recipe_id = ?;", recipeId);
     }
 }

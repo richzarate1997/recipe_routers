@@ -69,8 +69,9 @@ public class GroceryListJdbcTemplateRepository implements GroceryListRepository{
         addGroceryListIngredients(groceryList);
         return jdbcTemplate.update(sql, groceryList.getName(), groceryList.getId()) > 0;
     }
-    @Transactional
+
     @Override
+    @Transactional
     public boolean deleteById(int id) {
         removeGroceryListIngredients(id);
         return jdbcTemplate.update("delete from grocery_list where id = ?;", id) > 0;

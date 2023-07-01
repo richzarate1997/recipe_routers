@@ -1,10 +1,8 @@
 package learn.agileaprons.models;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 public class Unit {
-    @NotNull
     private int id;
     @NotBlank
     private String name;

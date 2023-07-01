@@ -15,5 +15,7 @@ public class UnitService {
         this.repository = repository;
     }
 
-    public List<Unit> findAll(){ return repository.findAll(); }
+    public List<Unit> findAll() {
+        return repository.findAll();
+    }
 }
