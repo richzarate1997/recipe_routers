@@ -66,8 +66,8 @@ public class RecipeService {
         return result;
     }
 
-    public boolean deleteById(int recipeId) {
-        return recipeRepository.deleteById(recipeId);
+    public boolean deleteById(Recipe recipe) {
+        return recipeRepository.deleteById(recipe.getId());
     }
 
     public Result<Void> addIngredient(RecipeIngredient recipeIngredient) {
@@ -101,7 +101,7 @@ public class RecipeService {
         return result;
     }
 
-    public boolean deleteIngredientByKey(int recipeId, int ingredientId) {
+    private boolean deleteIngredientByKey(int recipeId, int ingredientId) {
         return recipeIngredientRepository.deleteByKey(recipeId, ingredientId);
     }
 

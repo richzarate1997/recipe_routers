@@ -321,6 +321,7 @@ public class RecipeServiceTest {
         assertEquals("Recipe doesn't exist.", actual.getMessages().get(0));
     }
 
+
     private Recipe makeRecipe() {
         Recipe recipe = new Recipe();
         recipe.setUserId(1);
