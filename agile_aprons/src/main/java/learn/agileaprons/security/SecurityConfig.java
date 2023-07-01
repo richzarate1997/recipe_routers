@@ -34,6 +34,7 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.GET,
                         "/api/ingredient",
                         "/api/ingredient/*",
+                        "/api/recipe",
                         "/api/recipe/*",
                         "/api/recipe/search/*",
                         "/api/unit",

@@ -1,9 +1,12 @@
 @url = http://localhost:8080/api/recipe
 
-GET {{url}}/8 HTTP/1.1
+GET {{url}} HTTP/1.1
 
 ###
-GET {{url}}/search/pepper HTTP/1.1
+GET {{url}}/2 HTTP/1.1
+
+###
+GET {{url}}/search/rice HTTP/1.1
 
 ###
 POST {{url}} HTTP/1.1
@@ -21,6 +24,76 @@ Content-Type: application/json
   "image": "MDEwMTAxMDExMTAxMDExMTAxMDExMTEwMTAxMTEwMTAxMTAwMDEwMTAwMDEwMTAwMTAx",
   "vegetarian": true,
   "vegan": false,
+  "glutenFree": true,
+  "dairyFree": false,
+  "ingredients": [
+    {
+      "ingredient": {
+        "id": 3,
+        "name": "Tomato",
+        "imageUrl": "https://tomato.com/tomato.jpg",
+        "aisle": "Produce"
+      },
+      "quantity": 1.0,
+      "unit": {
+        "id": 3,
+        "name": "count",
+        "abbreviation": "ct"
+      }
+    },
+    {
+      "ingredient": {
+        "id": 4,
+        "name": "Bell Pepper",
+        "imageUrl": "http://google.com/pepper.jpg",
+        "aisle": "Produce"
+      },
+      "quantity": 1.0,
+      "unit": {
+        "id": 4,
+        "name": "count",
+        "abbreviation": "ct"
+      }
+    },
+    {
+      "ingredient": {
+        "id": 5,
+        "name": "Corn Tortilla",
+        "imageUrl": "http://bread.com/bread.jpg",
+        "aisle": null
+      },
+      "quantity": 12.0,
+      "unit": {
+        "id": 5,
+        "name": "count",
+        "abbreviation": "ct"
+      }
+    }
+  ],
+  "cuisines": [
+    {
+      "id": 5,
+      "name": "Southern"
+    }
+  ]
+}
+
+###
+PUT {{url}}/4
+Content-Type: application/json
+
+{
+  "id": 7,
+  "userId": 1,
+  "title": "Pepper Pots' Pepper Pot",
+  "instructions": "Make a pot of peppers for dinner, and enjoy them.",
+  "servings": 12,
+  "cookMinutes": 240,
+  "imageUrl": "",
+  "sourceUrl": "",
+  "image": "MDEwMTAxMDExMTAxMDExMTAxMDExMTEwMTAxMTEwMTAxMTAwMDEwMTAwMDEwMTAwMTAx",
+  "vegetarian": true,
+  "vegan": true,
   "glutenFree": true,
   "dairyFree": false,
   "ingredients": [
