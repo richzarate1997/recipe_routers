@@ -1,0 +1,4 @@
+@url = http://localhost:8080/api/cuisine
+
+### [ ] GET all cuisines
+GET {{url}} HTTP/1.1
