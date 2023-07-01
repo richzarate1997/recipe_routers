@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class UnitJdbcTemplateRepository implements UnitRepository{
+public class UnitJdbcTemplateRepository implements UnitRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
