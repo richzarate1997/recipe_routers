@@ -1,7 +1,5 @@
 package learn.agileaprons.models;
 
-import com.mysql.cj.jdbc.Blob;
-
 import javax.validation.constraints.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,9 +7,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Recipe {
-    @NotNull
     private int id;
-    @NotNull
     private int userId;
     @NotBlank(message = "Recipe name cannot be blank.")
     @Size(max = 50, message = "Recipe name must be less than 50 characters.")

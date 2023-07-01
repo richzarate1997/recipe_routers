@@ -4,11 +4,9 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 
 public class RecipeIngredient {
-    @NotNull
     private int recipeId;
     @NotNull(message = "Cannot add a null ingredient to recipe.")
     private Ingredient ingredient;
-    @NotNull
     @DecimalMin(value = "0.0001", message = "Quantity must be greater than 0.0001.")
     private double quantity;
     @NotNull(message = "Cannot add a recipe ingredient without a unit.")

@@ -69,6 +69,42 @@ public class RecipeServiceTest {
         assertEquals(ResultType.INVALID, actual.getResultType());
     }
 
+    @Test
+    void shouldNotCreateWhenNullTitle() throws DataException {
+        Recipe recipe = makeRecipe();
+        recipe.setTitle(null);
+        Result<Recipe> actual = service.create(recipe);
+        assertEquals(ResultType.INVALID, actual.getResultType());
+    }
+
+    @Test
+    void shouldNotCreateWithNonZeroUserId() throws DataException {
+        Recipe recipe = makeRecipe();
+        recipe.setUserId(20);
+        Result<Recipe> actual = service.create(recipe);
+        assertEquals(ResultType.INVALID, actual.getResultType());
+    }
+
+    @Test
+    void shouldNotCreateWhenEmptyTitle() throws DataException {
+        Recipe recipe = makeRecipe();
+        recipe.setTitle("");
+        Result<Recipe> actual = service.create(recipe);
+        assertEquals(ResultType.INVALID, actual.getResultType());
+    }
+
+    @Test
+    void shouldNotCreateWhenNullTitle() throws DataException {
+        Recipe recipe = makeRecipe();
+        recipe.setTitle(null);
+        Result<Recipe> actual = service.create(recipe);
+        assertEquals(ResultType.INVALID, actual.getResultType());
+    }
+
+
+
+
+
 //    @Test
 //    void shouldNotCreateExistingRecipe() {
 //

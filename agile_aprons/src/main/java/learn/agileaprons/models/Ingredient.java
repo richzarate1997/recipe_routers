@@ -1,13 +1,10 @@
 package learn.agileaprons.models;
 
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Objects;
 
 public class Ingredient {
-    @NotNull
     private int id;
     @NotBlank(message = "Ingredient name is required.")
     @Size(max = 50, message = "Ingredient name cannot be greater than 50 characters.")

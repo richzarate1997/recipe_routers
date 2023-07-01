@@ -42,7 +42,7 @@ public class RecipeService {
             return result;
         }
 
-        if (recipe.getId() > 0) {
+        if (recipe.getId() != 0) {
             result.addMessage("Cannot create existing recipe.");
             return result;
         }

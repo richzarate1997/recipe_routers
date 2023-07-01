@@ -2,10 +2,8 @@ package learn.agileaprons.models;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 public class Cuisine {
-    @NotNull
     private int id;
     @NotBlank(message = "Cuisine name cannot be blank.")
     @Max(value = 45, message = "Cuisine name cannot be greater than 45 characters.")
