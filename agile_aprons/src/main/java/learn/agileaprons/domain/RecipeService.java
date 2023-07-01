@@ -55,6 +55,10 @@ public class RecipeService {
     public Result<Recipe> update(Recipe recipe) throws DataException {
         Result<Recipe> result = validate(recipe);
 
+        if (!result.isSuccess()) {
+            return result;
+        }
+
         if (!recipeRepository.update(recipe)) {
             String msg = String.format("Recipe with id: %s, not found.", recipe.getId());
             result.addMessage(msg, ResultType.NOT_FOUND);

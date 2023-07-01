@@ -18,7 +18,6 @@ public class RecipeIngredientMapper implements RowMapper<RecipeIngredient> {
 
         IngredientMapper ingredientMapper = new IngredientMapper();
         recipeIngredient.setIngredient(ingredientMapper.mapRow(rs, rowNum));
-
         return recipeIngredient;
     }
 }
