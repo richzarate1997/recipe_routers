@@ -78,28 +78,100 @@ public class RecipeServiceTest {
     }
 
     @Test
-    void shouldNotCreateWithNonZeroUserId() throws DataException {
+    void shouldNotCreateWithNonZeroId() throws DataException {
         Recipe recipe = makeRecipe();
-        recipe.setUserId(20);
+        recipe.setId(20);
         Result<Recipe> actual = service.create(recipe);
         assertEquals(ResultType.INVALID, actual.getResultType());
     }
 
     @Test
-    void shouldNotCreateWhenEmptyTitle() throws DataException {
+    void shouldNotCreateWhenInstructionsNullOrBlank() throws DataException {
         Recipe recipe = makeRecipe();
-        recipe.setTitle("");
+        recipe.setInstructions("");
+        Result<Recipe> actual = service.create(recipe);
+        assertEquals(ResultType.INVALID, actual.getResultType());
+
+        recipe.setInstructions(null);
+        actual = service.create(recipe);
+        assertEquals(ResultType.INVALID, actual.getResultType());
+        assertEquals("Recipe instructions cannot be blank.", actual.getMessages().get(0));
+    }
+
+    @Test
+    void shouldNotCreateWhenInstructionsOver1000Chars() throws DataException {
+        Recipe recipe = makeRecipe();
+        recipe.setInstructions(lorem());
+        Result<Recipe> actual = service.create(recipe);
+        assertEquals(ResultType.INVALID, actual.getResultType());
+        assertEquals("Recipe instructions must be 1000 characters or less.", actual.getMessages().get(0));
+    }
+
+    @Test
+    void shouldNotCreateWhenServingsLessThan1() throws DataException {
+        Recipe recipe = makeRecipe();
+        recipe.setServings(0);
+        Result<Recipe> actual = service.create(recipe);
+        assertEquals(ResultType.INVALID, actual.getResultType());
+        assertEquals("Recipe servings cannot be less than 1.", actual.getMessages().get(0));
+    }
+
+    @Test
+    void shouldNotCreateWhenServingsMoreThan50() throws DataException {
+        Recipe recipe = makeRecipe();
+        recipe.setServings(51);
+        Result<Recipe> actual = service.create(recipe);
+        assertEquals(ResultType.INVALID, actual.getResultType());
+        assertEquals("Recipe servings cannot be greater than 50.", actual.getMessages().get(0));
+    }
+
+    @Test
+    void shouldNotCreateWhenCookMinutesLessThan1() throws DataException {
+        Recipe recipe = makeRecipe();
+        recipe.setCookMinutes(0);
+        Result<Recipe> actual = service.create(recipe);
+        assertEquals(ResultType.INVALID, actual.getResultType());
+        assertEquals("Recipe cook time cannot be less than 1 minute.", actual.getMessages().get(0));
+    }
+
+    @Test
+    void shouldNotCreateWhenCookMinutesMoreThan7Days() throws DataException {
+        Recipe recipe = makeRecipe();
+        recipe.setCookMinutes(50000000);
+        Result<Recipe> actual = service.create(recipe);
+        assertEquals(ResultType.INVALID, actual.getResultType());
+        assertEquals("Recipe cook time cannot be greater than 1 week.", actual.getMessages().get(0));
+    }
+
+    @Test
+    void shouldNotCreateWhenImageUrlNull() throws DataException {
+        Recipe recipe = makeRecipe();
+        recipe.setImageUrl(null);
         Result<Recipe> actual = service.create(recipe);
         assertEquals(ResultType.INVALID, actual.getResultType());
     }
 
     @Test
-    void shouldNotCreateWhenNullTitle() throws DataException {
+    void shouldNotCreateWhenImageUrlTooLong() throws DataException {
         Recipe recipe = makeRecipe();
-        recipe.setTitle(null);
+        recipe.setImageUrl(lorem());
         Result<Recipe> actual = service.create(recipe);
         assertEquals(ResultType.INVALID, actual.getResultType());
+        assertEquals("Recipe image url too long.", actual.getMessages().get(0));
     }
+
+    @Test
+    void shouldNotCreateWhenImageUrlFailsRegex() throws DataException {
+        Recipe recipe = makeRecipe();
+        recipe.setImageUrl("099812348583295284198647326912489");
+        Result<Recipe> actual = service.create(recipe);
+        assertEquals(ResultType.INVALID, actual.getResultType());
+        assertEquals("Image url does not appear valid.", actual.getMessages().get(0));
+    }
+
+
+
+
 
 
 
@@ -150,7 +222,7 @@ public class RecipeServiceTest {
         assertEquals("Recipe cannot be null.", actual.getMessages().get(0));
     }
 
-    private Recipe makeRecipe(){
+    private Recipe makeRecipe() {
         Recipe recipe = new Recipe();
         recipe.setUserId(1);
         recipe.setTitle("Pepper Rice");
@@ -192,5 +264,20 @@ public class RecipeServiceTest {
         byte[] blob = new byte[size];
         new Random().nextBytes(blob);
         return blob;
+    }
+
+    private String lorem() {
+        return "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime eos similique iste, soluta, modi " +
+                "accusantium totam eius porro repellendus, delectus quia doloremque ducimus corrupti perferendis " +
+                "vero deleniti incidunt? Inventore, voluptatibus! Lorem ipsum dolor sit amet consectetur adipisicing " +
+                "elit. Vitae ex aut quisquam delectus unde debitis aspernatur iusto odio expedita itaque! Iste " +
+                "tenetur molestias laborum voluptate ullam totam, beatae deserunt. Incidunt! Lorem ipsum dolor sit " +
+                "amet consectetur adipisicing elit. Eaque, rerum veniam, possimus in quos vitae quae deserunt " +
+                "laborum doloribus ratione facilis odio perspiciatis aspernatur debitis excepturi unde repudiandae " +
+                "exercitationem doloremque. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo " +
+                "doloremque, dolores rerum sit esse ab, itaque vel libero fuga, adipisci" +
+                " dicta tempora beatae. Minima inventore, doloremque consequatur ad aperiam laudantium! Lorem ipsum " +
+                "dolor sit amet consectetur adipisicing elit. Sit, ullam labore. Nesciunt, aliquid numquam. Error " +
+                "ducimus, possimus, porro illo ea quod et qui, nostrum ut incidunt dolorum voluptates repellat sequi.";
     }
 }
