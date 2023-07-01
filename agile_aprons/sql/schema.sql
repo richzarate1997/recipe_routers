@@ -235,3 +235,33 @@ INSERT INTO `unit` (`name`, `abbrev`)
     ('gram','g'),
     ('kilogram','kg'),
 	( 'count', 'ct');
+    
+INSERT INTO `cuisine` (`name`)
+	VALUES -- Exhaustive to spoonacular API selection
+    ('African'),
+    ('Asian'),
+    ('American'),
+    ('British'),
+    ('Cajun'),
+    ('Carribean'),
+    ('Chinese'),
+    ('Eastern European'),
+    ('European'),
+    ('French'),
+    ('German'),
+    ('Greek'),
+    ('Indian'),
+    ('Irish'),
+    ('Italian'),
+    ('Japanese'),
+    ('Jewish'),
+    ('Korean'),
+    ('Latin American'),
+    ('Mediterranean'),
+    ('Mexican'),
+    ('Middle Eastern'),
+    ('Nordic'),
+    ('Southern'),
+    ('Spanish'),
+    ('Thai'),
+    ('Vietnamese');
