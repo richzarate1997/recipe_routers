@@ -120,7 +120,7 @@ CREATE TABLE `recipe_ingredient` (
   `recipe_id` INT NOT NULL,
   `ingredient_id` INT NOT NULL,
   `unit_id` INT NOT NULL,
-  `quantity` DECIMAL(25) NOT NULL,
+  `quantity` DECIMAL(7,4) NOT NULL,
   CONSTRAINT `pk_recipe_ingredient`
 	PRIMARY KEY (`recipe_id`, `ingredient_id`, `unit_id`),
   CONSTRAINT `fk_recipe_ingredient_recipe`
