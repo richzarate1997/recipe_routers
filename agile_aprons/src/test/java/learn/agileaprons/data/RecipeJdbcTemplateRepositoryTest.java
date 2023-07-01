@@ -43,20 +43,6 @@ class RecipeJdbcTemplateRepositoryTest {
     }
 
     @Test
-    void shouldFindPepperPizzaByName(){
-        String testQuery = "Pepper Pizza";
-        List<Recipe> result = repository.findByTitle(testQuery);
-        assertEquals(1, result.size());
-    }
-
-    @Test
-    void shouldFindRecipesWithPepperInTitle() {
-        String testQuery = "Pepper";
-        List<Recipe> result = repository.findByTitle(testQuery);
-        assertEquals(3, result.size());
-    }
-
-    @Test
     void shouldCreate() {
         Recipe recipe = makeRecipe();
         Recipe actual = repository.create(recipe);

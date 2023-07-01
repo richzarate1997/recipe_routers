@@ -27,10 +27,6 @@ public class RecipeService {
         return recipeRepository.findAll();
     }
 
-    public List<Recipe> findByTitle(String title) {
-        return recipeRepository.findByTitle(title);
-    }
-
     public Recipe findById(int id) {
         return recipeRepository.findById(id);
     }

@@ -50,13 +50,6 @@ public class RecipeJdbcTemplateRepository implements RecipeRepository {
     }
 
     @Override
-    public List<Recipe> findByTitle(String title) {
-        return findAll().stream()
-                .filter(i -> i.getTitle().startsWith(title))
-                .collect(Collectors.toList());
-    }
-
-    @Override
     @Transactional
     public Recipe create(Recipe recipe) {
         final String sql = "insert into recipe (id, title, instructions, servings, cook_minutes, image_url, vegetarian, " +

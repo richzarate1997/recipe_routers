@@ -24,6 +24,11 @@ public class RecipeController {
     @Autowired
     private RecipeService service;
 
+    @GetMapping
+    public List<Recipe> findAll() {
+        return service.findAll();
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Recipe> findById(@PathVariable int id) {
         Recipe recipe = service.findById(id);
@@ -35,7 +40,9 @@ public class RecipeController {
 
     @GetMapping("/search/{param}")
     public List<Recipe> findByTitle(@PathVariable String param) {
-        return service.findByTitle(param);
+        return service.findAll().stream()
+                .filter(recipe -> recipe.getTitle().toLowerCase().contains(param.toLowerCase()))
+                .collect(Collectors.toList());
     }
 
     @PostMapping
@@ -60,7 +67,7 @@ public class RecipeController {
                 return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
             }
         }
-        return new ResponseEntity<>(result.getMessages(), HttpStatus.BAD_REQUEST);
+        return ErrorResponse.build(result);
     }
 
 }
