@@ -28,7 +28,7 @@ public class GroceryListJdbcTemplateRepository implements GroceryListRepository{
 
     @Override
     public List<GroceryList> findAll() {
-        final String sql = "select gi.id, gi.user_app_user_id, gi.name "
+        final String sql = "select id, user_app_user_id, name "
                 + "from grocery_list;";
         return jdbcTemplate.query(sql, new GroceryListMapper());
     }
