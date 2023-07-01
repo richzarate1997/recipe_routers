@@ -3,9 +3,11 @@ package learn.agileaprons.domain;
 import learn.agileaprons.data.DataException;
 import learn.agileaprons.data.GroceryListRepository;
 import learn.agileaprons.models.GroceryList;
+import learn.agileaprons.models.Recipe;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Validator;
+import java.util.List;
 
 @Service
 public class GroceryListService {
@@ -17,6 +19,9 @@ public class GroceryListService {
         this.validator = validator;
     }
 
+    public List<GroceryList> findAll() {
+        return groceryListRepository.findAll();
+    }
     public GroceryList findById(int id) { return groceryListRepository.findById(id);}
 
     public Result<GroceryList> create(GroceryList groceryList) throws DataException {

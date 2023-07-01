@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.util.List;
 import java.util.Objects;
 
 @Repository
@@ -22,6 +23,14 @@ public class GroceryListJdbcTemplateRepository implements GroceryListRepository{
 
     public GroceryListJdbcTemplateRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+    }
+
+
+    @Override
+    public List<GroceryList> findAll() {
+        final String sql = "select gi.id, gi.user_app_user_id, gi.name "
+                + "from grocery_list;";
+        return jdbcTemplate.query(sql, new GroceryListMapper());
     }
 
     @Override
