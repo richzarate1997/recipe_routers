@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { createGroceryList, findGroceryListById, updateGroceryList } from "../../service/GroceryListApi";
+import { createGroceryList, findGroceryListById, updateGroceryList } from "../../service/groceryListApi";
 import TextField from '@mui/material/TextField';
 import { Autocomplete } from "@mui/material";
 import Button from '@mui/material/Button';

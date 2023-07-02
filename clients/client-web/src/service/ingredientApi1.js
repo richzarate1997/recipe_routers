@@ -13,27 +13,13 @@ export async function findAllIngredients() {
     }
 }
 
-export async function findIngredientById(id) {
+export async function findIngredientById(ingredientId) {
     try {
         const response = await axios.get(`${API_URL}/${id}`);
         if (response.status === 200) {
             return response.data;
         } else {
             return Promise.reject('Ingredient: ${id} was not found. ');
-        }
-    } catch (error) {
-        console.error(error);
-        return Promise.reject(error);
-    }
-}
-
-export async function findIngredientByName(name) {
-    try {
-        const response = await axios.get(`${API_URL}/search/?name=${encodeURIComponent(name)}`);
-        if (response.status === 200) {
-            return response.data;
-        } else {
-            return Promise.reject(`Ingredient: ${name} was not found.`);
         }
     } catch (error) {
         console.error(error);
@@ -57,6 +43,24 @@ export async function createIngredient(ingredient) {
     }
 }
 
+export async function updateIngredient(ingredient) {
+    try {
+        const init = makeIngredientInit('PUT', ingredient);
+        const response = await axios.post(`${API_URL}/${id}`, ingredient, init);
+
+        if (response.status === 400) {
+            return Promise.reject('Ingredient: ${id} was not found. ');
+        } else if (response.status === 400) {
+            return Promise.reject(response.data);
+        } else if (response.status === 409) {
+            return Promise.reject('Oopsie');
+        }
+    } catch (error) {
+        console.error(error);
+        return Promise.reject(error);
+    }
+
+}
 
 function makeIngredientInit(method, ingredient) {
     const init = {
@@ -69,4 +73,17 @@ function makeIngredientInit(method, ingredient) {
     };
 
     return init;
+}
+
+export async function deleteIngredientById(ingredientId) {
+    try {
+        const response = await axios.delete(`${API_URL}/${id}`);
+
+        if (response.status === 400) {
+            return Promise.reject('Ingredient: ${id} was not found. ');
+        }
+    } catch (error) {
+        console.error(error);
+        return Promise.reject(error);
+    }
 }
