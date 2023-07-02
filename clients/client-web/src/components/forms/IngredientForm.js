@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { createIngredient, findIngredientById } from "../../service/IngredientApi";
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
+import { createIngredient, findIngredientById } from "../../service/ingredientApi";
+import { Box, Button, TextField } from '@mui/material/';
 import Errors from "../Errors";
 
 const EMPTY_INGREDIENT = {
@@ -61,25 +59,23 @@ function IngredientForm() {
 
 
     return (
-        <Box
-            sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                minHeight: '100vh',
-            }}
+        <Box sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            minHeight: '100vh',
+        }}
         >
-            <Box
-                sx={{
-                    width: '400px',
-                    p: 3,
-                    border: '1px solid gray',
-                    borderRadius: '8px',
-                    backgroundColor: '#fff',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                }}
+            <Box sx={{
+                width: '400px',
+                p: 3,
+                border: '1px solid gray',
+                borderRadius: '8px',
+                backgroundColor: '#fff',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+            }}
             >
                 <h1>Ingredient Form</h1>
                 <form onSubmit={handleSaveIngredient}>

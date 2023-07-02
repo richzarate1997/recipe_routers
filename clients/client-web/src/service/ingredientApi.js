@@ -19,7 +19,7 @@ export async function findIngredientById(id) {
         if (response.status === 200) {
             return response.data;
         } else {
-            return Promise.reject('Ingredient: ${id} was not found. ');
+            return Promise.reject(`Ingredient: ${id} was not found.`);
         }
     } catch (error) {
         console.error(error);
@@ -29,7 +29,7 @@ export async function findIngredientById(id) {
 
 export async function findIngredientByName(name) {
     try {
-        const response = await axios.get(`${API_URL}/search/?name=${encodeURIComponent(name)}`);
+        const response = await axios.get(`${API_URL}/search/${encodeURIComponent(name)}`);
         if (response.status === 200) {
             return response.data;
         } else {

@@ -41,7 +41,7 @@ export async function findRecipeById(id) {
         if (response.status === 200) {
             return response.data;
         } else {
-            return Promise.reject('Recipe: ${id} was not found. ');
+            return Promise.reject(`Recipe: ${id} was not found. `);
         }
     } catch (error) {
         console.error(error);
@@ -86,7 +86,7 @@ export async function updateRecipe(recipe) {
         const response = await axios.post(`${API_URL}/${recipe.id}`, recipe, init);
 
         if (response.status === 400) {
-            return Promise.reject('Recipe: ${id} was not found. ');
+            return Promise.reject(`Recipe: ${recipe.id} was not found. `);
         } else if (response.status === 400) {
             return Promise.reject(response.data);
         } else if (response.status === 409) {
@@ -117,7 +117,7 @@ export async function deleteRecipeById(id) {
         const response = await axios.delete(`${API_URL}/${id}`);
 
         if (response.status === 400) {
-            return Promise.reject('Recipe: ${id} was not found. ');
+            return Promise.reject(`Recipe: ${id} was not found.`);
         }
     } catch (error) {
         console.error(error);

@@ -19,7 +19,7 @@ export async function findGroceryListById(id) {
         if (response.status === 200) {
             return response.data;
         } else {
-            return Promise.reject('GroceryList: ${id} was not found. ');
+            return Promise.reject(`GroceryList: ${id} was not found.`);
         }
     } catch (error) {
         console.error(error);
@@ -49,7 +49,7 @@ export async function updateGroceryList(groceryList) {
         const response = await axios.post(`${API_URL}/${groceryList.id}`, groceryList, init);
 
         if (response.status === 400) {
-            return Promise.reject('GroceryList: ${id} was not found. ');
+            return Promise.reject(`GroceryList: ${groceryList.id} was not found.`);
         } else if (response.status === 400) {
             return Promise.reject(response.data);
         } else if (response.status === 409) {
@@ -80,7 +80,7 @@ export async function deleteGroceryListById(id) {
         const response = await axios.delete(`${API_URL}/${id}`);
 
         if (response.status === 400) {
-            return Promise.reject('GroceryList: ${id} was not found. ');
+            return Promise.reject(`GroceryList: ${id} was not found.`);
         }
     } catch (error) {
         console.error(error);

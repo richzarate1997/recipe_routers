@@ -1,6 +1,6 @@
-# recipe_routers
-Dev10 Capstone Project
-By: Alice Wu, Coren Frankel, Richard Zarate
+# GetYum
+Dev10 Capstone Project - *Recipe Routers*
+By: Alice Wu, Coren Frankel, Richard Zarate 
 
 ## Proposal
 We are building a recipe-to-shopping list application that will rely on multiple APIs, a React UI, and Java with MySQL server and database. User accounts will be able to create, read, update & delete recipes from our database. They can also interact with their own curated list of favorite recipes. The secondary functionality of the app allows users to interact with a grocery list feature that correlates with the recipes they may be planning to cook by adding, reading, updating and deleting ingredients from their main or independent lists. 
@@ -79,6 +79,9 @@ Today we will return a schedule of tasks, database schema, class diagram with la
     * [x] Cuisine
         * `int id`
         * `String name`
+    * [x] UserFavorite
+        * `int userId`
+        * `int recipeId`
 
 * [x] Data (13-24 hrs)
     * [x] Mappers
@@ -182,8 +185,11 @@ Today we will return a schedule of tasks, database schema, class diagram with la
     * [ ] Get Recipe
     * [x] Get Joke/Trivia
   * [ ] Java API Endpoints using Axios
+    * [ ] Search Recipes
+    * [ ] Get Recipe
+    * [ ] etc
   * [ ] State Management - Contexts (1 hr)
-    * [ ] AuthContext
+    * [x] AuthContext
     * [ ] RecipeContext
 
 

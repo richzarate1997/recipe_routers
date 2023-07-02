@@ -4,7 +4,6 @@ import learn.agileaprons.data.DataException;
 import learn.agileaprons.domain.IngredientService;
 import learn.agileaprons.domain.Result;
 import learn.agileaprons.models.Ingredient;
-import learn.agileaprons.models.Recipe;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
@@ -17,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@CrossOrigin
+@CrossOrigin( origins = {"http://localhost:3000"})
 @RequestMapping("/api/ingredient")
 public class IngredientController {
     @Autowired

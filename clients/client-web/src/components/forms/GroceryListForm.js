@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { createGroceryList, findGroceryListById, updateGroceryList } from "../../service/groceryListApi";
-import TextField from '@mui/material/TextField';
-import { Autocomplete } from "@mui/material";
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
+import { Autocomplete, Button, Box, TextField } from '@mui/material';
 import Errors from "../Errors";
 
 const EMPTY_GROCERY_LIST = {

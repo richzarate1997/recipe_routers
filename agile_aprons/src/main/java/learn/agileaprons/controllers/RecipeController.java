@@ -5,19 +5,17 @@ import learn.agileaprons.domain.RecipeService;
 import learn.agileaprons.domain.Result;
 import learn.agileaprons.models.Recipe;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@CrossOrigin
+@CrossOrigin( origins = {"http://localhost:3000"})
 @RequestMapping("/api/recipe")
 public class RecipeController {
 

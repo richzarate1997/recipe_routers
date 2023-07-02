@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { createRecipe, updateRecipe, findRecipeById } from "../../service/RecipeApi";
-import TextField from '@mui/material/TextField';
-import { Checkbox, FormControlLabel, FormGroup, FormLabel, FormControl } from "@mui/material";
-import Button from '@mui/material/Button';
-import Box from '@mui/material/Box';
+import { createRecipe, updateRecipe, findRecipeById } from "../../service/recipeApi";
+import { Box, Button, Checkbox, FormControlLabel, FormGroup, FormLabel, FormControl, TextField } from "@mui/material";
 import Errors from "../Errors";
 
 const EMPTY_RECIPE = {
