@@ -7,11 +7,13 @@ function FunFact() {
     const [text, setText] = useState("");
     useEffect(() => {
         if (Math.floor(Math.random() * 2) === 0) {
-            //return getRandomFunFact();
-            setText("haha fun fact");
+            // getRandomFunFact()
+            //     .then(joke => setText(joke))
+            // setText("haha fun fact");
         } else {
-            //setText(getRandomTrivia());
-            setText("haha trivia");
+            // getRandomTrivia()
+            //     .then(trivia => setText(trivia))
+            // setText("haha trivia");
         }
     }, []);
 
