@@ -13,7 +13,7 @@ export async function findAllIngredients() {
     }
 }
 
-export async function findIngredientById(ingredientId) {
+export async function findIngredientById(id) {
     try {
         const response = await axios.get(`${API_URL}/${id}`);
         if (response.status === 200) {
