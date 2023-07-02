@@ -10,8 +10,8 @@ public class CuisineMapper implements RowMapper<Cuisine> {
     @Override
     public Cuisine mapRow(ResultSet rs, int rowNum) throws SQLException {
         Cuisine cuisine = new Cuisine();
-        cuisine.setId(rs.getInt("id"));
-        cuisine.setName(rs.getString("name"));
+        cuisine.setId(rs.getInt("cuisine_id"));
+        cuisine.setName(rs.getString("cuisine_name"));
         return cuisine;
     }
 }

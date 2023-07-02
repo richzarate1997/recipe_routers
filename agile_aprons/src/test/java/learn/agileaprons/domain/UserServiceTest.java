@@ -14,10 +14,8 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 public class UserServiceTest {
-
     @MockBean
     UserRepository repository;
-
     @Autowired
     UserService service;
 
@@ -27,9 +25,7 @@ public class UserServiceTest {
         user.setId(1);
 
         when(repository.findById(1)).thenReturn(user);
-
         User actual = service.findById(1);
-
         assertEquals(user, actual);
     }
 
@@ -48,7 +44,6 @@ public class UserServiceTest {
 
     private User makeUser(){
         User user = new User();
-        user.setId(3);
         user.setDisplayName("Jim");
         user.setMetric(false);
         return user;

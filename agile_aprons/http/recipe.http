@@ -3,10 +3,10 @@
 GET {{url}} HTTP/1.1
 
 ###
-GET {{url}}/2 HTTP/1.1
+GET {{url}}/3 HTTP/1.1
 
 ###
-GET {{url}}/search/rice HTTP/1.1
+GET {{url}}/search/pepp HTTP/1.1
 
 ###
 POST {{url}} HTTP/1.1
@@ -14,7 +14,7 @@ Content-Type: application/json
 
 {
   "id": 0,
-  "userId": 1,
+  "userId": 2,
   "title": "Pepper Pot",
   "instructions": "Make a pot of peppers for dinner, and enjoy them.",
   "servings": 10,
@@ -29,6 +29,20 @@ Content-Type: application/json
   "ingredients": [
     {
       "ingredient": {
+        "id": 1,
+        "name": "Cheese",
+        "imageUrl": "https://cheese.com/cheese.jpg",
+        "aisle": "Dairy"
+      },
+      "quantity": 16.0,
+      "unit": {
+        "id": 4,
+        "name": "cup",
+        "abbreviation": "c"
+      }
+    },
+    {
+      "ingredient": {
         "id": 3,
         "name": "Tomato",
         "imageUrl": "https://tomato.com/tomato.jpg",
@@ -36,7 +50,7 @@ Content-Type: application/json
       },
       "quantity": 1.0,
       "unit": {
-        "id": 3,
+        "id": 14,
         "name": "count",
         "abbreviation": "ct"
       }
@@ -50,7 +64,7 @@ Content-Type: application/json
       },
       "quantity": 1.0,
       "unit": {
-        "id": 4,
+        "id": 14,
         "name": "count",
         "abbreviation": "ct"
       }
@@ -64,7 +78,7 @@ Content-Type: application/json
       },
       "quantity": 12.0,
       "unit": {
-        "id": 5,
+        "id": 14,
         "name": "count",
         "abbreviation": "ct"
       }
@@ -79,12 +93,12 @@ Content-Type: application/json
 }
 
 ###
-PUT {{url}}/4
+PUT {{url}}/2
 Content-Type: application/json
 
 {
-  "id": 7,
-  "userId": 1,
+  "id": 2,
+  "userId": 2,
   "title": "Pepper Pots' Pepper Pot",
   "instructions": "Make a pot of peppers for dinner, and enjoy them.",
   "servings": 12,
@@ -98,43 +112,46 @@ Content-Type: application/json
   "dairyFree": false,
   "ingredients": [
     {
+      "recipeId": 2,
+      "ingredient": {
+        "id": 1,
+        "name": "Cheese",
+        "imageUrl": "https://cheese.com/cheese.jpg",
+        "aisle": "Dairy"
+      },
+      "quantity": 16.0,
+      "unit": {
+        "id": 4,
+        "name": "cup",
+        "abbreviation": "c"
+      }
+    },
+    {
+      "recipeId": 2,
+      "ingredient": {
+        "id": 2,
+        "name": "Dough",
+        "imageUrl": "http://bread.com/bread.jpg",
+        "aisle": "Bakery"
+      },
+      "quantity": 16.0,
+      "unit": {
+        "id": 2,
+        "name": "ounce",
+        "abbreviation": "oz"
+      }
+    },
+    {
+      "recipeId": 2,
       "ingredient": {
         "id": 3,
         "name": "Tomato",
         "imageUrl": "https://tomato.com/tomato.jpg",
         "aisle": "Produce"
       },
-      "quantity": 1.0,
+      "quantity": 0.005,
       "unit": {
-        "id": 3,
-        "name": "count",
-        "abbreviation": "ct"
-      }
-    },
-    {
-      "ingredient": {
-        "id": 4,
-        "name": "Bell Pepper",
-        "imageUrl": "http://google.com/pepper.jpg",
-        "aisle": "Produce"
-      },
-      "quantity": 1.0,
-      "unit": {
-        "id": 4,
-        "name": "count",
-        "abbreviation": "ct"
-      }
-    },
-    {
-      "ingredient": {
-        "id": 5,
-        "name": "Corn Tortilla",
-        "imageUrl": "http://bread.com/bread.jpg",
-        "aisle": null
-      },
-      "quantity": 12.0,
-      "unit": {
-        "id": 5,
+        "id": 14,
         "name": "count",
         "abbreviation": "ct"
       }
@@ -147,3 +164,6 @@ Content-Type: application/json
     }
   ]
 }
+
+###
+DELETE {{url}}/3 HTTP/1.1

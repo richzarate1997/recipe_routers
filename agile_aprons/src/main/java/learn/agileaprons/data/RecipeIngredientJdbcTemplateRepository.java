@@ -40,10 +40,15 @@ public class RecipeIngredientJdbcTemplateRepository implements RecipeIngredientR
 
     @Override
     public boolean deleteByKey(int recipeId, int ingredientId) {
-
         final String sql = "delete from recipe_ingredient " +
                 "where recipe_id = ? and ingredient_id = ?;";
-
         return jdbcTemplate.update(sql, recipeId, ingredientId) > 0;
+    }
+
+    @Override
+    public boolean deleteByRecipe(int recipeId) {
+        final String sql = "delete from recipe_ingredient " +
+                "where recipe_id = ?;";
+        return jdbcTemplate.update(sql, recipeId) > 0;
     }
 }
