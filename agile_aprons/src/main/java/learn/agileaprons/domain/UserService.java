@@ -30,11 +30,6 @@ public class UserService {
             return result;
         }
 
-        if (user.getId() > 0) {
-            result.addMessage("Cannot create existing user.");
-            return result;
-        }
-
         user = userRepository.create(user);
         result.setPayload(user);
         return result;

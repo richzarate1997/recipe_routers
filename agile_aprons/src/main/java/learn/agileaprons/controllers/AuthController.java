@@ -77,7 +77,10 @@ public class AuthController {
         HashMap<String, Integer> map = new HashMap<>();
         map.put("appUserId", result.getPayload().getAppUserId());
         User user = new User(result.getPayload().getAppUserId(), credentials.getUsername());
-        userService.create(user);
+        Result<User> newUser = userService.create(user);
+        if (!newUser.isSuccess()) {
+            return new ResponseEntity<>("There was a problem creating user settings.", HttpStatus.CONFLICT);
+        }
         return new ResponseEntity<>(map, HttpStatus.CREATED);
     }
 
