@@ -10,3 +10,9 @@ Content-Type: application/json
   "id": 4,
   "displayName": "PersonalSpaceInvader"
 }
+
+###
+GET {{url}}/1 HTTP/1.1
+
+###
+DELETE {{url}}/1/list-delete/1 HTTP/1.1

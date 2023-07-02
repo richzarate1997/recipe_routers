@@ -59,7 +59,7 @@ public class UserController {
         return ErrorResponse.build(result);
     }
 
-    @DeleteMapping("{userId}/list/delete/{listId}")
+    @DeleteMapping("/{userId}/list-delete/{listId}")
     public ResponseEntity<Void> deleteGroceryListById(@PathVariable int userId, @PathVariable int listId) {
         // Temporary stop on non-matching grocery lists -- wrong user -----------------************
         User user = service.findById(userId);
