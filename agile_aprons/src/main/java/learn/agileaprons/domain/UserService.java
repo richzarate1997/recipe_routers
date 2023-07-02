@@ -2,8 +2,6 @@ package learn.agileaprons.domain;
 
 import learn.agileaprons.data.DataException;
 import learn.agileaprons.data.UserRepository;
-import learn.agileaprons.models.Recipe;
-import learn.agileaprons.models.RecipeIngredient;
 import learn.agileaprons.models.User;
 import org.springframework.stereotype.Service;
 

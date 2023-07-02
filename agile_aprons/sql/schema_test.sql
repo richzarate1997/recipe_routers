@@ -44,7 +44,7 @@ CREATE TABLE `app_user_role` (
 -- -----------------------------------------------------
 CREATE TABLE `user` (
   `app_user_id` INT NOT NULL,
-  `display_name` VARCHAR(255) NOT NULL,
+  `display_name` VARCHAR(25) NOT NULL,
   `is_metric` BIT(1) NOT NULL DEFAULT 1,
   CONSTRAINT `pk_user_id`
 	PRIMARY KEY (`app_user_id`),

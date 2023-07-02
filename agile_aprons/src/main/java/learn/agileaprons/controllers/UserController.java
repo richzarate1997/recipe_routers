@@ -59,6 +59,21 @@ public class UserController {
         return ErrorResponse.build(result);
     }
 
+    @DeleteMapping("{userId}/list/delete/{listId}")
+    public ResponseEntity<Void> deleteGroceryListById(@PathVariable int userId, @PathVariable int listId) {
+        // Temporary stop on non-matching grocery lists -- wrong user -----------------************
+        User user = service.findById(userId);
+        if (user.getMyLists().stream().noneMatch(groceryList -> groceryList.getId() == listId)) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        // ------------------------^^^^^^^^^^^^---------------------------------^^^^^^^^^^^^-------
+
+        if (groceryListService.deleteById(listId)) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
 
     private void addGroceryListIngredients(GroceryList groceries) {
         groceries.setList(groceryListService.findById(groceries.getId()).getList());

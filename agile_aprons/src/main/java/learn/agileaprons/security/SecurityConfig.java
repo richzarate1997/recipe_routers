@@ -44,7 +44,7 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.POST, "/api/ingredient", "/api/recipe").permitAll()
                 // Replace ^ with authenticated permission only for posts below later \/
 //                .antMatchers(HttpMethod.POST, "/api/ingredient", "/api/recipe", "/api/user").authenticated()
-                .antMatchers(HttpMethod.PUT, "/api/recipe/*").permitAll()
+                .antMatchers(HttpMethod.PUT, "/api/recipe/*", "/api/user/*").permitAll()
                 // Replace ^ with authenticated permission only for posts below later \/
 //                .antMatchers(HttpMethod.PUT, "/api/*").authenticated()
                 .antMatchers(HttpMethod.DELETE, "/api/recipe/*").permitAll()
