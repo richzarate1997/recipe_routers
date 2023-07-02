@@ -1,7 +1,10 @@
 package learn.agileaprons.controllers;
 
+import learn.agileaprons.data.DataException;
 import learn.agileaprons.domain.Result;
+import learn.agileaprons.domain.UserService;
 import learn.agileaprons.models.AppUser;
+import learn.agileaprons.models.User;
 import learn.agileaprons.security.AppUserService;
 import learn.agileaprons.security.Credentials;
 import learn.agileaprons.security.JwtConverter;
@@ -27,12 +30,14 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final JwtConverter jwtConverter;
     private final AppUserService appUserService;
+    private final UserService userService;
 
     public AuthController(AuthenticationManager authenticationManager,
-                          JwtConverter jwtConverter, AppUserService appUserService) {
+                          JwtConverter jwtConverter, AppUserService appUserService, UserService userService) {
         this.authenticationManager = authenticationManager;
         this.jwtConverter = jwtConverter;
         this.appUserService = appUserService;
+        this.userService = userService;
     }
 
     @PostMapping("/authenticate")
@@ -62,7 +67,7 @@ public class AuthController {
     }
 
     @PostMapping("/create-account")
-    public ResponseEntity<Object> create(@RequestBody Credentials credentials) {
+    public ResponseEntity<Object> create(@RequestBody Credentials credentials) throws DataException {
         Result<AppUser> result = appUserService.create(credentials);
 
         if (!result.isSuccess()) {
@@ -71,7 +76,8 @@ public class AuthController {
 
         HashMap<String, Integer> map = new HashMap<>();
         map.put("appUserId", result.getPayload().getAppUserId());
-
+        User user = new User(result.getPayload().getAppUserId(), credentials.getUsername());
+        userService.create(user);
         return new ResponseEntity<>(map, HttpStatus.CREATED);
     }
 

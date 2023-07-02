@@ -15,6 +15,13 @@ public class User {
     private List<Recipe> myFavorites = new ArrayList<>();
     private List<GroceryList> myLists = new ArrayList<>();
 
+    public User() {}
+
+    public User(int id, String displayName) {
+        this.id = id;
+        this.displayName = displayName;
+    }
+
     public int getId() {
         return id;
     }
