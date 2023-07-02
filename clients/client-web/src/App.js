@@ -6,6 +6,7 @@ import Profile from "./components/Profile";
 import Login from "./components/Login";
 import Footer from "./components/Footer";
 import IngredientForm from "./components/forms/IngredientForm";
+import GroceryListForm from "./components/forms/GroceryListForm";
 
 import { Route, Routes, BrowserRouter as Router } from "react-router-dom";
 function App() {
@@ -17,6 +18,7 @@ function App() {
         <Routes>
           <Route path="/Home" element={<Home />} />
           <Route path="/Recipes" element={<Recipe />} />
+          <Route path="/GroceryListForm" element={<GroceryListForm />} />
           <Route path="/IngredientForm" element={<IngredientForm />} />
           <Route path="/About" element={<About />} />
           <Route path="/Profile" element={<Profile />} />
