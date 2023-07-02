@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { createGroceryList, findGroceryListById, updateGroceryList } from "../../service/GroceryListApi";
 import TextField from '@mui/material/TextField';
+import { Autocomplete } from "@mui/material";
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Errors from "../Errors";
@@ -103,6 +104,18 @@ function GroceryListForm() {
                         />
                     </div>
                     <div>
+                        <Autocomplete
+                            disablePortal
+                            // id="combo-box-demo"
+                            // options={top100Films}
+                            sx={{ width: 300 }}
+                            renderInput={(params) => <TextField {...params} label="Ingredient" />}
+                        />
+                    </div>
+                    <div>
+                        <Button component={Link} to="/IngredientForm" variant="contained" color="secondary">
+                            Add Ingredient
+                        </Button>
                         <Button component={Link} to="/IngredientForm" variant="contained" color="secondary">
                             Create Ingredient
                         </Button>

@@ -27,6 +27,20 @@ export async function findIngredientById(id) {
     }
 }
 
+export async function findIngredientByName(name) {
+    try {
+        const response = await axios.get(`${API_URL}/search/?name=${encodeURIComponent(name)}`);
+        if (response.status === 200) {
+            return response.data;
+        } else {
+            return Promise.reject(`Ingredient: ${name} was not found.`);
+        }
+    } catch (error) {
+        console.error(error);
+        return Promise.reject(error);
+    }
+}
+
 export async function createIngredient(ingredient) {
     try {
         const init = makeIngredientInit('POST', ingredient);

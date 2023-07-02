@@ -51,7 +51,7 @@ export async function findRecipeById(id) {
 
 export async function findRecipeByTitle(title) {
     try {
-        const response = await axios.get(`${API_URL}/search/?name=${encodeURIComponent(title)}`);
+        const response = await axios.get(`${API_URL}/search/?title=${encodeURIComponent(title)}`);
         if (response.status === 200) {
             return response.data;
         } else {

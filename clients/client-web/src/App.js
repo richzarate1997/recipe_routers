@@ -7,6 +7,7 @@ import Login from "./components/Login";
 import Footer from "./components/Footer";
 import IngredientForm from "./components/forms/IngredientForm";
 import GroceryListForm from "./components/forms/GroceryListForm";
+import RecipeForm from "./components/forms/RecipeForm";
 
 import { Route, Routes, BrowserRouter as Router } from "react-router-dom";
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Routes>
           <Route path="/Home" element={<Home />} />
           <Route path="/Recipes" element={<Recipe />} />
+          <Route path="/RecipeForm" element={<RecipeForm />} />
           <Route path="/GroceryListForm" element={<GroceryListForm />} />
           <Route path="/IngredientForm" element={<IngredientForm />} />
           <Route path="/About" element={<About />} />

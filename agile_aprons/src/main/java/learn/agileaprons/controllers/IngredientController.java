@@ -4,6 +4,7 @@ import learn.agileaprons.data.DataException;
 import learn.agileaprons.domain.IngredientService;
 import learn.agileaprons.domain.Result;
 import learn.agileaprons.models.Ingredient;
+import learn.agileaprons.models.Recipe;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
@@ -34,6 +35,13 @@ public class IngredientController {
             return new ResponseEntity<>(ingredient, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("/search/{param}")
+    public List<Ingredient> findByName(@PathVariable String param) {
+        return service.findAll().stream()
+                .filter(ingredient -> ingredient.getName().toLowerCase().contains(param.toLowerCase()))
+                .collect(Collectors.toList());
     }
 
     @PostMapping
