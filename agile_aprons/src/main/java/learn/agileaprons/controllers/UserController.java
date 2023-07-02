@@ -71,7 +71,39 @@ public class UserController {
         return ErrorResponse.build(result);
     }
 
-    
+    @PostMapping("/list/add")
+    public ResponseEntity<Object> createGroceryList(@RequestBody @Valid GroceryList groceryList,
+                                                    BindingResult bindingResult) throws DataException {
+        if (bindingResult.hasErrors()) {
+            List<String> errors = bindingResult.getAllErrors().stream()
+                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                    .collect(Collectors.toList());
+
+            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        }
+        Result<GroceryList> result = groceryListService.create(groceryList);
+        if (result.isSuccess()) {
+            return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
+        }
+        return ErrorResponse.build(result);
+    }
+
+    @PutMapping("/list/update")
+    public ResponseEntity<Object> updateGroceryList(@RequestBody @Valid GroceryList groceryList,
+                                                    BindingResult bindingResult) throws DataException {
+        if (bindingResult.hasErrors()) {
+            List<String> errors = bindingResult.getAllErrors().stream()
+                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                    .collect(Collectors.toList());
+
+            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        }
+        Result<GroceryList> result = groceryListService.update(groceryList);
+        if (result.isSuccess()) {
+            return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
+        }
+        return ErrorResponse.build(result);
+    }
 
     @DeleteMapping("/{userId}/list/{listId}")
     public ResponseEntity<Void> deleteGroceryListById(@PathVariable int userId, @PathVariable int listId) {

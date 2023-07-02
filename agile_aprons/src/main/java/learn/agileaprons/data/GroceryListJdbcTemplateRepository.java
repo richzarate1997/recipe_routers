@@ -63,8 +63,8 @@ public class GroceryListJdbcTemplateRepository implements GroceryListRepository{
             return null;
         }
 
-        addGroceryListIngredients(groceryList);
         groceryList.setId(Objects.requireNonNull(keyHolder.getKey()).intValue());
+        addGroceryListIngredients(groceryList);
         return groceryList;
     }
 

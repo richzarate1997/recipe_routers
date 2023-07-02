@@ -15,6 +15,54 @@ Content-Type: application/json
 GET {{url}}/1 HTTP/1.1
 
 ###
+POST {{url}}/list/add HTTP/1.1
+Content-Type: application/json
+
+{
+  "id": 0,
+  "userId": 1,
+  "name": "Urgent Groceries",
+  "list": [
+    {
+      "id": 3,
+      "name": "Tomato",
+      "imageUrl": "https://tomato.com/tomato.jpg",
+      "aisle": "Produce"
+    },
+    {
+      "id": 4,
+      "name": "Bell Pepper",
+      "imageUrl": "http://google.com/pepper.jpg",
+      "aisle": "Produce"
+    },
+    {
+      "id": 5,
+      "name": "Corn Tortilla",
+      "imageUrl": "http://bread.com/bread.jpg",
+      "aisle": null
+    }
+  ]
+}
+
+###
+PUT {{url}}/list/update HTTP/1.1
+Content-Type: application/json
+
+{
+  "id": 5,
+  "userId": 1,
+  "name": "Semi Urgent Groceries",
+  "list": [
+    {
+      "id": 3,
+      "name": "Tomato",
+      "imageUrl": "https://tomato.com/tomato.jpg",
+      "aisle": "Produce"
+    }
+  ]
+}
+
+###
 DELETE {{url}}/1/list/1 HTTP/1.1
 
 ###
