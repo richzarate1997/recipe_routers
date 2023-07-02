@@ -42,10 +42,25 @@ public class UserServiceTest {
         assertEquals(expectedUser, actual.getPayload());
     }
 
+    @Test
+    void shouldNotCreateNullUser() throws DataException {
+        Result<User> actual = service.create(null);
+        assertFalse(actual.isSuccess());
+        assertEquals("User cannot be null.", actual.getMessages().get(0));
+    }
+
+    @Test
+    void shouldNotCreateWithNullDisplayName() throws DataException {
+        User user = makeUser();
+        user.setDisplayName(null);
+        Result<User> actual = service.create(user);
+        assertFalse(actual.isSuccess());
+        assertEquals("User display name cannot be null.", actual.getMessages().get(0));
+    }
+
     private User makeUser(){
-        User user = new User();
+        User user = new User(); //useMetric defaults false
         user.setDisplayName("Jim");
-        user.setMetric(false);
         return user;
     }
 }

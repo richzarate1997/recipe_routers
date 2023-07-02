@@ -8,8 +8,7 @@ import java.util.List;
 
 public class User {
     private int id;
-    @NotNull
-    @Value("")
+    @NotNull(message = "User display name cannot be null.")
     private String displayName;
     private boolean isMetric = true;
     private List<Recipe> myRecipes = new ArrayList<>();
