@@ -62,43 +62,33 @@ public class RecipeService {
         return result;
     }
 
-    public boolean deleteById(Recipe recipe) {
-        return recipeRepository.deleteById(recipe.getId());
+    public Result<Recipe> deleteById(int recipeId) {
+        Result<Recipe> result = new Result<>();
+        if (!recipeRepository.deleteById(recipeId)) {
+            result.addMessage(String.format("Recipe %s does not exist.", recipeId), ResultType.NOT_FOUND);
+        }
+        return result;
     }
 
-    public Result<Void> addIngredient(RecipeIngredient recipeIngredient) {
-        Result<Void> result = validate(recipeIngredient);
+    public void addIngredients(Result<Recipe> result) {
+        Recipe recipe = result.getPayload();
+        recipe.getIngredients().forEach(recipeIngredient -> recipeIngredient.setRecipeId(recipe.getId()));
+        recipe.getIngredients().forEach(recipeIngredient -> addIngredient(recipeIngredient, result));
+    }
 
+    public void updateIngredients(Recipe recipe, Result<Recipe> result) {
+        recipeIngredientRepository.deleteByRecipe(recipe.getId());
+        recipe.getIngredients().forEach(recipeIngredient -> addIngredient(recipeIngredient, result));
+    }
+
+    private void addIngredient(RecipeIngredient recipeIngredient, Result<Recipe> result) {
+        validate(recipeIngredient, result);
         if (!result.isSuccess()) {
-            return result;
+            return;
         }
-
         if (!recipeIngredientRepository.create(recipeIngredient)) {
             result.addMessage("An ingredient was not added.", ResultType.INVALID);
         }
-
-        return result;
-    }
-
-    public Result<Void> updateIngredient(RecipeIngredient recipeIngredient) {
-        Result<Void> result = validate(recipeIngredient);
-
-        if (!result.isSuccess()) {
-            return result;
-        }
-
-        if (!recipeIngredientRepository.update(recipeIngredient)) {
-            String msg = String.format("Update failed for recipe id %s, ingredient %s: not found.",
-                    recipeIngredient.getRecipeId(),
-                    recipeIngredient.getIngredient().getId());
-            result.addMessage(msg, ResultType.NOT_FOUND);
-        }
-
-        return result;
-    }
-
-    private boolean deleteIngredientByKey(int recipeId, int ingredientId) {
-        return recipeIngredientRepository.deleteByKey(recipeId, ingredientId);
     }
 
     private Result<Recipe> validate(Recipe recipe) {
@@ -116,8 +106,7 @@ public class RecipeService {
         return result;
     }
 
-    private Result<Void> validate(RecipeIngredient recipeIngredient) {
-        Result<Void> result = new Result<>();
+    private Result<Recipe> validate(RecipeIngredient recipeIngredient, Result<Recipe> result) {
 
         if (recipeIngredient == null) {
             result.addMessage("Cannot add a null ingredient to recipe.", ResultType.INVALID);

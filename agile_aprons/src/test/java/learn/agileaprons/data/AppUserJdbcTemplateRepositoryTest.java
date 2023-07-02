@@ -73,5 +73,8 @@ class AppUserJdbcTemplateRepositoryTest {
 
         AppUser updatedTester = repository.findByUsername("test@user.com");
         assertFalse(updatedTester.isEnabled());
+
+        tester.setEnabled(true);
+        repository.update(tester);
     }
 }

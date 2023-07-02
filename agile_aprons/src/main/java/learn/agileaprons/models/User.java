@@ -2,19 +2,29 @@ package learn.agileaprons.models;
 
 import org.springframework.beans.factory.annotation.Value;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
 public class User {
     private int id;
-    @NotNull
-    @Value("")
+    @NotNull(message = "User display name cannot be null.")
+    @Size(min = 2, max = 25, message = "User display name must be between 2 and 25 characters.")
     private String displayName;
     private boolean isMetric = true;
     private List<Recipe> myRecipes = new ArrayList<>();
     private List<Recipe> myFavorites = new ArrayList<>();
     private List<GroceryList> myLists = new ArrayList<>();
+
+    public User() {}
+
+    public User(int id, String displayName) {
+        this.id = id;
+        this.displayName = displayName;
+    }
 
     public int getId() {
         return id;

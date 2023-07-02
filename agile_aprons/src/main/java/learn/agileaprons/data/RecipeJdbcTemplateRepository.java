@@ -14,7 +14,6 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Repository
 public class RecipeJdbcTemplateRepository implements RecipeRepository {
@@ -70,7 +69,7 @@ public class RecipeJdbcTemplateRepository implements RecipeRepository {
             ps.setBoolean(10, recipe.isDairyFree());
             ps.setString(11, recipe.getSourceUrl());
             ps.setInt(12, recipe.getUserId());
-            ps.setBytes(13, recipe.getImage()); //is this correct?
+            ps.setBytes(13, recipe.getImage());
             return ps;
         }, keyHolder);
 
@@ -133,7 +132,7 @@ public class RecipeJdbcTemplateRepository implements RecipeRepository {
     }
 
     private void addIngredients(Recipe recipe) {
-        final String sql = "select i.id, i.name, i.image_url, i.aisle, ri.recipe_id, ri.quantity, u.name unit_name, u.abbrev " +
+        final String sql = "select i.id, i.name, i.image_url, i.aisle, ri.recipe_id, ri.quantity, u.id unit_id, u.name unit_name, u.abbrev " +
                 "from ingredient i " +
                 "join recipe_ingredient ri on i.id = ri.ingredient_id " +
                 "join recipe r on r.id = ri.recipe_id " +
@@ -144,7 +143,7 @@ public class RecipeJdbcTemplateRepository implements RecipeRepository {
     }
 
     private void addCuisines(Recipe recipe) {
-        final String sql = "select c.id, c.name " +
+        final String sql = "select c.id cuisine_id, c.name cuisine_name " +
                 "from cuisine c " +
                 "join recipe_cuisine rc on c.id = rc.cuisine_id " +
                 "join recipe r on r.id = rc.recipe_id " +

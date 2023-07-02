@@ -49,7 +49,7 @@ Today we will return a schedule of tasks, database schema, class diagram with la
         * `int id`
         * `String title`
         * `String imgUrl`
-        * `Blob image`
+        * `byte [] image`
         * `List<Ingredients> ingredients`
         * `List<Cuisine> cuisines`
         * `String instructions`
@@ -80,7 +80,7 @@ Today we will return a schedule of tasks, database schema, class diagram with la
         * `int id`
         * `String name`
 
-* [x] Data (13-13.5 hrs)
+* [x] Data (13-24 hrs)
     * [x] Mappers
     * [x] App User Repo / Interface
     * [x] User Repo / Interface
@@ -93,34 +93,34 @@ Today we will return a schedule of tasks, database schema, class diagram with la
     * [x] Cuisine Repo / Interface
     * [x] Testing
 
-* [ ] Domain (4-4.5 hrs)
-  * Java Validation API
+* [x] Domain (4-4.5 hrs)
+  * [x] Java Validation API
     * [x] Result / Result Type 
-    * [ ] User Service
-    * [ ] Recipe Service
-    * [ ] Grocery List Service
+    * [x] User Service
+    * [x] Recipe Service
+    * [x] Grocery List Service
     * [x] Ingredient Service
     * [x] Unit Service
     * [x] Cuisine Service
-    * [ ] Testing
+    * [x] Testing
 
 * [ ] Security (1.5 hrs)
-    * [ ] App User Service
+    * [x] App User Service
     * [x] Credentials
     * [x] JWT Converter
     * [x] JWT Request Filter
-    * [ ] Security Config
-    * [ ] Testing
+    * [ ] Security Config -- Authorized Routes
+    * [x] Manual Testing
 
-* [ ] Controller (3 hrs)
-    * [ ] Auth Controller
-    * [ ] UserController
+* [x] Controller (3 hrs)
+    * [x] Auth Controller
+    * [x] UserController
     * [x] Ingredient Controller
-    * [ ] Recipe Controller
+    * [x] Recipe Controller
     * [x] Unit Controller
     * [x] ErrorResponse
     * [x] GlobalExceptionHandler
-    * [ ] Manual Testing
+    * [x] Manual Testing
 
 * [x] Root / learn (5 mins)
     * [x] App

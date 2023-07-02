@@ -25,6 +25,7 @@ public class RecipeServiceTest {
     @MockBean
     RecipeIngredientRepository ingredientRepository;
 
+
     @Autowired
     RecipeService service;
 

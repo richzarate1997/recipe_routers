@@ -50,24 +50,48 @@ public class RecipeController {
                                          BindingResult bindingResult) throws DataException {
         if (bindingResult.hasErrors()) {
             List<String> errors = bindingResult.getAllErrors().stream()
-                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                    .map(err -> err.getDefaultMessage())
                     .collect(Collectors.toList());
 
             return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
         }
         Result<Recipe> result = service.create(recipe);
         if (result.isSuccess()) {
-            recipe.setId(result.getPayload().getId());
-            recipe.getIngredients().forEach(recipeIngredient ->
-                    recipeIngredient.setRecipeId(recipe.getId()));
-            List<Result<Void>> results = new ArrayList<>();
-            recipe.getIngredients().forEach(recipeIngredient ->
-                    results.add(service.addIngredient(recipeIngredient)));
-            if (results.stream().allMatch(Result::isSuccess)) {
-                return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
-            }
+            service.addIngredients(result);
+            return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
         }
         return ErrorResponse.build(result);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> update(@PathVariable int id,
+                                         @RequestBody @Valid Recipe recipe,
+                                         BindingResult bindingResult) throws DataException {
+        if (id != recipe.getId()) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+        if (bindingResult.hasErrors()) {
+            List<String> errors = bindingResult.getAllErrors().stream()
+                    .map(err -> err.getDefaultMessage())
+                    .collect(Collectors.toList());
+
+            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        }
+        Result<Recipe> result = service.update(recipe);
+        if (result.isSuccess()) {
+            service.updateIngredients(recipe, result);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return ErrorResponse.build(result);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteById(@PathVariable int id) {
+        Result<Recipe> result = service.deleteById(id);
+        if (result.isSuccess()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 }

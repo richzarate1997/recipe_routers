@@ -34,11 +34,12 @@ public class GroceryListJdbcTemplateRepository implements GroceryListRepository{
     }
 
     @Override
+    @Transactional
     public GroceryList findById(int id) {
         final String sql = "select id, user_app_user_id, name "
                 + "from grocery_list "
                 + " where id = ?;";
-        GroceryList result =  jdbcTemplate.queryForObject(sql, new GroceryListMapper(), id);
+        GroceryList result = jdbcTemplate.queryForObject(sql, new GroceryListMapper(), id);
         if (result != null){
             addIngredients(result);
         }
@@ -62,8 +63,8 @@ public class GroceryListJdbcTemplateRepository implements GroceryListRepository{
             return null;
         }
 
-        addGroceryListIngredients(groceryList);
         groceryList.setId(Objects.requireNonNull(keyHolder.getKey()).intValue());
+        addGroceryListIngredients(groceryList);
         return groceryList;
     }
 

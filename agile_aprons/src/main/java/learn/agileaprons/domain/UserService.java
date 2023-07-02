@@ -2,8 +2,6 @@ package learn.agileaprons.domain;
 
 import learn.agileaprons.data.DataException;
 import learn.agileaprons.data.UserRepository;
-import learn.agileaprons.models.Recipe;
-import learn.agileaprons.models.RecipeIngredient;
 import learn.agileaprons.models.User;
 import org.springframework.stereotype.Service;
 
@@ -30,11 +28,6 @@ public class UserService {
             return result;
         }
 
-        if (user.getId() > 0) {
-            result.addMessage("Cannot create existing user.");
-            return result;
-        }
-
         user = userRepository.create(user);
         result.setPayload(user);
         return result;
@@ -52,6 +45,14 @@ public class UserService {
         }
 
         return result;
+    }
+
+    // Favorite methods without result feedback
+    public void addFavorite(int userId, int recipeId) {
+        userRepository.addFavorite(userId, recipeId);
+    }
+    public void removeFavorite(int userId, int recipeId) {
+        userRepository.deleteFavorite(userId, recipeId);
     }
 
 

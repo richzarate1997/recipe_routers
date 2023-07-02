@@ -72,6 +72,21 @@ public class UserJdbcTemplateRepository implements UserRepository {
                 user.getId()) > 0;
     }
 
+    // Favorite methods without result feedback
+    @Override
+    public void addFavorite(int userId, int recipeId) {
+        final String sql = "insert into user_favorite (user_app_user_id, recipe_id) " +
+                "values (?, ?);";
+        jdbcTemplate.update(sql, userId, recipeId);
+    }
+
+    @Override
+    public void deleteFavorite(int userId, int recipeId) {
+        final String sql = "delete from user_favorite " +
+                " where user_app_user_id = ? and recipe_id = ?;";
+        jdbcTemplate.update(sql, userId, recipeId);
+    }
+
     private void addRecipes(User user) {
 
         final String sql = "select r.id, r.user_app_user_id, r.title, r.instructions, r.servings, " +

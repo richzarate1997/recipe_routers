@@ -10,7 +10,7 @@ public class UnitMapper implements RowMapper<Unit> {
     @Override
     public Unit mapRow(ResultSet rs, int rowNum) throws SQLException {
         Unit unit = new Unit();
-        unit.setId(rs.getInt("id"));
+        unit.setId(rs.getInt("unit_id"));
         unit.setName(rs.getString("unit_name"));
         unit.setAbbreviation(rs.getString("abbrev"));
         return unit;
