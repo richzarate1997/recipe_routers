@@ -93,7 +93,7 @@ Today we will return a schedule of tasks, database schema, class diagram with la
     * [x] Cuisine Repo / Interface
     * [x] Testing
 
-* [ ] Domain (4-4.5 hrs)
+* [x] Domain (4-4.5 hrs)
   * [x] Java Validation API
     * [x] Result / Result Type 
     * [x] User Service
@@ -102,25 +102,25 @@ Today we will return a schedule of tasks, database schema, class diagram with la
     * [x] Ingredient Service
     * [x] Unit Service
     * [x] Cuisine Service
-    * [ ] Testing
+    * [x] Testing
 
 * [ ] Security (1.5 hrs)
-    * [ ] App User Service
+    * [x] App User Service
     * [x] Credentials
     * [x] JWT Converter
     * [x] JWT Request Filter
-    * [ ] Security Config
-    * [ ] Testing
+    * [ ] Security Config -- Authorized Routes
+    * [x] Manual Testing
 
-* [ ] Controller (3 hrs)
-    * [ ] Auth Controller
-    * [ ] UserController
+* [x] Controller (3 hrs)
+    * [x] Auth Controller
+    * [x] UserController
     * [x] Ingredient Controller
-    * [ ] Recipe Controller
+    * [x] Recipe Controller
     * [x] Unit Controller
     * [x] ErrorResponse
     * [x] GlobalExceptionHandler
-    * [ ] Manual Testing
+    * [x] Manual Testing
 
 * [x] Root / learn (5 mins)
     * [x] App
