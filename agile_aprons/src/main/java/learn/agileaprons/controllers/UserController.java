@@ -4,10 +4,7 @@ import learn.agileaprons.data.DataException;
 import learn.agileaprons.domain.GroceryListService;
 import learn.agileaprons.domain.Result;
 import learn.agileaprons.domain.UserService;
-import learn.agileaprons.models.GroceryList;
-import learn.agileaprons.models.Ingredient;
-import learn.agileaprons.models.Recipe;
-import learn.agileaprons.models.User;
+import learn.agileaprons.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -31,9 +28,9 @@ public class UserController {
     @Autowired
     private GroceryListService groceryListService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<User> findById(@PathVariable int id) {
-        User user = service.findById(id);
+    @GetMapping
+    public ResponseEntity<User> findById(@RequestBody User u) {
+        User user = service.findById(u.getId());
         if (user != null) {
             user.getMyLists().forEach(this::addGroceryListIngredients);
             return new ResponseEntity<>(user, HttpStatus.OK);
@@ -41,22 +38,19 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("/{userId}/favorite/{recipeId}")
-    public void addFavorite(@PathVariable int userId, @PathVariable int recipeId) {
-        service.addFavorite(userId, recipeId);
+    @PostMapping("/favorite")
+    public void addFavorite(@RequestBody UserFavorite userFavorite) {
+        service.addFavorite(userFavorite.getUserId(), userFavorite.getRecipeId());
     }
 
-    @DeleteMapping("/{userId}/favorite/{recipeId}")
-    public void deleteFavorite(@PathVariable int userId, @PathVariable int recipeId) {
-        service.removeFavorite(userId, recipeId);
+    @DeleteMapping("/favorite")
+    public void deleteFavorite(@RequestBody UserFavorite userFavorite) {
+        service.removeFavorite(userFavorite.getUserId(), userFavorite.getRecipeId());
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Object> update(@PathVariable int id, @RequestBody @Valid User user,
+    @PutMapping
+    public ResponseEntity<Object> update(@RequestBody @Valid User user,
                                          BindingResult bindingResult) throws DataException {
-        if (id != user.getId()) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
         if (bindingResult.hasErrors()) {
             List<String> errors = bindingResult.getAllErrors().stream()
                     .map(DefaultMessageSourceResolvable::getDefaultMessage)
@@ -71,7 +65,7 @@ public class UserController {
         return ErrorResponse.build(result);
     }
 
-    @PostMapping("/list/add")
+    @PostMapping("/list")
     public ResponseEntity<Object> createGroceryList(@RequestBody @Valid GroceryList groceryList,
                                                     BindingResult bindingResult) throws DataException {
         if (bindingResult.hasErrors()) {
@@ -88,7 +82,7 @@ public class UserController {
         return ErrorResponse.build(result);
     }
 
-    @PutMapping("/list/update")
+    @PutMapping("/list")
     public ResponseEntity<Object> updateGroceryList(@RequestBody @Valid GroceryList groceryList,
                                                     BindingResult bindingResult) throws DataException {
         if (bindingResult.hasErrors()) {
@@ -105,16 +99,13 @@ public class UserController {
         return ErrorResponse.build(result);
     }
 
-    @DeleteMapping("/{userId}/list/{listId}")
-    public ResponseEntity<Void> deleteGroceryListById(@PathVariable int userId, @PathVariable int listId) {
-        // Temporary stop on non-matching grocery lists -- wrong user -----------------************
-        User user = service.findById(userId);
-        if (user.getMyLists().stream().noneMatch(groceryList -> groceryList.getId() == listId)) {
+    @DeleteMapping("/list")
+    public ResponseEntity<Void> deleteGroceryList(@RequestBody GroceryList list) {
+        User user = service.findById(list.getUserId());
+        if (user.getMyLists().stream().noneMatch(groceryList -> groceryList.getId() == list.getId())) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        // ------------------------^^^^^^^^^^^^---------------------------------^^^^^^^^^^^^-------
-
-        if (groceryListService.deleteById(listId)) {
+        if (groceryListService.deleteById(list.getId())) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

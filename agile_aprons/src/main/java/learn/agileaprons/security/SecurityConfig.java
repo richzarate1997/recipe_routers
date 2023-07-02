@@ -15,7 +15,6 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     private final JwtConverter jwtConverter;
-
     public SecurityConfig(JwtConverter jwtConverter) {
         this.jwtConverter = jwtConverter;
     }
@@ -29,8 +28,12 @@ public class SecurityConfig {
 
         http.authorizeRequests()
                 .antMatchers(HttpMethod.POST,
-                        "/security/authenticate", "/security/create-account").permitAll()
-                .antMatchers(HttpMethod.POST, "/security/refresh-token").authenticated()
+                        "/authenticate",
+                        "/create-account"
+                ).permitAll()
+                .antMatchers(HttpMethod.POST,
+                        "/refresh-token"
+                ).authenticated()
                 .antMatchers(HttpMethod.GET,
                         "/api/ingredient",
                         "/api/ingredient/*",
@@ -39,27 +42,30 @@ public class SecurityConfig {
                         "/api/recipe/search/*",
                         "/api/unit",
                         "/api/cuisine",
-                        "/api/user/*", "/api/user"
+                        "/api/user"
                 ).permitAll()
+//                .antMatchers(HttpMethod.GET,
+//                        "/api/user"
+//                        ).authenticated()
                 .antMatchers(HttpMethod.POST,
                         "/api/ingredient",
                         "/api/recipe",
-                        "/api/user/*/favorite/*",
-                        "/api/user/list/add"
+                        "/api/user/favorite",
+                        "/api/user/list"
                 ).permitAll()
                 // Replace ^ with authenticated permission only for posts below later \/
 //                .antMatchers(HttpMethod.POST, "/api/ingredient", "/api/recipe", "/api/user").authenticated()
                 .antMatchers(HttpMethod.PUT,
                         "/api/recipe/*",
-                        "/api/user/*",
-                        "/api/user/list/update"
+                        "/api/user",
+                        "/api/user/list"
                 ).permitAll()
                 // Replace ^ with authenticated permission only for posts below later \/
 //                .antMatchers(HttpMethod.PUT, "/api/*").authenticated()
                 .antMatchers(HttpMethod.DELETE,
                         "/api/recipe/*",
-                        "/api/user/*/list/*",
-                        "/api/user/*/favorite/*"
+                        "/api/user/list",
+                        "/api/user/favorite"
                 ).permitAll()
                 // Replace ^ with authenticated permission only for posts below later \/
 //                .antMatchers(HttpMethod.DELETE, "/api/*").hasAuthority("ADMIN")
