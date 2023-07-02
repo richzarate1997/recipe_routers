@@ -77,7 +77,7 @@ CREATE TABLE `recipe` (
 
 
 -- -----------------------------------------------------
--- Table `recipe_list`.`app_user_favorite`
+-- Table `recipe_list`.`user_favorite`
 -- -----------------------------------------------------
 CREATE TABLE `user_favorite` (
   `recipe_id` INT NOT NULL,

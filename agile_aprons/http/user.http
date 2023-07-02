@@ -15,4 +15,12 @@ Content-Type: application/json
 GET {{url}}/1 HTTP/1.1
 
 ###
-DELETE {{url}}/1/list-delete/1 HTTP/1.1
+DELETE {{url}}/1/list/1 HTTP/1.1
+
+###
+
+POST {{url}}/1/favorite/3 HTTP/1.1
+
+###
+
+DELETE  {{url}}/1/favorite/3 HTTP/1.1

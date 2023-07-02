@@ -47,6 +47,14 @@ public class UserService {
         return result;
     }
 
+    // Favorite methods without result feedback
+    public void addFavorite(int userId, int recipeId) {
+        userRepository.addFavorite(userId, recipeId);
+    }
+    public void removeFavorite(int userId, int recipeId) {
+        userRepository.deleteFavorite(userId, recipeId);
+    }
+
 
     private Result<User> validate(User user) {
         Result<User> result = new Result<>();
