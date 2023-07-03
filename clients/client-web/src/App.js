@@ -1,9 +1,9 @@
-import Home from "./components/Home";
+import Home from "./components/views/Home";
 import ResponsiveAppBar from "./components/ResponsiveAppBar";
-import Recipe from "./components/Recipe";
-import About from "./components/About"
-import Profile from "./components/Profile";
-import Login from "./components/Login";
+import Recipe from "./components/views/Recipe";
+import About from "./components/views/About"
+import Profile from "./components/views/Profile";
+import Login from "./components/views/Login";
 import Footer from "./components/Footer";
 import IngredientForm from "./components/forms/IngredientForm";
 import GroceryListForm from "./components/forms/GroceryListForm";
@@ -23,21 +23,6 @@ const WAIT_TIME = 1000 * 60 * 14;
 function App() {
     const [user, setUser] = useState(EMPTY_USER);
 
-    const refreshUser = useCallback(() => {
-        refreshToken()
-            .then(existingUser => {
-                setUser(existingUser);
-                setTimeout(refreshUser, WAIT_TIME);
-            })
-            .catch(err => {
-                console.log(err);
-            });
-    }, []);
-
-    useEffect(() => {
-        refreshUser();
-    }, [refreshUser]);
-
     const auth = {
         user: user,
         isLoggedIn() {
@@ -55,22 +40,39 @@ function App() {
             signOut();
         }
     };
+    
+    const refreshUser = useCallback(() => {
+        refreshToken()
+            .then(existingUser => {
+                setUser(existingUser);
+                setTimeout(refreshUser, WAIT_TIME);
+            })
+            .catch(err => {
+                console.log(err);
+                auth.signOut();
+            });
+    }, []);
+    
+    useEffect(() => {
+        refreshUser();
+    }, [refreshUser]);
+
     return (
         <AuthContext.Provider value={auth}>
             <Router>
                 <ResponsiveAppBar />
-                <Footer />
                 <Routes>
-                    <Route path="/Home" element={<Home />} />
                     <Route path="/Recipes" element={<Recipe />} />
-                    <Route path="/RecipeForm" element={<RecipeForm />} />
+                    <Route path="/new/recipe" element={<RecipeForm />} />
                     <Route path="/GroceryListForm" element={<GroceryListForm />} />
                     <Route path="/IngredientForm" element={<IngredientForm />} />
                     <Route path="/About" element={<About />} />
                     <Route path="/Profile" element={<Profile />} />
                     <Route path="/Login" element={<Login />} />
+                    <Route path="/register"  />
                     <Route path="/" element={<Home />} />
                 </Routes>
+                <Footer />
             </Router>
 
         </AuthContext.Provider>

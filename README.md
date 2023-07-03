@@ -148,9 +148,9 @@ Today we will return a schedule of tasks, database schema, class diagram with la
   * [x] ==mui icons== `@mui/icons-material`
   * [x] ==axios== `axios` ==Add'l Learning Goal==
   * [x] ==axios-jwt== `--save axios-jwt`
-  * [x] ==dotenv== `dotenv`
-    * dependant on jwt-decode
+  * [x] dependant on jwt-decode
   * [x] ==any-unit-converter== `any-unit-converter@latest`
+  * [ ] mobile responsive ui
   * Mobile Specific:
     * [ ] ==React Native== `react-native` + `npm install --save @react-native-async-storage/async-storage` + `npx pod-install`
 
@@ -160,23 +160,23 @@ Today we will return a schedule of tasks, database schema, class diagram with la
   * [ ] Card - Individual Result
   * [x] NavBar - Perhaps include search bar
   * [x] Search Bar
-  * [ ] LoginForm
+  * [x] LoginForm
   * [ ] RegisterForm
-  * [ ] Footer - Sticky Footer
+  * [x] Footer - Sticky Footer
   * [ ] About
   * [ ] Profile
     * [ ] Tabs for Faves, User Recipes, & Lists
     * [ ] Lists for grocery lists
-  * [ ] GroceryList
+    * [ ] GroceryList
 * [ ] Routes (1.5 hr)
   * [x] `/` Home - Search Bar - NavBar
-  * [ ] `/login` LoginForm
+  * [x] `/login` LoginForm
   * [ ] `/register` RegisterForm
-  * [ ] `/search/:query` List - Card
-  * [ ] `/about` About
-  * [ ] `/profile` Profile
-  * [ ] `/add` Form
-  * [ ] `/update/:id` Form
+  * [x] `/recipes` List - Card
+  * [x] `/about` About
+  * [x] `/profile` Profile
+  * [x] `/new/recipe` Form
+  * [x] `/update/recipe` Form
   * [ ] `/list/:list_id` GroceryList
 * [ ] Services (2 - 3.5 hrs)
 
@@ -188,10 +188,14 @@ Today we will return a schedule of tasks, database schema, class diagram with la
     * [ ] Search Recipes
     * [ ] Get Recipe
     * [ ] etc
+    * [ ] Get User
   * [ ] State Management - Contexts (1 hr)
     * [x] AuthContext
     * [ ] RecipeContext
 
+* [ ] App assets
+  * [ ] favicon
+  * [ ] Avatar Defaults
 
 ### Presentation (3 hrs)
 * [ ] Slideshow (~8 min duration)
@@ -226,6 +230,16 @@ Today we will return a schedule of tasks, database schema, class diagram with la
 * [ ] App User Roles include Guest, Admin, User
   * Guest Exp: Persist recipe until login/register then return redirect to recipe view
 * [ ] Deal with duplicate Ingredients/Recipes by overriding equals methods and preparing for equivalence comparison with internal objects.
+
+
+### Short Term Task List
+* [ ] Register - Adapt login form to be reused for registering 
+  * [ ] createUser endpoint from authApi, and redirect backward
+* [ ] Recipe Form - Parent component with stepper
+  * [ ] 3 sub components for each part
+  * [ ] save recipe on last step
+  * [ ] Create 
+* [ ] 
 
 
 
