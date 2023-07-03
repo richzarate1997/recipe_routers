@@ -1,6 +1,6 @@
 import Home from "./components/views/Home";
 import ResponsiveAppBar from "./components/ResponsiveAppBar";
-import Recipe from "./components/views/Recipe";
+import Recipe from "./components/Recipe";
 import About from "./components/views/About"
 import Profile from "./components/views/Profile";
 import Login from "./components/views/Login";
