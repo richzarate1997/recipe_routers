@@ -1,12 +1,13 @@
 import { useContext, useState } from "react";
 import { useNavigate} from "react-router";
 import { Link } from "react-router-dom";
-import AuthContext from "../contexts/AuthContext";
-import { authenticate } from "../service/authApi";
-import { TextField, Avatar, Button, FormControlLabel, Container, Box, Grid, Checkbox, Typography } from "@mui/material";
-import Errors from "./Errors";
+import AuthContext from "../../contexts/AuthContext";
+import { authenticate } from "../../service/authApi";
+import { TextField, Avatar, Button, FormControlLabel, Container, Box, Grid, Checkbox, Typography, Tooltip } from "@mui/material";
+import Errors from "../Errors";
 import LockOutlinedIcon  from "@mui/icons-material/LockOutlined";
-import CssBaseline from "@mui/material/CssBaseline";
+
+
 function Login() {
     const [errors, setErrors] = useState([]);
     const [credentials, setCredentials] = useState({
@@ -34,7 +35,6 @@ function Login() {
     // TODO attach handlers to form functions
     return (
         <Container component="main" maxWidth="xs" >
-            <CssBaseline />
             <Box
                 sx={{
                     marginTop: 8,
@@ -49,16 +49,17 @@ function Login() {
                 <Typography component="h1" variant="h5">
                     Sign In
                 </Typography>
-                <Box component="form" sx={{ mt: 1 }}>
+                <Box component="form" sx={{ mt: 1 }} onSubmit={handleSubmit}>
                     <TextField
                         margin="normal"
                         required
                         fullWidth
-                        id="email"
+                        id="username"
                         label="Email Address"
-                        name="email"
+                        name="username"
                         autoComplete="email"
                         autoFocus
+                        onChange={handleChange}
                     />
                     <TextField
                         margin="normal"
@@ -69,6 +70,7 @@ function Login() {
                         type="password"
                         id="password"
                         autoComplete="current-password"
+                        onChange={handleChange}
                     />
                     <FormControlLabel
                         control={<Checkbox value="remember" color="primary" />}
@@ -84,13 +86,15 @@ function Login() {
                     </Button>
                     <Grid container>
                         <Grid item xs>
-                            <Link href="#" variant="body2">
+                            <Tooltip title="Well that sucks!">
+                            <Link variant="body2">
                                 Forgot password?
                             </Link>
+                            </Tooltip>
                         </Grid>
                         <Grid item>
-                            <Link href="#" variant="body2">
-                                {"Don't have an account? Sign Up"}
+                            <Link to="/register" variant="body2">
+                                Don't have an account? Sign Up
                             </Link>
                         </Grid>
                     </Grid>

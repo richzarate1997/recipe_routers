@@ -11,10 +11,13 @@ const EMPTY_RECIPE = {
     cookMinutes: 1,
     imageUrl: '',
     sourceUrl: '',
+    image: null,
     vegetarian: false,
     vegan: false,
     glutenFree: false,
     dairyFree: false,
+    cuisines: [],
+    ingredients: []
 };
 
 function RecipeForm() {
@@ -22,7 +25,6 @@ function RecipeForm() {
     const [errors, setErrors] = useState([]);
 
     const { id } = useParams();
-
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -128,7 +130,6 @@ function RecipeForm() {
                             </FormGroup>
                         </FormControl>
                         <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
-
                             <FormGroup>
                                 <FormControlLabel
                                     control={
@@ -195,7 +196,7 @@ function RecipeForm() {
                                     control={
                                         <Checkbox checked={recipe.glutenFree} onChange={handleChange} name="gluten free" />
                                     }
-                                    label="GLuten Free"
+                                    label="Gluten Free"
                                 />
 
                             </FormGroup>

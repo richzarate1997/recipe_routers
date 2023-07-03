@@ -8,8 +8,9 @@ import FastfoodOutlinedIcon from '@mui/icons-material/FastfoodOutlined';
 import SearchIcon from '@mui/icons-material/Search';
 import LunchDiningOutlinedIcon from '@mui/icons-material/LunchDiningOutlined';
 import { styled, alpha } from '@mui/material/styles';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useContext, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import AuthContext from '../contexts/AuthContext';
 
 const pages = ['Home', 'Recipes', 'About'];
 const settings = ['Profile', 'Login'];
@@ -18,6 +19,8 @@ function ResponsiveAppBar() {
     const [anchorNav, setAnchorNav] = useState(null);
     const [anchorUser, setAnchorUser] = useState(null);
 
+    const location = useLocation();
+    const auth = useContext(AuthContext);
 
     const handleOpenNavMenu = (event) => {
         setAnchorNav(event.currentTarget);
@@ -145,9 +148,14 @@ function ResponsiveAppBar() {
                                 }}>
                                     {pages.map((page) => (
                                         <MenuItem key={page} value={page} onClick={handleCloseNavMenu} >
-                                            <Typography textAlign="center" to={`/${page}`} component={Link}>{page}</Typography>
+                                            <Typography textAlign="center" to={ page === 'Home' ? '/' : `/${page.toLowerCase()}`} component={Link} active={(location.pathname === `/${page}`).toString()}>{page}</Typography>
                                         </MenuItem>
                                     ))}
+                                    {!auth.user.username &&
+                                        <MenuItem value='Login' onClick={handleCloseNavMenu} >
+                                            <Typography textAlign="center" to={'login'} component={Link} active={(location.pathname === `/login`).toString()}>Login</Typography>
+                                        </MenuItem>
+                                    }
                                 </Box>
                             </Menu>
                         </Box>
@@ -172,10 +180,8 @@ function ResponsiveAppBar() {
                         </Typography>
                         <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                             {pages.map((page) => (
-
-
                                 <Button
-                                    to={`/${page}`}
+                                    to={ page === 'Home' ? '/' : `/${page.toLowerCase()}`}
                                     key={page}
                                     onClick={handleCloseNavMenu}
                                     sx={{ my: 2, color: 'white', display: 'block' }}
@@ -183,9 +189,17 @@ function ResponsiveAppBar() {
                                 >
                                     {page}
                                 </Button>
-
-
                             ))}
+                            {!auth.user.username &&
+                                <Button
+                                    to={'/login'}
+                                    onClick={handleCloseNavMenu}
+                                    sx={{ my: 2, color: 'white', display: 'block' }}
+                                    component={Link}
+                                >
+                                    Login
+                                </Button>
+                            }
                         </Box>
                         <Box m={1}>
                             <Search>
@@ -198,7 +212,7 @@ function ResponsiveAppBar() {
                                 />
                             </Search>
                         </Box>
-
+                        {auth.user.username &&
                         <Box sx={{ flexGrow: 0 }}>
                             <Tooltip title="Open settings">
                                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -228,6 +242,7 @@ function ResponsiveAppBar() {
                                 ))}
                             </Menu>
                         </Box>
+                        }
                     </Toolbar>
                 </Container>
             </AppBar>

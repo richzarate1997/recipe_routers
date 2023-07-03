@@ -1,5 +1,5 @@
-import SearchBar from "./SearchBar";
-import FunFact from "./FunFact";
+import SearchBar from "../SearchBar";
+import FunFact from "../FunFact";
 
 function Home() {
     return (

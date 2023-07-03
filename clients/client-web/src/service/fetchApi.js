@@ -10,7 +10,7 @@ export async function getRandomFunFact() {
             'X-RapidAPI-Host': 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com'
         }
     };
-
+    
     try {
         const response = await axios.request(options);
         console.log(response.data.text);
@@ -18,14 +18,9 @@ export async function getRandomFunFact() {
     } catch (error) {
         console.error(error);
     }
-
-
-
 }
 
 export async function getRandomTrivia() {
-    
-
     const options = {
         method: 'GET',
         url: 'https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/food/trivia/random',

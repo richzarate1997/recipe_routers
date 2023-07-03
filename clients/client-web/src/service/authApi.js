@@ -1,4 +1,4 @@
-const url = 'http://localhost:8080/security';
+const url = 'http://localhost:8080';
 
 export async function authenticate(credentials) {
     const init = {
@@ -15,7 +15,7 @@ export async function authenticate(credentials) {
         const data = await response.json();
         return makeUser(data);
     } else {
-        return Promise.reject('Bad crednetials');
+        return Promise.reject('Bad credentials');
     }
 }
 
