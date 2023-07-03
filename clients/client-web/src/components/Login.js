@@ -7,6 +7,8 @@ import { TextField, Avatar, Button, FormControlLabel, Container, Box, Grid, Chec
 import Errors from "./Errors";
 import LockOutlinedIcon  from "@mui/icons-material/LockOutlined";
 import CssBaseline from "@mui/material/CssBaseline";
+
+
 function Login() {
     const [errors, setErrors] = useState([]);
     const [credentials, setCredentials] = useState({
@@ -49,16 +51,17 @@ function Login() {
                 <Typography component="h1" variant="h5">
                     Sign In
                 </Typography>
-                <Box component="form" sx={{ mt: 1 }}>
+                <Box component="form" sx={{ mt: 1 }} onSubmit={handleSubmit}>
                     <TextField
                         margin="normal"
                         required
                         fullWidth
-                        id="email"
+                        id="username"
                         label="Email Address"
-                        name="email"
+                        name="username"
                         autoComplete="email"
                         autoFocus
+                        onChange={handleChange}
                     />
                     <TextField
                         margin="normal"
@@ -69,6 +72,7 @@ function Login() {
                         type="password"
                         id="password"
                         autoComplete="current-password"
+                        onChange={handleChange}
                     />
                     <FormControlLabel
                         control={<Checkbox value="remember" color="primary" />}
@@ -90,7 +94,7 @@ function Login() {
                         </Grid>
                         <Grid item>
                             <Link href="#" variant="body2">
-                                {"Don't have an account? Sign Up"}
+                                Don't have an account? Sign Up
                             </Link>
                         </Grid>
                     </Grid>

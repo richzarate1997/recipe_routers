@@ -1,22 +1,20 @@
 import { Alert } from "@mui/material";
 
 
-function Errors({ errors }){
-    const getErrorList = (error) => {
-        if(Array.isArray(error)) {
-            return error;
-        } else {
-            return [error];
-        }
-    }
+function Errors({ errors }) {
 
     return (
         <>
-            {getErrorList(errors).length > 0 && <Alert severity="error">
-                <ul>
-                    {getErrorList(errors).map(err => <li key={err}>{err}</li>)}
-                </ul>
-                </Alert>}
+            { errors.length > 0 &&
+                <Alert severity="error" style={{ display: 'flex', alignItems: 'center', marginTop: '20px'}}>
+                    <ul style={{listStyle: 'none'}}>
+                        {typeof errors === Array
+                            ? errors.map(err => <li key={err}>{err}</li>)
+                            : <li>{errors}</li>
+                        }
+                    </ul>
+                </Alert>
+            }
         </>
     );
 }
