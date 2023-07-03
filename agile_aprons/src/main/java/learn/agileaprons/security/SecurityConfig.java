@@ -41,14 +41,13 @@ public class SecurityConfig {
                         "/api/recipe/*",
                         "/api/recipe/search/*",
                         "/api/unit",
-                        "/api/cuisine",
-                        "/api/user"
+                        "/api/cuisine"
                 ).permitAll()
-//                .antMatchers(HttpMethod.GET,
+                .antMatchers(HttpMethod.GET,
 //                        "/api/ingredient",
 //                        "/api/ingredient/*",
-//                        "/api/user"
-//                        ).authenticated()
+                        "/api/user/*"
+                        ).authenticated()
                 .antMatchers(HttpMethod.POST,
                         "/api/ingredient",
                         "/api/recipe",

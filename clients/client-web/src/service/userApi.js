@@ -11,17 +11,17 @@ const BASE_URL = process.env.REACT_APP_SERVER_URL
 const API_URL = `${BASE_URL}/api/user`;
 
 export async function findUser() {
-    const { app_user_id: id} = jwtDecode(localStorage.getItem('jwt_token'))
+    const jwtToken = localStorage.getItem('jwt_token');
+    const { app_user_id: id } = jwtDecode(jwtToken)
     try {
         const options = {
-            method: 'POST',
+            method: 'GET',
             headers: {
-                authorization: `Bearer ${localStorage.getItem('jwt_token')}`
+                'Authorization': `Bearer ${jwtToken}`
             },
         }
-        const response = await axios.post(API_URL, { id: id }, options);
+        const response = await axios.get(`${API_URL}/${id}`, options);
         if (response.status === 200) {
-            console.log(response)
             return response.data;
         } else {
             return Promise.reject(`User: ${id} was not found.`);

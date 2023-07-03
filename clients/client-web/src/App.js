@@ -46,7 +46,7 @@ function App() {
             setUser(user);
             setTimeout(refreshUser, WAIT_TIME);
             findUser()
-                .then(data => setUserProps(data))
+                .then(data => setUserProps(...data))
                 .catch(err => console.log(err));
         },
         signOut() {
@@ -62,7 +62,7 @@ function App() {
                 setUser(existingUser);
                 setTimeout(refreshUser, WAIT_TIME);
             })
-            .catch(err => {
+                .catch(err => {
                 console.log(err);
                 auth.signOut();
             });
@@ -71,10 +71,6 @@ function App() {
     useEffect(() => {
         refreshUser();
     }, [refreshUser]);
-
-    // useEffect(() => {
-
-    // }, [user]);
 
     return (
         <AuthContext.Provider value={auth}>

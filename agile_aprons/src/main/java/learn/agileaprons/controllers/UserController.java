@@ -27,9 +27,9 @@ public class UserController {
     @Autowired
     private GroceryListService groceryListService;
 
-    @PostMapping
-    public ResponseEntity<User> findById(@RequestBody User u) {
-        User user = service.findById(u.getId());
+    @GetMapping("/{id}")
+    public ResponseEntity<User> findById(@PathVariable int id) {
+        User user = service.findById(id);
         if (user != null) {
             user.getMyLists().forEach(this::addGroceryListIngredients);
             return new ResponseEntity<>(user, HttpStatus.OK);
