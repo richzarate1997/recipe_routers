@@ -11,6 +11,7 @@ import RecipeForm from "./components/forms/RecipeForm";
 import { Route, Routes, BrowserRouter as Router } from "react-router-dom";
 import { useState, useEffect, useCallback } from "react";
 import { refreshToken, signOut } from "./service/authApi";
+import { findUser } from "./service/userApi";
 import AuthContext from "./contexts/AuthContext";
 
 const EMPTY_USER = {
@@ -18,13 +19,23 @@ const EMPTY_USER = {
     roles: []
 };
 
+const EMPTY_USER_PROPS = {
+    displayName: '',
+    isMetric: false,
+    myRecipes: [],
+    myFavorites: [],
+    myLists: []
+}
+
 const WAIT_TIME = 1000 * 60 * 14;
 
 function App() {
     const [user, setUser] = useState(EMPTY_USER);
+    const [userProps, setUserProps] = useState(EMPTY_USER_PROPS);
 
     const auth = {
         user: user,
+        userProps: userProps,
         isLoggedIn() {
             return !!user.username;
         },
@@ -34,9 +45,13 @@ function App() {
         onAuthenticated(user) {
             setUser(user);
             setTimeout(refreshUser, WAIT_TIME);
+            findUser()
+                .then(data => setUserProps(...data))
+                .catch(err => console.log(err));
         },
         signOut() {
             setUser(EMPTY_USER);
+            setUserProps(EMPTY_USER_PROPS);
             signOut();
         }
     };
@@ -47,7 +62,7 @@ function App() {
                 setUser(existingUser);
                 setTimeout(refreshUser, WAIT_TIME);
             })
-            .catch(err => {
+                .catch(err => {
                 console.log(err);
                 auth.signOut();
             });

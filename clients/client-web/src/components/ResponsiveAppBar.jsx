@@ -1,42 +1,30 @@
 import {
-    AppBar, Avatar, Box, Button, Container,
+    AppBar, Box, Button, Container,
     createTheme, IconButton, InputBase,
-    Menu, MenuItem, ThemeProvider, Toolbar,
-    Tooltip, Typography
+    Menu, MenuItem, ThemeProvider, Toolbar, Tooltip, Typography
 } from '@mui/material/';
 import FastfoodOutlinedIcon from '@mui/icons-material/FastfoodOutlined';
-import SearchIcon from '@mui/icons-material/Search';
 import LunchDiningOutlinedIcon from '@mui/icons-material/LunchDiningOutlined';
 import { styled, alpha } from '@mui/material/styles';
 import { useContext, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import AuthContext from '../contexts/AuthContext';
+import UserIcon from './UserIcon';
+import NavBarSearch from './NavBarSearch';
 
 const pages = ['Home', 'Recipes', 'About'];
-const settings = ['Profile', 'Login'];
 
 function ResponsiveAppBar() {
     const [anchorNav, setAnchorNav] = useState(null);
-    const [anchorUser, setAnchorUser] = useState(null);
-
     const location = useLocation();
     const auth = useContext(AuthContext);
 
     const handleOpenNavMenu = (event) => {
         setAnchorNav(event.currentTarget);
     };
-    const handleOpenUserMenu = (event) => {
-        setAnchorUser(event.currentTarget);
-
-    };
 
     const handleCloseNavMenu = () => {
         setAnchorNav(null);
-
-    };
-
-    const handleCloseUserMenu = () => {
-        setAnchorUser(null);
     };
 
     const darkTheme = createTheme({
@@ -47,48 +35,6 @@ function ResponsiveAppBar() {
             },
         },
     });
-
-    const Search = styled('div')(({ theme }) => ({
-        position: 'relative',
-        borderRadius: theme.shape.borderRadius,
-        backgroundColor: alpha(theme.palette.common.white, 0.15),
-        '&:hover': {
-            backgroundColor: alpha(theme.palette.common.white, 0.25),
-        },
-        marginLeft: 0,
-        width: '100%',
-        [theme.breakpoints.up('sm')]: {
-            marginLeft: theme.spacing(1),
-            width: 'auto',
-        },
-    }));
-
-    const SearchIconWrapper = styled('div')(({ theme }) => ({
-        padding: theme.spacing(0, 2),
-        height: '100%',
-        position: 'absolute',
-        pointerEvents: 'none',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-    }));
-
-    const StyledInputBase = styled(InputBase)(({ theme }) => ({
-        color: 'inherit',
-        '& .MuiInputBase-input': {
-            padding: theme.spacing(1, 1, 1, 0),
-            // vertical padding + font size from searchIcon
-            paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-            transition: theme.transitions.create('width'),
-            width: '100%',
-            [theme.breakpoints.up('sm')]: {
-                width: '12ch',
-                '&:focus': {
-                    width: '20ch',
-                },
-            },
-        },
-    }));
 
     return (
         <ThemeProvider theme={darkTheme}>
@@ -123,7 +69,9 @@ function ResponsiveAppBar() {
                                 onClick={handleOpenNavMenu}
                                 color="inherit"
                             >
-                                <LunchDiningOutlinedIcon />
+                                <Tooltip title="Expand Navigation" >
+                                    <LunchDiningOutlinedIcon />
+                                </Tooltip>
                             </IconButton>
                             <Menu
                                 id="menu-appbar"
@@ -148,7 +96,7 @@ function ResponsiveAppBar() {
                                 }}>
                                     {pages.map((page) => (
                                         <MenuItem key={page} value={page} onClick={handleCloseNavMenu} >
-                                            <Typography textAlign="center" to={ page === 'Home' ? '/' : `/${page.toLowerCase()}`} component={Link} active={(location.pathname === `/${page}`).toString()}>{page}</Typography>
+                                            <Typography textAlign="center" to={page === 'Home' ? '/' : `/${page.toLowerCase()}`} component={Link} active={(location.pathname === `/${page}`).toString()}>{page}</Typography>
                                         </MenuItem>
                                     ))}
                                     {!auth.user.username &&
@@ -181,7 +129,7 @@ function ResponsiveAppBar() {
                         <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                             {pages.map((page) => (
                                 <Button
-                                    to={ page === 'Home' ? '/' : `/${page.toLowerCase()}`}
+                                    to={page === 'Home' ? '/' : `/${page.toLowerCase()}`}
                                     key={page}
                                     onClick={handleCloseNavMenu}
                                     sx={{ my: 2, color: 'white', display: 'block' }}
@@ -201,47 +149,12 @@ function ResponsiveAppBar() {
                                 </Button>
                             }
                         </Box>
-                        <Box m={1}>
-                            <Search>
-                                <SearchIconWrapper>
-                                    <SearchIcon />
-                                </SearchIconWrapper>
-                                <StyledInputBase
-                                    placeholder="Search…"
-                                    inputProps={{ 'aria-label': 'search' }}
-                                />
-                            </Search>
-                        </Box>
-                        {auth.user.username &&
-                        <Box sx={{ flexGrow: 0 }}>
-                            <Tooltip title="Open settings">
-                                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                    <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-                                </IconButton>
-                            </Tooltip>
-                            <Menu
-                                sx={{ mt: '45px' }}
-                                id="menu-appbar"
-                                anchorEl={anchorUser}
-                                anchorOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                keepMounted
-                                transformOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                open={Boolean(anchorUser)}
-                                onClose={handleCloseUserMenu}
-                            >
-                                {settings.map((setting) => (
-                                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                        <Typography textAlign="center" to={`/${setting}`} component={Link}>{setting}</Typography>
-                                    </MenuItem>
-                                ))}
-                            </Menu>
-                        </Box>
+                        {location.pathname !== '/' &&
+                            <NavBarSearch />
+                        }
+                        {
+                            auth.isLoggedIn() &&
+                            <UserIcon />
                         }
                     </Toolbar>
                 </Container>

@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useContext } from 'react';
 import AuthContext from "../contexts/AuthContext";
 import jwtDecode from 'jwt-decode'
+import { json } from 'react-router-dom';
 
 const BASE_URL = process.env.REACT_APP_SERVER_URL
     ? process.env.REACT_APP_SERVER_URL
@@ -9,29 +10,28 @@ const BASE_URL = process.env.REACT_APP_SERVER_URL
 
 const API_URL = `${BASE_URL}/api/user`;
 
-const auth = useContext(AuthContext);
-
 export async function findUser() {
-    const { app_user_id: userId } = jwtDecode(auth.user.token)
+    const jwtToken = localStorage.getItem('jwt_token');
+    const { app_user_id: id } = jwtDecode(jwtToken)
     try {
         const options = {
             method: 'GET',
-            url: API_URL,
             headers: {
-                authorization: `Bearer ${auth.user.token}`,
+                'Authorization': `Bearer ${jwtToken}`
             },
-            body: {
-                id: userId
-            }
         }
-        const response = await axios.get(options);
+        const response = await axios.get(`${API_URL}/${id}`, options);
         if (response.status === 200) {
             return response.data;
         } else {
-            return Promise.reject(`User: ${userId} was not found.`);
+            return Promise.reject(`User: ${id} was not found.`);
         }
     } catch (error) {
         console.error(error);
         return Promise.reject(error);
     }
-} 
+}
+
+
+// export async function update() {
+// }

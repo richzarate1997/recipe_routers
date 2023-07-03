@@ -191,6 +191,7 @@ Today we will return a schedule of tasks, database schema, class diagram with la
     * [ ] Get User
   * [ ] State Management - Contexts (1 hr)
     * [x] AuthContext
+    * [ ] UserContext
     * [ ] RecipeContext
 
 * [ ] App assets
@@ -239,7 +240,7 @@ Today we will return a schedule of tasks, database schema, class diagram with la
   * [ ] 3 sub components for each part
   * [ ] save recipe on last step
   * [ ] Create 
-* [ ] 
+* [ ] Spotify API -- or any semblance of "In Browser Audio"
 
 
 

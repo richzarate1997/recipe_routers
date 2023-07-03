@@ -27,24 +27,14 @@ public class UserController {
     @Autowired
     private GroceryListService groceryListService;
 
-    @GetMapping
-    public ResponseEntity<User> findById(@RequestBody User u) {
-        User user = service.findById(u.getId());
+    @GetMapping("/{id}")
+    public ResponseEntity<User> findById(@PathVariable int id) {
+        User user = service.findById(id);
         if (user != null) {
             user.getMyLists().forEach(this::addGroceryListIngredients);
             return new ResponseEntity<>(user, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-
-    @PostMapping("/favorite")
-    public void addFavorite(@RequestBody UserFavorite userFavorite) {
-        service.addFavorite(userFavorite.getUserId(), userFavorite.getRecipeId());
-    }
-
-    @DeleteMapping("/favorite")
-    public void deleteFavorite(@RequestBody UserFavorite userFavorite) {
-        service.removeFavorite(userFavorite.getUserId(), userFavorite.getRecipeId());
     }
 
     @PutMapping
@@ -62,6 +52,16 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return ErrorResponse.build(result);
+    }
+
+    @PostMapping("/favorite")
+    public void addFavorite(@RequestBody UserFavorite userFavorite) {
+        service.addFavorite(userFavorite.getUserId(), userFavorite.getRecipeId());
+    }
+
+    @DeleteMapping("/favorite")
+    public void deleteFavorite(@RequestBody UserFavorite userFavorite) {
+        service.removeFavorite(userFavorite.getUserId(), userFavorite.getRecipeId());
     }
 
     @PostMapping("/list")
