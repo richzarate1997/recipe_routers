@@ -68,8 +68,8 @@ function App() {
                     <Route path="/ingredient" element={<IngredientForm />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/profile" element={<Profile />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/register" element={<Login />} />
+                    <Route path="/login" element={<Login heading="Sign In" buttonText="Sign In"/>} />
+                    <Route path="/register" element={<Login heading="Register" buttonText="Register" isRegistration={true}/>} />
                     <Route path="/" element={<Home />} />
                 </Routes>
                 <Footer />
