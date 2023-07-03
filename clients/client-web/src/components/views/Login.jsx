@@ -6,7 +6,6 @@ import { authenticate } from "../../service/authApi";
 import { TextField, Avatar, Button, FormControlLabel, Container, Box, Grid, Checkbox, Typography, Tooltip } from "@mui/material";
 import Errors from "../Errors";
 import LockOutlinedIcon  from "@mui/icons-material/LockOutlined";
-import CssBaseline from "@mui/material/CssBaseline";
 
 
 function Login() {
@@ -36,7 +35,6 @@ function Login() {
     // TODO attach handlers to form functions
     return (
         <Container component="main" maxWidth="xs" >
-            <CssBaseline />
             <Box
                 sx={{
                     marginTop: 8,

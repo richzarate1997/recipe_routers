@@ -40,7 +40,7 @@ function App() {
             signOut();
         }
     };
-    
+
     const refreshUser = useCallback(() => {
         refreshToken()
             .then(existingUser => {
@@ -52,7 +52,7 @@ function App() {
                 auth.signOut();
             });
     }, []);
-    
+
     useEffect(() => {
         refreshUser();
     }, [refreshUser]);
@@ -62,14 +62,14 @@ function App() {
             <Router>
                 <ResponsiveAppBar />
                 <Routes>
-                    <Route path="/Recipes" element={<Recipe />} />
+                    <Route path="/recipes" element={<Recipe />} />
                     <Route path="/new/recipe" element={<RecipeForm />} />
-                    <Route path="/GroceryListForm" element={<GroceryListForm />} />
-                    <Route path="/IngredientForm" element={<IngredientForm />} />
-                    <Route path="/About" element={<About />} />
-                    <Route path="/Profile" element={<Profile />} />
-                    <Route path="/Login" element={<Login />} />
-                    <Route path="/register"  />
+                    <Route path="/add/grocerylist" element={<GroceryListForm />} />
+                    <Route path="/ingredient" element={<IngredientForm />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/profile" element={<Profile />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Login />} />
                     <Route path="/" element={<Home />} />
                 </Routes>
                 <Footer />

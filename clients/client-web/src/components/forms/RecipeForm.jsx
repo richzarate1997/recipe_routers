@@ -130,7 +130,6 @@ function RecipeForm() {
                             </FormGroup>
                         </FormControl>
                         <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
-
                             <FormGroup>
                                 <FormControlLabel
                                     control={
