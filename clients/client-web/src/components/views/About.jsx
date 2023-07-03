@@ -1,5 +1,5 @@
 import { Grid, Typography} from "@mui/material";
-import ProfileCard from "./ProfileCard";
+import ProfileCard from "../ProfileCard";
 import { Container } from "@mui/system";
 import CssBaseline from "@mui/material/CssBaseline";
 

@@ -1,5 +1,5 @@
 import { Box } from "@mui/system";
-import RecipeCard from "./RecipeCard";
+import RecipeCard from "../RecipeCard";
 function Recipe() {
     return (
         <Box mx={4} sx={{paddingTop: 2}}>
