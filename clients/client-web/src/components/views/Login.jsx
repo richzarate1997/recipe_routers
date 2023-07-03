@@ -1,14 +1,18 @@
-import { useContext, useState } from "react";
-import { useNavigate} from "react-router";
-import { Link } from "react-router-dom";
+import { useContext, useState, useEffect } from "react";
+import { useNavigate } from "react-router";
+import { Link, useLocation } from "react-router-dom";
 import AuthContext from "../../contexts/AuthContext";
 import { authenticate } from "../../service/authApi";
 import { TextField, Avatar, Button, FormControlLabel, Container, Box, Grid, Checkbox, Typography, Tooltip } from "@mui/material";
 import Errors from "../Errors";
-import LockOutlinedIcon  from "@mui/icons-material/LockOutlined";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
 
-function Login() {
+function Login(props) {
+    const location = useLocation();
+    const { heading, buttonText, isRegistration } = props;
+    const [showPassword, setShowPassword] = useState(false);
+    const passwordInputType = showPassword ? "text" : "password";
     const [errors, setErrors] = useState([]);
     const [credentials, setCredentials] = useState({
         username: '',
@@ -24,12 +28,18 @@ function Login() {
         setCredentials(nextCredentials);
     };
 
+    const handleShowPasswordChange = () => {
+        setShowPassword(!showPassword);
+    };
+
     const handleSubmit = (event) => {
         event.preventDefault();
-        authenticate(credentials).then(user => {
-            auth.onAuthenticated(user);
-            navigate(-1); // might wanna make sure this works c:
-        })
+        const isRegistration = location.pathname === "/register";
+        authenticate(credentials, isRegistration)
+            .then(user => {
+                auth.onAuthenticated(user);
+                navigate(-1); // might wanna make sure this works c:
+            })
             .catch(error => setErrors(error));
     };
     // TODO attach handlers to form functions
@@ -47,7 +57,7 @@ function Login() {
                     <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    Sign In
+                    {heading}
                 </Typography>
                 <Box component="form" sx={{ mt: 1 }} onSubmit={handleSubmit}>
                     <TextField
@@ -67,14 +77,28 @@ function Login() {
                         fullWidth
                         name="password"
                         label="Password"
-                        type="password"
+                        type={passwordInputType}
                         id="password"
                         autoComplete="current-password"
                         onChange={handleChange}
                     />
                     <FormControlLabel
-                        control={<Checkbox value="remember" color="primary" />}
-                        label="Remember me"
+                        control={
+                            isRegistration ? (
+                                <Checkbox
+                                    value="remember"
+                                    color="primary"
+                                    checked={showPassword}
+                                    onChange={handleShowPasswordChange}
+                                />
+                            ) : (
+                                <Checkbox
+                                    value="remember"
+                                    color="primary"
+                                />
+                            )
+                        }
+                        label={isRegistration ? "Show password" : "Remember me"}
                     />
                     <Button
                         type="submit"
@@ -82,19 +106,21 @@ function Login() {
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
                     >
-                        Sign In
+                        {buttonText}
                     </Button>
                     <Grid container>
-                        <Grid item xs>
-                            <Tooltip title="Well that sucks!">
-                            <Link variant="body2">
-                                Forgot password?
-                            </Link>
-                            </Tooltip>
-                        </Grid>
+                        {isRegistration ? null : (
+                            <Grid item xs>
+                                <Tooltip title="Well that sucks!">
+                                    <Link variant="body2">
+                                        Forgot password?
+                                    </Link>
+                                </Tooltip>
+                            </Grid>
+                        )}
                         <Grid item>
-                            <Link to="/register" variant="body2">
-                                Don't have an account? Sign Up
+                            <Link to={isRegistration ? "/login" : "/register"} variant="body2">
+                                {isRegistration ? "Already have an account? Sign In" : "Don't have an account? Sign Up"}
                             </Link>
                         </Grid>
                     </Grid>
