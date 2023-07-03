@@ -10,7 +10,9 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
 function Login(props) {
     const location = useLocation();
-    const { heading, buttonText, isRegistration } = props
+    const { heading, buttonText, isRegistration } = props;
+    const [showPassword, setShowPassword] = useState(false);
+    const passwordInputType = showPassword ? "text" : "password";
     const [errors, setErrors] = useState([]);
     const [credentials, setCredentials] = useState({
         username: '',
@@ -24,6 +26,10 @@ function Login(props) {
         const nextCredentials = { ...credentials };
         nextCredentials[event.target.name] = event.target.value;
         setCredentials(nextCredentials);
+    };
+
+    const handleShowPasswordChange = () => {
+        setShowPassword(!showPassword);
     };
 
     const handleSubmit = (event) => {
@@ -71,14 +77,28 @@ function Login(props) {
                         fullWidth
                         name="password"
                         label="Password"
-                        type="password"
+                        type={passwordInputType}
                         id="password"
                         autoComplete="current-password"
                         onChange={handleChange}
                     />
                     <FormControlLabel
-                        control={<Checkbox value="remember" color="primary" />}
-                        label="Remember me"
+                        control={
+                            isRegistration ? (
+                                <Checkbox
+                                    value="remember"
+                                    color="primary"
+                                    checked={showPassword}
+                                    onChange={handleShowPasswordChange}
+                                />
+                            ) : (
+                                <Checkbox
+                                    value="remember"
+                                    color="primary"
+                                />
+                            )
+                        }
+                        label={isRegistration ? "Show password" : "Remember me"}
                     />
                     <Button
                         type="submit"
