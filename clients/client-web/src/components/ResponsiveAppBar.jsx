@@ -13,7 +13,6 @@ import { Link, useLocation } from 'react-router-dom';
 import AuthContext from '../contexts/AuthContext';
 
 const pages = ['Home', 'Recipes', 'About'];
-const settings = ['Profile', 'Login'];
 
 function ResponsiveAppBar() {
     const [anchorNav, setAnchorNav] = useState(null);
@@ -148,7 +147,7 @@ function ResponsiveAppBar() {
                                 }}>
                                     {pages.map((page) => (
                                         <MenuItem key={page} value={page} onClick={handleCloseNavMenu} >
-                                            <Typography textAlign="center" to={ page === 'Home' ? '/' : `/${page.toLowerCase()}`} component={Link} active={(location.pathname === `/${page}`).toString()}>{page}</Typography>
+                                            <Typography textAlign="center" to={page === 'Home' ? '/' : `/${page.toLowerCase()}`} component={Link} active={(location.pathname === `/${page}`).toString()}>{page}</Typography>
                                         </MenuItem>
                                     ))}
                                     {!auth.user.username &&
@@ -181,7 +180,7 @@ function ResponsiveAppBar() {
                         <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                             {pages.map((page) => (
                                 <Button
-                                    to={ page === 'Home' ? '/' : `/${page.toLowerCase()}`}
+                                    to={page === 'Home' ? '/' : `/${page.toLowerCase()}`}
                                     key={page}
                                     onClick={handleCloseNavMenu}
                                     sx={{ my: 2, color: 'white', display: 'block' }}
@@ -212,36 +211,37 @@ function ResponsiveAppBar() {
                                 />
                             </Search>
                         </Box>
-                        {auth.user.username &&
-                        <Box sx={{ flexGrow: 0 }}>
-                            <Tooltip title="Open settings">
-                                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                    <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-                                </IconButton>
-                            </Tooltip>
-                            <Menu
-                                sx={{ mt: '45px' }}
-                                id="menu-appbar"
-                                anchorEl={anchorUser}
-                                anchorOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                keepMounted
-                                transformOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                open={Boolean(anchorUser)}
-                                onClose={handleCloseUserMenu}
-                            >
-                                {settings.map((setting) => (
-                                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                        <Typography textAlign="center" to={`/${setting}`} component={Link}>{setting}</Typography>
+                        {auth.isLoggedIn() &&
+                            <Box sx={{ flexGrow: 0 }}>
+                                <Tooltip title="Open settings">
+                                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                                        <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                                    </IconButton>
+                                </Tooltip>
+                                <Menu
+                                    sx={{ mt: '45px' }}
+                                    id="menu-appbar"
+                                    anchorEl={anchorUser}
+                                    anchorOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                    }}
+                                    keepMounted
+                                    transformOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                    }}
+                                    open={Boolean(anchorUser)}
+                                    onClose={handleCloseUserMenu}
+                                >
+                                    <MenuItem onClick={handleCloseUserMenu}>
+                                        <Typography textAlign="center" to={`/profile`} component={Link}>Profile</Typography>
                                     </MenuItem>
-                                ))}
-                            </Menu>
-                        </Box>
+                                    <MenuItem onClick={handleCloseUserMenu}>
+                                        <Typography textAlign="center" onClick={() => auth.signOut()} component={Link}>Logout</Typography>
+                                    </MenuItem>
+                                </Menu>
+                            </Box>
                         }
                     </Toolbar>
                 </Container>
