@@ -4,7 +4,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import TextField from "@mui/material/TextField";
 import "./SearchBar.css";
 import { Box, Grid } from "@mui/material";
-import logo from "../logo.png";
+import logo from "../assets/logo.png";
 
 function SearchBar() {
     const [searchQuery, setSearchQuery] = useState("");
