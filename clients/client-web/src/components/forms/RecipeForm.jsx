@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { createRecipe, updateRecipe, findRecipeById } from "../../service/recipeApi";
-import { Box, Button, Checkbox, FormControlLabel, FormGroup, FormLabel, FormControl, TextField } from "@mui/material";
+import StepLabel from '@mui/material/StepLabel';
+import { Box, Button, Checkbox, FormControlLabel, FormGroup, FormLabel, FormControl, TextField, Stepper, Step, Typography } from "@mui/material";
 import Errors from "../Errors";
+import NavBarSearch from "../NavBarSearch";
 
 const EMPTY_RECIPE = {
     title: '',
@@ -20,9 +22,156 @@ const EMPTY_RECIPE = {
     ingredients: []
 };
 
+const steps = ['Recipe Details', 'Add Ingredients', 'Add Instructions', 'Final Details'];
+
+const RecipeFormStep1 = ({ recipe, handleChange }) => (
+    <Fragment>
+        <Typography sx={{ mt: 2, mb: 1 }}>Step 1</Typography>
+        <h1>Recipe Details</h1>
+        <div>
+            <FormControl sx={{ m: 1, width: '100%' }} component="fieldset" variant="standard">
+                <TextField
+                    label="Title"
+                    name="title"
+                    value={recipe.title}
+                    onChange={handleChange}
+                    required
+                />
+            </FormControl>
+        </div>
+        <div>
+            <FormControl sx={{ marginLeft: 7, marginTop: 2, marginBottom: 2, marginRight: 2 }} component="fieldset" variant="standard">
+                <FormGroup>
+                    <FormControlLabel
+                        control={
+                            <TextField
+                                label="Servings"
+                                sx={{ width: '100px' }}
+                                type="number"
+                                name="servings"
+                                value={recipe.servings}
+                                onChange={handleChange}
+                            />
+                        }
+                    />
+                </FormGroup>
+            </FormControl>
+            <FormControl sx={{ m: 2 }} component="fieldset" variant="standard">
+                <FormGroup>
+                    <FormControlLabel
+                        control={
+                            <TextField
+                                label="Cook Minutes"
+                                sx={{ width: '100px' }}
+                                type="number"
+                                name="cookMinutes"
+                                value={recipe.cookMinutes}
+                                onChange={handleChange}
+                            />
+                        }
+                    />
+                </FormGroup>
+            </FormControl>
+        </div>
+        <div>
+            <FormControl sx={{ marginLeft: 7, marginTop: 2, marginBottom: 2, marginRight: 2 }} component="fieldset" variant="standard">
+                <FormGroup>
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                checked={recipe.vegetarian}
+                                onChange={handleChange}
+                                name="vegetarian"
+                            />
+                        }
+                        label="Vegetarian"
+                    />
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                checked={recipe.vegan}
+                                onChange={handleChange}
+                                name="vegan"
+                            />
+                        }
+                        label="Vegan"
+                    />
+                </FormGroup>
+            </FormControl>
+            <FormControl sx={{ m: 2 }} component="fieldset" variant="standard">
+                <FormGroup>
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                checked={recipe.dairyFree}
+                                onChange={handleChange}
+                                name="dairyFree"
+                            />
+                        }
+                        label="Dairy Free"
+                    />
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                checked={recipe.glutenFree}
+                                onChange={handleChange}
+                                name="glutenFree"
+                            />
+                        }
+                        label="Gluten Free"
+                    />
+                </FormGroup>
+            </FormControl>
+        </div>
+    </Fragment>
+);
+
+const RecipeFormStep2 = ({ recipe, handleChange }) => (
+    <Fragment>
+        <Typography sx={{ mt: 2, mb: 1 }}>Step 2</Typography>
+        <h1>Add Ingredients</h1>
+        {<Fragment>
+            <NavBarSearch />
+            <h3>Or</h3>
+            <Button component={Link} to="/ingredient" variant="contained" color="primary">
+                Add Ingredient
+            </Button>
+        </Fragment>
+        }
+    </Fragment>
+);
+
+const RecipeFormStep3 = ({ recipe, handleChange }) => (
+    <Fragment>
+        <Typography sx={{ mt: 2, mb: 1 }}>Step 3</Typography>
+        <h1>Add Instructions</h1>
+        {<FormControl sx={{ m: 5, width: '80%' }} component="fieldset" variant="standard">
+            <TextField
+                label="Instructions"
+                name="title"
+                multiline
+                rows={4}
+                maxRows={Infinity}
+                value={recipe.instructions}
+                onChange={handleChange}
+                required
+            />
+        </FormControl>}
+    </Fragment>
+);
+
+const RecipeFormStep4 = ({ recipe, handleChange }) => (
+    <Fragment>
+        <Typography sx={{ mt: 2, mb: 1 }}>Step 4</Typography>
+        <h1>Final Details</h1>
+        {/* Final details form */}
+    </Fragment>
+);
+
 function RecipeForm() {
     const [recipe, setRecipe] = useState(EMPTY_RECIPE);
     const [errors, setErrors] = useState([]);
+    const [activeStep, setActiveStep] = useState(0);
 
     const { id } = useParams();
     const navigate = useNavigate();
@@ -48,9 +197,20 @@ function RecipeForm() {
         let nextValue = event.target.value;
         nextRecipe[event.target.name] = nextValue;
 
-
         setRecipe(nextRecipe);
     }
+
+    const handleNext = () => {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    };
+
+    const handleBack = () => {
+        setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    };
+
+    const handleReset = () => {
+        setActiveStep(0);
+    };
 
     const handleSaveRecipe = (event) => {
         event.preventDefault();
@@ -77,19 +237,36 @@ function RecipeForm() {
         }
     }
 
+    const renderFormStep = (step) => {
+        switch (step) {
+            case 0:
+                return <RecipeFormStep1 recipe={recipe} handleChange={handleChange} />;
+            case 1:
+                return <RecipeFormStep2 recipe={recipe} handleChange={handleChange} />;
+            case 2:
+                return <RecipeFormStep3 recipe={recipe} handleChange={handleChange} />;
+            case 3:
+                return <RecipeFormStep4 recipe={recipe} handleChange={handleChange} />;
+            default:
+                return null;
+        }
+    }
+
     return (
         <Box
             sx={{
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
+                marginTop: '-3%',
                 minHeight: '100vh',
+                px: 3, // Horizontal padding
             }}
         >
             <Box
                 sx={{
-                    width: '400px',
-                    p: 3,
+                    width: '50%',
+                    py: 3, // Vertical padding
                     border: '1px solid gray',
                     borderRadius: '8px',
                     backgroundColor: '#fff',
@@ -98,134 +275,46 @@ function RecipeForm() {
                     alignItems: 'center',
                 }}
             >
-                <h1>Recipe Form</h1>
-                <form onSubmit={handleSaveRecipe}>
-                    <div>
-                        <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
-                            <TextField
-                                label="Title"
-                                name="title"
-                                value={recipe.title}
-                                onChange={handleChange}
-                                required
-                            />
-                        </FormControl>
-                    </div>
-                    <div>
-                        <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
-
-                            <FormGroup>
-                                <FormControlLabel
-                                    control={
-                                        <TextField
-                                            label="Servings"
-                                            sx={{ width: '100px' }}
-                                            type="number"
-                                            name="servings"
-                                            value={recipe.servings}
-                                            onChange={handleChange}
-                                        />
-                                    }
-                                />
-                            </FormGroup>
-                        </FormControl>
-                        <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
-                            <FormGroup>
-                                <FormControlLabel
-                                    control={
-                                        <TextField
-                                            label="Cook Minutes"
-                                            sx={{ width: '100px' }}
-                                            type="number"
-                                            name="cookMinutes"
-                                            value={recipe.cookMinutes}
-                                            onChange={handleChange}
-                                        />
-                                    }
-                                />
-
-                            </FormGroup>
-                        </FormControl>
-
-                    </div>
-                    <div>
-                        <TextField
-                            label="Image URL"
-                            name="imageUrl"
-                            value={recipe.imageUrl}
-                            onChange={handleChange}
-                        />
-                    </div>
-                    <div>
-                        <TextField
-                            label="Source URL"
-                            name="sourceUrl"
-                            value={recipe.sourceUrl}
-                            onChange={handleChange}
-                        />
-                    </div>
-                    <div>
-                        <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
-
-                            <FormGroup>
-                                <FormControlLabel
-                                    control={
-                                        <Checkbox checked={recipe.vegetarian} onChange={handleChange} name="vegetarian" />
-                                    }
-                                    label="Vegetarian"
-                                />
-                                <FormControlLabel
-                                    control={
-                                        <Checkbox checked={recipe.vegan} onChange={handleChange} name="vegan" />
-                                    }
-                                    label="Vegan"
-                                />
-
-                            </FormGroup>
-                        </FormControl>
-                        <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
-
-                            <FormGroup>
-                                <FormControlLabel
-                                    control={
-                                        <Checkbox checked={recipe.dairyFree} onChange={handleChange} name="dairyfree" />
-                                    }
-                                    label="Dairy Free"
-                                />
-                                <FormControlLabel
-                                    control={
-                                        <Checkbox checked={recipe.glutenFree} onChange={handleChange} name="gluten free" />
-                                    }
-                                    label="Gluten Free"
-                                />
-
-                            </FormGroup>
-                        </FormControl>
-
-                    </div>
-                    <div>
-                        <TextField fullWidth
-                            label="Instructions"
-                            name="instructions"
-                            value={recipe.instructions}
-                            onChange={handleChange}
-                        />
-
-                    </div>
-                    <div>
-                        <Button component={Link} to="/IngredientForm" variant="contained" color="secondary">
-                            Create Ingredient
-                        </Button>
-                    </div>
-                    <div>
-                        <Button type="submit" variant="contained" color="primary">
-                            Save
-                        </Button>
-                        <Button component={Link} to="/" variant="contained" color="secondary">
-                            Cancel
-                        </Button>
-                    </div>
-                </form>
+                <Stepper activeStep={activeStep}>
+                    {steps.map((label, index) => {
+                        const stepProps = {};
+                        const labelProps = {};
+                        return (
+                            <Step key={label} {...stepProps}>
+                                <StepLabel {...labelProps}>{label}</StepLabel>
+                            </Step>
+                        );
+                    })}
+                </Stepper>
+                {activeStep === steps.length ? (
+                    <Fragment>
+                        <Typography sx={{ mt: 2, mb: 1 }}>
+                            All steps completed - you&apos;re finished
+                        </Typography>
+                        <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                            <Box sx={{ flex: '1 1 auto' }} />
+                            <Button onClick={handleReset}>Reset</Button>
+                        </Box>
+                    </Fragment>
+                ) : (
+                    <Fragment>
+                        {renderFormStep(activeStep)}
+                        <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                            <Button
+                                color="inherit"
+                                disabled={activeStep === 0}
+                                onClick={handleBack}
+                                sx={{ mr: 1 }}
+                            >
+                                Back
+                            </Button>
+                            <Box sx={{ flex: '1 1 auto' }} />
+                            <Button onClick={handleNext}>
+                                {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                            </Button>
+                        </Box>
+                    </Fragment>
+                )}
             </Box>
         </Box>
     );
