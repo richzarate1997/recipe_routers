@@ -12,6 +12,7 @@ import { Route, Routes, BrowserRouter as Router, Navigate } from "react-router-d
 import { useState, useEffect, useCallback } from "react";
 import { refreshToken, signOut } from "./service/authApi";
 import AuthContext from "./contexts/AuthContext";
+import { ThemeProvider, createTheme } from "@mui/material"
 
 const EMPTY_USER = {
     username: '',
@@ -56,38 +57,62 @@ function App() {
     useEffect(() => {
         refreshUser();
     }, [refreshUser]);
-        
-    return (
-        <AuthContext.Provider value={auth}>
-            <Router>
-                <ResponsiveAppBar />
-                <Routes>
-                    <Route path="/recipes" element={<Recipe />} />
-                    <Route path="/new/recipe" element={<RecipeForm />} />
-                    <Route path="/add/grocerylist" element={<GroceryListForm />} />
-                    <Route path="/ingredient" element={<IngredientForm />} />
-                    <Route path="/about" element={<About />} />
-                    <Route path="/profile" element={
-                        auth.isLoggedIn()
-                            ? <Profile appUser={auth.user}/>
-                            : <Navigate to='/' />
-                    } />
-                    <Route path="/login" element={
-                        auth.isLoggedIn()
-                            ? <Navigate to='/profile' />
-                            : <Login heading="Sign In" buttonText="Sign In" />
-                    } />
-                    <Route path="/register" element={
-                        auth.isLoggedIn()
-                            ? <Navigate to='/profile' />
-                            : <Login heading="Register" buttonText="Register" isRegistration={true} />
-                    } />
-                    <Route path="/" element={<Home />} />
-                </Routes>
-                <Footer />
-            </Router>
 
-        </AuthContext.Provider>
+    const theme = createTheme({
+        palette: {
+            mode: 'light',
+            primary: {
+                main: '#7CA65A',
+                contrastText: '#fff'
+            },
+            secondary: {
+                main: "#FEAE65"
+            }
+            // warning: {
+            //     main: '#CA5953'
+            // },
+            // danger: {
+            //     main: '#612D33'
+            // },
+            // info: {
+            //     main: '#D1483D'
+            // }
+        },
+    });
+
+    return (
+        <ThemeProvider theme={theme}>
+            <AuthContext.Provider value={auth}>
+                <Router>
+                    <ResponsiveAppBar />
+                    <Routes>
+                        <Route path="/recipes" element={<Recipe />} />
+                        <Route path="/new/recipe" element={<RecipeForm />} />
+                        <Route path="/add/grocerylist" element={<GroceryListForm />} />
+                        <Route path="/ingredient" element={<IngredientForm />} />
+                        <Route path="/about" element={<About />} />
+                        <Route path="/profile" element={
+                            auth.isLoggedIn()
+                                ? <Profile appUser={auth.user} />
+                                : <Navigate to='/' />
+                        } />
+                        <Route path="/login" element={
+                            auth.isLoggedIn()
+                                ? <Navigate to='/profile' />
+                                : <Login heading="Sign In" buttonText="Sign In" />
+                        } />
+                        <Route path="/register" element={
+                            auth.isLoggedIn()
+                                ? <Navigate to='/profile' />
+                                : <Login heading="Register" buttonText="Register" isRegistration={true} />
+                        } />
+                        <Route path="/" element={<Home />} />
+                    </Routes>
+                    <Footer />
+                </Router>
+
+            </AuthContext.Provider>
+        </ThemeProvider>
     );
 }
 

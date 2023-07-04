@@ -43,7 +43,7 @@ export default function MyRecipes() {
                     onChange={handleChange}
                     textColor="secondary"
                     indicatorColor="secondary"
-                    aria-label="secondary tabs example"
+                    aria-label="recipe tabs"
                 >
                     <Tab value={0} label="My Recipes" />
                     <Tab value={1} label="My Favorites" />
