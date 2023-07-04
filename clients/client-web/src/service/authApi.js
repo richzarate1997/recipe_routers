@@ -22,7 +22,7 @@ export async function authenticate(credentials, isRegistration = false) {
         const data = await response.json();
         return makeUser(data);
     } else {
-        return response.statusText.message;
+        return Promise.reject('Bad Credentials.');
     }
 }
 

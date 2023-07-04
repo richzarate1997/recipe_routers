@@ -25,10 +25,31 @@ export async function findUser() {
         }
     } catch (error) {
         console.error(error);
-        return Promise.reject(error);
     }
 }
 
 
-// export async function update() {
-// }
+export async function update(userProps) {
+    const jwtToken = localStorage.getItem('jwt_token');
+    try {
+        const options = {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${jwtToken}`
+            },
+        }
+        // const data = {
+        //     id: userProps.id,
+        //     displayName: userProps.displayName,
+        //     isMetric: userProps.isMetric
+        // }
+        const response = await axios.put(`${API_URL}`, userProps, options);
+        if (response.status === 204) {
+            return;
+        } else {
+            return Promise.reject(`User: ${userProps.id} was not found.`);
+        }
+    } catch (error) {
+        console.error(error);
+    }
+}
