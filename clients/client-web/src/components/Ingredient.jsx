@@ -6,7 +6,7 @@ const Ingredient = ({ ing }) => {
     
     useEffect(() => {
         setIngredient(ing);
-        console.log(ingredient)
+        console.log(ing)
     }, [ing])
     
     return (

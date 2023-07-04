@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import {
-    Box, Tab, Tabs
+    Box, Tab, Tabs, Typography
 } from '@mui/material';
 import GroceryListPanel from './GroceryListPanel';
 
@@ -34,14 +34,15 @@ export default function GroceryLists({ gLists }) {
             <GroceryListPanel key={list.id} list={list.list} value={value} index={list.id} />
         )
     }
+    
+    const tabStyle = lists.length > 0 && { borderBottom: 1, borderColor: 'divider' };
 
     return (
         <Box sx={{ marginRight: 5 }}>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <Box sx={ {...tabStyle} }>
+                { lists.length === 0 && <Typography variant='overline'>You currently have no grocery lists.</Typography> }
                 <Tabs value={value} onChange={handleChange} aria-label="grocery lists">
-                    {lists.length > 0
-                        ? renderTabs(lists)
-                        : 'You currently have no grocery lists.'}
+                    {lists.length > 0 && renderTabs(lists) }
                 </Tabs>
             </Box>
             {lists.length > 0 && renderTabPanels(lists)}

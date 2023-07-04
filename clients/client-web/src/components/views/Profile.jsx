@@ -17,6 +17,7 @@ const Profile = ({ appUser }) => {
         findUser()
             .then(data => {
                 setUser(data)
+                console.log(data);
             })
             .catch(err => console.log(err));
     }, [appUser]);

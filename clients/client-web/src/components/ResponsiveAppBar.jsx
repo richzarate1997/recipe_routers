@@ -100,7 +100,7 @@ function ResponsiveAppBar() {
                                             </Typography>
                                         </MenuItem>
                                     ))}
-                                    {!auth.isLoggedIn() &&
+                                    {!auth.isLoggedIn() && location.pathname !== '/login' &&
                                         <MenuItem value='Login' onClick={handleCloseNavMenu} >
                                             <Typography
                                                 textAlign="center"
@@ -144,7 +144,7 @@ function ResponsiveAppBar() {
                                     {page}
                                 </Button>
                             ))}
-                            {!auth.user.username &&
+                            {!auth.user.username && location.pathname !== '/login' &&
                                 <Button
                                     to={'/login'}
                                     onClick={handleCloseNavMenu}

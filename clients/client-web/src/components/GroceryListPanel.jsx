@@ -39,8 +39,7 @@ const GroceryListPanel = ({list, value, index}) => {
     
     useEffect(() => {
         setIngredients(list);
-        console.log(ingredients)
-        console.log(value)
+        console.log(list)
     }, [list]);
     
     return (
