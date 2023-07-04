@@ -1,26 +1,27 @@
-import { Card, CardActionArea, CardMedia, CardContent, Typography } from "@mui/material";
+import { Card, CardActionArea, CardMedia, CardContent, Typography, Divider } from "@mui/material";
 
 
 function ProfileCard({imgUrl, imgDesc, name, description}) {
     return (
-        <Card sx={{ maxWidth: 350}}>
-            <CardActionArea>
+        <Card sx={{ maxWidth: 350, minHeight: 535}}>
+            
                 <CardMedia
                     component="img"
-                    height="140"
-                    image={imgUrl}
+                    height="360"
+                    src={imgUrl}
                     alt={imgDesc}
                 />
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
                         {name}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
+                    <Divider ></Divider>
+                    <Typography variant="body2" color="text.secondary" pt={2}>
                         {description}
                     </Typography>
                 
                 </CardContent>
-            </CardActionArea>
+            
         </Card>
     )
 }

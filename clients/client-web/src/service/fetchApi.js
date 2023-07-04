@@ -38,3 +38,31 @@ export async function getRandomTrivia() {
         console.error(error);
     }
 }
+
+export async function searchRecipes(query) {
+    
+    console.log(query);
+ 
+    
+    const options = {
+        method: 'GET',
+        url: 'https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/search',
+        params: {
+          query: `${query}`,
+          number: '10',
+          offset: '0'
+          
+        },  
+        headers: {
+          'X-RapidAPI-Key': process.env.REACT_APP_SPOONACULAR_API_KEY,
+          'X-RapidAPI-Host': 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com'
+        }
+      };
+      
+      try {
+          const response = await axios.request(options);
+          return response.data;
+      } catch (error) {
+          console.error(error);
+      }
+}
