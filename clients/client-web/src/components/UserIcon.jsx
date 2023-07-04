@@ -70,6 +70,9 @@ const UserIcon = () => {
                 <MenuItem onClick={handleCloseUserMenu}>
                     <Typography textAlign="center" onClick={() => auth.signOut()} component={Link}>Logout</Typography>
                 </MenuItem>
+                <MenuItem onClick={handleCloseUserMenu}>
+                <Typography textAlign="center" to={`/new/recipe`} component={Link}>Create Recipe</Typography>
+                </MenuItem>
             </Menu>
         </Box>
     )
