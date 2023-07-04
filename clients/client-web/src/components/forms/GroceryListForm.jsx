@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { createGroceryList, findGroceryListById, updateGroceryList } from "../../service/groceryListApi";
 import { Autocomplete, Button, Box, TextField } from '@mui/material';
 import Errors from "../Errors";
+import NavBarSearch from "../NavBarSearch";
 
 const EMPTY_GROCERY_LIST = {
     id: 0,
@@ -87,26 +88,23 @@ function GroceryListForm() {
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
-                    marginTop: '-5%',
+                    marginTop: '-10%',
                 }}
             >
                 <h1>Grocery List Form</h1>
                 <form onSubmit={handleSaveGroceryList}>
-                    <Box sx={{ my: 2 }}>
+                    <Box sx={{ m: 2, ml: 8, width: '250%' }}>
                         <TextField
                             label="Name"
                             name="name"
                             value={groceryList.name}
                             onChange={handleChange}
+                            
                             required
                         />
                     </Box>
                     <Box sx={{ my: 2 }}>
-                        <Autocomplete
-                            disablePortal
-                            sx={{ width: 300 }}
-                            renderInput={(params) => <TextField {...params} label="Ingredient" />}
-                        />
+                        <NavBarSearch />
                     </Box>
                     <Box sx={{ my: 2 }}>
                         <Button component={Link} to="/IngredientForm" variant="contained" color="secondary" sx={{ mr: 2 }}>
@@ -116,7 +114,7 @@ function GroceryListForm() {
                             Create Ingredient
                         </Button>
                     </Box>
-                    <Box sx={{ my: 2 }}>
+                    <Box sx={{ my: 2, ml: 11 }}>
                         <Button type="submit" variant="contained" color="primary" sx={{ mr: 2 }}>
                             Save
                         </Button>
