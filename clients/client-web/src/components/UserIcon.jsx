@@ -75,6 +75,9 @@ const UserIcon = () => {
                 <MenuItem onClick={handleCloseUserMenu}>
                 <Typography textAlign="center" to={`/new/recipe`} component={Link}>Create Recipe</Typography>
                 </MenuItem>
+                <MenuItem onClick={handleCloseUserMenu}>
+                <Typography textAlign="center" to={`/add/grocerylist`} component={Link}>Create Grocery List</Typography>
+                </MenuItem>
             </Menu>
         </Box>
     )
