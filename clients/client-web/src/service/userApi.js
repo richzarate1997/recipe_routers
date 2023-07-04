@@ -1,8 +1,5 @@
 import axios from 'axios';
-import { useContext } from 'react';
-import AuthContext from "../contexts/AuthContext";
 import jwtDecode from 'jwt-decode'
-import { json } from 'react-router-dom';
 
 const BASE_URL = process.env.REACT_APP_SERVER_URL
     ? process.env.REACT_APP_SERVER_URL

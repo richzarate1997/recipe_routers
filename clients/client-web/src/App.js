@@ -8,7 +8,7 @@ import Footer from "./components/Footer";
 import IngredientForm from "./components/forms/IngredientForm";
 import GroceryListForm from "./components/forms/GroceryListForm";
 import RecipeForm from "./components/forms/RecipeForm";
-import { Route, Routes, BrowserRouter as Router } from "react-router-dom";
+import { Route, Routes, BrowserRouter as Router, Navigate } from "react-router-dom";
 import { useState, useEffect, useCallback } from "react";
 import { refreshToken, signOut } from "./service/authApi";
 import { findUser } from "./service/userApi";
@@ -46,7 +46,7 @@ function App() {
             setUser(user);
             setTimeout(refreshUser, WAIT_TIME);
             findUser()
-                .then(data => setUserProps(...data))
+                .then(data => setUserProps(data))
                 .catch(err => console.log(err));
         },
         signOut() {
@@ -62,7 +62,7 @@ function App() {
                 setUser(existingUser);
                 setTimeout(refreshUser, WAIT_TIME);
             })
-                .catch(err => {
+            .catch(err => {
                 console.log(err);
                 auth.signOut();
             });
@@ -82,9 +82,21 @@ function App() {
                     <Route path="/add/grocerylist" element={<GroceryListForm />} />
                     <Route path="/ingredient" element={<IngredientForm />} />
                     <Route path="/about" element={<About />} />
-                    <Route path="/profile" element={<Profile />} />
-                    <Route path="/login" element={<Login heading="Sign In" buttonText="Sign In"/>} />
-                    <Route path="/register" element={<Login heading="Register" buttonText="Register" isRegistration={true}/>} />
+                    <Route path="/profile" element={
+                        auth.isLoggedIn()
+                            ? <Profile />
+                            : <Navigate to='/' />
+                    } />
+                    <Route path="/login" element={
+                        auth.isLoggedIn()
+                            ? <Navigate to='/profile' />
+                            : <Login heading="Sign In" buttonText="Sign In" />
+                    } />
+                    <Route path="/register" element={
+                        auth.isLoggedIn()
+                            ? <Navigate to='/profile' />
+                            : <Login heading="Register" buttonText="Register" isRegistration={true} />
+                    } />
                     <Route path="/" element={<Home />} />
                 </Routes>
                 <Footer />

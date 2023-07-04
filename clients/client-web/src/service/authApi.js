@@ -1,7 +1,7 @@
 const url = 'http://localhost:8080';
 
 export async function authenticate(credentials, isRegistration = false) {
-    const endpoint = isRegistration ? 'register' : 'authenticate';
+    const endpoint = isRegistration ? 'create-account' : 'authenticate';
     const init = {
         method: 'POST',
         headers: {
@@ -11,12 +11,18 @@ export async function authenticate(credentials, isRegistration = false) {
         body: JSON.stringify(credentials)
     };
 
-    const response = await fetch(`${url}/${endpoint}`, init);
+    let response = await fetch(`${url}/${endpoint}`, init);
     if (response.status === 200){
+        if (isRegistration) {
+            response = await fetch(`${url}/authenticate`, init);
+            if (response.status !== 200) {
+                return Promise.reject('There was a conflict.');
+            }
+        }
         const data = await response.json();
         return makeUser(data);
     } else {
-        return Promise.reject('Bad credentials');
+        return response.statusText.message;
     }
 }
 

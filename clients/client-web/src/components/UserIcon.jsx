@@ -37,7 +37,7 @@ const UserIcon = () => {
             sx: {
                 bgcolor: stringToColor(name),
             },
-            children: initials === undefined ? null : initials,
+            children: initials !== undefined ? initials : null,
         };
     }
 

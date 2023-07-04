@@ -1,11 +1,11 @@
 import {
     AppBar, Box, Button, Container,
-    createTheme, IconButton, InputBase,
-    Menu, MenuItem, ThemeProvider, Toolbar, Tooltip, Typography
+    createTheme, IconButton,
+    Menu, MenuItem, ThemeProvider, 
+    Toolbar, Tooltip, Typography
 } from '@mui/material/';
 import FastfoodOutlinedIcon from '@mui/icons-material/FastfoodOutlined';
 import LunchDiningOutlinedIcon from '@mui/icons-material/LunchDiningOutlined';
-import { styled, alpha } from '@mui/material/styles';
 import { useContext, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import AuthContext from '../contexts/AuthContext';
@@ -27,7 +27,7 @@ function ResponsiveAppBar() {
         setAnchorNav(null);
     };
 
-    const darkTheme = createTheme({
+    const theme = createTheme({
         palette: {
             mode: 'light',
             primary: {
@@ -37,16 +37,14 @@ function ResponsiveAppBar() {
     });
 
     return (
-        <ThemeProvider theme={darkTheme}>
+        <ThemeProvider theme={theme}>
             <AppBar position="static">
                 <Container maxWidth="xl">
                     <Toolbar disableGutters>
                         <FastfoodOutlinedIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
                         <Typography
-                            variant="h6"
-                            noWrap
-                            component={Link}
-                            to="/"
+                            variant="h6" noWrap
+                            component={Link} to="/"
                             sx={{
                                 mr: 2,
                                 display: { xs: 'none', md: 'flex' },
@@ -54,11 +52,9 @@ function ResponsiveAppBar() {
                                 fontWeight: 700,
                                 letterSpacing: '.3rem',
                                 color: 'inherit',
-                                textDecoration: 'none',
+                                textDecoration: 'none'
                             }}
-                        >
-                            GetYum
-                        </Typography>
+                        >GetYum</Typography>
 
                         <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                             <IconButton
@@ -96,12 +92,22 @@ function ResponsiveAppBar() {
                                 }}>
                                     {pages.map((page) => (
                                         <MenuItem key={page} value={page} onClick={handleCloseNavMenu} >
-                                            <Typography textAlign="center" to={page === 'Home' ? '/' : `/${page.toLowerCase()}`} component={Link} active={(location.pathname === `/${page}`).toString()}>{page}</Typography>
+                                            <Typography
+                                                textAlign="center"
+                                                to={page === 'Home' ? '/' : `/${page.toLowerCase()}`}
+                                                component={Link}>
+                                                {page}
+                                            </Typography>
                                         </MenuItem>
                                     ))}
-                                    {!auth.user.username &&
+                                    {!auth.isLoggedIn() &&
                                         <MenuItem value='Login' onClick={handleCloseNavMenu} >
-                                            <Typography textAlign="center" to={'login'} component={Link} active={(location.pathname === `/login`).toString()}>Login</Typography>
+                                            <Typography
+                                                textAlign="center"
+                                                to='/login'
+                                                component={Link}>
+                                                Login
+                                            </Typography>
                                         </MenuItem>
                                     }
                                 </Box>
