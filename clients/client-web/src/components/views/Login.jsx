@@ -1,5 +1,4 @@
-import { useContext, useState, useEffect } from "react";
-import { useNavigate } from "react-router";
+import { useContext, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import AuthContext from "../../contexts/AuthContext";
 import { authenticate } from "../../service/authApi";
@@ -12,14 +11,13 @@ function Login(props) {
     const location = useLocation();
     const { heading, buttonText, isRegistration } = props;
     const [showPassword, setShowPassword] = useState(false);
-    const passwordInputType = showPassword ? "text" : "password";
     const [errors, setErrors] = useState([]);
     const [credentials, setCredentials] = useState({
         username: '',
         password: ''
     });
-
-    const navigate = useNavigate();
+    const passwordInputType = showPassword ? "text" : "password";
+    
     const auth = useContext(AuthContext);
 
     const handleChange = (event) => {
@@ -38,11 +36,10 @@ function Login(props) {
         authenticate(credentials, isRegistration)
             .then(user => {
                 auth.onAuthenticated(user);
-                navigate(-1); // might wanna make sure this works c:
             })
             .catch(error => setErrors(error));
     };
-    // TODO attach handlers to form functions
+    
     return (
         <Container component="main" maxWidth="xs" >
             <Box
@@ -83,22 +80,15 @@ function Login(props) {
                         onChange={handleChange}
                     />
                     <FormControlLabel
+                        label="Show password"
                         control={
-                            isRegistration ? (
-                                <Checkbox
-                                    value="remember"
-                                    color="primary"
-                                    checked={showPassword}
-                                    onChange={handleShowPasswordChange}
-                                />
-                            ) : (
-                                <Checkbox
-                                    value="remember"
-                                    color="primary"
-                                />
-                            )
+                            <Checkbox
+                                value="remember"
+                                color="primary"
+                                checked={showPassword}
+                                onChange={handleShowPasswordChange}
+                            />
                         }
-                        label={isRegistration ? "Show password" : "Remember me"}
                     />
                     <Button
                         type="submit"
