@@ -12,7 +12,7 @@ export async function authenticate(credentials, isRegistration = false) {
     };
 
     let response = await fetch(`${url}/${endpoint}`, init);
-    if (response.status === 200){
+    if (response.status === 200 || response.status === 201){
         if (isRegistration) {
             response = await fetch(`${url}/authenticate`, init);
             if (response.status !== 200) {
