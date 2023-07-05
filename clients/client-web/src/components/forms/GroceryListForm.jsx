@@ -4,6 +4,7 @@ import { createGroceryList, findGroceryListById, updateGroceryList } from "../..
 import { Autocomplete, Button, Box, TextField } from '@mui/material';
 import Errors from "../Errors";
 import NavBarSearch from "../NavBarSearch";
+import IngredientSearch from "../IngredientSearch";
 
 const EMPTY_GROCERY_LIST = {
     id: 0,
@@ -104,13 +105,10 @@ function GroceryListForm() {
                         />
                     </Box>
                     <Box sx={{ my: 2 }}>
-                        <NavBarSearch />
+                        <IngredientSearch />
                     </Box>
                     <Box sx={{ my: 2 }}>
-                        <Button component={Link} to="/IngredientForm" variant="contained" color="secondary" sx={{ mr: 2 }}>
-                            Add Ingredient
-                        </Button>
-                        <Button component={Link} to="/IngredientForm" variant="contained" color="secondary">
+                        <Button component={Link} to="/ingredient" variant="contained" color="secondary">
                             Create Ingredient
                         </Button>
                     </Box>

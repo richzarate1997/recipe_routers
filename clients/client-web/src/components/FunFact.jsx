@@ -9,11 +9,11 @@ function FunFact() {
         if (Math.floor(Math.random() * 2) === 0) {
             // getRandomFunFact()
             //     .then(joke => setText(joke))
-            // setText("haha fun fact");
+            setText("haha fun fact");
         } else {
             // getRandomTrivia()
             //     .then(trivia => setText(trivia))
-            // setText("haha trivia");
+            setText("haha trivia");
         }
     }, []);
 

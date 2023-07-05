@@ -1,5 +1,8 @@
+
+import { findIngredientByName } from "../service/ingredientApi";
+import { useState } from "react";
 import SearchIcon from '@mui/icons-material/Search';
-import { Box, InputBase } from '@mui/material';
+import { Box, Button, InputBase } from '@mui/material';
 import { styled, alpha } from '@mui/material/styles';
 
 const Search = styled('div')(({ theme }) => ({
@@ -31,7 +34,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: 'inherit',
     '& .MuiInputBase-input': {
         padding: theme.spacing(1, 1, 1, 0),
-        // vertical padding + font size from searchIcon
         paddingLeft: `calc(1em + ${theme.spacing(4)})`,
         transition: theme.transitions.create('width'),
         width: '100%',
@@ -44,9 +46,27 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
-const NavBarSearch = () => {
+const IngredientSearch = () => {
+    const [searchQuery, setSearchQuery] = useState('');
+
+    const handleSearch = (event) => {
+        setSearchQuery(event.target.value);
+    };
+
+    const fetchIngredients = () => {
+        findIngredientByName(searchQuery)
+            .then(data => {
+                console.log(data);
+            })
+            .catch(error => {
+
+                console.error(error);
+            });
+    };
+
+
     return (
-        < Box m={1}>
+        <Box m={1} sx={{display: 'flex'}} component='form' onSubmit={fetchIngredients}>
             <Search>
                 <SearchIconWrapper>
                     <SearchIcon />
@@ -54,10 +74,15 @@ const NavBarSearch = () => {
                 <StyledInputBase
                     placeholder="Search…"
                     inputProps={{ 'aria-label': 'search' }}
+                    value={searchQuery}
+                    onChange={handleSearch}
                 />
             </Search>
+            <Button type='submit' variant="contained" color="secondary" sx={{ mr: 2 }}>
+                Search
+            </Button>
         </Box>
-    )
+    );
 }
 
-export default NavBarSearch
+export default IngredientSearch;
