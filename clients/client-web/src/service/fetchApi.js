@@ -1,6 +1,6 @@
 import axios from "axios"; 
 
-export async function getRandomFunFact() {
+export async function getRandomJoke() {
 
     const options = {
         method: 'GET',

@@ -34,20 +34,12 @@ function SearchBar() {
                         size="small"
                     />
                 </Grid>
-                <Grid item xs={1} style={{
-                    display: "flex",
-                    alignSelf: "center",
-                    justifyContent: "center",
-                    flexDirection: "column"
-
-                }}>
+                <Grid item xs={1} >
                     <IconButton type="submit" aria-label="search" onSubmit={handleSubmitSearch}>
                         <SearchIcon style={{ fill: "#CA5953" }} />
                     </IconButton>
                 </Grid>
-
             </Grid>
-
         </form>
     );
 

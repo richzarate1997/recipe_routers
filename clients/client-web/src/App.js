@@ -13,7 +13,6 @@ import { useState, useEffect, useCallback } from "react";
 import { refreshToken, signOut } from "./service/authApi";
 import AuthContext from "./contexts/AuthContext";
 import { ThemeProvider, createTheme } from "@mui/material"
-import SpotifyWidget from "./components/SpotifyWidget";
 
 const EMPTY_USER = {
     username: '',
@@ -87,6 +86,7 @@ function App() {
                 <Router>
                     <ResponsiveAppBar />
                     <Routes>
+                        <Route path="/" element={<Home />} />
                         <Route path="/recipes" element={<Recipe />} />
                         <Route path="/new/recipe" element={<RecipeForm />} />
                         <Route path="/add/grocerylist" element={<GroceryListForm />} />
@@ -107,10 +107,8 @@ function App() {
                                 ? <Navigate to='/profile' />
                                 : <Login heading="Register" buttonText="Register" isRegistration={true} />
                         } />
-                        <Route path="/" element={<Home />} />
                     </Routes>
                     <Footer />
-                    <SpotifyWidget/>
                 </Router>
             </AuthContext.Provider>
         </ThemeProvider>
