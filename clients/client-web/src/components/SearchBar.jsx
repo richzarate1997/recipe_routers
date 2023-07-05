@@ -4,17 +4,19 @@ import SearchIcon from "@mui/icons-material/Search";
 import TextField from "@mui/material/TextField";
 import "./SearchBar.css";
 import { Grid } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 function SearchBar() {
     const [searchQuery, setSearchQuery] = useState("");
-
+    const navigate = useNavigate();
+    
     const handleChange = (e) => {
         setSearchQuery(e.target.value);
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(searchQuery);
+        navigate(`/search/${searchQuery}`)
     };
 
     return (

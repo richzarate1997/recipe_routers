@@ -8,7 +8,6 @@ export default function Footer() {
         },
         group: {
             display: 'flex',
-            // flexDirection: 'column',
             justifyContent: 'space-between',
             alignItems: 'end',
             padding: '5px'

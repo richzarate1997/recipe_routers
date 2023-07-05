@@ -1,6 +1,7 @@
 import Home from "./components/views/Home";
 import ResponsiveAppBar from "./components/ResponsiveAppBar";
-import Recipe from "./components/views/Recipe";
+import Recipe from "./components/views/RecipeResults";
+import ShowRecipe from "./components/views/ShowRecipe";
 import About from "./components/views/About"
 import Profile from "./components/views/Profile";
 import Login from "./components/views/Login";
@@ -8,6 +9,7 @@ import Footer from "./components/Footer";
 import IngredientForm from "./components/forms/IngredientForm";
 import GroceryListForm from "./components/forms/GroceryListForm";
 import RecipeForm from "./components/forms/RecipeForm";
+import NotFound from "./components/views/NotFound";
 import { Route, Routes, BrowserRouter as Router, Navigate } from "react-router-dom";
 import { useState, useEffect, useCallback } from "react";
 import { refreshToken, signOut } from "./service/authApi";
@@ -88,6 +90,8 @@ function App() {
                     <Routes>
                         <Route path="/" element={<Home />} />
                         <Route path="/recipes" element={<Recipe />} />
+                        <Route path="/search/:param" element={<Recipe />} />
+                        <Route path="/recipe/:id" element={<ShowRecipe />} />
                         <Route path="/new/recipe" element={<RecipeForm />} />
                         <Route path="/add/grocerylist" element={<GroceryListForm />} />
                         <Route path="/ingredient" element={<IngredientForm />} />
@@ -107,6 +111,7 @@ function App() {
                                 ? <Navigate to='/profile' />
                                 : <Login heading="Register" buttonText="Register" isRegistration={true} />
                         } />
+                        <Route path="/notfound" element={<NotFound/>} />
                     </Routes>
                     <Footer />
                 </Router>

@@ -1,9 +1,11 @@
 import SearchBar from "../SearchBar";
 import FunFact from "../FunFact";
 import logo from "../../assets/logo.png";
-import { Box } from '@mui/material'
+import { Alert, Box } from '@mui/material'
+import { useLocation } from "react-router-dom";
 
 function Home() {
+    const location = useLocation();
     const styles = {
         box: {
             display: "flex",
@@ -30,6 +32,7 @@ function Home() {
                     <SearchBar />
                 </Box>
                 <FunFact />
+                { location.state && <Alert variant="success">{location.state.msg}</Alert> }
             </Box>
         </>
     );

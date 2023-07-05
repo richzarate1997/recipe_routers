@@ -21,8 +21,6 @@ const styles = {
         height: '1.5rem',
         width: 'auto',
         padding: '3px'
-    },
-    div: {
     }
 }
 
@@ -42,10 +40,10 @@ const SpotifyWidget = () => {
     }, []);
 
     return (
-        <div style={styles.div}>
+        <>
             {!spotifyToken &&
                 <a href={loginUrl} style={styles.link}>
-                    Jam with <img src='images/Spotify_Logo_CMYK_Green.png' style={styles.logo} />
+                    Jam with <img src='/images/Spotify_Logo_CMYK_Green.png' alt='spotify logo' style={styles.logo} />
                 </a>
             }
             {spotifyToken &&
@@ -68,7 +66,7 @@ const SpotifyWidget = () => {
                     }}
                 />
             }
-        </div>
+        </>
     )
 }
 

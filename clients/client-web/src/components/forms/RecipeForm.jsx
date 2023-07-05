@@ -1,10 +1,13 @@
 import { Fragment, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { createRecipe, updateRecipe, findRecipeById } from "../../service/recipeApi";
-import StepLabel from '@mui/material/StepLabel';
-import { Box, Grid, Button, Checkbox, FormControlLabel, FormGroup, FormLabel, FormControl, TextField, Stepper, Step, Typography } from "@mui/material";
+import {
+    Box, Grid, Button, Checkbox,
+    FormControlLabel, FormGroup,
+    FormControl, TextField, StepLabel, 
+    Stepper, Step, Typography
+} from "@mui/material";
 import Errors from "../Errors";
-import NavBarSearch from "../NavBarSearch";
 import IngredientSearch from "../IngredientSearch";
 
 const EMPTY_RECIPE = {
@@ -27,9 +30,9 @@ const steps = ['Recipe Details', 'Add Ingredients', 'Add Instructions', 'Final D
 
 const RecipeFormStep1 = ({ recipe, handleChange }) => (
     <Fragment>
-        <h1>Recipe Details</h1>
+        <Typography variant="h4" p={2}>Recipe Details</Typography>
         <Grid container>
-            <Grid item xs={12}  sx={{
+            <Grid item xs={12} sx={{
                 display: 'flex',
                 alignItems: 'center',
                 flexWrap: 'wrap',
@@ -54,40 +57,40 @@ const RecipeFormStep1 = ({ recipe, handleChange }) => (
                 justifyContent: 'center'
             }}>
                 <Grid item>
-                <FormControl sx={{ marginTop: 2, marginBottom: 2}} component="fieldset" variant="standard">
-                    <FormGroup>
-                        <FormControlLabel
-                            control={
-                                <TextField
-                                    label="Servings"
-                                    sx={6}
-                                    type="number"
-                                    name="servings"
-                                    value={recipe.servings}
-                                    onChange={handleChange}
-                                />
-                            }
-                        />
-                    </FormGroup>
-                </FormControl>
+                    <FormControl sx={{ marginTop: 2, marginBottom: 2 }} component="fieldset" variant="standard">
+                        <FormGroup>
+                            <FormControlLabel
+                                control={
+                                    <TextField
+                                        label="Servings"
+                                        sx={6}
+                                        type="number"
+                                        name="servings"
+                                        value={recipe.servings}
+                                        onChange={handleChange}
+                                    />
+                                }
+                            />
+                        </FormGroup>
+                    </FormControl>
                 </Grid>
                 <Grid item>
-                <FormControl sx={{align: 'right' }} component="fieldset" variant="standard">
-                    <FormGroup>
-                        <FormControlLabel
-                            control={
-                                <TextField
-                                    label="Cook Minutes"
-                                    sx={6}
-                                    type="number"
-                                    name="cookMinutes"
-                                    value={recipe.cookMinutes}
-                                    onChange={handleChange}
-                                />
-                            }
-                        />
-                    </FormGroup>
-                </FormControl>
+                    <FormControl sx={{ align: 'right' }} component="fieldset" variant="standard">
+                        <FormGroup>
+                            <FormControlLabel
+                                control={
+                                    <TextField
+                                        label="Cook Minutes"
+                                        sx={6}
+                                        type="number"
+                                        name="cookMinutes"
+                                        value={recipe.cookMinutes}
+                                        onChange={handleChange}
+                                    />
+                                }
+                            />
+                        </FormGroup>
+                    </FormControl>
                 </Grid>
             </Grid>
             <Grid container xs={12} sx={{
@@ -152,8 +155,7 @@ const RecipeFormStep1 = ({ recipe, handleChange }) => (
 
 const RecipeFormStep2 = ({ recipe, handleChange }) => (
     <Fragment>
-        <Typography sx={{ mt: 2, mb: 1 }}>Step 2</Typography>
-        <h1>Add Ingredients</h1>
+        <Typography variant="h4" p={2}>Add Ingredients</Typography>
         {<Fragment>
             <IngredientSearch />
             <h3>Or</h3>
@@ -167,8 +169,7 @@ const RecipeFormStep2 = ({ recipe, handleChange }) => (
 
 const RecipeFormStep3 = ({ recipe, handleChange }) => (
     <Fragment>
-        <Typography sx={{ mt: 2, mb: 1 }}>Step 3</Typography>
-        <h1>Add Instructions</h1>
+        <Typography variant="h4" p={2}>Add Instructions</Typography>
         {<FormControl sx={{ m: 5, width: '80%' }} component="fieldset" variant="standard">
             <TextField
                 label="Instructions"
@@ -186,8 +187,7 @@ const RecipeFormStep3 = ({ recipe, handleChange }) => (
 
 const RecipeFormStep4 = ({ recipe, handleChange }) => (
     <Fragment>
-        <Typography sx={{ mt: 2, mb: 1 }}>Step 4</Typography>
-        <h1>Final Details</h1>
+        <Typography variant="h4" p={2}>Final Details</Typography>
         {/* Final details */}
     </Fragment>
 );
@@ -291,7 +291,7 @@ function RecipeForm() {
                     sx={{
                         width: '50%',
                         py: 3, // Vertical padding
-                        border: '1px solid gray',
+                        border: '1px solid #FEAE65',
                         borderRadius: '8px',
                         backgroundColor: '#fff',
                         display: 'flex',
@@ -340,6 +340,7 @@ function RecipeForm() {
                         </Fragment>
                     )}
                 </Box>
+                <Errors errors={errors} />
             </Box>
         </Grid>
 
