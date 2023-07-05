@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -90,6 +91,7 @@ class RecipeJdbcTemplateRepositoryTest {
     public static byte[] generateRandomBlob(int size) {
         byte[] blob = new byte[size];
         new Random().nextBytes(blob);
+        System.out.println(Arrays.toString(blob));
         return blob;
     }
 

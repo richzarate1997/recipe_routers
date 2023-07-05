@@ -5,6 +5,7 @@ import learn.agileaprons.domain.RecipeService;
 import learn.agileaprons.domain.Result;
 import learn.agileaprons.models.Recipe;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -47,7 +48,7 @@ public class RecipeController {
                                          BindingResult bindingResult) throws DataException {
         if (bindingResult.hasErrors()) {
             List<String> errors = bindingResult.getAllErrors().stream()
-                    .map(err -> err.getDefaultMessage())
+                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
                     .collect(Collectors.toList());
 
             return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);

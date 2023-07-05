@@ -41,7 +41,7 @@ function Login(props) {
     };
     
     return (
-        <Container component="main" maxWidth="xs" >
+        <Container component="main" maxWidth="xs" sx={{ minHeight: '70vh'}}>
             <Box
                 sx={{
                     marginTop: 8,

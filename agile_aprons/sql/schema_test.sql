@@ -277,7 +277,7 @@ BEGIN
         
 	INSERT INTO `recipe` (`id`, `user_app_user_id`, `title`, `image_url`, `image`, `instructions`, `vegetarian`, `vegan`, `gluten_free`, `dairy_free`, `servings`, `src_url`, `cook_minutes`)
 		VALUES
-		(1, 2, 'Pepper Pizza', 'http://pepper-pizza.jpg', null, 'Mix ingredients together and throw in the oven at 400 for 20 minutes', 1, 0, 0, 0, 4, 'https://recipes.com/pepper-pizza', 45),
+		(1, 2, 'Pepper Pizza', 'Fresh-Veggie-Pizza-394118.jpg', null, 'Mix ingredients together and throw in the oven at 400 for 20 minutes', 1, 0, 0, 0, 4, 'https://recipes.com/pepper-pizza', 45),
         (2, 1, 'Pepper Tacos', '', '010101011101011101011110101110101100010100010100101', 'Make tacos for dinner, and enjoy them.', 1, 0, 1, 0, 6, '', 90);
         
 	INSERT INTO `recipe_ingredient` (`recipe_id`, `ingredient_id`, `unit_id`, `quantity`)
