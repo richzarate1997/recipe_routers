@@ -40,7 +40,7 @@ const SpotifyWidget = () => {
     }, []);
 
     return (
-        <>
+        <div>
             {!spotifyToken &&
                 <a href={loginUrl} style={styles.link}>
                     Jam with <img src='/images/Spotify_Logo_CMYK_Green.png' alt='spotify logo' style={styles.logo} />
@@ -66,7 +66,7 @@ const SpotifyWidget = () => {
                     }}
                 />
             }
-        </>
+        </div>
     )
 }
 
