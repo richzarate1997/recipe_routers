@@ -42,15 +42,15 @@ const SpotifyWidget = () => {
                     offset={121}
                     locale={navigator.language}
                     styles={{
-                        activeColor: '#7CA65A',
-                        bgColor: '#D1483D',
-                        color: '#612D33',
+                        activeColor: '#D1483D',
+                        bgColor: '#612D33',
+                        color: '#D1483D',
                         loaderColor: '#D1483D',
                         sliderColor: '#7CA65A',
-                        sliderHandleColor: '#612D33',
+                        sliderHandleColor: '#CA5953',
                         sliderTrackColor: '#FEAE65',
-                        trackArtistColor: '#FEAE65',
-                        trackNameColor: '#FEAE65',
+                        trackArtistColor: '#CA5953',
+                        trackNameColor: '#D1483D',
                     }}
                 />
             }
