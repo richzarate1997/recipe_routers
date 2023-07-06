@@ -9,21 +9,17 @@ ingredient: {},
 unit: {}
 }
 
-const RecipeIngredient = ({ ingredient }) => {
+const RecipeIngredient = ({ ingredient, onCreateRecipeIngredient, onChange }) => {
     const [recipeIngredient, setRecipeIngredient] = useState(EMPTY_RECIPE_INGREDIENT);
     const [allUnits, setAllUnits] = useState([]);
-    const obj = useContext(RecipeContext);
 
     useEffect(() => {
+        setRecipeIngredient({ ...recipeIngredient, ingredient })
         findAllUnits()
             .then(data => setAllUnits(data))
             .catch(err => console.log(err));
-        obj.onRecipeIngredientAdd({ ...recipeIngredient, ingredient });
+        onCreateRecipeIngredient({ ...recipeIngredient, ingredient });
     }, []);
-    
-    useEffect(() => {
-        obj.onRecipeIngredientChange(recipeIngredient);
-    }, [recipeIngredient]);
     
     const handleChange = (e) => {
         const nextRecipeIngredient = { ...recipeIngredient };
@@ -35,6 +31,7 @@ const RecipeIngredient = ({ ingredient }) => {
         }
         setRecipeIngredient(nextRecipeIngredient);
         console.log(recipeIngredient)
+        onChange(recipeIngredient)
     }
 
     return (
@@ -45,6 +42,7 @@ const RecipeIngredient = ({ ingredient }) => {
                     type="number"
                     name="quantity"
                     size='small'
+                    minRows={0.0001}
                     required
                     value={recipeIngredient.quantity}
                     onChange={handleChange}

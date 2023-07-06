@@ -43,12 +43,6 @@ function RecipeForm() {
         ingredients: ingredients,
         onIngredientAdd(ingreds) {
             setIngredients(ingreds);
-        },
-        onRecipeIngredientChange(rI) {
-            setRecipe({ ...recipe, ingredients: recipeIngredients.filter(i1 => i1.name === rI.name ? rI : i1) });
-        },
-        onRecipeIngredientAdd(ingred) {
-            setRecipeIngredients( [...recipeIngredients, ingred]);
         }
     }
 
@@ -75,6 +69,17 @@ function RecipeForm() {
                 });
             });
     }, [navigate]);
+
+    function onRecipeIngredientChange(rI) {
+        setRecipeIngredients(recipeIngredients.map(i => i.ingredient.name === rI.ingredient.name ? rI : i))
+    }
+    function onRecipeIngredientAdd(rI) {
+        setRecipeIngredients([...recipeIngredients, rI]);
+    }
+    
+    useEffect(() => {
+        setRecipe({...recipe, ingredients: recipeIngredients})
+    }, [recipeIngredients]);
 
     const handleCuisineChange = (event => {
         const { target: { value } } = event;
@@ -162,6 +167,8 @@ function RecipeForm() {
             case 2:
                 return <RecipeFormStep3
                     header={steps[step]}
+                    onRecipeIngredientAdd={onRecipeIngredientAdd}
+                    onRecipeIngredientChange={onRecipeIngredientChange}
                 />;
             case 3:
                 return <RecipeFormStep4
@@ -182,7 +189,7 @@ function RecipeForm() {
     return (
         <RecipeContext.Provider value={obj}>
             <Grid>
-                <Box
+                <Box component={'form'} onSubmit={handleSaveRecipe}
                     sx={{
                         display: 'flex',
                         justifyContent: 'center',
@@ -221,6 +228,7 @@ function RecipeForm() {
                                 </Typography>
                                 <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                                     <Box sx={{ flex: '1 1 auto' }} />
+                                    <Button type="submit">Save Recipe</Button>
                                     <Button onClick={handleReset}>Reset</Button>
                                 </Box>
                             </Fragment>
