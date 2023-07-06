@@ -62,6 +62,37 @@ export async function removeFavorite(fave) {
     }
 }
 
+export async function findAllGroceryListsByUser() {
+    const jwtToken = localStorage.getItem('jwt_token');
+    const { app_user_id: id } = jwtDecode(jwtToken)
+    const options = makeOptions('GET', jwtToken)
+    try {
+        const response = await axios.get(`${API_URL}/list`, options);
+        if (response.status === 200) {
+            return response.data.filter((gl) => gl.userId === id);
+        }
+    } catch (error) {
+        console.error(error);
+        return Promise.reject(error);
+    }
+}
+
+export async function findGroceryListById(id) {
+    const jwtToken = localStorage.getItem('jwt_token');
+    const options = makeOptions('GET', jwtToken)
+    try {
+        const response = await axios.get(`${API_URL}/list/${id}`, options);
+        if (response.status === 200) {
+            return response.data;
+        } else {
+            return Promise.reject(`GroceryList: ${id} was not found.`);
+        }
+    } catch (error) {
+        console.error(error);
+        return Promise.reject(error);
+    }
+}
+
 export async function createList(groceryList) {
     const jwtToken = localStorage.getItem('jwt_token');
     const options = makeOptions('POST', jwtToken);

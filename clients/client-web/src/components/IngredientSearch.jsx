@@ -1,9 +1,11 @@
 
 import { findIngredientByName } from "../service/ingredientApi";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SearchIcon from '@mui/icons-material/Search';
-import { Box, Button, InputBase } from '@mui/material';
+import TextField from "@mui/material/TextField";
+import { Box, Button, InputBase, Grid, Autocomplete } from '@mui/material';
 import { styled, alpha } from '@mui/material/styles';
+import { useNavigate } from "react-router-dom";
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -48,9 +50,30 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const IngredientSearch = () => {
     const [searchQuery, setSearchQuery] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
+    const [selectedIngredients, setSelectedIngredients] = useState([]);
 
-    const handleSearch = (event) => {
-        setSearchQuery(event.target.value);
+    useEffect(() => {
+        if (searchQuery !== '') {
+            findIngredientByName(searchQuery)
+                .then(data => {
+                    setSearchResults(data);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        } else {
+            setSearchResults([]);
+        }
+    }, [searchQuery]);
+
+    const handleSearch = (event, newValue) => {
+        setSearchQuery(newValue);
+    };
+
+    const handleSelect = (event, newValue) => {
+        setSelectedIngredients(prevIngredients => [...prevIngredients, newValue]);
+        setSearchQuery('');
     };
 
     const fetchIngredients = () => {
@@ -66,16 +89,21 @@ const IngredientSearch = () => {
 
 
     return (
-        <Box m={1} sx={{display: 'flex'}} component='form' onSubmit={fetchIngredients}>
+        <Box m={1} sx={{ display: 'flex' }} component='form' onSubmit={fetchIngredients}>
             <Search>
                 <SearchIconWrapper>
                     <SearchIcon />
                 </SearchIconWrapper>
+                {/* <Autocomplete
+                freeSolo
+                options={searchResults}
+                getOptionLabel={(option) => option.name} */}
                 <StyledInputBase
                     placeholder="Search…"
                     inputProps={{ 'aria-label': 'search' }}
                     value={searchQuery}
                     onChange={handleSearch}
+                // />
                 />
             </Search>
             <Button type='submit' variant="contained" color="secondary" sx={{ mr: 2 }}>

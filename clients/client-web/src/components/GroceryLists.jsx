@@ -21,6 +21,7 @@ export default function GroceryLists({ gLists }) {
 
     useEffect(() => {
         setLists(gLists);
+        console.log(gLists)
     }, [gLists]);
 
     const renderTabs = (lists) => {

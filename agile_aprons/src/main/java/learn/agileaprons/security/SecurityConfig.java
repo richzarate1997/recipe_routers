@@ -37,6 +37,7 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.GET,
                         "/api/ingredient",
                         "/api/ingredient/*",
+                        "/api/ingredient/get/*",
                         "/api/recipe",
                         "/api/recipe/*",
                         "/api/recipe/search/*",
@@ -46,7 +47,9 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.GET,
 //                        "/api/ingredient",
 //                        "/api/ingredient/*",
-                        "/api/user/*"
+                        "/api/user/*",
+                        "/api/user/list",
+                        "/api/user/list/*"
                         ).authenticated()
                 .antMatchers(HttpMethod.POST,
                         "/api/ingredient",
