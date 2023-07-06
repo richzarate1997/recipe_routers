@@ -87,13 +87,10 @@ function RecipeForm() {
     };
 
     const handleIngredientChange = () => {
-
+        
     }
 
     const handleUploadImage = (file) => {
-        if (file === "") {
-            file = null;
-        }
         const nextRecipe = { ...recipe, image: file };
         setRecipe(nextRecipe);
     };

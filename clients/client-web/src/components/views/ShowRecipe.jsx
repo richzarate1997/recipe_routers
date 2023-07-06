@@ -3,6 +3,8 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { findRecipeById } from '../../service/recipeApi';
 import { Paper, Typography, List, ListItem, ListItemText, Box, Grid, Divider } from '@mui/material';
 import RecipeIngredient from '../RecipeIngredient';
+import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
+import MenuBookOutlinedIcon from '@mui/icons-material/MenuBookOutlined';
 
 const EMPTY_RECIPE = {
     id: 0,
@@ -35,7 +37,6 @@ const ShowRecipe = () => {
             textAlign: 'center',
             width: '50vw',
             margin: '5vh auto',
-            height: '78vh',
             borderRadius: '25px'
         }
     }
@@ -81,20 +82,24 @@ const ShowRecipe = () => {
             {
                 ingredients.length > 0 &&
                 <Paper elevation={4} style={styles.paper}>
-                    <Grid container sx={{display: 'flex', alignItems: 'center', justifyContent:'center'}}>
+                    <Grid container sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         <Grid item pt={2}>
-                        <Typography variant='h3'>{recipe.title}</Typography>
-                        <Divider sx={{paddingTop: 1, paddingBottom: 1}}/>
-                        <Box component='img' src={`${image}`} alt={recipe.title} width={200} />
+                            <Typography variant='h3'>{recipe.title}</Typography>
+                            <Divider sx={{ paddingTop: 1, paddingBottom: 1 }} />
+                            <Box component='img' src={`${image}`} alt={recipe.title} width={200} />
                         </Grid>
                     </Grid>
-                    
-                    
-                    
-                    <Typography variant='h6'>
-                        {recipe.cookMinutes} Minute Cook Time <br />
-                        {recipe.servings} Servings
-                    </Typography>
+
+                    <Grid container>
+                        <Grid item xs={6}>
+                            <AccessTimeOutlinedIcon />
+                            <Typography>{recipe.cookMinutes} Minutes </Typography>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <MenuBookOutlinedIcon />
+                            <Typography>{recipe.servings} Servings</Typography>
+                        </Grid>
+                    </Grid>
                     <Typography>
                         {recipe.vegetarian && 'Vegetarian'}
                     </Typography>
@@ -108,14 +113,19 @@ const ShowRecipe = () => {
                         {recipe.dairyFree && 'Dairy Free'}
                     </Typography>
 
-                    {recipe.sourceUrl && <Typography><a href={recipe.sourceUrl}>Source</a></Typography>}<br />
+
+
+                    
                     <Typography>
-                    Cuisines: {recipe.cuisines.length ? recipe.cuisines.map((c, i) => `${c.name}${recipe.cuisines.length - 1 > i ? ', ' : ''}`) : 'None'}<br />
+                        {recipe.cuisines.length ? recipe.cuisines.map((c, i) => `${c.name}${recipe.cuisines.length - 1 > i ? ', ' : ''}`) : 'None'}<br />
                     </Typography>
                     <Typography>
-                    Ingredients:
+                       
                     </Typography>
                     <List>
+                        <ListItem>
+
+                        </ListItem>
                         {ingredients.map(ingredient => (
                             <ListItem key={ingredient.ingredient.id}>
                                 <ListItemText primary={`${ingredient.quantity} ${ingredient.unit.name} ${ingredient.ingredient.name}`} />
@@ -129,6 +139,8 @@ const ShowRecipe = () => {
                     <Typography>
                         {recipe.instructions}<br />
                     </Typography>
+
+                    {recipe.sourceUrl && <Typography><a href={recipe.sourceUrl}>Source</a></Typography>}
                 </Paper>
             }
         </>
