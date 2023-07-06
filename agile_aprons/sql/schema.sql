@@ -232,9 +232,11 @@ INSERT INTO `unit` (`name`, `abbrev`)
     ('pound','lb'),
     ('milliliter','mL'),
     ('liter','L'),
+    ('milligram','mg'),
     ('gram','g'),
     ('kilogram','kg'),
-	( 'count', 'ct');
+    ('',''),
+	('count', 'ct');
     
 INSERT INTO `cuisine` (`name`)
 	VALUES -- Exhaustive to spoonacular API selection

@@ -11,7 +11,7 @@ const EMPTY_INGREDIENT = {
     imageUrl: '',
 };
 
-function IngredientForm() {
+function IngredientForm({ onClose, onIngredientCreate }) {
     const [ingredient, setIngredient] = useState(EMPTY_INGREDIENT);
     const [errors, setErrors] = useState([]);
 
@@ -32,16 +32,12 @@ function IngredientForm() {
             setIngredient(EMPTY_INGREDIENT);
         }
     }, [id, navigate]);
-    // console.log(ingredient)
+        
 
     const handleChange = (event) => {
         const nextIngredient = { ...ingredient };
-
         let nextValue = event.target.value;
-
         nextIngredient[event.target.name] = nextValue;
-
-
         setIngredient(nextIngredient);
     }
 
@@ -49,12 +45,16 @@ function IngredientForm() {
         event.preventDefault();
 
         createIngredient(ingredient)
-            .then(data => {
-                navigate("/", {
-                    state: { msg: `${ingredient.name} was added!` }
-                });
+            .then(data => { 
+                console.log(data)
+                // onIngredientCreate(data); 
+                onClose(); 
             })
-            .catch(err => setErrors(err))
+            .catch(err => setErrors([err]));
+    }
+
+    const handleCancel = () => {
+        onClose();
     }
 
 
@@ -105,13 +105,13 @@ function IngredientForm() {
                         />
                     </div>
                     <div>
-                        <Button type="submit" variant="contained" color="primary">
-                            Save
-                        </Button>
-                        <Button component={Link} to="/" variant="contained" color="secondary">
-                            Cancel
-                        </Button>
-                    </div>
+                    <Button type="submit" variant="contained" color="primary">
+                        Save
+                    </Button>
+                    <Button onClick={handleCancel} variant="contained" color="secondary">
+                        Cancel
+                    </Button>
+                </div>
                 </form>
             </Box>
         </Box>

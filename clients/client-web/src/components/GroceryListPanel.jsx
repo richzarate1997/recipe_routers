@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types';
 import { Box, Typography, } from '@mui/material';
 import Ingredient from './Ingredient';
+import { Checkbox, FormControlLabel } from '@mui/material'
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -31,21 +32,34 @@ TabPanel.propTypes = {
 
 const GroceryListPanel = ({list, value, index}) => {
     const [ingredients, setIngredients] = useState(list);
+    
 
-    const renderIngredients = (list) => {
-        return list.map((ing) => <Ingredient key={ing.id} ing={ing} />)
-    }
+    // const renderIngredients = (list) => {
+    //     return list.map((ing) => {
+    //     <FormControlLabel 
+    //     label={ing.name}
+    //     labelPlacement='end'
+    //     control={<Checkbox />} />
+    // })
+    // }
     
     useEffect(() => {
         setIngredients(list);
-        console.log(list)
-    }, [list]);
+        console.log(list);
+        
+    }, []);
     
     return (
+        <>
         <TabPanel value={value} index={index}>
-            {ingredients.length > 0 && renderIngredients(ingredients)}
-        </TabPanel>
+            {ingredients.length > 0 && ingredients.map(ingredient => 
+                <Ingredient ing={ingredient} />
+            )}
+            </TabPanel>
+          </>  
+       
+    
     )
 }
 
-export default GroceryListPanel
+export default GroceryListPanel;

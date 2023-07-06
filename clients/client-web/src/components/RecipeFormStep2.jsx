@@ -1,21 +1,44 @@
-import { Fragment } from 'react'
-import { Link } from 'react-router-dom';
+import { Fragment, useState, useEffect } from 'react'
 import { Typography, Button } from '@mui/material';
-import IngredientSearch from "./IngredientSearch"
 import IngredientList from './IngredientList';
+import Modal from '@mui/material/Modal';
+import IngredientForm from './forms/IngredientForm';
+import { findAllIngredients } from '../service/ingredientApi';
 
-const RecipeFormStep2 = ({ ingredients, handleIngredientChange, header }) => (
-    <Fragment>
-        <Typography variant="h4" p={2}>{header}</Typography>
-        {<Fragment>
-            <IngredientList />
-            <Typography variant="h5" p={1}>Or</Typography>
-            <Button component={Link} to="/ingredient" variant="contained" color="primary">
-                Add Ingredient
-            </Button>
+
+
+const RecipeFormStep2 = ({ header }) => {
+    const [modalOpen, setModalOpen] = useState(false);
+    const [allIngredients, setAllIngredients] = useState([]);
+
+
+    useEffect(() => {
+        findAllIngredients().then(data => setAllIngredients(data));
+    }, [])
+    const handleModalOpen = () => setModalOpen(true);
+    const handleModalClose = () => setModalOpen(false);
+
+    return (
+        <Fragment>
+            <Typography variant="h4" p={2}>{header}</Typography>
+            <Fragment>
+                <IngredientList allIngredients={allIngredients}/>
+                <Typography variant="h5" p={1}>Or</Typography>
+                <Button onClick={handleModalOpen}>
+                    Add Ingredient
+                </Button>
+                {/* <Modal
+                    open={modalOpen}
+                    onClose={handleModalClose}
+                >
+                    <IngredientForm
+                        onClose={handleModalClose}
+                    // onIngredientCreate={handleIngredientCreate}
+                    />
+                </Modal> */}
+            </Fragment>
         </Fragment>
-        }
-    </Fragment>
-);
+    );
+};
 
 export default RecipeFormStep2

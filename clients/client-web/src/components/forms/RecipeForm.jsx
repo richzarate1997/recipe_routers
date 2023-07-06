@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { createRecipe, updateRecipe, findRecipeById, findAllCuisines } from "../../service/recipeApi";
 import { Box, Grid, Button, StepLabel, Stepper, Step, Typography } from "@mui/material";
@@ -7,6 +7,8 @@ import RecipeFormStep1 from "../RecipeFormStep1";
 import RecipeFormStep2 from "../RecipeFormStep2";
 import RecipeFormStep3 from "../RecipeFormStep3";
 import RecipeFormStep4 from "../RecipeFormStep4";
+import RecipeFormStep5 from "../RecipeFormStep5";
+import RecipeContext from '../../contexts/RecipeContext';
 
 const EMPTY_RECIPE = {
     title: '',
@@ -24,16 +26,31 @@ const EMPTY_RECIPE = {
     ingredients: []
 };
 
-const steps = ['Details', 'Ingredients', 'Instructions', 'Image'];
+const steps = ['Details', 'Ingredients', 'Quantities', 'Instructions', 'Image'];
 
 function RecipeForm() {
     const [recipe, setRecipe] = useState(EMPTY_RECIPE);
+    const [ingredients, setIngredients] = useState([]);
+    const [recipeIngredients, setRecipeIngredients] = useState([]);
     const [errors, setErrors] = useState([]);
     const [activeStep, setActiveStep] = useState(0);
     const [allCuisines, setAllCuisines] = useState([]);
     const [cuisines, setCuisines] = useState([]);
     const { id } = useParams();
     const navigate = useNavigate();
+    const obj = {
+        recipe: recipe,
+        ingredients: ingredients,
+        onIngredientAdd(ingreds) {
+            setIngredients(ingreds);
+        },
+        onRecipeIngredientChange(rI) {
+            setRecipe({ ...recipe, ingredients: recipeIngredients.filter(i1 => i1.name === rI.name ? rI : i1) });
+        },
+        onRecipeIngredientAdd(ingred) {
+            setRecipeIngredients( [...recipeIngredients, ingred]);
+        }
+    }
 
     useEffect(() => {
         if (id) {
@@ -85,10 +102,6 @@ function RecipeForm() {
         }
         setRecipe(nextRecipe);
     };
-
-    const handleIngredientChange = () => {
-        
-    }
 
     const handleUploadImage = (file) => {
         const nextRecipe = { ...recipe, image: file };
@@ -144,18 +157,20 @@ function RecipeForm() {
                 />;
             case 1:
                 return <RecipeFormStep2
-                    ingredients={recipe.ingredients}
-                    handleIngredientChange={handleIngredientChange}
                     header={steps[step]}
                 />;
             case 2:
                 return <RecipeFormStep3
-                    instructions={recipe.instructions}
-                    handleChange={handleChange}
                     header={steps[step]}
                 />;
             case 3:
                 return <RecipeFormStep4
+                    instructions={recipe.instructions}
+                    handleChange={handleChange}
+                    header={steps[step]}
+                />;
+            case 4:
+                return <RecipeFormStep5
                     handleUploadImage={handleUploadImage}
                     header={steps[step]}
                 />;
@@ -165,73 +180,74 @@ function RecipeForm() {
     }
 
     return (
-        <Grid>
-            <Box
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    minHeight: '70vh',
-                    px: 3, // Horizontal padding
-                }}
-            >
+        <RecipeContext.Provider value={obj}>
+            <Grid>
                 <Box
                     sx={{
-                        width: '50%',
-                        py: 3, // Vertical padding
-                        border: '1px solid #FEAE65',
-                        borderRadius: '8px',
-                        backgroundColor: '#fff',
                         display: 'flex',
-                        flexDirection: 'column',
+                        justifyContent: 'center',
                         alignItems: 'center',
+                        minHeight: '70vh',
+                        px: 3,
                     }}
                 >
-                    <Stepper activeStep={activeStep}>
-                        {steps.map((label, index) => {
-                            const stepProps = {};
-                            const labelProps = {};
-                            return (
-                                <Step key={label} {...stepProps}>
-                                    <StepLabel {...labelProps}>{label}</StepLabel>
-                                </Step>
-                            );
-                        })}
-                    </Stepper>
-                    {activeStep === steps.length ? (
-                        <Fragment>
-                            <Typography sx={{ mt: 2, mb: 1 }}>
-                                All steps completed - you&apos;re finished
-                            </Typography>
-                            <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                                <Box sx={{ flex: '1 1 auto' }} />
-                                <Button onClick={handleReset}>Reset</Button>
-                            </Box>
-                        </Fragment>
-                    ) : (
-                        <Fragment>
-                            {renderFormStep(activeStep)}
-                            <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                                <Button
-                                    color="inherit"
-                                    disabled={activeStep === 0}
-                                    onClick={handleBack}
-                                    sx={{ mr: 1 }}
-                                >
-                                    Back
-                                </Button>
-                                <Box sx={{ flex: '1 1 auto' }} />
-                                <Button onClick={handleNext}>
-                                    {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                                </Button>
-                            </Box>
-                        </Fragment>
-                    )}
+                    <Box
+                        sx={{
+                            width: '50%',
+                            py: 3,
+                            border: '1px solid #FEAE65',
+                            borderRadius: '8px',
+                            backgroundColor: '#fff',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                        }}
+                    >
+                        <Stepper activeStep={activeStep}>
+                            {steps.map((label, index) => {
+                                const stepProps = {};
+                                const labelProps = {};
+                                return (
+                                    <Step key={label} {...stepProps}>
+                                        <StepLabel {...labelProps}>{label}</StepLabel>
+                                    </Step>
+                                );
+                            })}
+                        </Stepper>
+                        {activeStep === steps.length ? (
+                            <Fragment>
+                                <Typography sx={{ mt: 2, mb: 1 }}>
+                                    All steps completed - you&apos;re finished
+                                </Typography>
+                                <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                                    <Box sx={{ flex: '1 1 auto' }} />
+                                    <Button onClick={handleReset}>Reset</Button>
+                                </Box>
+                            </Fragment>
+                        ) : (
+                            <Fragment>
+                                {renderFormStep(activeStep)}
+                                <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+                                    <Button
+                                        color="inherit"
+                                        disabled={activeStep === 0}
+                                        onClick={handleBack}
+                                        sx={{ mr: 1 }}
+                                    >
+                                        Back
+                                    </Button>
+                                    <Box sx={{ flex: '1 1 auto' }} />
+                                    <Button onClick={handleNext}>
+                                        {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                                    </Button>
+                                </Box>
+                            </Fragment>
+                        )}
+                    </Box>
+                    <Errors errors={errors} />
                 </Box>
-                <Errors errors={errors} />
-            </Box>
-        </Grid>
-
+            </Grid>
+        </RecipeContext.Provider>
     );
 }
 
