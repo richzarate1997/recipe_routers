@@ -7,7 +7,7 @@ import { findAllIngredients } from '../service/ingredientApi';
 
 
 
-const RecipeFormStep2 = ({ header }) => {
+const RecipeFormStep2 = ({ header, recipe, handleIngredientsChanged }) => {
     const [modalOpen, setModalOpen] = useState(false);
     const [allIngredients, setAllIngredients] = useState([]);
 
@@ -22,7 +22,7 @@ const RecipeFormStep2 = ({ header }) => {
         <Fragment>
             <Typography variant="h4" p={2}>{header}</Typography>
             <Fragment>
-                <IngredientList allIngredients={allIngredients}/>
+                <IngredientList allIngredients={allIngredients} recipeIngredients={recipe.ingredients} handleIngredientsChanged={handleIngredientsChanged}/>
                 <Typography variant="h5" p={1}>Or</Typography>
                 <Button onClick={handleModalOpen}>
                     Add Ingredient

@@ -27,25 +27,29 @@ function union(a, b) {
     return [...a, ...not(b, a)];
 }
 
-const IngredientList = () => {
+const IngredientList = ({ allIngredients, recipeIngredients, handleIngredientsChanged }) => {
     const [ingredients, setIngredients] = useState([]);
     const [checked, setChecked] = useState([]);
     const [left, setLeft] = useState([]);
     const [right, setRight] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
-    const obj = useContext(RecipeContext);
 
     const leftChecked = intersection(checked, left);
     const rightChecked = intersection(checked, right);
 
     useEffect(() => {
-        findAllIngredients().then(data => setLeft(data.map(item => item.name)));
-        findAllIngredients().then(data => setIngredients(data));
-    }, []);
+        setLeft(allIngredients.map(item => item.name));
+    }, [allIngredients]);
+
+    // useEffect(() => {
+    // obj.onIngredientAdd(
+    // allIngredients.filter(i1 => right.some(i2 => i2 === i1.name)));
+    // }, [right]);
 
     useEffect(() => {
-        obj.onIngredientAdd(ingredients.filter(i1 => right.some(i2 => i2 === i1.name)));
-    }, [right]);
+        console.log(recipeIngredients)
+        setRight(recipeIngredients.map(i1 => i1.ingredient.name));
+    }, [recipeIngredients])
 
     const handleToggle = (value) => () => {
         const currentIndex = checked.indexOf(value);
@@ -72,8 +76,14 @@ const IngredientList = () => {
         }
     };
 
+
+
     const handleCheckedRight = () => {
-        setRight(right.concat(leftChecked));
+        // setRight(right.concat(leftChecked));
+        const newRecipeIngredients = leftChecked.map(i => { 
+            return { quantity: 0, unit: {}, ingredient: i } });
+        const nextRecipeIngredients = { ...recipeIngredients, ...newRecipeIngredients };
+        handleIngredientsChanged(nextRecipeIngredients);
         setLeft(not(left, leftChecked));
         setChecked(not(checked, leftChecked));
     };

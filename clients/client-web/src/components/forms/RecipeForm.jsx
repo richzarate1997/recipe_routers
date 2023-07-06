@@ -150,6 +150,10 @@ function RecipeForm() {
         }
     }
 
+    const handleIngredientsChanged = (recipeIngredients) => {
+        const nextRecipe = { ...recipe, ingredients: recipeIngredients };
+        setRecipe(nextRecipe);
+    }
 
     const renderFormStep = (step) => {
         switch (step) {
@@ -163,6 +167,8 @@ function RecipeForm() {
             case 1:
                 return <RecipeFormStep2
                     header={steps[step]}
+                    recipe={recipe}
+                    handleIngredientsChanged={handleIngredientsChanged}
                 />;
             case 2:
                 return <RecipeFormStep3
