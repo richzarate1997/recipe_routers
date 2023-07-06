@@ -112,6 +112,7 @@ function App() {
                                 : <Login heading="Register" buttonText="Register" isRegistration={true} />
                         } />
                         <Route path="/notfound" element={<NotFound/>} />
+                        <Route path="*" element={<Navigate to={'/notfound'}/>} />
                     </Routes>
                     <Footer />
                 </Router>
