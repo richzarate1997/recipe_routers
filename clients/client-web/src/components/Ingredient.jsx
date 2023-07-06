@@ -13,8 +13,10 @@ const Ingredient = ({ ing }) => {
     
     useEffect(() => {
         setIngredient(ing);
-    }, [ing])
-    
+    }, []);
+
+    console.log(ing);
+   
     return (
         <FormControlLabel 
             label={ingredient.name}

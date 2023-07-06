@@ -42,12 +42,17 @@ const UserIcon = () => {
     //         children: name.includes(' ') ? `${name.split(' ')[0][0]}${name.split(' ')[1][0]}` : `${name[0]}`,
     //     };
     // }
+    
+    const styles = {
+        color: '#FEAE65',
+        backgroundColor: '#612D33',
+    }
 
     return (
         <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar />
+                    <Avatar style={styles}/>
                 </IconButton>
             </Tooltip>
             <Menu
@@ -70,13 +75,13 @@ const UserIcon = () => {
                     <Typography textAlign="center" to={`/profile`} component={Link}>Profile</Typography>
                 </MenuItem>
                 <MenuItem onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center" onClick={() => auth.signOut()} component={Link}>Logout</Typography>
-                </MenuItem>
-                <MenuItem onClick={handleCloseUserMenu}>
                 <Typography textAlign="center" to={`/new/recipe`} component={Link}>Create Recipe</Typography>
                 </MenuItem>
                 <MenuItem onClick={handleCloseUserMenu}>
                 <Typography textAlign="center" to={`/add/grocerylist`} component={Link}>Create Grocery List</Typography>
+                </MenuItem>
+                <MenuItem onClick={handleCloseUserMenu}>
+                    <Typography textAlign="center" onClick={() => auth.signOut()} component={Link}>Logout</Typography>
                 </MenuItem>
             </Menu>
         </Box>

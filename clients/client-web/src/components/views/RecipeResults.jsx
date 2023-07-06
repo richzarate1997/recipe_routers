@@ -116,10 +116,10 @@ function Recipe() {
 
 
     return (
-        <Box mx={4} sx={{ paddingTop: 2 }}>
-            <Grid container spacing={2} mx='auto' my={2}>
+        <Box mx='5%' sx={{ paddingTop: 2 }}>
+            <Grid container spacing={2} my={2} >
                 {recipes.map(recipe => (
-                    <Grid key={recipe.id} item xs={12} sm={6} md={4} py={2}>
+                    <Grid key={recipe.id} item xs={12} sm={6} md={4} py={2} sx={{position: 'static'}}>
                         <RecipeCard
                             id={recipe.id}
                             imgUrl={recipe.image}

@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -50,6 +51,13 @@ public class IngredientController {
                 .filter(ingredient -> ingredient.getName().toLowerCase().contains(param.toLowerCase()))
                 .collect(Collectors.toList());
     }
+
+    @PostMapping("/add/get/")
+    public List<Ingredient> addAndGetIngredients(@RequestBody List<Ingredient> ingredients) {
+        List<Ingredient> returnIngredients = new ArrayList<>();
+        return returnIngredients;
+    }
+
 
     @PostMapping
     public ResponseEntity<Object> create(@RequestBody @Valid Ingredient ingredient, BindingResult bindingResult) throws DataException {

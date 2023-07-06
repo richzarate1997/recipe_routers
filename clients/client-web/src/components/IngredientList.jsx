@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { findAllIngredients } from "../service/ingredientApi";
 import Grid from '@mui/material/Grid';
+import Modal from '@mui/material/Modal';
 import List from '@mui/material/List';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -11,6 +12,8 @@ import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
+import RecipeContext from "../contexts/RecipeContext";
+import IngredientForm from "./forms/IngredientForm";
 
 function not(a, b) {
     return a.filter((value) => b.indexOf(value) === -1);
@@ -25,17 +28,24 @@ function union(a, b) {
 }
 
 const IngredientList = () => {
+    const [ingredients, setIngredients] = useState([]);
     const [checked, setChecked] = useState([]);
     const [left, setLeft] = useState([]);
     const [right, setRight] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
+    const obj = useContext(RecipeContext);
 
     const leftChecked = intersection(checked, left);
     const rightChecked = intersection(checked, right);
 
     useEffect(() => {
         findAllIngredients().then(data => setLeft(data.map(item => item.name)));
+        findAllIngredients().then(data => setIngredients(data));
     }, []);
+
+    useEffect(() => {
+        obj.onIngredientAdd(ingredients.filter(i1 => right.some(i2 => i2 === i1.name)));
+    }, [right]);
 
     const handleToggle = (value) => () => {
         const currentIndex = checked.indexOf(value);
@@ -49,6 +59,8 @@ const IngredientList = () => {
 
         setChecked(newChecked);
     };
+
+
 
     const numberOfChecked = (items) => intersection(checked, items).length;
 
@@ -145,6 +157,7 @@ const IngredientList = () => {
     return (
         <Grid container spacing={2} justifyContent="center" alignItems="center">
             <Grid item>{customList('Choices', filteredLeft, true)}</Grid>
+
             <Grid item>
                 <Grid container direction="column" alignItems="center">
                     <Button

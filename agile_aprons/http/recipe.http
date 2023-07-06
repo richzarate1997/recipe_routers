@@ -3,7 +3,7 @@
 GET {{url}} HTTP/1.1
 
 ###
-GET {{url}}/2 HTTP/1.1
+GET {{url}}/4 HTTP/1.1
 
 ###
 GET {{url}}/search/pepp HTTP/1.1
@@ -28,13 +28,13 @@ Content-Type: application/json
   "dairyFree": false,
   "ingredients": [
     {
+      "quantity": 16.0,
       "ingredient": {
         "id": 1,
         "name": "Cheese",
         "imageUrl": "https://cheese.com/cheese.jpg",
         "aisle": "Dairy"
       },
-      "quantity": 16.0,
       "unit": {
         "id": 4,
         "name": "cup",

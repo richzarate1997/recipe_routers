@@ -15,6 +15,7 @@ import { useState, useEffect, useCallback } from "react";
 import { refreshToken, signOut } from "./service/authApi";
 import AuthContext from "./contexts/AuthContext";
 import { ThemeProvider, createTheme } from "@mui/material"
+import './App.css';
 
 const EMPTY_USER = {
     username: '',
@@ -94,7 +95,6 @@ function App() {
                         <Route path="/recipe/:id" element={<ShowRecipe />} />
                         <Route path="/new/recipe" element={<RecipeForm />} />
                         <Route path="/add/grocerylist" element={<GroceryListForm />} />
-                        <Route path="/ingredient" element={<IngredientForm />} />
                         <Route path="/about" element={<About />} />
                         <Route path="/profile" element={
                             auth.isLoggedIn()

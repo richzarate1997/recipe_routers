@@ -1,7 +1,7 @@
 import SearchBar from "../SearchBar";
 import FunFact from "../FunFact";
 import logo from "../../assets/logo.png";
-import { Alert, Box } from '@mui/material'
+import { Alert, Box, Typography } from '@mui/material'
 import { useLocation } from "react-router-dom";
 
 function Home() {
@@ -32,7 +32,7 @@ function Home() {
                     <SearchBar />
                 </Box>
                 <FunFact />
-                { location.state && <Alert variant="success">{location.state.msg}</Alert> }
+                { location.state && <Alert variant="success"><Typography variant="subtitle1">{location.state.msg}</Typography></Alert> }
             </Box>
         </>
     );

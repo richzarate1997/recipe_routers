@@ -5,6 +5,8 @@ import { Paper, Typography, List, ListItem, ListItemText, Box, Grid, Divider } f
 import RecipeIngredient from '../RecipeIngredient';
 import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
 import MenuBookOutlinedIcon from '@mui/icons-material/MenuBookOutlined';
+import Chip from '@mui/material/Chip';
+import Stack from '@mui/material/Stack';
 
 const EMPTY_RECIPE = {
     id: 0,
@@ -78,71 +80,72 @@ const ShowRecipe = () => {
     }, []);
     // Unloading the object with line break elements temporarily
     return (
-        <>
-            {
-                ingredients.length > 0 &&
-                <Paper elevation={4} style={styles.paper}>
-                    <Grid container sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                        <Grid item pt={2}>
-                            <Typography variant='h3'>{recipe.title}</Typography>
-                            <Divider sx={{ paddingTop: 1, paddingBottom: 1 }} />
-                            <Box component='img' src={`${image}`} alt={recipe.title} width={200} />
-                        </Grid>
+        <>{
+            ingredients.length > 0 &&
+            <Paper elevation={4} style={styles.paper}>
+                <Grid container sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Grid item pt={2}>
+                        <Typography variant='h3'>{recipe.title}</Typography>
+                        <Divider sx={{ paddingTop: 1, paddingBottom: 1 }} />
+                        <Box component='img' src={`${image}`} alt={recipe.title} width={200} />
                     </Grid>
+                </Grid>
 
-                    <Grid container>
-                        <Grid item xs={6}>
-                            <AccessTimeOutlinedIcon />
-                            <Typography>{recipe.cookMinutes} Minutes </Typography>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <MenuBookOutlinedIcon />
-                            <Typography>{recipe.servings} Servings</Typography>
-                        </Grid>
+                <Grid container>
+                    <Grid item xs={6}>
+                        <AccessTimeOutlinedIcon />
+                        <Typography>{recipe.cookMinutes} Minutes </Typography>
                     </Grid>
-                    <Typography>
-                        {recipe.vegetarian && 'Vegetarian'}
-                    </Typography>
-                    <Typography>
-                        {recipe.vegan && 'Vegan'}
-                    </Typography>
-                    <Typography>
-                        {recipe.glutenFree && 'Gluten Free'}
-                    </Typography>
-                    <Typography>
-                        {recipe.dairyFree && 'Dairy Free'}
-                    </Typography>
+                    <Grid item xs={6}>
+                        <MenuBookOutlinedIcon />
+                        <Typography>{recipe.servings} Servings</Typography>
+                    </Grid>
+                </Grid>
 
+                <Stack direction="row" spacing={1} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    {recipe.vegetarian && <Chip variant='outlined' size='medium' key={`${recipe.id}-vegetarian`} label='Vegetarian' />}
+                    {recipe.vegan && <Chip variant='outlined' size='medium' key={`${recipe.id}-vegan`} label='Vegan' />}
+                    {recipe.glutenFree && <Chip variant='outlined' size='medium' key={`${recipe.id}-glutenFree`} label='Gluten Free' />}
+                    {recipe.dairyFree && <Chip variant='outlined' size='medium' key={`${recipe.id}-dairyFree`} label='Dairy Free' />}
 
+                    {recipe.cuisines.length ? recipe.cuisines.map((c) => <Chip variant='outlined' size='medium' key={`${recipe.id}-${c.name}`} label={c.name} />) : 'None'}
+                </Stack>
 
-                    
-                    <Typography>
-                        {recipe.cuisines.length ? recipe.cuisines.map((c, i) => `${c.name}${recipe.cuisines.length - 1 > i ? ', ' : ''}`) : 'None'}<br />
-                    </Typography>
-                    <Typography>
-                       
-                    </Typography>
+                <Grid container>
+                    <Grid item marginX='15%'>
+                        <Typography>Ingredients: </Typography>
+                    </Grid>
+                </Grid>
+
+                <Grid item marginX='15%'>
                     <List>
-                        <ListItem>
-
-                        </ListItem>
                         {ingredients.map(ingredient => (
                             <ListItem key={ingredient.ingredient.id}>
                                 <ListItemText primary={`${ingredient.quantity} ${ingredient.unit.name} ${ingredient.ingredient.name}`} />
                             </ListItem>
                         ))}
                     </List>
+                </Grid>
 
-                    <Typography>
-                        Instructions:
-                    </Typography>
-                    <Typography>
-                        {recipe.instructions}<br />
-                    </Typography>
+                <Grid container >
+                    <Grid item sx={{ marginX: '15%' }}>
+                        <Typography>
+                            Instructions:
+                        </Typography>
+                    </Grid>
+                    <Grid item sx={{ marginX: '15%' }}>
+                        <Typography>
+                            {recipe.instructions}
+                        </Typography>
+                    </Grid>
+                </Grid>
 
-                    {recipe.sourceUrl && <Typography><a href={recipe.sourceUrl}>Source</a></Typography>}
-                </Paper>
-            }
+                <Box sx={{paddingY: '3%'}}>
+                    {recipe.sourceUrl && <Typography variant='overline'><a href={recipe.sourceUrl}>Source</a></Typography>}
+                </Box>
+                
+            </Paper>
+        }
         </>
     )
 }

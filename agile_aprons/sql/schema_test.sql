@@ -239,22 +239,24 @@ BEGIN
 		(1, 'ADMIN', 1),
 		(2, 'TESTER', 0);
 
-	INSERT INTO `unit` (`id`, `name`, `abbrev`)
+	INSERT INTO `unit` (`name`, `abbrev`)
 		VALUES
-		(1, 'fluid ounce','fl oz'),
-		(2, 'ounce','oz'),
-		(3, 'tablespoon','tbsp'),
-		(4, 'cup','c'),
-		(5, 'pint','pt'),
-		(6, 'quart','qt'),
-		(7, 'gallon','gal'),
-		(8, 'teaspoon','tsp'),
-		(9, 'pound','lb'),
-		(10, 'milliliter','mL'),
-		(11, 'liter','L'),
-		(12, 'gram','g'),
-		(13, 'kilogram','kg'),
-        (14, 'count', 'ct');
+		('fluid ounce','fl oz'),
+		('ounce','oz'),
+		('tablespoon','tbsp'),
+		('cup','c'),
+		('pint','pt'),
+		('quart','qt'),
+		('gallon','gal'),
+		('teaspoon','tsp'),
+		('pound','lb'),
+		('milliliter','mL'),
+		('liter','L'),
+		('milligram','mg'),
+		('gram','g'),
+		('kilogram','kg'),
+		('',''),
+		('count', 'ct');
         
 	INSERT INTO `cuisine` (`id`, `name`)
 		VALUES

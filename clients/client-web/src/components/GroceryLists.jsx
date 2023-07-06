@@ -31,6 +31,7 @@ export default function GroceryLists({ gLists }) {
     }
 
     const renderTabPanels = (lists) => {
+        
         return lists.map((list) =>
             <GroceryListPanel key={list.id} list={list.list} value={value} index={list.id} />
         )

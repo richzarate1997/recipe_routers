@@ -27,10 +27,10 @@ export default function RecipeCard({ id, imgUrl, name, cookTime, servings, sourc
     // }
     
     return (
-        <CardActionArea sx={{ maxWidth: 345, minWidth: 280 }}>
+        <CardActionArea sx={{ width: 345 }}>
             <Tooltip title={name} placement='top' arrow>
                 <Card
-                    sx={{ maxWidth: 345, minWidth: 280, minHeight: 370 }}
+                    sx={{ width: 345, height: 370 }}
                     py={2} //onClick={getRecipe(id)}
                 >
                     <CardMedia

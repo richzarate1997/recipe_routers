@@ -1,7 +1,7 @@
 import { findUser, update } from '../../service/userApi';
 import { Box, FormControlLabel, Grid, Typography, Switch } from '@mui/material';
 import { useEffect, useState } from 'react';
-import GroceryLists from '../GroceryLists';
+import GroceryListList from '../GroceryListList';
 import MyRecipes from '../MyRecipes';
 
 const Profile = ({ appUser }) => {
@@ -43,8 +43,8 @@ const Profile = ({ appUser }) => {
                     <MyRecipes />
                 </Grid>
                 <Grid item xs={12} sm={6} md={8}>
-                    <Typography variant='h5'>My Grocery Lists</Typography>
-                    {user && <GroceryLists gLists={user.myLists} />}
+                    <Typography variant='h5'>My Grocery List</Typography>
+                    {user && <GroceryListList />}
                 </Grid>
             </Grid>
         </Box>

@@ -4,9 +4,7 @@ import javax.validation.constraints.NotBlank;
 
 public class Unit {
     private int id;
-    @NotBlank
     private String name;
-    @NotBlank
     private String abbrev;
 
     public int getId() {
