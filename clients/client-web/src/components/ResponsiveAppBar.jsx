@@ -38,7 +38,7 @@ function ResponsiveAppBar() {
 
     return (
         <ThemeProvider theme={theme}>
-            <AppBar position="static">
+            <AppBar position="sticky">
                 <Container maxWidth="xl">
                     <Toolbar disableGutters>
                         <FastfoodOutlinedIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />

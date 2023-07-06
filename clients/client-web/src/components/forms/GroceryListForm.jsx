@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { createGroceryList, findGroceryListById, updateGroceryList } from "../../service/groceryListApi";
+import { createList, findGroceryListById, updateList } from "../../service/userApi";
 import { Autocomplete, Button, Box, TextField } from '@mui/material';
 import Errors from "../Errors";
 import NavBarSearch from "../NavBarSearch";
@@ -49,7 +49,7 @@ function GroceryListForm() {
         event.preventDefault();
 
         if (groceryList.id === 0) {
-            createGroceryList(groceryList)
+            createList(groceryList)
                 .then(data => {
                     navigate("/", {
                         state: { msg: `${groceryList.name} was added!` }
@@ -57,7 +57,7 @@ function GroceryListForm() {
                 })
                 .catch(err => setErrors(err))
         } else {
-            updateGroceryList(groceryList)
+            updateList(groceryList)
                 .then(() => {
                     navigate("/", {
                         state: {

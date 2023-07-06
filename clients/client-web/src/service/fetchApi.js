@@ -65,7 +65,6 @@ export async function searchRecipes(query) {
 
 
 // =====~~~~ Spoonacular Recipe object relevant properties~~~~===========
-// cookingMinutes: 10
 // cuisines: []
 // dairyFree: true
 // extendedIngredients: (9)[{… }, {… }, {… }, {… }, {… }, {… }, {… }, {… }, {… }]
@@ -90,10 +89,12 @@ export async function searchRecipes(query) {
 // vegetarian: true
 
 
+
+
 export async function getRecipeInformation(id) {
     const options = {
         method: 'GET',
-        url: 'https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/479101/information',
+        url: `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/${id}/information`,
         headers: {
             'X-RapidAPI-Key': process.env.REACT_APP_SPOONACULAR_API_KEY,
             'X-RapidAPI-Host': 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com'

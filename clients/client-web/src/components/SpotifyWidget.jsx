@@ -50,7 +50,7 @@ const SpotifyWidget = () => {
                 <SpotifyPlayer
                     token={spotifyToken}
                     uris={['spotify:playlist:7yWS4mNsIXUYtm71xDIWe8']}
-                    initialVolume={0.6}
+                    initialVolume={0.1}
                     offset={offset}
                     locale={navigator.language}
                     styles={{

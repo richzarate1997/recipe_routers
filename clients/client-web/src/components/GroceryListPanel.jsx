@@ -35,7 +35,6 @@ const GroceryListPanel = ({list, value, index}) => {
     const renderIngredients = (list) => {
         return list.map((ing) => <Ingredient key={ing.id} ing={ing} />)
     }
-    console.log(value)
     
     useEffect(() => {
         setIngredients(list);

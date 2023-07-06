@@ -64,6 +64,22 @@ public class UserController {
         service.removeFavorite(userFavorite.getUserId(), userFavorite.getRecipeId());
     }
 
+
+
+    @GetMapping("/list")
+    public List<GroceryList> findAllGroceryLists() {
+        return groceryListService.findAll();
+    }
+
+    @GetMapping("/list/{id}")
+    public ResponseEntity<GroceryList> findGroceryListById(@PathVariable int id) {
+        GroceryList groceryList = groceryListService.findById(id);
+        if (groceryList != null) {
+            return new ResponseEntity<>(groceryList, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
     @PostMapping("/list")
     public ResponseEntity<Object> createGroceryList(@RequestBody @Valid GroceryList groceryList,
                                                     BindingResult bindingResult) throws DataException {
