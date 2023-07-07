@@ -77,12 +77,12 @@ function AddGroceries() {
         setGroceryList({...groceryList, list:newIngredientList});
         // const newGroceryList = {...groceryList, list: newIngredientList};
         console.log(newIngredientList);
-        // updateList(newGroceryList)
-        //     .then(response => {
-        //         console.log(response.data);})
-        //     .catch(error => setError(error));
+        updateList(groceryList)
+            .then(response => {
+                console.log(response.data);})
+            .catch(error => setError(error));
         
-        // navigate('/');
+        navigate('/profile');
 
     }
     return (
@@ -130,7 +130,7 @@ function AddGroceries() {
                                 <Button onClick={handleAddIngredients}>Add Ingredients</Button>
                             </Grid>
                             {/* <Grid item xs={12}>
-                                <Errors />
+                                {error}
                             </Grid> */}
                         </Grid>
                     </CardContent>
