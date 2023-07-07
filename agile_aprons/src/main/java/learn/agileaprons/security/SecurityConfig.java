@@ -57,7 +57,6 @@ public class SecurityConfig {
 //                        "/api/user/favorite",
 //                        "/api/user/list"
                 ).permitAll()
-                // Replace ^ with authenticated permission only for posts below later \/
                 .antMatchers(HttpMethod.POST,
                         "/api/ingredient",
 //                        "/api/recipe",
@@ -68,20 +67,13 @@ public class SecurityConfig {
                         "/api/recipe/*",
                         "/api/user",
                         "/api/user/list"
-                ).permitAll()
-                // Replace ^ with authenticated permission only for posts below later \/
-//                .antMatchers(HttpMethod.PUT,
-//                        "/api/recipe/*",
-//                        "/api/user",
-//                        "/api/user/list"
-//                ).authenticated()
-                // Replace ^ with authenticated permission only for posts below later \/
+                ).authenticated()
                 .antMatchers(HttpMethod.DELETE,
                         "/api/recipe/*",
                         "/api/user/list",
                         "/api/user/favorite"
                 ).authenticated()
-//                .antMatchers(HttpMethod.DELETE, "/api/*").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/api/*").hasAuthority("ADMIN")
                 .antMatchers("/**").denyAll()
                 .and()
                 .addFilter(new JwtRequestFilter(authenticationManager(authConfig), jwtConverter))
