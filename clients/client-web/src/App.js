@@ -93,8 +93,16 @@ function App() {
                         <Route path="/recipes" element={<Recipe />} />
                         <Route path="/search/:param" element={<Recipe />} />
                         <Route path="/recipe/:id" element={<ShowRecipe />} />
-                        <Route path="/new/recipe" element={<RecipeForm />} />
-                        <Route path="/add/grocerylist" element={<GroceryListForm />} />
+                        <Route path="/new/recipe" element={
+                            auth.isLoggedIn()
+                                ? <RecipeForm />
+                                : <Navigate to="/recipes" />
+                        } />
+                        <Route path="/add/grocerylist" element={
+                            auth.isLoggedIn()
+                                ? <GroceryListForm />
+                                : <Navigate to="/recipes" />
+                        } />
                         <Route path="/about" element={<About />} />
                         <Route path="/profile" element={
                             auth.isLoggedIn()
@@ -111,8 +119,8 @@ function App() {
                                 ? <Navigate to='/profile' />
                                 : <Login heading="Register" buttonText="Register" isRegistration={true} />
                         } />
-                        <Route path="/notfound" element={<NotFound/>} />
-                        <Route path="*" element={<Navigate to={'/notfound'}/>} />
+                        <Route path="/notfound" element={<NotFound />} />
+                        <Route path="*" element={<Navigate to={'/notfound'} />} />
                     </Routes>
                     <Footer />
                 </Router>

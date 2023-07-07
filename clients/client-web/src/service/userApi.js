@@ -9,15 +9,15 @@ const API_URL = `${BASE_URL}/api/user`;
 
 export async function findUser() {
     const jwtToken = localStorage.getItem('jwt_token');
-    const { app_user_id: id } = jwtDecode(jwtToken)
+    const { app_user_id } = jwtDecode(jwtToken)
     const options = makeOptions('GET', jwtToken)
-    const response = await axios.get(`${API_URL}/${id}`, options);
+    const response = await axios.get(`${API_URL}/${app_user_id}`, options);
     if (response.status === 200) {
         return response.data;
     } else if (response.status === 403) {
         return Promise.reject('Unauthorized');
     } else {
-        return Promise.reject(`User: ${id} was not found.`);
+        return Promise.reject(`User: ${app_user_id} was not found.`);
     }
 }
 
@@ -89,7 +89,7 @@ export async function findGroceryListById(id) {
         }
     } catch (error) {
         console.error(error);
-        return Promise.reject(error);
+        return Promise.reject(error.response.data);
     }
 }
 
@@ -140,5 +140,5 @@ const makeOptions = (method, token) => {
         headers: {
             'Authorization': `Bearer ${token}`
         },
-    }
+    };
 }

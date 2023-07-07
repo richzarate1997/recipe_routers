@@ -1,6 +1,10 @@
+
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { findRecipeById } from '../../service/recipeApi';
+import { findRecipeById } from '../../service/recipeApi'
+import Checkbox from '@mui/material/Checkbox';
+import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
+import Favorite from '@mui/icons-material/Favorite';
 import { Paper, Typography, List, ListItem, ListItemText, Box, Grid, Divider } from '@mui/material';
 import RecipeIngredient from '../RecipeIngredient';
 import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
@@ -43,6 +47,9 @@ const ShowRecipe = () => {
         }
     }
 
+    const [checked, setChecked] = useState(false);
+
+
     const renderBlob = () => {
         // const reader = new FileReader();
         // return new Promise((resolve, reject) => {
@@ -84,6 +91,7 @@ const ShowRecipe = () => {
             ingredients.length > 0 &&
             <Paper elevation={4} style={styles.paper}>
                 <Grid container sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+
                     <Grid item pt={2}>
                         <Typography variant='h3'>{recipe.title}</Typography>
                         <Divider sx={{ paddingTop: 1, paddingBottom: 1 }} />
@@ -139,11 +147,16 @@ const ShowRecipe = () => {
                         </Typography>
                     </Grid>
                 </Grid>
+                <Checkbox 
+                    icon={<FavoriteBorder />} 
+                    checkedIcon={<Favorite />} 
+                    sx={{ mt: '5%', '& .MuiSvgIcon-root': { fontSize: 50 } }}
+                    />
 
-                <Box sx={{paddingY: '3%'}}>
+                <Box sx={{ paddingY: '3%' }}>
                     {recipe.sourceUrl && <Typography variant='overline'><a href={recipe.sourceUrl}>Source</a></Typography>}
                 </Box>
-                
+
             </Paper>
         }
         </>

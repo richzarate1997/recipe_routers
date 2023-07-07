@@ -28,7 +28,6 @@ function union(a, b) {
 }
 
 const IngredientList = ({ allIngredients, recipeIngredients, handleIngredientsChanged }) => {
-    const [ingredients, setIngredients] = useState([]);
     const [checked, setChecked] = useState([]);
     const [left, setLeft] = useState([]);
     const [right, setRight] = useState([]);
@@ -40,11 +39,6 @@ const IngredientList = ({ allIngredients, recipeIngredients, handleIngredientsCh
     useEffect(() => {
         setLeft(allIngredients.map(item => item.name));
     }, [allIngredients]);
-
-    // useEffect(() => {
-    // obj.onIngredientAdd(
-    // allIngredients.filter(i1 => right.some(i2 => i2 === i1.name)));
-    // }, [right]);
 
     useEffect(() => {
         console.log(recipeIngredients)
@@ -60,11 +54,8 @@ const IngredientList = ({ allIngredients, recipeIngredients, handleIngredientsCh
         } else {
             newChecked.splice(currentIndex, 1);
         }
-
         setChecked(newChecked);
     };
-
-
 
     const numberOfChecked = (items) => intersection(checked, items).length;
 
@@ -76,13 +67,10 @@ const IngredientList = ({ allIngredients, recipeIngredients, handleIngredientsCh
         }
     };
 
-
-
     const handleCheckedRight = () => {
-        // setRight(right.concat(leftChecked));
         const newRecipeIngredients = leftChecked.map(i => { 
-            return { quantity: 0, unit: {}, ingredient: i } });
-        const nextRecipeIngredients = { ...recipeIngredients, ...newRecipeIngredients };
+            return { quantity: 0, unit: { id: 0, abbreviation: '', name: '' }, ingredient: allIngredients.find((ing) => ing.name === i) } });
+        const nextRecipeIngredients = [ ...recipeIngredients, ...newRecipeIngredients ];
         handleIngredientsChanged(nextRecipeIngredients);
         setLeft(not(left, leftChecked));
         setChecked(not(checked, leftChecked));

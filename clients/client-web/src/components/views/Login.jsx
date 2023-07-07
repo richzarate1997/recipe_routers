@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import AuthContext from "../../contexts/AuthContext";
 import { authenticate } from "../../service/authApi";
 import { TextField, Avatar, Button, FormControlLabel, Container, Box, Grid, Checkbox, Typography, Tooltip } from "@mui/material";
-import Errors from "../Errors";
+import LoginErrors from "../LoginErrors";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
 
@@ -116,7 +116,7 @@ function Login(props) {
                     </Grid>
                 </Box>
             </Box>
-            <Errors errors={errors} />
+            <LoginErrors errs={errors} />
         </Container>
     )
 }
