@@ -28,7 +28,7 @@ public class GroceryListJdbcTemplateRepository implements GroceryListRepository{
 
     @Override
     public List<GroceryList> findAll() {
-        final String sql = "select id, user_app_user_id, name "
+        final String sql = "select grocery_list_id, user_app_user_id, grocery_list_name "
                 + "from grocery_list;";
         return jdbcTemplate.query(sql, new GroceryListMapper());
     }
@@ -36,9 +36,9 @@ public class GroceryListJdbcTemplateRepository implements GroceryListRepository{
     @Override
     @Transactional
     public GroceryList findById(int id) {
-        final String sql = "select id, user_app_user_id, name "
+        final String sql = "select grocery_list_id, user_app_user_id, grocery_list_name "
                 + "from grocery_list "
-                + " where id = ?;";
+                + " where grocery_list_id = ?;";
         GroceryList result = jdbcTemplate.queryForObject(sql, new GroceryListMapper(), id);
         if (result != null){
             addIngredients(result);
@@ -49,7 +49,7 @@ public class GroceryListJdbcTemplateRepository implements GroceryListRepository{
     @Override
     @Transactional
     public GroceryList create(GroceryList groceryList) {
-        final String sql = "insert into grocery_list (user_app_user_id, name)" +
+        final String sql = "insert into grocery_list (user_app_user_id, grocery_list_name)" +
                 "values (?, ?);";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         int rowsAffected = jdbcTemplate.update(connection -> {
@@ -72,8 +72,8 @@ public class GroceryListJdbcTemplateRepository implements GroceryListRepository{
     @Transactional
     public boolean update(GroceryList groceryList) {
         final String sql = "update grocery_list set " +
-                "name = ? " +
-                "where id = ?;";
+                "grocery_list_name = ? " +
+                "where grocery_list_id = ?;";
 
         removeGroceryListIngredients(groceryList.getId());
         addGroceryListIngredients(groceryList);
@@ -84,15 +84,15 @@ public class GroceryListJdbcTemplateRepository implements GroceryListRepository{
     @Transactional
     public boolean deleteById(int id) {
         removeGroceryListIngredients(id);
-        return jdbcTemplate.update("delete from grocery_list where id = ?;", id) > 0;
+        return jdbcTemplate.update("delete from grocery_list where grocery_list_id = ?;", id) > 0;
     }
 
     private void addIngredients(GroceryList groceryList){
-        final String sql = "select i.id, i.name, i.aisle, i.image_url " +
+        final String sql = "select i.ingredient_id, i.ingredient_name, i.aisle, i.image_url " +
                 "from ingredient i " +
-                "join grocery_list_ingredient gli on i.id = gli.ingredient_id " +
-                "join grocery_list gl on gl.id = gli.grocery_list_id " +
-                "where gl.id = ?;";
+                "join grocery_list_ingredient gli on i.ingredient_id = gli.ingredient_id " +
+                "join grocery_list gl on gl.grocery_list_id = gli.grocery_list_id " +
+                "where gl.grocery_list_id = ?;";
         var ingredients = jdbcTemplate.query(sql, new IngredientMapper(), groceryList.getId());
         groceryList.setList(ingredients);
     }

@@ -97,8 +97,8 @@ CREATE TABLE `user_favorite` (
 -- Table `recipe_list_test`.`ingredient`
 -- -----------------------------------------------------
 CREATE TABLE `ingredient` (
-  `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `name` VARCHAR(255) NOT NULL,
+  `ingredient_id` INT PRIMARY KEY AUTO_INCREMENT,
+  `ingredient_name` VARCHAR(255) NOT NULL,
   `image_url` VARCHAR(255) NOT NULL,
   `aisle` VARCHAR(45) NULL
 );
@@ -108,8 +108,8 @@ CREATE TABLE `ingredient` (
 -- Table `recipe_list_test`.`unit`
 -- -----------------------------------------------------
 CREATE TABLE `unit` (
-  `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `name` VARCHAR(15) NOT NULL,
+  `unit_id` INT PRIMARY KEY AUTO_INCREMENT,
+  `unit_name` VARCHAR(15) NOT NULL,
   `abbrev` VARCHAR(10) NOT NULL
   );
 
@@ -128,10 +128,10 @@ CREATE TABLE `recipe_ingredient` (
     REFERENCES `recipe`(`id`),
   CONSTRAINT `fk_recipe_ingredient_ingredient`
     FOREIGN KEY (`ingredient_id`)
-    REFERENCES `ingredient`(`id`),
+    REFERENCES `ingredient`(`ingredient_id`),
   CONSTRAINT `fk_recipe_ingredient_unit`
     FOREIGN KEY (`unit_id`)
-    REFERENCES `unit`(`id`),
+    REFERENCES `unit`(`unit_id`),
   CONSTRAINT `uq_recipe_ingredient_recipe_id_ingredient_id`
 	UNIQUE (`recipe_id`, `ingredient_id`)
 );
@@ -140,9 +140,9 @@ CREATE TABLE `recipe_ingredient` (
 -- Table `recipe_list_test`.`grocery_list`
 -- -----------------------------------------------------
 CREATE TABLE `grocery_list` (
-  `id` INT PRIMARY KEY AUTO_INCREMENT,
+  `grocery_list_id` INT PRIMARY KEY AUTO_INCREMENT,
   `user_app_user_id` INT NOT NULL,
-  `name` VARCHAR(40) NOT NULL,
+  `grocery_list_name` VARCHAR(40) NOT NULL,
   CONSTRAINT `fk_grocery_list_user`
 	FOREIGN KEY (`user_app_user_id`)
 	REFERENCES `user`(`app_user_id`)
@@ -158,10 +158,10 @@ CREATE TABLE `grocery_list_ingredient` (
 	PRIMARY KEY (`grocery_list_id`, `ingredient_id`),
   CONSTRAINT `fk_grocery_list_ingredient_ingredient`
     FOREIGN KEY (`ingredient_id`)
-    REFERENCES `ingredient`(`id`),
+    REFERENCES `ingredient`(`ingredient_id`),
   CONSTRAINT `fk_grocery_list_ingredient_list`
     FOREIGN KEY (`grocery_list_id`)
-    REFERENCES `grocery_list`(`id`)
+    REFERENCES `grocery_list`(`grocery_list_id`)
 );
 
 
@@ -169,8 +169,8 @@ CREATE TABLE `grocery_list_ingredient` (
 -- Table `recipe_list_test`.`cuisine`
 -- -----------------------------------------------------
 CREATE TABLE `cuisine` (
-  `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL
+  `cuisine_id` INT PRIMARY KEY AUTO_INCREMENT,
+  `cuisine_name` VARCHAR(45) NOT NULL
 );
 
 
@@ -184,7 +184,7 @@ CREATE TABLE `recipe_cuisine` (
 	PRIMARY KEY (`cuisine_id`, `recipe_id`),
   CONSTRAINT `fk_recipe_cuisine`
     FOREIGN KEY (`cuisine_id`)
-    REFERENCES `cuisine`(`id`),
+    REFERENCES `cuisine`(`cuisine_id`),
   CONSTRAINT `fk_cuisine_has_recipe`
     FOREIGN KEY (`recipe_id`)
     REFERENCES `recipe`(`id`)
@@ -223,7 +223,7 @@ BEGIN
 		('ADMIN');
 
 	-- passwords are set to "P@ssw0rd!"
-	INSERT INTO `app_user` (username, password_hash, enabled)
+	INSERT INTO `app_user` (`username`, `password_hash`, `enabled`)
 		VALUES
 		('admin@reciperouters.com', '$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa', 1),
 		('test@user.com', '$2a$10$ntB7CsRKQzuLoKY3rfoAQen5nNyiC/U60wBsWnnYrtQQi8Z3IZzQa', 1),
@@ -239,7 +239,7 @@ BEGIN
 		(1, 'ADMIN', 1),
 		(2, 'TESTER', 0);
 
-	INSERT INTO `unit` (`name`, `abbrev`)
+	INSERT INTO `unit` (`unit_name`, `abbrev`)
 		VALUES
 		('fluid ounce','fl oz'),
 		('ounce','oz'),
@@ -258,7 +258,7 @@ BEGIN
 		('',''),
 		('count', 'ct');
         
-	INSERT INTO `cuisine` (`id`, `name`)
+	INSERT INTO `cuisine` (`cuisine_id`, `cuisine_name`)
 		VALUES
         (1, 'Italian'),
         (2, 'Mexican'),
@@ -266,14 +266,14 @@ BEGIN
         (4, 'Greek'),
         (5, 'Southern');
         
-	INSERT INTO `ingredient` (`id`, `name`, `image_url`, `aisle`)
+	INSERT INTO `ingredient` (`ingredient_id`, `ingredient_name`, `image_url`, `aisle`)
 		VALUES
         (1, 'Cheese', 'https://cheese.com/cheese.jpg', 'Dairy'),
         (2, 'Dough', 'http://bread.com/bread.jpg', 'Bakery'),
         (3, 'Tomato', 'https://tomato.com/tomato.jpg', 'Produce'),
         (4, 'Bell Pepper', 'http://google.com/pepper.jpg', 'Produce');
 	
-	INSERT INTO `ingredient` (`id`, `name`, `image_url`)
+	INSERT INTO `ingredient` (`ingredient_id`, `ingredient_name`, `image_url`)
 		VALUES -- ingredient with null aisle
         (5, 'Corn Tortilla', 'http://bread.com/bread.jpg');
         
@@ -301,7 +301,7 @@ BEGIN
 		VALUES
         (1, 1), (2, 1);
         
-	INSERT INTO `grocery_list` (`id`, `user_app_user_id`, `name`)
+	INSERT INTO `grocery_list` (`grocery_list_id`, `user_app_user_id`, `grocery_list_name`)
 		VALUES
         (1, 1, 'Main'),
         (2, 1, 'Pepper Tacos'),

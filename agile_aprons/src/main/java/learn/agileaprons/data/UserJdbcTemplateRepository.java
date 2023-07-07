@@ -116,7 +116,7 @@ public class UserJdbcTemplateRepository implements UserRepository {
 
     private void addLists(User user) {
 
-        final String sql = "select gl.id, gl.user_app_user_id, gl.name from grocery_list gl " +
+        final String sql = "select gl.grocery_list_id, gl.user_app_user_id, gl.grocery_list_name from grocery_list gl " +
                 "join user u on gl.user_app_user_id = u.app_user_id " +
                 "where u.app_user_id = ?;";
 

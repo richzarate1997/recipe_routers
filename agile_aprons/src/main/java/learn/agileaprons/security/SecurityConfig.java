@@ -52,18 +52,18 @@ public class SecurityConfig {
                         "/api/user/list/*"
                         ).authenticated()
                 .antMatchers(HttpMethod.POST,
-                        "/api/ingredient",
-                        "/api/recipe",
-                        "/api/user/favorite",
-                        "/api/user/list"
-                ).permitAll()
-                // Replace ^ with authenticated permission only for posts below later \/
-//                .antMatchers(HttpMethod.POST,
 //                        "/api/ingredient",
-//                        "/api/recipe",
+                        "/api/recipe"
 //                        "/api/user/favorite",
 //                        "/api/user/list"
-//                ).authenticated()
+                ).permitAll()
+                // Replace ^ with authenticated permission only for posts below later \/
+                .antMatchers(HttpMethod.POST,
+                        "/api/ingredient",
+//                        "/api/recipe",
+                        "/api/user/favorite",
+                        "/api/user/list"
+                ).authenticated()
                 .antMatchers(HttpMethod.PUT,
                         "/api/recipe/*",
                         "/api/user",
