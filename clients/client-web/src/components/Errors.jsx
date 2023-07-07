@@ -6,7 +6,11 @@ function Errors({ errs }) {
     const [errors, setErrors] = useState([]);
 
     useEffect(() => {
-        // setErrors(errs);
+        // if (typeof errs === String) {
+        //     setErrors[errs]
+        // } else {
+        //     setErrors(errs);
+        // }
         console.log(errs)
     }, [errs]);
     return (

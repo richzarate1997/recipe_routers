@@ -224,7 +224,7 @@ function RecipeForm() {
                                 <Button type="submit">Save Recipe</Button>
                                 <Button onClick={handleReset}>Reset</Button>
                             </Box>
-                            {errors.length > 0 && <Errors errs={errors} />}
+                            {/* {errors.length > 0 && <Errors errs={errors} />} */}
                         </Fragment>
                     ) : (
                         <Fragment>
