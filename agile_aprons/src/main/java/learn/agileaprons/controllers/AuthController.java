@@ -1,9 +1,12 @@
 package learn.agileaprons.controllers;
 
 import learn.agileaprons.data.DataException;
+import learn.agileaprons.domain.GroceryListService;
 import learn.agileaprons.domain.Result;
 import learn.agileaprons.domain.UserService;
 import learn.agileaprons.models.AppUser;
+import learn.agileaprons.models.GroceryList;
+import learn.agileaprons.models.Ingredient;
 import learn.agileaprons.models.User;
 import learn.agileaprons.security.AppUserService;
 import learn.agileaprons.security.Credentials;
@@ -18,6 +21,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 @RestController
 @ConditionalOnWebApplication
@@ -27,13 +31,15 @@ public class AuthController {
     private final JwtConverter jwtConverter;
     private final AppUserService appUserService;
     private final UserService userService;
+    private final GroceryListService groceryListService;
 
     public AuthController(AuthenticationManager authenticationManager,
-                          JwtConverter jwtConverter, AppUserService appUserService, UserService userService) {
+                          JwtConverter jwtConverter, AppUserService appUserService, UserService userService, GroceryListService groceryListService) {
         this.authenticationManager = authenticationManager;
         this.jwtConverter = jwtConverter;
         this.appUserService = appUserService;
         this.userService = userService;
+        this.groceryListService = groceryListService;
     }
 
     @PostMapping("/authenticate")
@@ -77,6 +83,9 @@ public class AuthController {
         if (!newUser.isSuccess()) {
             return new ResponseEntity<>("There was a problem creating user settings.", HttpStatus.CONFLICT);
         }
+        ArrayList<Ingredient> ingredients = new ArrayList<>();
+        GroceryList groceryList = new GroceryList(result.getPayload().getAppUserId(), "Main", ingredients);
+        Result<GroceryList> newGroceryList = groceryListService.create(groceryList);
         return new ResponseEntity<>(map, HttpStatus.CREATED);
     }
 

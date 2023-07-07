@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { Box, Tab, Tabs, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { Box, Tab, Tabs, Typography, List, ListItem, ListItemText, ListItemButton } from '@mui/material';
 import PropTypes from 'prop-types';
-
+import { Link, useNavigate } from 'react-router-dom';
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
 
@@ -28,12 +28,29 @@ TabPanel.propTypes = {
     value: PropTypes.number.isRequired,
 };
 
-export default function MyRecipes() {
+export default function MyRecipes({recipes, favorites}) {
     const [value, setValue] = useState(0);
+    const [myFavorites, setMyFavorites] = useState([]);
+    const [myRecipes, setMyRecipes] = useState([]);
+    const [errors, setErrors] = useState([]);
+
+    useEffect(() => {
+        console.log(recipes);
+        setMyRecipes(recipes);
+    } ,[recipes]);
+
+    useEffect(() => {
+        console.log(favorites);
+        setMyFavorites(favorites);
+    }, [favorites]);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+
+    const navigate = useNavigate();
+
+    
 
     return (
         <Box>
@@ -50,10 +67,24 @@ export default function MyRecipes() {
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
-                Recipe Accordion
+               <List>
+                    {myRecipes?.map(recipe => (
+                        <ListItem key={recipe.id}>
+                            <ListItemButton  onClick={() => (navigate(`/recipe/${recipe.id}`))}  >
+                                <ListItemText>{recipe.title}</ListItemText>
+                            </ListItemButton>
+                        </ListItem>
+                    ))}
+                </List> 
             </TabPanel>
             <TabPanel value={value} index={1}>
-                Favorites Accordion
+                {myFavorites?.map(favorite => (
+                    <ListItem key={favorite.id}>
+                    <ListItemButton onClick={() => navigate(`/recipe/${favorite.id}`)} >
+                        <ListItemText>{favorite.title}</ListItemText>
+                    </ListItemButton>
+                </ListItem>
+                ))}
             </TabPanel>
         </Box>
     );

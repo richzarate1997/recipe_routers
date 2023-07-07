@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import GroceryListList from '../GroceryListList';
 import MyRecipes from '../MyRecipes';
 
+
 const Profile = ({ appUser }) => {
     const [user, setUser] = useState({
         displayName: '',
@@ -40,7 +41,7 @@ const Profile = ({ appUser }) => {
             </div>
             <Grid container spacing={2} mx='auto' my={2}>
                 <Grid item xs={12} sm={6} md={4}>
-                    <MyRecipes />
+                    <MyRecipes recipes={user.myRecipes} favorites={user.myFavorites}/>
                 </Grid>
                 <Grid item xs={12} sm={6} md={8}>
                     <Typography variant='h5'>My Grocery List</Typography>
