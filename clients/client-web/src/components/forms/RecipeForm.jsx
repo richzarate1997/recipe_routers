@@ -122,9 +122,11 @@ function RecipeForm() {
         event.preventDefault();
         if (recipe.id === 0) {
             createRecipe(recipe)
-                .then((data) => navigate(`/recipe/${data.id}`, {
-                    state: { msg: `${recipe.title} was added!` }
-                }))
+                .then((data) => {
+                    navigate(`/recipe/${data.id}`, {
+                        state: { msg: `${recipe.title} was added!` }
+                    })
+                })
                 .catch(err => setErrors(err));
         } else {
             updateRecipe(recipe)

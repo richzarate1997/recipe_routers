@@ -49,9 +49,9 @@ public class GroceryListJdbcTemplateRepository implements GroceryListRepository{
     @Override
     @Transactional
     public GroceryList findByName(String name, int userId) {
-        final String sql = "select id, user_app_user_id, name "
+        final String sql = "select grocery_list_id, user_app_user_id, grocery_list_name "
                 + "from grocery_list "
-                + " where name = ? and user_app_user_id = ?;";
+                + " where grocery_list_name = ? and user_app_user_id = ?;";
         GroceryList result = jdbcTemplate.queryForObject(sql, new GroceryListMapper(), name, userId);
         if (result != null){
             addIngredients(result);
