@@ -45,22 +45,17 @@ public class SecurityConfig {
                         "/api/cuisine"
                 ).permitAll()
                 .antMatchers(HttpMethod.GET,
-//                        "/api/ingredient",
-//                        "/api/ingredient/*",
                         "/api/user/*",
                         "/api/user/list",
                         "/api/user/list/search/*",
                         "/api/user/list/*"
                         ).authenticated()
                 .antMatchers(HttpMethod.POST,
-//                        "/api/ingredient",
-                        "/api/recipe"
-//                        "/api/user/favorite",
-//                        "/api/user/list"
+                        "/api/ingredient"
                 ).permitAll()
                 .antMatchers(HttpMethod.POST,
                         "/api/ingredient",
-//                        "/api/recipe",
+                        "/api/recipe",
                         "/api/user/favorite",
                         "/api/user/list"
                 ).authenticated()
