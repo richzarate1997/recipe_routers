@@ -123,9 +123,10 @@ function RecipeForm() {
         if (recipe.id === 0) {
             createRecipe(recipe)
                 .then((data) => {
-                    navigate(`/recipe/${data.id}`, {
-                        state: { msg: `${recipe.title} was added!` }
-                    })
+                    console.log(data)
+                    // navigate(`/recipe/${data.id}`, {
+                    //     state: { msg: `${recipe.title} was added!` }
+                    // })
                 })
                 .catch(err => setErrors(err));
         } else {
