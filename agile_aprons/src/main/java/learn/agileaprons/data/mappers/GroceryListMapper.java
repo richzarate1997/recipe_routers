@@ -10,9 +10,9 @@ public class GroceryListMapper implements RowMapper<GroceryList> {
     @Override
     public GroceryList mapRow(ResultSet rs, int rowNum) throws SQLException {
         GroceryList groceryList = new GroceryList();
-        groceryList.setId(rs.getInt("id"));
+        groceryList.setId(rs.getInt("grocery_list_id"));
         groceryList.setUserId(rs.getInt("user_app_user_id"));
-        groceryList.setName(rs.getString("name"));
+        groceryList.setName(rs.getString("grocery_list_name"));
 
         return groceryList;
     }
