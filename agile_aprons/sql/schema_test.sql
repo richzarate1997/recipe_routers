@@ -258,13 +258,37 @@ BEGIN
 		('',''),
 		('count', 'ct');
         
-	INSERT INTO `cuisine` (`cuisine_id`, `cuisine_name`)
+	INSERT INTO `cuisine` (`cuisine_name`)
 		VALUES
-        (1, 'Italian'),
-        (2, 'Mexican'),
-        (3, 'Vietnamese'),
-        (4, 'Greek'),
-        (5, 'Southern');
+		('Italian'),
+		('Mexican'),
+		('Vietnamese'),
+		('Greek'),
+		('Southern'),
+        ('African'),
+		('Asian'),
+		('American'),
+		('British'),
+		('Cajun'),
+		('Carribean'),
+		('Chinese'),
+		('Eastern European'),
+		('European'),
+		('French'),
+		('German'),
+		('Greek'),
+		('Indian'),
+		('Irish'),
+		('Japanese'),
+		('Jewish'),
+		('Korean'),
+		('Latin American'),
+		('Mediterranean'),
+		('Middle Eastern'),
+		('Nordic'),
+		('Southern'),
+		('Spanish'),
+		('Thai');
         
 	INSERT INTO `ingredient` (`ingredient_id`, `ingredient_name`, `image_url`, `aisle`)
 		VALUES
