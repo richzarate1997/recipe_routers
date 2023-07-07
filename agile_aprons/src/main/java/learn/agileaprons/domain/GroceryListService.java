@@ -23,6 +23,7 @@ public class GroceryListService {
         return groceryListRepository.findAll();
     }
     public GroceryList findById(int id) { return groceryListRepository.findById(id);}
+    public GroceryList findByName(String name, int userId) { return groceryListRepository.findByName(name, userId);}
 
     public Result<GroceryList> create(GroceryList groceryList) throws DataException {
         Result <GroceryList> result = validate(groceryList);

@@ -1,11 +1,14 @@
-import { List, ListItem, ListItemText, Checkbox } from '@mui/material';
+import { List, ListItem, ListItemText, Checkbox, IconButton, Fab } from '@mui/material';
 import ListItemButton from '@mui/material/ListItemButton';
 import { useState, useEffect } from 'react';
-import { findAllGroceryListsByUser, findGroceryListById } from '../service/userApi';
+import { findGroceryListByName } from '../service/userApi';
+import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Add';
 import Errors from './Errors';
+import { useNavigate } from 'react-router-dom';
+import AddGroceries from './AddGroceries';
 
 function GroceryListList() {
-    const [allList, setAllList] = useState([]);
     const [mainList, setMainList] = useState({
         id: 0,
         name: '',
@@ -14,6 +17,8 @@ function GroceryListList() {
     });
     const [errors, setErrors] = useState([]);
     const [checked, setChecked] = useState([0]);
+
+    const navigate = useNavigate();
 
     const handleToggle = (value) => () => {
         const currentIndex = checked.indexOf(value);
@@ -29,39 +34,46 @@ function GroceryListList() {
     };
 
     useEffect(() => {
-        findAllGroceryListsByUser()
-            .then(data => {
-                setAllList(data);
-                setMainList(data.find(list => list.name === 'Main'));
-            })
+        findGroceryListByName('Main')
+            .then(data => setMainList(data))
             .catch(error => setErrors(error));
     }, []);
 
-    
-    
-    useEffect(() => {
-            findGroceryListById(mainList.id)
-                .then(data => setMainList(data))
-                .catch(error => setErrors(error));
-        
-    }, []);
+    const handleDeleteGroceryItem = (ingredientId) => {
+       console.log(ingredientId);
+    }
 
+   
 
     return (
         <List>
+            <Fab color="primary" aria-label="add" onClick={() => {navigate("/add/ingredient")}}
+                sx={{
+                    position: 'absolute',
+                    top: -35,
+                    right: 0
+                }}>
+                <AddIcon />
+            </Fab>
             {mainList.list.map(ingredient => (
-                <ListItem key={ingredient.id}>
+                <ListItem key={ingredient.id}
+                    secondaryAction={
+                        <IconButton edge="end" aria-label="delete" onClick={() => handleDeleteGroceryItem(ingredient.id)}>
+                            <DeleteIcon />
+                        </IconButton>
+                    }
+                >
                     <ListItemButton onClick={handleToggle(ingredient.id)} dense >
                         <Checkbox
                             edge="start"
                             checked={checked.indexOf(ingredient.id) !== -1}
                             tabIndex={-1}
                             disableRipple
-                            inputProps={{ 'aria-labelledby':  ingredient.id }}
+                            inputProps={{ 'aria-labelledby': ingredient.id }}
                         />
                         <ListItemText primary={ingredient.name} />
                     </ListItemButton>
-                    
+
                 </ListItem>
             ))}
 

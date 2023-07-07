@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.parameters.P;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -74,6 +75,15 @@ public class UserController {
     @GetMapping("/list/{id}")
     public ResponseEntity<GroceryList> findGroceryListById(@PathVariable int id) {
         GroceryList groceryList = groceryListService.findById(id);
+        if (groceryList != null) {
+            return new ResponseEntity<>(groceryList, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("/list/search/{name}")
+    public ResponseEntity<GroceryList> findGroceryListByName(@PathVariable String name, @AuthenticationPrincipal AppUser appUser) {
+        GroceryList groceryList = groceryListService.findByName(name, appUser.getAppUserId());
         if (groceryList != null) {
             return new ResponseEntity<>(groceryList, HttpStatus.OK);
         }

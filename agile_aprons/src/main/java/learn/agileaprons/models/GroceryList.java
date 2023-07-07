@@ -14,6 +14,14 @@ public class GroceryList {
     private String name;
     private List<Ingredient> list = new ArrayList<>();
 
+    public GroceryList() {
+    }
+
+    public GroceryList(int userId, String name, List<Ingredient> list) {
+        this.userId = userId;
+        this.name = name;
+        this.list = list;
+    }
 
     public void setId(int id) {
         this.id = id;

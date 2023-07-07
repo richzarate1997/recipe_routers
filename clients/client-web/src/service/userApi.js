@@ -1,16 +1,16 @@
 import axios from 'axios';
-import jwtDecode from 'jwt-decode'
+import jwtDecode from 'jwt-decode';
 
 const BASE_URL = process.env.REACT_APP_SERVER_URL
     ? process.env.REACT_APP_SERVER_URL
-    : 'http://localhost:8080'
+    : 'http://localhost:8080';
 
 const API_URL = `${BASE_URL}/api/user`;
 
 export async function findUser() {
     const jwtToken = localStorage.getItem('jwt_token');
-    const { app_user_id: id } = jwtDecode(jwtToken)
-    const options = makeOptions('GET', jwtToken)
+    const { app_user_id: id } = jwtDecode(jwtToken);
+    const options = makeOptions('GET', jwtToken);
     const response = await axios.get(`${API_URL}/${id}`, options);
     if (response.status === 200) {
         return response.data;
@@ -86,6 +86,22 @@ export async function findGroceryListById(id) {
             return response.data;
         } else {
             return Promise.reject(`GroceryList: ${id} was not found.`);
+        }
+    } catch (error) {
+        console.error(error);
+        return Promise.reject(error);
+    }
+}
+
+export async function findGroceryListByName(name) {
+    const jwtToken = localStorage.getItem('jwt_token');
+    const options = makeOptions('GET', jwtToken)
+    try {
+        const response = await axios.get(`${API_URL}/list/search/${name}`, options);
+        if (response.status === 200) {
+            return response.data;
+        } else {
+            return Promise.reject(`GroceryList: ${name} was not found.`);
         }
     } catch (error) {
         console.error(error);
