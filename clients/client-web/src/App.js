@@ -16,7 +16,9 @@ import { refreshToken, signOut } from "./service/authApi";
 import AuthContext from "./contexts/AuthContext";
 import { ThemeProvider, createTheme } from "@mui/material"
 import './App.css';
+import AddGroceries from "./components/AddGroceries";
 import FavoriteRecipesList from "./components/FavoriteRecipesList";
+
 
 const EMPTY_USER = {
     username: '',
@@ -94,6 +96,9 @@ function App() {
                         <Route path="/recipes" element={<Recipe />} />
                         <Route path="/search/:param" element={<Recipe />} />
                         <Route path="/recipe/:id" element={<ShowRecipe />} />
+
+                        <Route path="/add/ingredient" element={<AddGroceries />} />
+
                         <Route path="/new/recipe" element={
                             auth.isLoggedIn()
                                 ? <RecipeForm />
@@ -109,6 +114,7 @@ function App() {
                                 ? <FavoriteRecipesList />
                                 : <Navigate to="/recipes" />
                         } />
+
                         <Route path="/about" element={<About />} />
                         <Route path="/profile" element={
                             auth.isLoggedIn()

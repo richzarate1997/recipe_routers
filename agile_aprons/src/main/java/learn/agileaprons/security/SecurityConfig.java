@@ -49,6 +49,7 @@ public class SecurityConfig {
 //                        "/api/ingredient/*",
                         "/api/user/*",
                         "/api/user/list",
+                        "/api/user/list/search/*",
                         "/api/user/list/*"
                         ).authenticated()
                 .antMatchers(HttpMethod.POST,
