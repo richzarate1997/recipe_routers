@@ -5,6 +5,7 @@ import { Autocomplete, Button, Box, TextField } from '@mui/material';
 import Errors from "../Errors";
 import NavBarSearch from "../NavBarSearch";
 import IngredientSearch from "../IngredientSearch";
+import IngredientList from "../IngredientList";
 
 const EMPTY_GROCERY_LIST = {
     id: 0,
@@ -89,30 +90,25 @@ function GroceryListForm() {
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
-                    marginTop: '-10%',
+                    justifyContent: 'center',
                 }}
             >
                 <h1>Grocery List Form</h1>
                 <form onSubmit={handleSaveGroceryList}>
-                    <Box sx={{ m: 2, ml: 8, width: '250%' }}>
+                    <Box sx={{ m: 2, width: '100%' }}>
                         <TextField
                             label="Name"
                             name="name"
                             value={groceryList.name}
                             onChange={handleChange}
-                            
+                            fullWidth
                             required
                         />
                     </Box>
-                    <Box sx={{ my: 2 }}>
-                        <IngredientSearch />
+                    <Box >
+                        {/* <IngredientList /> */}
                     </Box>
-                    <Box sx={{ my: 2 }}>
-                        <Button component={Link} to="/ingredient" variant="contained" color="secondary">
-                            Create Ingredient
-                        </Button>
-                    </Box>
-                    <Box sx={{ my: 2, ml: 11 }}>
+                    <Box sx={{ my: 2, width: '100%', textAlign: 'center' }}>
                         <Button type="submit" variant="contained" color="primary" sx={{ mr: 2 }}>
                             Save
                         </Button>

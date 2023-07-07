@@ -53,18 +53,18 @@ public class SecurityConfig {
                         "/api/user/list/*"
                         ).authenticated()
                 .antMatchers(HttpMethod.POST,
-                        "/api/ingredient",
-                        "/api/recipe",
-                        "/api/user/favorite",
-                        "/api/user/list"
-                ).permitAll()
-                // Replace ^ with authenticated permission only for posts below later \/
-//                .antMatchers(HttpMethod.POST,
 //                        "/api/ingredient",
-//                        "/api/recipe",
+                        "/api/recipe"
 //                        "/api/user/favorite",
 //                        "/api/user/list"
-//                ).authenticated()
+                ).permitAll()
+                // Replace ^ with authenticated permission only for posts below later \/
+                .antMatchers(HttpMethod.POST,
+                        "/api/ingredient",
+//                        "/api/recipe",
+                        "/api/user/favorite",
+                        "/api/user/list"
+                ).authenticated()
                 .antMatchers(HttpMethod.PUT,
                         "/api/recipe/*",
                         "/api/user",
@@ -76,17 +76,12 @@ public class SecurityConfig {
 //                        "/api/user",
 //                        "/api/user/list"
 //                ).authenticated()
-                .antMatchers(HttpMethod.DELETE,
-                        "/api/recipe/*",
-                        "/api/user/list",
-                        "/api/user/favorite"
-                ).permitAll()
                 // Replace ^ with authenticated permission only for posts below later \/
                 .antMatchers(HttpMethod.DELETE,
                         "/api/recipe/*",
                         "/api/user/list",
                         "/api/user/favorite"
-                ).hasAnyAuthority()
+                ).authenticated()
 //                .antMatchers(HttpMethod.DELETE, "/api/*").hasAuthority("ADMIN")
                 .antMatchers("/**").denyAll()
                 .and()

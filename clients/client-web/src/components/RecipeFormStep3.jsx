@@ -1,33 +1,29 @@
-import { Fragment, useContext, useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import {
     Typography
 } from '@mui/material'
 import RecipeContext from '../contexts/RecipeContext'
 import RecipeIngredient from './RecipeIngredient'
+import { findAllUnits } from '../service/recipeApi';
 
-const RecipeFormStep3 = ({ header, onRecipeIngredientChange, onRecipeIngredientAdd }) => {
-    const [ingredients, setIngredients] = useState([]);
-    const obj = useContext(RecipeContext);
+const RecipeFormStep3 = ({ header, recipeIngredients, onRecipeIngredientChange }) => {
+    const [units, setUnits] = useState([]);
 
     useEffect(() => {
-        setIngredients(obj.ingredients)
+        findAllUnits()
+            .then(data => setUnits(data));
     }, []);
-    
-    
-    const handleRecipeIngredient = (recipeIngredient) => {
-        onRecipeIngredientChange(recipeIngredient);
-    }
-    
-    const addRecipeIngredient = (recipeIngredient) => {
-        onRecipeIngredientAdd(recipeIngredient)
-    }
     
     return (
         <Fragment>
             <Typography variant="h4" p={2}>{header}</Typography>
             <Fragment>
-                {ingredients.length > 0 && ingredients.map((i) =>
-                    <RecipeIngredient key={i.name} ingredient={i} onChange={handleRecipeIngredient} onCreateRecipeIngredient={addRecipeIngredient}/>
+                {recipeIngredients.length > 0 && recipeIngredients.map((i) => 
+                    <RecipeIngredient 
+                    key={i.ingredient.id} ingredient={i} 
+                    onChange={onRecipeIngredientChange} 
+                    units={units} 
+                    />
                 )}
             </Fragment>
         </Fragment>

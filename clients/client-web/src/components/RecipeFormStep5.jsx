@@ -1,13 +1,14 @@
-import { Fragment, useState } from "react";
-import { Typography, Box, InputBase} from "@mui/material";
+import { Fragment } from "react";
+import { Typography, Box, InputBase, FilledInput, TextField, Grid } from "@mui/material";
 
 
-const RecipeFormStep5 = ({ handleUploadImage, header }) => {
-    const [image, setImage] = useState(null);
+const RecipeFormStep5 = ({ handleUploadImage, header, handleChange, imageUrl }) => {
+
+
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
-        setImage(btoa(file));
+        handleUploadImage(btoa(file));
         // const formData = new FormData();
         // formData.append('image', image);
         // formData.append('type', 'file');
@@ -15,13 +16,29 @@ const RecipeFormStep5 = ({ handleUploadImage, header }) => {
     }
 
     return (
-        <Fragment>
+        <Fragment >
             <Typography variant="h4" p={2}>{header}</Typography>
-            <Box>
-                <InputBase type="file" accept="image/*" onChange={handleImageChange}/>
-            </Box>
+            <Grid container spacing={2} alignItems="center" justifyContent="center">
+                <Grid item>
+                    <FilledInput type="file" accept="image/*" onChange={handleImageChange} />
+                </Grid>
+                <Grid item>
+                    <Typography variant="subtitle1">or</Typography>
+                </Grid>
+                <Grid item>
+                    <TextField
+                        id="imageUrl"
+                        name="imageUrl"
+                        label="Image URL"
+                        onChange={handleChange}
+                        variant="outlined"
+                        value={imageUrl}
+                        required
+                    />
+                </Grid>
+            </Grid>
         </Fragment>
-    )
+    );
 };
 
 export default RecipeFormStep5

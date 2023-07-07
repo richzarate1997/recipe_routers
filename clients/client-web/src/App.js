@@ -17,6 +17,8 @@ import AuthContext from "./contexts/AuthContext";
 import { ThemeProvider, createTheme } from "@mui/material"
 import './App.css';
 import AddGroceries from "./components/AddGroceries";
+import FavoriteRecipesList from "./components/FavoriteRecipesList";
+
 
 const EMPTY_USER = {
     username: '',
@@ -94,8 +96,25 @@ function App() {
                         <Route path="/recipes" element={<Recipe />} />
                         <Route path="/search/:param" element={<Recipe />} />
                         <Route path="/recipe/:id" element={<ShowRecipe />} />
-                        <Route path="/new/recipe" element={<RecipeForm />} />
+
                         <Route path="/add/ingredient" element={<AddGroceries />} />
+
+                        <Route path="/new/recipe" element={
+                            auth.isLoggedIn()
+                                ? <RecipeForm />
+                                : <Navigate to="/recipes" />
+                        } />
+                        <Route path="/add/grocerylist" element={
+                            auth.isLoggedIn()
+                                ? <GroceryListForm />
+                                : <Navigate to="/recipes" />
+                        } />
+                        <Route path="/myfavorites" element={
+                            auth.isLoggedIn()
+                                ? <FavoriteRecipesList />
+                                : <Navigate to="/recipes" />
+                        } />
+
                         <Route path="/about" element={<About />} />
                         <Route path="/profile" element={
                             auth.isLoggedIn()
@@ -112,8 +131,8 @@ function App() {
                                 ? <Navigate to='/profile' />
                                 : <Login heading="Register" buttonText="Register" isRegistration={true} />
                         } />
-                        <Route path="/notfound" element={<NotFound/>} />
-                        <Route path="*" element={<Navigate to={'/notfound'}/>} />
+                        <Route path="/notfound" element={<NotFound />} />
+                        <Route path="*" element={<Navigate to={'/notfound'} />} />
                     </Routes>
                     <Footer />
                 </Router>

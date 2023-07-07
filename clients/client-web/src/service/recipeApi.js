@@ -1,4 +1,6 @@
+
 import axios from 'axios';
+import jwtDecode from 'jwt-decode';
 
 const API_URL = 'http://localhost:8080/api/recipe';
 
@@ -65,29 +67,31 @@ export async function findRecipeByTitle(title) {
 
 
 export async function createRecipe(recipe) {
-    try {
-        const init = makeRecipeInit('POST', recipe);
-        const response = await axios.post(API_URL, recipe, init);
-
-        if (response.status === 201) {
-            return response.data;
-        } else {
-            return Promise.reject(response.data);
-        }
-    } catch (error) {
-        console.error(error);
-        return Promise.reject(error);
+    const jwtToken = localStorage.getItem('jwt_token');
+    const { app_user_id } = jwtDecode(jwtToken);
+    const userRecipe = { ...recipe, userId: app_user_id };
+    const init = makeRecipeInit('POST', jwtToken);
+    const response = await axios.post(API_URL, userRecipe, init);
+    if (response.status === 201) {
+        return response.json();
+    } else if (response.status === 403) {
+        return Promise.reject('Unauthorized');
+    } else if (response.status === 400) {
+        const errors = await response.json();
+        return Promise.reject(errors);
+    } else {
+        const errors = await response.json();
+        return Promise.reject(errors);
     }
 }
 
 export async function updateRecipe(recipe) {
+    const jwtToken = localStorage.getItem('jwt_token');
     try {
-        const init = makeRecipeInit('PUT', recipe);
-        const response = await axios.post(`${API_URL}/${recipe.id}`, recipe, init);
+        const init = makeRecipeInit('PUT', jwtToken);
+        const response = await axios.put(`${API_URL}/${recipe.id}`, recipe, init);
 
         if (response.status === 400) {
-            return Promise.reject(`Recipe: ${recipe.id} was not found. `);
-        } else if (response.status === 400) {
             return Promise.reject(response.data);
         } else if (response.status === 409) {
             return Promise.reject('Oopsie');
@@ -99,17 +103,13 @@ export async function updateRecipe(recipe) {
 
 }
 
-function makeRecipeInit(method, recipe) {
-    const init = {
+function makeRecipeInit(method, token) {
+    return {
         method: method,
         headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-        },
-        body: JSON.stringify(recipe)
+            'Authorization': `Bearer ${token}`
+        }
     };
-
-    return init;
 }
 
 export async function deleteRecipeById(id) {

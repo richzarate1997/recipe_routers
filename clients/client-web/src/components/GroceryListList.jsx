@@ -54,6 +54,18 @@ function GroceryListList() {
         }
     }
 
+    
+    
+    useEffect(() => {
+            // list id can't be zero, will fail 404.
+            if (mainList.id !== 0) {
+                findGroceryListById(mainList.id)
+                    .then(data => setMainList(data))
+                    .catch(error => setErrors(error));
+            }
+        
+    }, []);
+
 
 
     return (

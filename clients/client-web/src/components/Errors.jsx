@@ -1,18 +1,24 @@
-import { Alert } from "@mui/material";
+import { Alert, List, ListItem, ListItemText } from "@mui/material";
+import { useState, useEffect } from "react";
 
 
-function Errors({ errors }) {
+function Errors({ errs }) {
+    const [errors, setErrors] = useState([]);
 
+    useEffect(() => {
+        // setErrors(errs);
+        console.log(errs)
+    }, [errs]);
     return (
         <>
             { errors.length > 0 &&
                 <Alert severity="error" style={{ display: 'flex', alignItems: 'center', marginTop: '20px'}}>
-                    <ul style={{listStyle: 'none'}}>
+                    <List>
                         {typeof errors === Array
-                            ? errors.map(err => <li key={err}>{err}</li>)
-                            : <li>{errors}</li>
+                            ? errors.map(err => <ListItem key={err}><ListItemText primary={err} /></ListItem>)
+                            : <ListItem><ListItemText primary={errors} /></ListItem>
                         }
-                    </ul>
+                    </List>
                 </Alert>
             }
         </>
