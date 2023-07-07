@@ -40,7 +40,9 @@ export async function update(userProps) {
 export async function addFavorite(fave) {
     const jwtToken = localStorage.getItem('jwt_token');
     const options = makeOptions('POST', jwtToken);
-    const response = await axios.post(`${API_URL}/favorite`, fave, options);
+    const { app_user_id } = jwtDecode(jwtToken);
+    const newFave = { ...fave, userId: app_user_id };
+    const response = await axios.post(`${API_URL}/favorite`, newFave, options);
     if (response.status === 201) {
         return response.json();
     } else if (response.status === 403) {
@@ -54,7 +56,9 @@ export async function addFavorite(fave) {
 export async function removeFavorite(fave) {
     const jwtToken = localStorage.getItem('jwt_token');
     const options = makeOptions('DELETE', jwtToken);
-    const response = await axios.delete(`${API_URL}/favorite`, fave, options);
+    const { app_user_id } = jwtDecode(jwtToken);
+    const byeFave = { ...fave, userId: app_user_id };
+    const response = await axios.delete(`${API_URL}/favorite`, byeFave, options);
     if (response.status === 404) {
         return Promise.reject(`Favorite was not found.`);
     } else if (response.status === 403) {

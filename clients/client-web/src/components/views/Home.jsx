@@ -1,11 +1,9 @@
 import SearchBar from "../SearchBar";
 import FunFact from "../FunFact";
 import logo from "../../assets/logo.png";
-import { Alert, Box, Typography } from '@mui/material'
-import { useLocation } from "react-router-dom";
+import { Box } from '@mui/material'
 
 function Home() {
-    const location = useLocation();
     const styles = {
         box: {
             display: "flex",
@@ -19,6 +17,14 @@ function Home() {
             alignSelf: "center",
             justifyContent: "center",
             flexDirection: "column"
+        },
+        alert: {
+            maxWidth: '30%',
+            marginTop: '-40px',
+            margin: 'auto',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center'
         }
     }
 
@@ -32,7 +38,6 @@ function Home() {
                     <SearchBar />
                 </Box>
                 <FunFact />
-                { location.state && <Alert variant="success"><Typography variant="subtitle1">{location.state.msg}</Typography></Alert> }
             </Box>
         </>
     );

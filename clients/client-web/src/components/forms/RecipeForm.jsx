@@ -122,13 +122,13 @@ function RecipeForm() {
         event.preventDefault();
         if (recipe.id === 0) {
             createRecipe(recipe)
-                .then(() => navigate("/", {
+                .then((data) => navigate(`/recipe/${data.id}`, {
                     state: { msg: `${recipe.title} was added!` }
                 }))
                 .catch(err => setErrors(err));
         } else {
             updateRecipe(recipe)
-                .then(() => navigate("/", {
+                .then(navigate(`/recipe/${recipe.id}`, {
                     state: {
                         msgType: 'success',
                         msg: `${recipe.title} was updated!`
@@ -168,6 +168,8 @@ function RecipeForm() {
             case 4:
                 return <RecipeFormStep5
                     handleUploadImage={handleUploadImage}
+                    handleChange={handleChange}
+                    imageUrl={recipe.imageUrl}
                     header={steps[step]}
                 />;
             default:
