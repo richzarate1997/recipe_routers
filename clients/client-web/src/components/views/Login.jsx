@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import AuthContext from "../../contexts/AuthContext";
 import { authenticate } from "../../service/authApi";
 import { TextField, Avatar, Button, FormControlLabel, Container, Box, Grid, Checkbox, Typography, Tooltip } from "@mui/material";
@@ -17,7 +17,7 @@ function Login(props) {
         password: ''
     });
     const passwordInputType = showPassword ? "text" : "password";
-    
+    const navigate = useNavigate();
     const auth = useContext(AuthContext);
 
     const handleChange = (event) => {
@@ -36,6 +36,7 @@ function Login(props) {
         authenticate(credentials, isRegistration)
             .then(user => {
                 auth.onAuthenticated(user);
+                navigate(-1);
             })
             .catch(error => setErrors(error));
     };

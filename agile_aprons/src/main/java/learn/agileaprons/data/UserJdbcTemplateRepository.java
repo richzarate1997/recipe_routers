@@ -3,16 +3,12 @@ package learn.agileaprons.data;
 import learn.agileaprons.data.mappers.GroceryListMapper;
 import learn.agileaprons.data.mappers.RecipeMapper;
 import learn.agileaprons.data.mappers.UserMapper;
-import learn.agileaprons.models.Recipe;
 import learn.agileaprons.models.User;
+import learn.agileaprons.models.UserFavorite;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.sql.PreparedStatement;
-import java.sql.Statement;
 
 @Repository
 public class UserJdbcTemplateRepository implements UserRepository {
@@ -70,6 +66,12 @@ public class UserJdbcTemplateRepository implements UserRepository {
                 user.getDisplayName(),
                 user.isMetric(),
                 user.getId()) > 0;
+    }
+
+    @Override
+    public boolean isFavorite(UserFavorite userFavorite) {
+        final String sql = "select count(*) from user_favorite where recipe_id = ? and user_app_user_id = ?;";
+        return jdbcTemplate.queryForObject(sql, Integer.class, userFavorite.getRecipeId(), userFavorite.getUserId()) == 1;
     }
 
     // Favorite methods without result feedback

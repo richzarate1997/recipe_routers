@@ -27,7 +27,7 @@ const RecipeFormStep2 = ({ header, recipe, handleIngredientsChanged }) => {
                 <Button onClick={handleModalOpen}>
                     Add Ingredient
                 </Button>
-                <Modal
+                {/* <Modal
                     open={modalOpen}
                     onClose={handleModalClose}
                 >
@@ -35,7 +35,7 @@ const RecipeFormStep2 = ({ header, recipe, handleIngredientsChanged }) => {
                         onClose={handleModalClose}
                     // onIngredientCreate={handleIngredientCreate}
                     />
-                </Modal>
+                </Modal> */}
             </Fragment>
         </Fragment>
     );

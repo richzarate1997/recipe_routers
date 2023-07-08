@@ -1,10 +1,8 @@
 import { Fragment } from "react";
-import { Typography, Box, InputBase, FilledInput, TextField, Grid } from "@mui/material";
+import { Typography, FilledInput, TextField, Grid } from "@mui/material";
 
 
 const RecipeFormStep5 = ({ handleUploadImage, header, handleChange, imageUrl }) => {
-
-
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -20,7 +18,7 @@ const RecipeFormStep5 = ({ handleUploadImage, header, handleChange, imageUrl }) 
             <Typography variant="h4" p={2}>{header}</Typography>
             <Grid container spacing={2} alignItems="center" justifyContent="center">
                 <Grid item>
-                    <FilledInput type="file" accept="image/*" onChange={handleImageChange} />
+                    <FilledInput type="file" accept="image/*" size="small" onChange={handleImageChange} />
                 </Grid>
                 <Grid item>
                     <Typography variant="subtitle1">or</Typography>
@@ -34,6 +32,7 @@ const RecipeFormStep5 = ({ handleUploadImage, header, handleChange, imageUrl }) 
                         variant="outlined"
                         value={imageUrl}
                         required
+                        size="small"
                     />
                 </Grid>
             </Grid>

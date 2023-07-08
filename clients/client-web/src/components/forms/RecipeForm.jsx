@@ -34,7 +34,6 @@ function RecipeForm() {
     const [errors, setErrors] = useState([]);
     const [activeStep, setActiveStep] = useState(0);
     const [allCuisines, setAllCuisines] = useState([]);
-    const [cuisines, setCuisines] = useState([]);
     const { id } = useParams();
     const navigate = useNavigate();
 
@@ -69,19 +68,13 @@ function RecipeForm() {
 
     const onRecipeIngredientChange = (rI) => {
         const newRecipeIngredients = recipe.ingredients.map(i => i.ingredient.id === rI.ingredient.id ? rI : i);
-        console.log(newRecipeIngredients);
         setRecipe({ ...recipe, ingredients: newRecipeIngredients })
     }
 
-    const handleCuisineChange = (event => {
-        const { target: { value } } = event;
-        setCuisines(typeof value === 'string' ? value.split(',') : value);
-    });
-
-    useEffect(() => {
+    const handleCuisineChange = (cuisines) => {
         const theseCuisines = allCuisines.filter((c1) => cuisines.some((c2) => c2 === c1.name));
         setRecipe({ ...recipe, cuisines: theseCuisines });
-    }, [cuisines, allCuisines])
+    };
 
     const handleChange = (event) => {
         const nextRecipe = { ...recipe };
@@ -115,7 +108,8 @@ function RecipeForm() {
 
     const handleReset = () => {
         setActiveStep(0);
-        setErrors([])
+        setErrors([]);
+        setRecipe(EMPTY_RECIPE)
     };
 
     const handleSaveRecipe = (event) => {
@@ -123,12 +117,14 @@ function RecipeForm() {
         if (recipe.id === 0) {
             createRecipe(recipe)
                 .then((data) => {
-                    console.log(data)
-                    // navigate(`/recipe/${data.id}`, {
-                    //     state: { msg: `${recipe.title} was added!` }
-                    // })
+                    navigate(`/recipe/${data.id}`, {
+                        state: { msg: `${recipe.title} was added!` }
+                    })
                 })
-                .catch(err => setErrors(err));
+                .catch(err => {
+                    console.log(err)
+                    setErrors(err.response.data)
+                });
         } else {
             updateRecipe(recipe)
                 .then(navigate(`/recipe/${recipe.id}`, {
@@ -146,9 +142,9 @@ function RecipeForm() {
             case 0:
                 return <RecipeFormStep1
                     recipe={recipe} handleChange={handleChange}
-                    handleCuisineChange={handleCuisineChange}
-                    allCuisines={allCuisines} cuisines={cuisines}
+                    handleCuisineUpdate={handleCuisineChange}
                     header={steps[step]}
+                    allCuisines={allCuisines}
                 />;
             case 1:
                 return <RecipeFormStep2
@@ -216,22 +212,22 @@ function RecipeForm() {
                     </Stepper>
                     {activeStep === steps.length ? (
                         <Fragment>
-                            <Typography sx={{ mt: 2, mb: 1 }}>
-                                All steps completed - you&apos;re finished
+                            <Typography variant={'h4'} sx={{ mt: 2, mb: 1 }}>
+                                Recipe Complete
                             </Typography>
                             <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                                <Box sx={{ flex: '1 1 auto' }} />
-                                <Button type="submit">Save Recipe</Button>
+                                <Button color="info" onClick={handleBack}>Back</Button>
+                                <Button type="submit">Submit Recipe</Button>
                                 <Button onClick={handleReset}>Reset</Button>
                             </Box>
-                            {/* {errors.length > 0 && <Errors errs={errors} />} */}
+                            {errors.length > 0 && <Errors errs={errors} />}
                         </Fragment>
                     ) : (
                         <Fragment>
                             {renderFormStep(activeStep)}
                             <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                                 <Button
-                                    color="inherit"
+                                    color="info"
                                     disabled={activeStep === 0}
                                     onClick={handleBack}
                                     sx={{ mr: 1 }}
