@@ -95,10 +95,8 @@ function App() {
                         <Route path="/" element={<Home />} />
                         <Route path="/recipes" element={<Recipe />} />
                         <Route path="/search/:param" element={<Recipe />} />
-                        <Route path="/recipe/:id" element={<ShowRecipe />} />
-
+                        <Route path="/recipe/:id" element={<ShowRecipe userId={user.appUserId}/>} />
                         <Route path="/add/ingredient" element={<AddGroceries />} />
-
                         <Route path="/new/recipe" element={
                             auth.isLoggedIn()
                                 ? <RecipeForm />

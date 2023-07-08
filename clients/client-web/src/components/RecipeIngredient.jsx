@@ -1,4 +1,4 @@
-import { Grid, TextField, Select, MenuItem, Typography, OutlinedInput } from '@mui/material';
+import { Grid, TextField, Select, MenuItem, Typography, OutlinedInput, Tooltip } from '@mui/material';
 
 
 const RecipeIngredient = ({ units, ingredient, onChange }) => {
@@ -12,7 +12,6 @@ const RecipeIngredient = ({ units, ingredient, onChange }) => {
             nextValue = parseInt(nextValue, 10);
             nextRecipeIngredient[e.target.name] = units.find(u => u.id === nextValue);
         }
-        console.log(ingredient);
         onChange(nextRecipeIngredient);
     }
 
@@ -24,7 +23,7 @@ const RecipeIngredient = ({ units, ingredient, onChange }) => {
                     type="number"
                     name="quantity"
                     size='small'
-                    minRows={0.0001}
+                    InputProps={{ inputProps: { min: '0.001' } }}
                     required
                     value={ingredient.quantity}
                     onChange={handleChange}
@@ -33,6 +32,7 @@ const RecipeIngredient = ({ units, ingredient, onChange }) => {
             </Grid>
             <Grid item xs={2} sm={3}>
                 <Select
+                    required
                     displayEmpty
                     value={ingredient.unit.id}
                     name="unit"
@@ -43,12 +43,14 @@ const RecipeIngredient = ({ units, ingredient, onChange }) => {
                     inputProps={{ 'aria-label': 'Without label' }}
                     sx={{ width: '5rem' }}
                 >
-                    <MenuItem value='0'>
-                        Select Unit
+                    <MenuItem disabled value='0'>
+                        Unit
                     </MenuItem>
                     {units.length > 0 && units.map((unit) => (
                         <MenuItem key={unit.id} value={unit.id}>
-                            {unit.abbreviation}
+                            <Tooltip title={unit.name || ingredient.ingredient.name}>
+                                {unit.abbreviation || ingredient.ingredient.name}
+                            </Tooltip>
                         </MenuItem>
                     ))}
                 </Select>

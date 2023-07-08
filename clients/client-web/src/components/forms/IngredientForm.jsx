@@ -78,7 +78,7 @@ function IngredientForm({ onClose, onIngredientCreate }) {
             }}
             >
                 <h1>Ingredient Form</h1>
-                <form onSubmit={handleSaveIngredient}>
+                <Box component={'form'} onSubmit={handleSaveIngredient}>
                     <div>
                         <TextField
                             label="Name"
@@ -112,7 +112,7 @@ function IngredientForm({ onClose, onIngredientCreate }) {
                         Cancel
                     </Button>
                 </div>
-                </form>
+                </Box>
             </Box>
         </Box>
     );

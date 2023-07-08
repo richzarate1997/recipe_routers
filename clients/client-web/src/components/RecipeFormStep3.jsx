@@ -1,8 +1,5 @@
 import { Fragment, useEffect, useState } from 'react'
-import {
-    Typography
-} from '@mui/material'
-import RecipeContext from '../contexts/RecipeContext'
+import { Typography } from '@mui/material'
 import RecipeIngredient from './RecipeIngredient'
 import { findAllUnits } from '../service/recipeApi';
 

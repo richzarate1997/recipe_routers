@@ -41,7 +41,6 @@ const IngredientList = ({ allIngredients, recipeIngredients, handleIngredientsCh
     }, [allIngredients]);
 
     useEffect(() => {
-        console.log(recipeIngredients)
         setRight(recipeIngredients.map(i1 => i1.ingredient.name));
     }, [recipeIngredients])
 
@@ -69,7 +68,7 @@ const IngredientList = ({ allIngredients, recipeIngredients, handleIngredientsCh
 
     const handleCheckedRight = () => {
         const newRecipeIngredients = leftChecked.map(i => { 
-            return { quantity: 0, unit: { id: 0, abbreviation: '', name: '' }, ingredient: allIngredients.find((ing) => ing.name === i) } });
+            return { quantity: 1, unit: { id: 0, abbreviation: '', name: '' }, ingredient: allIngredients.find((ing) => ing.name === i) } });
         const nextRecipeIngredients = [ ...recipeIngredients, ...newRecipeIngredients ];
         handleIngredientsChanged(nextRecipeIngredients);
         setLeft(not(left, leftChecked));

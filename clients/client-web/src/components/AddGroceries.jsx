@@ -74,6 +74,7 @@ function AddGroceries() {
         console.log(ingredient);
         const newIngredients = ingredients.filter((ing) => ingredient.some((ing1) => ing1 === ing.name));
         const newIngredientList = [...groceryList.list, ...newIngredients];
+        console.log(newIngredientList);
         setGroceryList({...groceryList, list:newIngredientList});
         // const newGroceryList = {...groceryList, list: newIngredientList};
         console.log(newIngredientList);

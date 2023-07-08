@@ -57,19 +57,20 @@ public class SecurityConfig {
                         "/api/ingredient",
                         "/api/recipe",
                         "/api/user/favorite",
+                        "/api/user/favorite/check",
                         "/api/user/list"
                 ).authenticated()
                 .antMatchers(HttpMethod.PUT,
                         "/api/recipe/*",
                         "/api/user",
-                        "/api/user/list"
-                ).authenticated()
-                .antMatchers(HttpMethod.DELETE,
-                        "/api/recipe/*",
                         "/api/user/list",
                         "/api/user/favorite"
                 ).authenticated()
-                .antMatchers(HttpMethod.DELETE, "/api/*").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.DELETE,
+                        "/api/recipe/*",
+                        "/api/user/list"
+                ).authenticated()
+//                .antMatchers(HttpMethod.DELETE, "/api/*").hasAuthority("ADMIN")
                 .antMatchers("/**").denyAll()
                 .and()
                 .addFilter(new JwtRequestFilter(authenticationManager(authConfig), jwtConverter))
