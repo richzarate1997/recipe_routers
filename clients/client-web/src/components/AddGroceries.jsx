@@ -1,9 +1,9 @@
-import { Button, Typography, Grid, CardContent, Card, Container } from "@mui/material";
+import {
+    Button, Typography, Grid,
+    CardContent, Card, OutlinedInput,
+    MenuItem, FormControl, Select
+} from "@mui/material";
 import { useTheme } from '@mui/material/styles';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 import { useEffect, useState } from "react";
 import { findAllIngredients } from "../service/ingredientApi";
 import { findGroceryListByName } from "../service/userApi";
@@ -21,7 +21,6 @@ const MenuProps = {
         },
     },
 };
-
 
 function getStyles(ing, ingredient, theme) {
     return {
@@ -70,72 +69,71 @@ function AddGroceries() {
     //       }
     //     ]
     //   }
-    const handleAddIngredients = () => { 
+    const handleAddIngredients = () => {
         console.log(ingredient);
         const newIngredients = ingredients.filter((ing) => ingredient.some((ing1) => ing1 === ing.name));
         const newIngredientList = [...groceryList.list, ...newIngredients];
         console.log(newIngredientList);
-        setGroceryList({...groceryList, list:newIngredientList});
+        setGroceryList({ ...groceryList, list: newIngredientList });
         // const newGroceryList = {...groceryList, list: newIngredientList};
         console.log(newIngredientList);
         updateList(groceryList)
             .then(response => {
-                console.log(response.data);})
+                console.log(response.data);
+            })
             .catch(error => setError(error));
-        
+
         navigate('/profile');
 
     }
     return (
         <div>
-            
-                <Card sx={{ maxWidth: "50%", marginX: "25%", marginY:"5%"}}>
-                    <CardContent>
-                        <Grid container>
-                            <Grid item xs={12}>
-                                <Typography variant="h4">Add Ingredients</Typography>
-                                <FormControl sx={{ m: 1, width: 300, mt: 3 }}>
-                                    <Select
-                                        multiple
-                                        displayEmpty
-                                        value={ingredient}
-                                        onChange={handleChange}
-                                        input={<OutlinedInput />}
-                                        renderValue={(selected) => {
-                                            if (selected.length === 0) {
-                                                return <em>Placeholder</em>;
-                                            }
 
-                                            return selected.join(', ');
-                                        }}
-                                        MenuProps={MenuProps}
-                                        inputProps={{ 'aria-label': 'Without label' }}
-                                    >
-                                        <MenuItem disabled value="">
-                                            <em>Placeholder</em>
+            <Card sx={{ maxWidth: "50%", marginX: "25%", marginY: "5%" }}>
+                <CardContent>
+                    <Grid container>
+                        <Grid item xs={12}>
+                            <Typography variant="h4">Add Ingredients</Typography>
+                            <FormControl sx={{ m: 1, width: 300, mt: 3 }}>
+                                <Select
+                                    multiple
+                                    displayEmpty
+                                    value={ingredient}
+                                    onChange={handleChange}
+                                    input={<OutlinedInput />}
+                                    renderValue={(selected) => {
+                                        if (selected.length === 0) {
+                                            return <em>Placeholder</em>;
+                                        }
+                                        return selected.join(', ');
+                                    }}
+                                    MenuProps={MenuProps}
+                                    inputProps={{ 'aria-label': 'Without label' }}
+                                >
+                                    <MenuItem disabled value="">
+                                        <em>Placeholder</em>
+                                    </MenuItem>
+                                    {ingredients.map((ing) => (
+                                        <MenuItem
+                                            key={ing.id}
+                                            value={ing.name}
+                                            style={getStyles(ing, ingredient, theme)}
+                                        >
+                                            {ing.name}
                                         </MenuItem>
-                                        {ingredients.map((ing) => (
-                                            <MenuItem
-                                                key={ing.id}
-                                                value={ing.name}
-                                                style={getStyles(ing, ingredient, theme)}
-                                            >
-                                                {ing.name}
-                                            </MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
-
-                            </Grid >
-                            <Grid item xs={12}>
-                                <Button onClick={handleAddIngredients}>Add Ingredients</Button>
-                            </Grid>
-                            {/* <Grid item xs={12}>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Button onClick={handleAddIngredients}>Add Ingredients</Button>
+                        </Grid>
+                        {/* <Grid item xs={12}>
                                 {error}
                             </Grid> */}
-                        </Grid>
-                    </CardContent>
-                </Card>
+                    </Grid>
+                </CardContent>
+            </Card>
         </div>
     );
 }

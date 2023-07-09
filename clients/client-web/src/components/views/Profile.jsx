@@ -23,13 +23,11 @@ const Profile = ({ appUser }) => {
             .catch(err => console.log(err));
     }, [appUser]);
 
-    // Need to setup onChange method(s)
-
     const label = { inputProps: { 'aria-label': 'Metric/Imperial units preference toggle' } }
     return (
         <Box mx={5} sx={{ paddingTop: 2 }} >
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <Typography variant='h3'>Oh Hi, {user.displayName}</Typography>
+                <Typography variant='h3'>Hey there, {user.displayName}</Typography>
                 <FormControlLabel
                     control={<Switch {...label}
                         checked={user.metric}
