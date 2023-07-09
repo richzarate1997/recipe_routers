@@ -7,7 +7,6 @@ import AddIcon from '@mui/icons-material/Add';
 import Errors from './Errors';
 import { useNavigate } from 'react-router-dom';
 import AddGroceries from './AddGroceries';
-import './GroceryListList.css';
 
 function GroceryListList() {
     const [mainList, setMainList] = useState({
@@ -56,8 +55,8 @@ function GroceryListList() {
 
 
     return (
-        <List >
-            <Fab color="primary" aria-label="add" onClick={() => { navigate("/add/ingredient") }}
+        <List style={{ width: '50vw'}}>
+            <Fab color="primary" aria-label="add" size="small" onClick={() => { navigate("/add/ingredient") }}
                 sx={{
                     position: 'absolute',
                     top: -35,
@@ -68,7 +67,7 @@ function GroceryListList() {
             {mainList.list.map(ingredient => (
                 <ListItem key={ingredient.id}
                     secondaryAction={
-                        <IconButton mr={3} aria-label="delete" onClick={() => handleDeleteGroceryItem(ingredient.id)}>
+                        <IconButton mr={3} aria-label="delete" sx={{ color: '#D1483D'}} onClick={() => handleDeleteGroceryItem(ingredient.id)}>
                             <DeleteIcon />
                         </IconButton>
                     }
@@ -81,12 +80,10 @@ function GroceryListList() {
                             disableRipple
                             inputProps={{ 'aria-labelledby': ingredient.id }}
                         />
-                        <ListItemText primary={ingredient.name} />
+                        <ListItemText primary={ingredient.name} sx={checked.indexOf(ingredient.id) !== -1 ?{ textDecoration: 'line-through'}: null} />
                     </ListItemButton>
-
                 </ListItem>
             ))}
-
         </List>
     );
 }

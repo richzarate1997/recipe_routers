@@ -59,6 +59,8 @@ const ShowRecipe = ({ userId }) => {
 
 
     const renderBlob = () => {
+        console.log(recipe.image)
+        console.log(typeof recipe.image)
         const reader = new FileReader();
         return new Promise((resolve, reject) => {
             reader.onloadend = () => {
@@ -69,19 +71,18 @@ const ShowRecipe = ({ userId }) => {
                 console.log("error: ", e.target.error);
                 reject(e.target.error);
             }
-            reader.readAsDataURL(recipe.image);
+            reader.readAsDataURL(atob(recipe.image));
         })
-        // return atob(image) 
     }
 
     const renderImage = () => {
-
+        console.log(atob(recipe.image))
+        console.log(recipe.image)
     }
 
 
 
     const handleFavoriteChange = (e) => {
-        // need to confirm favorites state before activating
         e.target.checked ? addFavorite(recipe.id) : removeFavorite(recipe.id);
         setChecked(!checked);
     };
@@ -103,8 +104,7 @@ const ShowRecipe = ({ userId }) => {
         if (recipe.imageUrl !== '') {
             setImage(recipe.imageUrl);
         } else {
-            // setImage(recipe.imageUrl)
-            setImage(atob(recipe.image));
+            renderImage();
         }
         setIngredients(recipe.ingredients);
     }, [recipe]);

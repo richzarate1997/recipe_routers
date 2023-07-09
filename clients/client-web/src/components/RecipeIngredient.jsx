@@ -1,4 +1,4 @@
-import { Grid, TextField, Select, MenuItem, Typography, OutlinedInput, Tooltip } from '@mui/material';
+import { Grid, Stack, TextField, Select, MenuItem, Typography, OutlinedInput, Tooltip } from '@mui/material';
 
 
 const RecipeIngredient = ({ units, ingredient, onChange }) => {
@@ -16,8 +16,8 @@ const RecipeIngredient = ({ units, ingredient, onChange }) => {
     }
 
     return (
-        <Grid container sx={{ width: '50%' }} spacing={2}>
-            <Grid item xs={2} sm={3}>
+        <Stack container rowSpacing={2} sx={{ margin: 'auto' }} >
+            <Grid item xs={2} sm={3} md={4} lg={4}>
                 <TextField
                     label="Quantity"
                     type="number"
@@ -30,7 +30,7 @@ const RecipeIngredient = ({ units, ingredient, onChange }) => {
                     sx={{ width: '5rem' }}
                 />
             </Grid>
-            <Grid item xs={2} sm={3}>
+            <Grid item xs={2} sm={3} md={4} lg={4}>
                 <Select
                     required
                     displayEmpty
@@ -55,10 +55,10 @@ const RecipeIngredient = ({ units, ingredient, onChange }) => {
                     ))}
                 </Select>
             </Grid>
-            <Grid item xs={3} sm={3} md={5}>
+            <Grid item xs={2} sm={3} md={4} lg={4}>
                 <Typography variant="body1" p={1} textAlign={'left'}>{ingredient.ingredient.name}</Typography>
             </Grid>
-        </Grid>
+        </Stack>
     )
 }
 

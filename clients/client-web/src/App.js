@@ -73,16 +73,16 @@ function App() {
             },
             secondary: {
                 main: "#FEAE65"
+            },
+            warning: {
+                main: '#CA5953'
+            },
+            danger: {
+                main: '#612D33'
+            },
+            info: {
+                main: '#D1483D'
             }
-            // warning: {
-            //     main: '#CA5953'
-            // },
-            // danger: {
-            //     main: '#612D33'
-            // },
-            // info: {
-            //     main: '#D1483D'
-            // }
         },
     });
 
