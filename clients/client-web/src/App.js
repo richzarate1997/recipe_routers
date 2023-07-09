@@ -6,7 +6,6 @@ import About from "./components/views/About"
 import Profile from "./components/views/Profile";
 import Login from "./components/views/Login";
 import Footer from "./components/Footer";
-import IngredientForm from "./components/forms/IngredientForm";
 import GroceryListForm from "./components/forms/GroceryListForm";
 import RecipeForm from "./components/forms/RecipeForm";
 import NotFound from "./components/views/NotFound";
@@ -29,7 +28,7 @@ const WAIT_TIME = 1000 * 60 * 14;
 
 function App() {
     const [user, setUser] = useState(EMPTY_USER);
-
+    
     const auth = {
         user: user,
         isLoggedIn() {
@@ -47,7 +46,7 @@ function App() {
             signOut();
         }
     };
-
+    
     const refreshUser = useCallback(() => {
         refreshToken()
             .then(existingUser => {
@@ -112,7 +111,6 @@ function App() {
                                 ? <FavoriteRecipesList />
                                 : <Navigate to="/recipes" />
                         } />
-
                         <Route path="/about" element={<About />} />
                         <Route path="/profile" element={
                             auth.isLoggedIn()
