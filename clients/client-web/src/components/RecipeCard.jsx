@@ -14,7 +14,7 @@ export default function RecipeCard({ id, imgUrl, name, cookTime, servings, sourc
     // const getRecipe = () => {
     //     // UNFINISHED -- break these calls out into a service to
     //     if (sourceUrl !== '') { // if the recipe has a sourceUrl, don't try to save it.
-    //         // const newId = fetchRecipe({id, name, cookTime, servings})
+    //         // const newId = fetchRecipe({name, cookTime, servings})
     //             // .then(data => {
     //             //     console.log(data)
     //             // })
