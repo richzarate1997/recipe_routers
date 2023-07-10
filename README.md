@@ -129,8 +129,6 @@ Today we will return a schedule of tasks, database schema, class diagram with la
     * [x] App
     * [x] App Config
 
-
-
 ### Front End (20 hr - 4 days)
 * [x] Wire frames / "User Stories" (3 hrs)
   * Style Inspirations: 
@@ -139,86 +137,64 @@ Today we will return a schedule of tasks, database schema, class diagram with la
     * MaterialUI Component Library
 
 * Clients:
-  * [ ] Web UI
+  * [x] Web UI
   * [ ] Mobile UI - ***Main Learning Goal***
     * [ ] Prepare development environment for Mobile
 
-* [ ] Dependecies: `npm install`:
+* [x] Dependecies: `npm install`:
   * [x] ==materialUI== `@mui/material @emotion/react @emotion/styled`
   * [x] ==mui icons== `@mui/icons-material`
   * [x] ==axios== `axios` ==Add'l Learning Goal==
   * [x] ==axios-jwt== `--save axios-jwt`
   * [x] dependant on jwt-decode
   * [x] ==any-unit-converter== `any-unit-converter@latest`
-  * [ ] mobile responsive ui
   * Mobile Specific:
     * [ ] ==React Native== `react-native` + `npm install --save @react-native-async-storage/async-storage` + `npx pod-install`
 
 * [ ] Components (10 hrs)
-  * [ ] Form - Add/Update Recipes
-  * [ ] List - Search Results
-  * [ ] Card - Individual Result
+  * [x] Form - Add/Update Recipes
+  * [x] List - Search Results
+  * [x] Card - Individual Result
   * [x] NavBar - Perhaps include search bar
   * [x] Search Bar
   * [x] LoginForm
-  * [ ] RegisterForm
+  * [x] RegisterForm
   * [x] Footer - Sticky Footer
-  * [ ] About
-  * [ ] Profile
-    * [ ] Tabs for Faves, User Recipes, & Lists
+  * [x] About
+  * [x] Profile
+    * [x] Tabs for Faves, User Recipes, & Lists
     * [ ] Lists for grocery lists
-    * [ ] GroceryList
-* [ ] Routes (1.5 hr)
+    * [x] GroceryList
+* [x] Routes (1.5 hr)
   * [x] `/` Home - Search Bar - NavBar
   * [x] `/login` LoginForm
-  * [ ] `/register` RegisterForm
+  * [x] `/register` RegisterForm
   * [x] `/recipes` List - Card
   * [x] `/about` About
   * [x] `/profile` Profile
   * [x] `/new/recipe` Form
   * [x] `/update/recipe` Form
-  * [ ] `/list/:list_id` GroceryList
-* [ ] Services (2 - 3.5 hrs)
+  * [x] `/list/:list_id` GroceryList
+* [x] Services (2 - 3.5 hrs)
 
-  * [ ] Spoonacular Endpoints using Axios
-    * [ ] Search Recipes
-    * [ ] Get Recipe
+  * [x] Spoonacular Endpoints using Axios
+    * [x] Search Recipes
+    * [x] Get Recipe
     * [x] Get Joke/Trivia
-  * [ ] Java API Endpoints using Axios
-    * [ ] Search Recipes
-    * [ ] Get Recipe
+  * [x] Java API Endpoints using Axios
+    * [x] Search Recipes
+    * [x] Get Recipe
+    * [x] Get User
     * [ ] etc
-    * [ ] Get User
-  * [ ] State Management - Contexts (1 hr)
+  * [x] State Management (1 hr)
     * [x] AuthContext
-    * [ ] UserContext
-    * [ ] RecipeContext
 
-* [ ] App assets
-  * [ ] favicon
-  * [ ] Avatar Defaults
-
-### Presentation (3 hrs)
-* [ ] Slideshow (~8 min duration)
-  * [ ] Individual mini-bios for dev team
-  * [ ] Technologies Used
-  * [ ] Problem Our App addresses / aims to solve
-  * [ ] Challenges / Failures
-  * [ ] Successes / Extra-Curricular Endeavours
-
-* [ ] Application Demonstration (~7 min duration)
-  * [ ] Landing Page -> Login
-  * [ ] Registration -> App Usage
-  * [ ] Recipe Search -> Favoriting
-  * [ ] Recipe View -> Grocery List
-  * [ ] Grocery List Ingredient Checking / Removal
-  * [ ] Mobile vs. Web UI
-
-* [ ] Time for Questions (5+ min)
+* [x] App assets
+  * [x] favicon
+  * [x] Avatar Defaults
 
 ### Add'l Feature Ideas
 * [ ] Display nutrition facts / info -- implement widget call
-
 
 ### Stretch Goals & Ambitions
 * [ ] Pair alcohol/cocktails with a cuisine / recipe
@@ -226,12 +202,10 @@ Today we will return a schedule of tasks, database schema, class diagram with la
 * [ ] Chatbox
 * [ ] DemoUser Login Button
 
-
 ### Considerations
 * [ ] App User Roles include Guest, Admin, User
   * Guest Exp: Persist recipe until login/register then return redirect to recipe view
 * [ ] Deal with duplicate Ingredients/Recipes by overriding equals methods and preparing for equivalence comparison with internal objects.
-
 
 ### Short Term Task List
 * [ ] Register - Adapt login form to be reused for registering 
@@ -241,7 +215,5 @@ Today we will return a schedule of tasks, database schema, class diagram with la
   * [ ] save recipe on last step
   * [ ] Create 
 * [ ] Spotify API -- or any semblance of "In Browser Audio"
-
-
 
 *==Add'l Learning Goal==

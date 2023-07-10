@@ -1,34 +1,44 @@
-import { findAllIngredients } from "../../service/ingredientApi";
 
-findAllCuisines()
-    .then((c) => setCuisines(c))
-    .catch(err => console.log("There was an error retrieving cuisines."));
-findAllUnits()
-    .then((u) => setUnits(u))
-    .catch(err => console.log("There was an error retrieving units."));
-findAllIngredients()
-    .then((i) => setIngredients(i))
-    .catch(err => console.log("There was an error retrieving ingredients."));
+import { useNavigate } from "react-router-dom";
+import { findAllCuisines, findAllUnits, findRecipeByTitle, createRecipe } from "../../service/recipeApi";
+import { createIngredient, findAllIngredients } from "../../service/ingredientApi";
+import { getRecipeInformation } from "../../service/fetchApi";
 
-export function fetchRecipe({ name, cookTime, servings }) {
+const [cuisines, setCuisines] = useState([]);
+const [units, setUnits] = useState([]);
+const [ingredients, setIngredients] = useState([]);
+const navigate = useNavigate();
+useEffect(() => {
+    findAllCuisines()
+        .then((c) => setCuisines(c))
+        .catch(err => console.log("There was an error retrieving cuisines."));
+    findAllUnits()
+        .then((u) => setUnits(u))
+        .catch(err => console.log("There was an error retrieving units."));
+    findAllIngredients()
+        .then((i) => setIngredients(i))
+        .catch(err => console.log("There was an error retrieving ingredients."));
+}, []);
+
+function fetchRecipe(id, name, cookTime, servings) {
     findRecipeByTitle(name)
-        .then(recipes => {
+        .then(data => {
             // if data returns an array with 1 item matching, return it
-            if (recipes.some((r) => r.name === name && r.cookTime === cookTime && r.servings === servings)) {
-                const recipe = recipes.find((r) => r.name === name && r.cookTime === cookTime && r.servings === servings)
-                return recipe.id;
-                // else if data returns an empty array, then add the recipe
-            } else {
-                return getRecipeInformation(id)
-                    .then((spoonRecipe) => {
-                        createRecipe(unpackRecipe(spoonRecipe))
-                            .then((data) => data.id)
-                            .catch((err) => console.log(err));
+            if (data.some((r) => r.name === name && r.cookTime === cookTime && r.servings === servings)) {
+                const recipe = data.find((r) => r.name === name && r.cookTime === cookTime && r.servings === servings)
+                navigate(recipe.id);
+            } else { // else if data doesn't match, then add the recipe
+                getRecipeInformation(id)
+                    .then(async (data) => {
+                        console.log(data)
+                        return await createRecipe(unpackRecipe(data))
+                            .then((data) => navigate(data.id))
+                            .catch((err) => console.log("There was an error creating the recipe: ", err));
                     })
                     .catch((err) => console.log("There was an error with spoonacular: ", err));
             }
         })
-        .catch(err => console.log(err));
+        .catch(err => console.log("There was an error searching recipe by name: ", err));
 }
 
 function unpackRecipe(data) {
@@ -48,27 +58,36 @@ function unpackRecipe(data) {
         dairyFree: data.dairyFree,
         cuisines: unpackCuisines(data.cuisines),
         ingredients: unpackIngredients(data.extendedIngredients)
-    };
+    }
 }
 
-function unpackCuisines(cuisines) {
-    return cuisines.filter((c1) => cuisines.some(c2 => c2 === c1.name));
+function unpackCuisines(theseCuisines) {
+    return cuisines.filter((c1) => theseCuisines.some(c2 => c2 === c1.name))
 }
 
-async function unpackIngredients(ingredients) {
-    const theseIngredients = ingredients.forEach((i) => {
-        const { name, aisle, amount, unit, image } = i;
+function unpackIngredients(theseIngredients) {
+    return theseIngredients.forEach((i) => {
         return {
             id: 0,
             recipeId: 0,
             quantity: i.amount,
             unit: units.find(u => u.name === i.unit || u.abbrev === i.unit),
-            ingredient: {
-                id: 0,
-                name: i.name,
-                aisle: i.aisle,
-                imageUrl: i.image
-            }
+            ingredient: matchOrAddIngredient(i)
         }
     })
+}
+
+async function matchOrAddIngredient(ingredient) {
+    let matchedIngredient = ingredients.find((i) => i.name === ingredient.name);
+    if (matchedIngredient === undefined) {
+        let newIngredient = {
+            id: 0,
+            name: ingredient.name,
+            aisle: ingredient.aisle,
+            imageUrl: ingredient.image
+        }
+        return await createIngredient(newIngredient).then(data => data);
+    } else {
+        return matchedIngredient;
+    }
 }

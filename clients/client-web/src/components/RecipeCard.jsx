@@ -5,33 +5,18 @@ import {
 } from '@mui/material';
 import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
 import MenuBookOutlinedIcon from '@mui/icons-material/MenuBookOutlined';
-import { useNavigate } from 'react-router-dom';
 
 const imageUrl = "https://spoonacular.com/recipeImages/";
 
-export default function RecipeCard({ id, imgUrl, name, cookTime, servings, sourceUrl }) {
-    // const navigate = useNavigate();
-    // const getRecipe = () => {
-    //     // UNFINISHED -- break these calls out into a service to
-    //     if (sourceUrl !== '') { // if the recipe has a sourceUrl, don't try to save it.
-    //         // const newId = fetchRecipe({id, name, cookTime, servings})
-    //             // .then(data => {
-    //             //     console.log(data)
-    //             // })
-    //             // .catch(err => console.log(err))
-            
-    //     } else { // otherwise save it to db
-            
-    //     }
-    //     //navigate(`/recipe/${newId}`);
-    // }
-    
+export default function RecipeCard({ id, imgUrl, name, cookTime, servings }) {
     return (
         <CardActionArea sx={{ width: 345 }}>
             <Tooltip title={name} placement='top' arrow>
                 <Card
                     sx={{ width: 345, height: 370 }}
-                    py={2} //onClick={getRecipe(id)}
+                    py={2} 
+                    // Do not Uncomment this!
+                    //onClick={fetchRecipe(id, name, cookTime, servings)}
                 >
                     <CardMedia
                         component="img"

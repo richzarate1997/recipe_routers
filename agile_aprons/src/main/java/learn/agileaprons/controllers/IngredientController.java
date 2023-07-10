@@ -12,9 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -52,11 +50,11 @@ public class IngredientController {
                 .collect(Collectors.toList());
     }
 
-    @PostMapping("/add/get/")
-    public List<Ingredient> addAndGetIngredients(@RequestBody List<Ingredient> ingredients) {
-        List<Ingredient> returnIngredients = new ArrayList<>();
-        return returnIngredients;
-    }
+//    @PostMapping("/add/get/")
+//    public List<Ingredient> addAndGetIngredients(@RequestBody List<Ingredient> ingredients) {
+//        List<Ingredient> returnIngredients = new ArrayList<>();
+//        return returnIngredients;
+//    }
 
 
     @PostMapping
