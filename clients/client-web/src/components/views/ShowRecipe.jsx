@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import { findRecipeById } from '../../service/recipeApi'
 import Checkbox from '@mui/material/Checkbox';
@@ -10,9 +10,7 @@ import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
 import MenuBookOutlinedIcon from '@mui/icons-material/MenuBookOutlined';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
-import FavoriteRecipesList from '../FavoriteRecipesList';
-import AuthContext from '../../contexts/AuthContext';
-import { addFavorite, removeFavorite, findUser } from '../../service/userApi';
+import { addFavorite, removeFavorite, isFavorite } from '../../service/userApi';
 
 
 const EMPTY_RECIPE = {
@@ -34,13 +32,11 @@ const EMPTY_RECIPE = {
 }
 
 
-const ShowRecipe = () => {
+const ShowRecipe = ({ userId }) => {
     const [recipe, setRecipe] = useState(EMPTY_RECIPE);
     const [ingredients, setIngredients] = useState([]);
-    const [favoriteRecipes, setFavoriteRecipes] = useState([]);
     const [image, setImage] = useState(null);
     const [checked, setChecked] = useState(false);
-    const auth = useContext(AuthContext);
     const { id } = useParams();
     const navigate = useNavigate();
     const location = useLocation();
@@ -63,6 +59,8 @@ const ShowRecipe = () => {
 
 
     const renderBlob = () => {
+        console.log(recipe.image)
+        console.log(typeof recipe.image)
         const reader = new FileReader();
         return new Promise((resolve, reject) => {
             reader.onloadend = () => {
@@ -73,44 +71,43 @@ const ShowRecipe = () => {
                 console.log("error: ", e.target.error);
                 reject(e.target.error);
             }
-            reader.readAsDataURL(recipe.image);
+            reader.readAsDataURL(atob(recipe.image));
         })
-        // return atob(image) 
     }
 
     const renderImage = () => {
-
+        console.log(atob(recipe.image))
+        console.log(recipe.image)
     }
 
 
 
     const handleFavoriteChange = (e) => {
-        const fave = { recipeId: id, userId: auth.app_user_id };
-        console.log(e.target.checked)
-        // need to confirm favorites state before activating
-        // e.target.checked ? addFavorite(fave) : removeFavorite(fave);
+        e.target.checked ? addFavorite(recipe.id) : removeFavorite(recipe.id);
         setChecked(!checked);
     };
 
     useEffect(() => {
         findRecipeById(id)
-            .then(data => {
-                setRecipe(data)
-                setIngredients(data.ingredients);
-                setImage(atob(data.imageUrl));
-            })
+            .then(data => setRecipe(data))
             .catch(() => navigate("/notfound", {
                 state: {
                     msg: `Recipe ${id} not found. 🤷`
                 }
             }))
-        findUser()
-            .then(user => {
-                user.myFavorites.map(f => console.log(f.id === id))
-                setChecked(user.myFavorites.some(f => f.id === id))
-            });
+        isFavorite(id)
+            .then((data) => setChecked(data))
+            .catch((err) => console.log(err))
     }, []);
-    // Unloading the object with line break elements temporarily
+
+    useEffect(() => {
+        if (recipe.imageUrl !== '') {
+            setImage(recipe.imageUrl);
+        } else {
+            renderImage();
+        }
+        setIngredients(recipe.ingredients);
+    }, [recipe]);
     return (
         <>{
             ingredients.length > 0 &&
@@ -123,7 +120,7 @@ const ShowRecipe = () => {
                     <Grid item pt={2}>
                         <Typography variant='h3'>{recipe.title}</Typography>
                         <Divider sx={{ paddingTop: 1, paddingBottom: 1 }} />
-                        <Box component='img' src={`${image}`} alt={recipe.title} width={200} pt={2}/>
+                        <Box component='img' src={`${image}`} alt={recipe.title} width={200} pt={2} />
                     </Grid>
                 </Grid>
 
@@ -174,20 +171,18 @@ const ShowRecipe = () => {
                         </Typography>
                     </Grid>
                 </Grid>
-                <Checkbox
-                    icon={<FavoriteBorder />}
-                    checkedIcon={<Favorite />}
-                    sx={{ mt: '5%', '& .MuiSvgIcon-root': { fontSize: 30 } }}
-                    checked={checked} 
-                    onChange={handleFavoriteChange}
-                />
-
+                {userId !== recipe.userId &&
+                    <Checkbox
+                        icon={<FavoriteBorder />}
+                        checkedIcon={<Favorite />}
+                        sx={{ mt: '5%', '& .MuiSvgIcon-root': { fontSize: 30 } }}
+                        checked={checked}
+                        onChange={handleFavoriteChange}
+                    />
+                }
                 <Box sx={{ paddingY: '3%' }}>
                     {recipe.sourceUrl && <Typography variant='overline'><a href={recipe.sourceUrl}>Source</a></Typography>}
                 </Box>
-                {location.state && <Alert severity="success" sx={styles.alert}>
-                    <Typography variant="subtitle1">
-                        {location.state.msg}</Typography></Alert>}
             </Paper>
         }
         </>

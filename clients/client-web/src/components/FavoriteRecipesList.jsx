@@ -11,7 +11,7 @@ const FavoriteRecipesList = ({ favoriteRecipes }) => {
                 Favorite Recipes
             </Typography>
             <List>
-                {favoriteRecipes.map((favoriteRecipe) => (
+                {favoriteRecipes?.map((favoriteRecipe) => (
                     <ListItem key={favoriteRecipe.id}>
                         <ListItemText primary={favoriteRecipe.title} />
                     </ListItem>

@@ -3,6 +3,7 @@ package learn.agileaprons.domain;
 import learn.agileaprons.data.DataException;
 import learn.agileaprons.data.UserRepository;
 import learn.agileaprons.models.User;
+import learn.agileaprons.models.UserFavorite;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Validator;
@@ -45,6 +46,11 @@ public class UserService {
         }
 
         return result;
+    }
+
+
+    public boolean isFavorite(UserFavorite userFavorite) {
+        return userRepository.isFavorite(userFavorite);
     }
 
     // Favorite methods without result feedback

@@ -55,12 +55,17 @@ public class UserController {
         return ErrorResponse.build(result);
     }
 
+    @PostMapping("/favorite/check")
+    public ResponseEntity<Boolean> isFavorite(@RequestBody UserFavorite userFavorite) {
+        return new ResponseEntity<>(service.isFavorite(userFavorite), HttpStatus.OK);
+    }
+
     @PostMapping("/favorite")
     public void addFavorite(@RequestBody UserFavorite userFavorite) {
         service.addFavorite(userFavorite.getUserId(), userFavorite.getRecipeId());
     }
 
-    @DeleteMapping("/favorite")
+    @PutMapping("/favorite")
     public void deleteFavorite(@RequestBody UserFavorite userFavorite) {
         service.removeFavorite(userFavorite.getUserId(), userFavorite.getRecipeId());
     }

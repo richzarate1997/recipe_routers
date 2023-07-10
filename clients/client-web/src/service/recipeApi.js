@@ -38,16 +38,11 @@ export async function findAllUnits() {
 }
 
 export async function findRecipeById(id) {
-    try {
-        const response = await axios.get(`${API_URL}/${id}`);
-        if (response.status === 200) {
-            return response.data;
-        } else {
-            return Promise.reject(`Recipe: ${id} was not found. `);
-        }
-    } catch (error) {
-        console.error(error);
-        return Promise.reject(error);
+    const response = await axios.get(`${API_URL}/${id}`);
+    if (response.status === 200) {
+        return response.data;
+    } else {
+        return Promise.reject(`Recipe: ${id} was not found. `);
     }
 }
 
@@ -73,7 +68,7 @@ export async function createRecipe(recipe) {
     const init = makeRecipeInit('POST', jwtToken);
     const response = await axios.post(API_URL, userRecipe, init);
     if (response.status === 201) {
-        return response.json();
+        return response.data;
     } else if (response.status === 403) {
         return Promise.reject('Unauthorized');
     } else if (response.status === 400) {
@@ -90,7 +85,6 @@ export async function updateRecipe(recipe) {
     try {
         const init = makeRecipeInit('PUT', jwtToken);
         const response = await axios.put(`${API_URL}/${recipe.id}`, recipe, init);
-
         if (response.status === 400) {
             return Promise.reject(response.data);
         } else if (response.status === 409) {

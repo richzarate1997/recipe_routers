@@ -1,4 +1,4 @@
-import { Grid, TextField, Select, MenuItem, Typography, OutlinedInput } from '@mui/material';
+import { Grid, Stack, TextField, Select, MenuItem, Typography, OutlinedInput, Tooltip } from '@mui/material';
 
 
 const RecipeIngredient = ({ units, ingredient, onChange }) => {
@@ -12,27 +12,27 @@ const RecipeIngredient = ({ units, ingredient, onChange }) => {
             nextValue = parseInt(nextValue, 10);
             nextRecipeIngredient[e.target.name] = units.find(u => u.id === nextValue);
         }
-        console.log(ingredient);
         onChange(nextRecipeIngredient);
     }
 
     return (
-        <Grid container sx={{ width: '50%' }} spacing={2}>
-            <Grid item xs={2} sm={3}>
+        <Stack container rowSpacing={2} sx={{ margin: 'auto' }} >
+            <Grid item xs={2} sm={3} md={4} lg={4}>
                 <TextField
                     label="Quantity"
                     type="number"
                     name="quantity"
                     size='small'
-                    minRows={0.0001}
+                    InputProps={{ inputProps: { min: '0.001' } }}
                     required
                     value={ingredient.quantity}
                     onChange={handleChange}
                     sx={{ width: '5rem' }}
                 />
             </Grid>
-            <Grid item xs={2} sm={3}>
+            <Grid item xs={2} sm={3} md={4} lg={4}>
                 <Select
+                    required
                     displayEmpty
                     value={ingredient.unit.id}
                     name="unit"
@@ -43,20 +43,22 @@ const RecipeIngredient = ({ units, ingredient, onChange }) => {
                     inputProps={{ 'aria-label': 'Without label' }}
                     sx={{ width: '5rem' }}
                 >
-                    <MenuItem value='0'>
-                        Select Unit
+                    <MenuItem disabled value='0'>
+                        Unit
                     </MenuItem>
                     {units.length > 0 && units.map((unit) => (
                         <MenuItem key={unit.id} value={unit.id}>
-                            {unit.abbreviation}
+                            <Tooltip title={unit.name || ingredient.ingredient.name}>
+                                {unit.abbreviation || ingredient.ingredient.name}
+                            </Tooltip>
                         </MenuItem>
                     ))}
                 </Select>
             </Grid>
-            <Grid item xs={3} sm={3} md={5}>
+            <Grid item xs={2} sm={3} md={4} lg={4}>
                 <Typography variant="body1" p={1} textAlign={'left'}>{ingredient.ingredient.name}</Typography>
             </Grid>
-        </Grid>
+        </Stack>
     )
 }
 
