@@ -45,23 +45,17 @@ public class SecurityConfig {
                         "/api/cuisine"
                 ).permitAll()
                 .antMatchers(HttpMethod.GET,
-//                        "/api/ingredient",
-//                        "/api/ingredient/*",
                         "/api/user/*",
                         "/api/user/list",
                         "/api/user/list/search/*",
                         "/api/user/list/*"
                         ).authenticated()
                 .antMatchers(HttpMethod.POST,
-//                        "/api/ingredient",
-                        "/api/recipe"
-//                        "/api/user/favorite",
-//                        "/api/user/list"
+                        "/api/ingredient"
                 ).permitAll()
-                // Replace ^ with authenticated permission only for posts below later \/
                 .antMatchers(HttpMethod.POST,
                         "/api/ingredient",
-//                        "/api/recipe",
+                        "/api/recipe",
                         "/api/user/favorite",
                         "/api/user/list"
                 ).authenticated()
@@ -69,20 +63,13 @@ public class SecurityConfig {
                         "/api/recipe/*",
                         "/api/user",
                         "/api/user/list"
-                ).permitAll()
-                // Replace ^ with authenticated permission only for posts below later \/
-//                .antMatchers(HttpMethod.PUT,
-//                        "/api/recipe/*",
-//                        "/api/user",
-//                        "/api/user/list"
-//                ).authenticated()
-                // Replace ^ with authenticated permission only for posts below later \/
+                ).authenticated()
                 .antMatchers(HttpMethod.DELETE,
                         "/api/recipe/*",
                         "/api/user/list",
                         "/api/user/favorite"
                 ).authenticated()
-//                .antMatchers(HttpMethod.DELETE, "/api/*").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/api/*").hasAuthority("ADMIN")
                 .antMatchers("/**").denyAll()
                 .and()
                 .addFilter(new JwtRequestFilter(authenticationManager(authConfig), jwtConverter))
