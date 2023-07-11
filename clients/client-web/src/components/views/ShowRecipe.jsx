@@ -2,14 +2,14 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import { findRecipeById } from '../../service/recipeApi'
-import Checkbox from '@mui/material/Checkbox';
-import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
-import Favorite from '@mui/icons-material/Favorite';
-import { Alert, Typography, List, ListItem, ListItemText, Box, Grid, Divider, Paper } from '@mui/material';
+import { Favorite, FavoriteBorder } from '@mui/icons-material';
+import {
+    Alert, Typography, List, ListItem,
+    ListItemText, Box, Grid, Divider,
+    Paper, Chip, Stack, Checkbox
+} from '@mui/material';
 import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
 import MenuBookOutlinedIcon from '@mui/icons-material/MenuBookOutlined';
-import Chip from '@mui/material/Chip';
-import Stack from '@mui/material/Stack';
 import { addFavorite, removeFavorite, isFavorite } from '../../service/userApi';
 
 
@@ -58,25 +58,24 @@ const ShowRecipe = ({ userId }) => {
     }
 
 
-    const renderBlob = () => {
-        console.log(recipe.image)
-        console.log(typeof recipe.image)
-        const reader = new FileReader();
-        return new Promise((resolve, reject) => {
-            reader.onloadend = () => {
-                const base64data = reader.result;
-                resolve(base64data);
-            };
-            reader.onerror = (e) => {
-                console.log("error: ", e.target.error);
-                reject(e.target.error);
-            }
-            reader.readAsDataURL(atob(recipe.image));
-        })
-    }
+    // const renderBlob = () => {
+    //     console.log(recipe.image)
+    //     console.log(typeof recipe.image)
+    //     const reader = new FileReader();
+    //     return new Promise((resolve, reject) => {
+    //         reader.onloadend = () => {
+    //             const base64data = reader.result;
+    //             resolve(base64data);
+    //         };
+    //         reader.onerror = (e) => {
+    //             console.log("error: ", e.target.error);
+    //             reject(e.target.error);
+    //         }
+    //         reader.readAsDataURL(atob(recipe.image));
+    //     })
+    // }
 
     const renderImage = () => {
-        console.log(atob(recipe.image))
         console.log(recipe.image)
     }
 
@@ -98,12 +97,13 @@ const ShowRecipe = ({ userId }) => {
         isFavorite(id)
             .then((data) => setChecked(data))
             .catch((err) => console.log(err))
-    }, []);
+    }, [id, navigate]);
 
     useEffect(() => {
         if (recipe.imageUrl !== '') {
             setImage(recipe.imageUrl);
         } else {
+            //fixme
             renderImage();
         }
         setIngredients(recipe.ingredients);

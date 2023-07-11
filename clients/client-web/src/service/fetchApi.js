@@ -107,28 +107,22 @@ const testRecipe = {
     vegan: true,
     vegetarian: true
 }
+console.log(testRecipe);
 
 
-
-
-export async function getRecipeInformation(id) {
-    const options = {
-        method: 'GET',
-        url: `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/${id}/information`,
-        headers: {
-            'X-RapidAPI-Key': process.env.REACT_APP_SPOONACULAR_API_KEY,
-            'X-RapidAPI-Host': 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com'
-        }
-    };
-
-    try {
-
-
-
-
-        // const response = await axios.request(options);
-        // return response.data;
-    } catch (error) {
-        console.error(error);
-    }
-}
+// export async function getRecipeInformation(id) {
+//     const options = {
+//         method: 'GET',
+//         url: `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/${id}/information`,
+//         headers: {
+//             'X-RapidAPI-Key': process.env.REACT_APP_SPOONACULAR_API_KEY,
+//             'X-RapidAPI-Host': 'spoonacular-recipe-food-nutrition-v1.p.rapidapi.com'
+//         }
+//     };
+//     try {
+//         const response = await axios.request(options);
+//         return response.data;
+//     } catch (error) {
+//         console.error(error);
+//     }
+// }
