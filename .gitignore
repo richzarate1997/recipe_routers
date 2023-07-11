@@ -40,3 +40,6 @@ target/
 
 # Node
 node_modules/
+
+# VS Code
+.vscode/
