@@ -50,13 +50,6 @@ public class IngredientController {
                 .collect(Collectors.toList());
     }
 
-//    @PostMapping("/add/get/")
-//    public List<Ingredient> addAndGetIngredients(@RequestBody List<Ingredient> ingredients) {
-//        List<Ingredient> returnIngredients = new ArrayList<>();
-//        return returnIngredients;
-//    }
-
-
     @PostMapping
     public ResponseEntity<Object> create(@RequestBody @Valid Ingredient ingredient, BindingResult bindingResult) throws DataException {
         if (bindingResult.hasErrors()) {
