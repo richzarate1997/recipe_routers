@@ -92,4 +92,19 @@ public class RecipeController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @PostMapping("/scrape")
+    public ResponseEntity<Object> findOrScrape(@RequestBody Recipe r) throws DataException{
+        Recipe match = service.findAll().stream()
+                .filter(recipe -> recipe.getTitle().equalsIgnoreCase(r.getTitle()) &&
+                        recipe.getServings() == r.getServings() &&
+                        recipe.getCookMinutes() == r.getCookMinutes())
+                .findFirst().orElse(null);
+        if (match != null) {
+            return new ResponseEntity<>(match, HttpStatus.OK);
+        } else {
+            Result<Recipe> result = service.scrape(r.getId());
+            return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
+        }
+    }
+
 }

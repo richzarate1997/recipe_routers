@@ -1,11 +1,17 @@
 package learn.agileaprons.domain;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import learn.agileaprons.data.DataException;
 import learn.agileaprons.data.RecipeIngredientRepository;
 import learn.agileaprons.data.RecipeRepository;
 import learn.agileaprons.models.Recipe;
 import learn.agileaprons.models.RecipeIngredient;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import javax.validation.Validator;
 import java.util.List;
@@ -16,11 +22,15 @@ public class RecipeService {
     private final RecipeRepository recipeRepository;
     private final RecipeIngredientRepository recipeIngredientRepository;
     private final Validator validator;
+    private final WebClient webClient;
+    @Value("${spoonacularApiKey}")
+    private String apiKey;
 
     public RecipeService(RecipeRepository recipeRepository, RecipeIngredientRepository recipeIngredientRepository, Validator validator) {
         this.recipeRepository = recipeRepository;
         this.recipeIngredientRepository = recipeIngredientRepository;
         this.validator = validator;
+        this.webClient = WebClient.builder().baseUrl("https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com").build();
     }
 
     public List<Recipe> findAll() {
@@ -81,6 +91,26 @@ public class RecipeService {
         recipe.getIngredients().forEach(recipeIngredient -> addIngredient(recipeIngredient, result));
     }
 
+    public Result<Recipe> scrape(int spoonacularId) {
+        String response = webClient.get()
+                .uri("/recipes/{spoonacularId}/information", spoonacularId)
+                .header(HttpHeaders.CONTENT_TYPE, "application/json")
+                .header("X-RapidAPI-Key", apiKey)
+                .header("X-RapidAPI-Host", "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com")
+                .retrieve()
+                .bodyToMono(String.class)
+                .map(jsonString -> {
+                    ObjectMapper mapper = new ObjectMapper();
+                    try {
+                        JsonNode root = mapper.readTree(jsonString);
+                        
+                    } catch (JsonProcessingException e) {
+                        throw new RuntimeException(e);
+                    }
+                })
+                .block();
+    }
+
     private void addIngredient(RecipeIngredient recipeIngredient, Result<Recipe> result) {
         validate(recipeIngredient, result);
         if (!result.isSuccess()) {
@@ -118,7 +148,5 @@ public class RecipeService {
 
         return result;
     }
-
-
 
 }
