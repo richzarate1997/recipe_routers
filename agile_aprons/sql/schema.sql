@@ -44,7 +44,7 @@ CREATE TABLE `app_user_role` (
 -- -----------------------------------------------------
 CREATE TABLE `user` (
   `app_user_id` INT NOT NULL,
-  `display_name` VARCHAR(255) NOT NULL,
+  `display_name` VARCHAR(25) NOT NULL,
   `is_metric` BIT(1) NOT NULL DEFAULT 1,
   CONSTRAINT `pk_user_id`
 	PRIMARY KEY (`app_user_id`),
@@ -97,8 +97,8 @@ CREATE TABLE `user_favorite` (
 -- Table `recipe_list`.`ingredient`
 -- -----------------------------------------------------
 CREATE TABLE `ingredient` (
-  `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `name` VARCHAR(255) NOT NULL,
+  `ingredient_id` INT PRIMARY KEY AUTO_INCREMENT,
+  `ingredient_name` VARCHAR(255) NOT NULL,
   `image_url` VARCHAR(255) NOT NULL,
   `aisle` VARCHAR(45) NULL
 );
@@ -108,8 +108,8 @@ CREATE TABLE `ingredient` (
 -- Table `recipe_list`.`unit`
 -- -----------------------------------------------------
 CREATE TABLE `unit` (
-  `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `name` VARCHAR(15) NOT NULL,
+  `unit_id` INT PRIMARY KEY AUTO_INCREMENT,
+  `unit_name` VARCHAR(15) NOT NULL,
   `abbrev` VARCHAR(10) NOT NULL
   );
 
@@ -128,10 +128,10 @@ CREATE TABLE `recipe_ingredient` (
     REFERENCES `recipe`(`id`),
   CONSTRAINT `fk_recipe_ingredient_ingredient`
     FOREIGN KEY (`ingredient_id`)
-    REFERENCES `ingredient`(`id`),
+    REFERENCES `ingredient`(`ingredient_id`),
   CONSTRAINT `fk_recipe_ingredient_unit`
     FOREIGN KEY (`unit_id`)
-    REFERENCES `unit`(`id`),
+    REFERENCES `unit`(`unit_id`),
   CONSTRAINT `uq_recipe_ingredient_recipe_id_ingredient_id`
 	UNIQUE (`recipe_id`, `ingredient_id`)
 );
@@ -140,10 +140,10 @@ CREATE TABLE `recipe_ingredient` (
 -- Table `recipe_list`.`grocery_list`
 -- -----------------------------------------------------
 CREATE TABLE `grocery_list` (
-  `id` INT PRIMARY KEY AUTO_INCREMENT,
+  `grocery_list_id` INT PRIMARY KEY AUTO_INCREMENT,
   `user_app_user_id` INT NOT NULL,
-  `name` VARCHAR(40) NOT NULL,
-  CONSTRAINT `fk_grocery_list_app_user`
+  `grocery_list_name` VARCHAR(40) NOT NULL,
+  CONSTRAINT `fk_grocery_list_user`
 	FOREIGN KEY (`user_app_user_id`)
 	REFERENCES `user`(`app_user_id`)
 );
@@ -158,10 +158,10 @@ CREATE TABLE `grocery_list_ingredient` (
 	PRIMARY KEY (`grocery_list_id`, `ingredient_id`),
   CONSTRAINT `fk_grocery_list_ingredient_ingredient`
     FOREIGN KEY (`ingredient_id`)
-    REFERENCES `ingredient`(`id`),
+    REFERENCES `ingredient`(`ingredient_id`),
   CONSTRAINT `fk_grocery_list_ingredient_list`
     FOREIGN KEY (`grocery_list_id`)
-    REFERENCES `grocery_list`(`id`)
+    REFERENCES `grocery_list`(`grocery_list_id`)
 );
 
 
@@ -169,8 +169,8 @@ CREATE TABLE `grocery_list_ingredient` (
 -- Table `recipe_list`.`cuisine`
 -- -----------------------------------------------------
 CREATE TABLE `cuisine` (
-  `id` INT PRIMARY KEY AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL
+  `cuisine_id` INT PRIMARY KEY AUTO_INCREMENT,
+  `cuisine_name` VARCHAR(45) NOT NULL
 );
 
 
@@ -184,7 +184,7 @@ CREATE TABLE `recipe_cuisine` (
 	PRIMARY KEY (`cuisine_id`, `recipe_id`),
   CONSTRAINT `fk_recipe_cuisine`
     FOREIGN KEY (`cuisine_id`)
-    REFERENCES `cuisine`(`id`),
+    REFERENCES `cuisine`(`cuisine_id`),
   CONSTRAINT `fk_cuisine_has_recipe`
     FOREIGN KEY (`recipe_id`)
     REFERENCES `recipe`(`id`)
@@ -219,7 +219,7 @@ INSERT INTO `user` (`app_user_id`, `display_name`, `is_metric`)
     (1, 'ADMIN', 1),
     (2, 'TESTER', 0);
 
-INSERT INTO `unit` (`name`, `abbrev`)
+INSERT INTO `unit` (`unit_name`, `abbrev`)
 	VALUES
     ('fluid ounce','fl oz'),
     ('ounce','oz'),
@@ -238,7 +238,7 @@ INSERT INTO `unit` (`name`, `abbrev`)
     ('',''),
 	('count', 'ct');
     
-INSERT INTO `cuisine` (`name`)
+INSERT INTO `cuisine` (`cuisine_name`)
 	VALUES -- Exhaustive to spoonacular API selection
     ('African'),
     ('Asian'),

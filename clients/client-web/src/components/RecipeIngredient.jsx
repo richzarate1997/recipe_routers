@@ -23,7 +23,7 @@ const RecipeIngredient = ({ units, ingredient, onChange }) => {
                     type="number"
                     name="quantity"
                     size='small'
-                    InputProps={{ inputProps: { min: '0.001' } }}
+                    InputProps={{ inputProps: { step: "0.5" } }}
                     required
                     value={ingredient.quantity}
                     onChange={handleChange}

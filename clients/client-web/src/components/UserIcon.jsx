@@ -80,9 +80,9 @@ const UserIcon = () => {
                 {/* <MenuItem onClick={handleCloseUserMenu}>
                 <Typography textAlign="center" to={`/add/grocerylist`} component={Link}>Create Grocery List</Typography>
                 </MenuItem> */}
-                <MenuItem onClick={handleCloseUserMenu}>
+                {/* <MenuItem onClick={handleCloseUserMenu}>
                 <Typography textAlign="center" to={`/myfavorites`} component={Link}>My Favorites</Typography>
-                </MenuItem>
+                </MenuItem> */}
                 <MenuItem onClick={handleCloseUserMenu}>
                     <Typography textAlign="center" onClick={() => auth.signOut()} component={Link}>Logout</Typography>
                 </MenuItem>
