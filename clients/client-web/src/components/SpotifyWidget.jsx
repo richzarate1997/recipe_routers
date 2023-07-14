@@ -7,7 +7,7 @@ const spotify = new SpotifyWebApi();
 
 const styles = {
     link: {
-        color: '#1DB954',
+        color: '#1AB26B',
         backgroundColor: '#191414',
         fontFamily: 'sans-serif',
         borderRadius: '25px 25px',
