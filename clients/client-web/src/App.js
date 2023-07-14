@@ -90,7 +90,7 @@ function App() {
             <AuthContext.Provider value={auth}>
                 <Router>
                     <ResponsiveAppBar />
-                    <Routes>
+                    <Routes style={{ height: '100%'}}>
                         <Route path="/" element={<Home />} />
                         <Route path="/recipes" element={<Recipe />} />
                         <Route path="/search/:param" element={<Recipe />} />

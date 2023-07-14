@@ -3,14 +3,16 @@ import SpotifyWidget from "./SpotifyWidget";
 export default function Footer() {
     const styles = {
         foot: {
-            position: 'sticky',
+            position: 'fixed',
             bottom: 0,
+            left: 0,
+            width: '100vw'
         },
         group: {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'end',
-            padding: '5px'
+            padding: '5px',
         },
         text: {
             fontFamily: 'monospace',

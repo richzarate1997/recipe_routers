@@ -1,6 +1,8 @@
 import SearchIcon from '@mui/icons-material/Search';
 import { Box, InputBase } from '@mui/material';
 import { styled, alpha } from '@mui/material/styles';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -45,15 +47,30 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const NavBarSearch = () => {
+    const [searchQuery, setSearchQuery] = useState("");
+    const navigate = useNavigate();
+    
+    const handleChange = (e) => {
+        setSearchQuery(e.target.value);
+    };
+    
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        navigate(`/search/${searchQuery}`)
+    };
     return (
-        < Box m={1}>
-            <Search>
+        <Box m={1} component={'form'} onSubmit={handleSubmit}>
+        <Search>
                 <SearchIconWrapper>
                     <SearchIcon />
                 </SearchIconWrapper>
                 <StyledInputBase
                     placeholder="Search…"
                     inputProps={{ 'aria-label': 'search' }}
+                    
+                    onChange={handleChange}
+                    value={searchQuery}
+                    label="Search for a recipe"
                 />
             </Search>
         </Box>
