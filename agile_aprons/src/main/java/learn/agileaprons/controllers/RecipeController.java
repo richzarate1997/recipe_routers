@@ -102,8 +102,13 @@ public class RecipeController {
         if (match != null) {
             return new ResponseEntity<>(match, HttpStatus.OK);
         } else {
-            Result<Recipe> result = service.scrape(r.getId());
-            return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
+            Recipe mappedRecipe = service.scrape(r.getId());
+            Result<Recipe> result = service.create(mappedRecipe);
+            if (result.isSuccess()) {
+                service.addIngredients(result);
+                return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
+            }
+            return ErrorResponse.build(result);
         }
     }
 

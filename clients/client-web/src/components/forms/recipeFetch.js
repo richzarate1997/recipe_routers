@@ -1,25 +1,4 @@
 
-import { useNavigate } from "react-router-dom";
-import { findAllCuisines, findAllUnits, findRecipeByTitle, createRecipe } from "../../service/recipeApi";
-import { createIngredient, findAllIngredients } from "../../service/ingredientApi";
-import { getRecipeInformation } from "../../service/fetchApi";
-
-const [cuisines, setCuisines] = useState([]);
-const [units, setUnits] = useState([]);
-const [ingredients, setIngredients] = useState([]);
-const navigate = useNavigate();
-useEffect(() => {
-    findAllCuisines()
-        .then((c) => setCuisines(c))
-        .catch(err => console.log("There was an error retrieving cuisines."));
-    findAllUnits()
-        .then((u) => setUnits(u))
-        .catch(err => console.log("There was an error retrieving units."));
-    findAllIngredients()
-        .then((i) => setIngredients(i))
-        .catch(err => console.log("There was an error retrieving ingredients."));
-}, []);
-
 function fetchRecipe(id, name, cookTime, servings) {
     findRecipeByTitle(name)
         .then(data => {

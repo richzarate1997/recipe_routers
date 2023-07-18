@@ -1,6 +1,5 @@
 package learn.agileaprons.domain;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import learn.agileaprons.data.DataException;
@@ -91,7 +90,7 @@ public class RecipeService {
         recipe.getIngredients().forEach(recipeIngredient -> addIngredient(recipeIngredient, result));
     }
 
-    public Result<Recipe> scrape(int spoonacularId) {
+    public Recipe scrape(int spoonacularId) {
         String response = webClient.get()
                 .uri("/recipes/{spoonacularId}/information", spoonacularId)
                 .header(HttpHeaders.CONTENT_TYPE, "application/json")
@@ -99,16 +98,17 @@ public class RecipeService {
                 .header("X-RapidAPI-Host", "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com")
                 .retrieve()
                 .bodyToMono(String.class)
-                .map(jsonString -> {
-                    ObjectMapper mapper = new ObjectMapper();
-                    try {
-                        JsonNode root = mapper.readTree(jsonString);
-                        
-                    } catch (JsonProcessingException e) {
-                        throw new RuntimeException(e);
-                    }
-                })
+//                .map(jsonString -> {
+//                    ObjectMapper mapper = new ObjectMapper();
+//                    JsonNode root = mapper.readTree(jsonString);
+//                    System.out.println(root);
+//                    return null;
+//                })
+                // need to strip properties from response
+                // and align them to mirror new recipe object
                 .block();
+        System.out.println(response);
+        return null;
     }
 
     private void addIngredient(RecipeIngredient recipeIngredient, Result<Recipe> result) {
@@ -129,7 +129,7 @@ public class RecipeService {
             return result;
         }
 
-        for (var violation: validator.validate(recipe)) {
+        for (var violation : validator.validate(recipe)) {
             result.addMessage(violation.getMessage());
         }
 
@@ -147,6 +147,15 @@ public class RecipeService {
         }
 
         return result;
+    }
+
+    private Recipe mapRecipe(JsonNode data) {
+        Recipe mappedRecipe = new Recipe();
+
+
+
+
+        return mappedRecipe;
     }
 
 }

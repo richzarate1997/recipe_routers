@@ -167,3 +167,14 @@ Content-Type: application/json
 
 ###
 DELETE {{url}}/3 HTTP/1.1
+
+###
+POST {{url}}/scrape HTTP/1.1
+Content-Type: application/json
+
+{
+  "id": 479101,
+  "title": "On the Job: Pan Roasted Cauliflower From Food52",
+  "servings": 4,
+  "cookMinutes": 20
+}
