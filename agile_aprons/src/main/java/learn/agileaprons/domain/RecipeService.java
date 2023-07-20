@@ -92,21 +92,14 @@ public class RecipeService {
     }
 
     public Recipe scrape(int spoonacularId) {
-        SpoonacularRecipe response = webClient.get()
+        Recipe response = webClient.get()
                 .uri("/recipes/{spoonacularId}/information", spoonacularId)
                 .header(HttpHeaders.CONTENT_TYPE, "application/json")
                 .header("X-RapidAPI-Key", apiKey)
                 .header("X-RapidAPI-Host", "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com")
                 .retrieve()
                 .bodyToMono(SpoonacularRecipe.class)
-//                .map(jsonString -> {
-//                    ObjectMapper mapper = new ObjectMapper();
-//                    JsonNode root = mapper.readTree(jsonString);
-//                    System.out.println(root);
-//                    return null;
-//                })
-                // need to strip properties from response
-                // and align them to mirror new recipe object
+                .map(this::mapRecipe)
                 .block();
         assert response != null;
         System.out.println(response.toString());
@@ -151,13 +144,13 @@ public class RecipeService {
         return result;
     }
 
-//    private Recipe mapRecipe(JsonNode data) {
-//        Recipe mappedRecipe = new Recipe();
-//
-//
-//
-//
-//        return mappedRecipe;
-//    }
+    private Recipe mapRecipe(SpoonacularRecipe data) {
+        Recipe mappedRecipe = new Recipe();
+        mappedRecipe.set
+
+
+
+        return mappedRecipe;
+    }
 
 }
