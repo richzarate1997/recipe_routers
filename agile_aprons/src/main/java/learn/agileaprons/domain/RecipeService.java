@@ -7,6 +7,7 @@ import learn.agileaprons.data.RecipeIngredientRepository;
 import learn.agileaprons.data.RecipeRepository;
 import learn.agileaprons.models.Recipe;
 import learn.agileaprons.models.RecipeIngredient;
+import learn.agileaprons.models.SpoonacularRecipe;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
@@ -91,13 +92,13 @@ public class RecipeService {
     }
 
     public Recipe scrape(int spoonacularId) {
-        String response = webClient.get()
+        SpoonacularRecipe response = webClient.get()
                 .uri("/recipes/{spoonacularId}/information", spoonacularId)
                 .header(HttpHeaders.CONTENT_TYPE, "application/json")
                 .header("X-RapidAPI-Key", apiKey)
                 .header("X-RapidAPI-Host", "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com")
                 .retrieve()
-                .bodyToMono(String.class)
+                .bodyToMono(SpoonacularRecipe.class)
 //                .map(jsonString -> {
 //                    ObjectMapper mapper = new ObjectMapper();
 //                    JsonNode root = mapper.readTree(jsonString);
@@ -107,7 +108,8 @@ public class RecipeService {
                 // need to strip properties from response
                 // and align them to mirror new recipe object
                 .block();
-        System.out.println(response);
+        assert response != null;
+        System.out.println(response.toString());
         return null;
     }
 
@@ -149,13 +151,13 @@ public class RecipeService {
         return result;
     }
 
-    private Recipe mapRecipe(JsonNode data) {
-        Recipe mappedRecipe = new Recipe();
-
-
-
-
-        return mappedRecipe;
-    }
+//    private Recipe mapRecipe(JsonNode data) {
+//        Recipe mappedRecipe = new Recipe();
+//
+//
+//
+//
+//        return mappedRecipe;
+//    }
 
 }

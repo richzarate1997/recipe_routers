@@ -51,7 +51,8 @@ public class SecurityConfig {
                         "/api/user/list/*"
                         ).authenticated()
                 .antMatchers(HttpMethod.POST,
-                        "/api/ingredient"
+                        "/api/ingredient",
+                        "/api/recipe/scrape"
                 ).permitAll()
                 .antMatchers(HttpMethod.POST,
 //                        "/api/ingredient",

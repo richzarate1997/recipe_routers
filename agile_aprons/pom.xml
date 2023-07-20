@@ -79,6 +79,14 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!-- This solves an error while developing webclient from macOS w/ M1 chip -->
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-resolver-dns-native-macos</artifactId>
+            <version>4.1.72.Final</version>
+            <classifier>osx-aarch_64</classifier>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
