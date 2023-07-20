@@ -236,7 +236,12 @@ INSERT INTO `unit` (`name`, `abbrev`)
     ('gram','g'),
     ('kilogram','kg'),
     ('',''),
-	('count', 'ct');
+	('count', 'ct'),
+    ('head','head'),
+    ('handful','filled hand'),
+    ('serving','serv'),
+    ('piece','pc'),
+	('pinch', 'pn');
     
 INSERT INTO `cuisine` (`name`)
 	VALUES -- Exhaustive to spoonacular API selection

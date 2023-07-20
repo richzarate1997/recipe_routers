@@ -256,7 +256,12 @@ BEGIN
 		('gram','g'),
 		('kilogram','kg'),
 		('',''),
-		('count', 'ct');
+		('count', 'ct'),
+		('head','head'),
+		('handful','filled hand'),
+		('serving','serv'),
+		('piece','pc'),
+		('pinch', 'pn');
         
 	INSERT INTO `cuisine` (`cuisine_name`)
 		VALUES
