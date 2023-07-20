@@ -3,7 +3,8 @@ package learn.agileaprons.models;
 import java.util.ArrayList;
 
 public class SpoonacularRecipe {
-    private int id;
+    // This is a fabrication of the spoonacular recipe information response
+    // solely needed to retrieve the response for further dissection.
     private String title;
     private int readyInMinutes;
     private int servings;
@@ -16,6 +17,9 @@ public class SpoonacularRecipe {
     private boolean glutenFree;
     private boolean dairyFree;
     private ArrayList<SpoonacularIngredient> extendedIngredients;
+
+    // \/\/\/\/\/\/\/\/\/\/\/\/\/ Unnecessary details below:
+    private int id;
     private String summary;
     private String imageType;
     private ArrayList<String> dishTypes;
@@ -321,7 +325,7 @@ public class SpoonacularRecipe {
 
     @Override
     public String toString() {
-        return "SpoonacularRecipe{" +
+        return "{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", readyInMinutes=" + readyInMinutes +

@@ -3,16 +3,21 @@ package learn.agileaprons.models;
 import java.util.ArrayList;
 
 public class SpoonacularIngredient {
-    private int id;
+
+    // This is a fabrication of the spoonacular recipe - extendedIgnredient response
+    // solely needed to retrieve the response for further dissection.
+    private String name;
+    private double amount;
+    private String unit;
     private String aisle;
     private String image;
+
+    // \/\/\/\/\/\/\/\/\/\/\/\/\/ Unnecessary details below:
+    private int id;
     private String consistency;
-    private String name;
     private String nameClean;
     private String original;
     private String originalName;
-    private double amount;
-    private String unit;
     private ArrayList<String> meta;
     private Object measures; // may fail, and require sub-class to operate...
 
@@ -114,7 +119,7 @@ public class SpoonacularIngredient {
 
     @Override
     public String toString() {
-        return "SpoonacularIngredient{" +
+        return "{" +
                 "aisle='" + aisle + '\'' +
                 ", image='" + image + '\'' +
                 ", name='" + name + '\'' +
