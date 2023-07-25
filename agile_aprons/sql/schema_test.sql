@@ -262,7 +262,8 @@ BEGIN
 		('serving','serv'),
 		('piece','pc'),
         ('slice','sl'),
-		('pinch', 'pn');
+		('pinch', 'pn'),
+		('small','sm');
         
 	INSERT INTO `cuisine` (`cuisine_name`)
 		VALUES
@@ -278,6 +279,7 @@ BEGIN
 		('Cajun'),
 		('Carribean'),
 		('Chinese'),
+		('Creole'),
 		('Eastern European'),
 		('European'),
 		('French'),

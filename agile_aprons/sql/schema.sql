@@ -242,7 +242,8 @@ INSERT INTO `unit` (`unit_name`, `abbrev`)
 	('serving','serv'),
 	('piece','pc'),
 	('slice','sl'),
-	('pinch', 'pn');
+	('pinch', 'pn'),
+	('small','sm');
     
 INSERT INTO `cuisine` (`cuisine_name`)
 	VALUES -- Exhaustive to spoonacular API selection
@@ -253,6 +254,7 @@ INSERT INTO `cuisine` (`cuisine_name`)
     ('Cajun'),
     ('Carribean'),
     ('Chinese'),
+    ('Creole'),
     ('Eastern European'),
     ('European'),
     ('French'),
