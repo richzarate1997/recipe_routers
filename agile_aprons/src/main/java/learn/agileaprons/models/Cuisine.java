@@ -24,4 +24,12 @@ public class Cuisine {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return "Cuisine{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

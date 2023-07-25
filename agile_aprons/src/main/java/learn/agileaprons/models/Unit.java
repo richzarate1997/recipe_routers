@@ -30,4 +30,13 @@ public class Unit {
     public void setAbbreviation(String abbrev) {
         this.abbrev = abbrev;
     }
+
+    @Override
+    public String toString() {
+        return "Unit{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", abbrev='" + abbrev + '\'' +
+                '}';
+    }
 }

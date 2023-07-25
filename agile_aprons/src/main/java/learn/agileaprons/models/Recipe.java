@@ -13,7 +13,7 @@ public class Recipe {
     @Size(max = 50, message = "Recipe name must be less than 50 characters.")
     private String title;
     @NotBlank(message = "Recipe instructions cannot be blank.")
-    @Size(max = 1000, message = "Recipe instructions must be 1000 characters or less.")
+    @Size(max = 3000, message = "Recipe instructions must be 3000 characters or less.")
     private String instructions;
     @Min(value = 1, message = "Recipe servings cannot be less than 1.")
     @Max(value = 50, message = "Recipe servings cannot be greater than 50.")
@@ -174,5 +174,25 @@ public class Recipe {
         int result = Objects.hash(id, userId, title, instructions, servings, cookMinutes, imageUrl, sourceUrl, vegetarian, vegan, glutenFree, dairyFree, ingredients, cuisines);
         result = 31 * result + Arrays.hashCode(image);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Recipe {" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", title='" + title + '\'' +
+                ", instructions='" + instructions + '\'' +
+                ", servings=" + servings +
+                ", cookMinutes=" + cookMinutes +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", sourceUrl='" + sourceUrl + '\'' +
+                ", vegetarian=" + vegetarian +
+                ", vegan=" + vegan +
+                ", glutenFree=" + glutenFree +
+                ", dairyFree=" + dairyFree +
+                ", ingredients=" + ingredients +
+                ", cuisines=" + cuisines +
+                '}';
     }
 }
