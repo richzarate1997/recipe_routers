@@ -18,7 +18,7 @@ public class UnitJdbcTemplateRepository implements UnitRepository {
 
     @Override
     public List<Unit> findAll() {
-        final String sql = "select unit_id, unit_name, abbrev from unit;";
+        final String sql = "select id unit_id, name unit_name, abbrev from unit;";
         return jdbcTemplate.query(sql, new UnitMapper());
     }
 }
