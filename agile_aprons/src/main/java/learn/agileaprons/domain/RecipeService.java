@@ -176,12 +176,14 @@ public class RecipeService {
         for (SpoonacularIngredient ing : ingredients) {
             RecipeIngredient recipeIngredient = new RecipeIngredient();
             recipeIngredient.setQuantity(ing.getAmount());
-            System.out.printf("From spoonacular Ingredient: %s Unit: %s%n", ing.getName(), ing.getUnit());
             Unit thisUnit = allUnits.stream()
+                            // match unit name
                     .filter(unit -> unit.getName().equalsIgnoreCase(ing.getUnit()) ||
-                            unit.getAbbreviation().equalsIgnoreCase(ing.getUnit()))
+                            // or match abbreviation
+                            unit.getAbbreviation().equalsIgnoreCase(ing.getUnit()) ||
+                            // or pluralize unit to match
+                            String.format("%ss", unit.getName()).equalsIgnoreCase(ing.getUnit()))
                     .findFirst().orElse(null);
-            System.out.println(ing.getUnit().equals(allUnits.get(3).getName()));
             recipeIngredient.setUnit(thisUnit);
             if (recipeIngredient.getUnit() == null) {
                 System.out.printf("Unable to match the unit for Ingredient: %s Unit: %s%n", ing.getName(), ing.getUnit());
