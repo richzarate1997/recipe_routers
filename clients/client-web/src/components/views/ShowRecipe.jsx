@@ -75,11 +75,6 @@ const ShowRecipe = ({ userId }) => {
     //     })
     // }
 
-    const renderImage = () => {
-        console.log(recipe.image)
-    }
-
-
 
     const handleFavoriteChange = (e) => {
         e.target.checked ? addFavorite(recipe.id) : removeFavorite(recipe.id);
@@ -94,17 +89,19 @@ const ShowRecipe = ({ userId }) => {
                     msg: `Recipe ${id} not found. 🤷`
                 }
             }))
-        isFavorite(id)
-            .then((data) => setChecked(data))
-            .catch((err) => console.log(err))
-    }, [id, navigate]);
+        if(userId) {
+          isFavorite(id)
+              .then((data) => setChecked(data))
+              .catch((err) => console.log(err))
+        }
+    }, [id, navigate, userId]);
 
     useEffect(() => {
         if (recipe.imageUrl !== '') {
             setImage(recipe.imageUrl);
         } else {
             //fixme
-            renderImage();
+            // renderImage();
         }
         setIngredients(recipe.ingredients);
     }, [recipe]);
@@ -171,7 +168,7 @@ const ShowRecipe = ({ userId }) => {
                         </Typography>
                     </Grid>
                 </Grid>
-                {userId !== recipe.userId &&
+                { userId && userId !== recipe.userId &&
                     <Checkbox
                         icon={<FavoriteBorder />}
                         checkedIcon={<Favorite />}
