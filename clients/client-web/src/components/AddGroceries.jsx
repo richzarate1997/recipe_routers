@@ -46,7 +46,7 @@ function AddGroceries() {
             .catch(err => setError(err));
         findGroceryListByName('Main')
             .then(data => setGroceryList(data))
-            .then(console.log(groceryList))
+            .then((data) => setIngredient(data.list.map(i => i.name).join(", ")))
             .catch(error => setError(error));
     }, []);
 
@@ -70,21 +70,15 @@ function AddGroceries() {
     //     ]
     //   }
     const handleAddIngredients = () => {
-        console.log(ingredient);
         const newIngredients = ingredients.filter((ing) => ingredient.some((ing1) => ing1 === ing.name));
         const newIngredientList = [...groceryList.list, ...newIngredients];
-        console.log(newIngredientList);
         setGroceryList({ ...groceryList, list: newIngredientList });
-        // const newGroceryList = {...groceryList, list: newIngredientList};
-        console.log(newIngredientList);
-        updateList(groceryList)
+        updateList({ ...groceryList, list: newIngredientList })
             .then(response => {
                 console.log(response.data);
             })
             .catch(error => setError(error));
-
         navigate('/profile');
-
     }
     return (
         <div>
@@ -103,7 +97,7 @@ function AddGroceries() {
                                     input={<OutlinedInput />}
                                     renderValue={(selected) => {
                                         if (selected.length === 0) {
-                                            return <em>Placeholder</em>;
+                                            return <em>Add Ingredients</em>;
                                         }
                                         return selected.join(', ');
                                     }}
@@ -111,7 +105,7 @@ function AddGroceries() {
                                     inputProps={{ 'aria-label': 'Without label' }}
                                 >
                                     <MenuItem disabled value="">
-                                        <em>Placeholder</em>
+                                        <em>Add Ingredients</em>
                                     </MenuItem>
                                     {ingredients.map((ing) => (
                                         <MenuItem
@@ -126,7 +120,7 @@ function AddGroceries() {
                             </FormControl>
                         </Grid>
                         <Grid item xs={12}>
-                            <Button onClick={handleAddIngredients}>Add Ingredients</Button>
+                            <Button onClick={handleAddIngredients}>Save Grocery List</Button>
                         </Grid>
                         {/* <Grid item xs={12}>
                                 {error}

@@ -7,7 +7,7 @@ const spotify = new SpotifyWebApi();
 
 const styles = {
     link: {
-        color: '#1DB954',
+        color: '#1AB26B',
         backgroundColor: '#191414',
         fontFamily: 'sans-serif',
         borderRadius: '25px 25px',
@@ -50,7 +50,7 @@ const SpotifyWidget = () => {
                 <SpotifyPlayer
                     token={spotifyToken}
                     uris={['spotify:playlist:7yWS4mNsIXUYtm71xDIWe8']}
-                    initialVolume={0.1}
+                    initialVolume={0.05}
                     offset={offset}
                     locale={navigator.language}
                     styles={{

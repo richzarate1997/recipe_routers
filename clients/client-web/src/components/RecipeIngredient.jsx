@@ -16,21 +16,21 @@ const RecipeIngredient = ({ units, ingredient, onChange }) => {
     }
 
     return (
-        <Stack container rowSpacing={2} sx={{ margin: 'auto' }} >
-            <Grid item xs={2} sm={3} md={4} lg={4}>
+        <Grid container rowSpacing={2} sx={{ margin: 'auto' }} justifyContent={'center'}>
+            <Grid item xs={2} sm={2} md={2} lg={2}>
                 <TextField
                     label="Quantity"
                     type="number"
                     name="quantity"
                     size='small'
-                    InputProps={{ inputProps: { min: '0.001' } }}
+                    InputProps={{ inputProps: { step: "0.5" } }}
                     required
                     value={ingredient.quantity}
                     onChange={handleChange}
                     sx={{ width: '5rem' }}
                 />
             </Grid>
-            <Grid item xs={2} sm={3} md={4} lg={4}>
+            <Grid item xs={2} sm={2} md={2} lg={2}>
                 <Select
                     required
                     displayEmpty
@@ -55,10 +55,10 @@ const RecipeIngredient = ({ units, ingredient, onChange }) => {
                     ))}
                 </Select>
             </Grid>
-            <Grid item xs={2} sm={3} md={4} lg={4}>
+            <Grid item xs={3} sm={3} md={4} lg={4}>
                 <Typography variant="body1" p={1} textAlign={'left'}>{ingredient.ingredient.name}</Typography>
             </Grid>
-        </Stack>
+        </Grid>
     )
 }
 

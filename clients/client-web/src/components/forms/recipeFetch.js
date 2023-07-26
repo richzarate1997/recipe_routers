@@ -1,18 +1,28 @@
+findAllCuisines()
+    .then((c) => setCuisines(c))
+    .catch(err => console.log("There was an error retrieving cuisines."));
+findAllUnits()
+    .then((u) => setUnits(u))
+    .catch(err => console.log("There was an error retrieving units."));
+findAllIngredients()
+    .then((i) => setIngredients(i))
+    .catch(err => console.log("There was an error retrieving ingredients."))
 
-function fetchRecipe(id, name, cookTime, servings) {
+
+export function fetchRecipe({ name, cookTime, servings }) {
     findRecipeByTitle(name)
         .then(data => {
             // if data returns an array with 1 item matching, return it
-            if (data.some((r) => r.name === name && r.cookTime === cookTime && r.servings === servings)) {
-                const recipe = data.find((r) => r.name === name && r.cookTime === cookTime && r.servings === servings)
-                navigate(recipe.id);
-            } else { // else if data doesn't match, then add the recipe
+            if (recipes.some((r) => r.name === name && r.cookTime === cookTime && r.servings === servings)) {
+                const recipe = recipes.find((r) => r.name === name && r.cookTime === cookTime && r.servings === servings)
+                return recipe.id;
+                // else if data returns an empty array, then add the recipe
+            } else {
                 getRecipeInformation(id)
-                    .then(async (data) => {
-                        console.log(data)
-                        return await createRecipe(unpackRecipe(data))
-                            .then((data) => navigate(data.id))
-                            .catch((err) => console.log("There was an error creating the recipe: ", err));
+                    .then((data) => {
+                        return createRecipe(unpackRecipe(data))
+                            .then((data) => data.id)
+                            .catch((err) => console.log(err));
                     })
                     .catch((err) => console.log("There was an error with spoonacular: ", err));
             }
@@ -46,6 +56,8 @@ function unpackCuisines(theseCuisines) {
 
 function unpackIngredients(theseIngredients) {
     return theseIngredients.forEach((i) => {
+        // check if the ingredient found in db collection
+        // and return that, otherwise add it to db
         return {
             id: 0,
             recipeId: 0,

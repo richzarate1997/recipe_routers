@@ -8,7 +8,24 @@ import MenuBookOutlinedIcon from '@mui/icons-material/MenuBookOutlined';
 
 const imageUrl = "https://spoonacular.com/recipeImages/";
 
-export default function RecipeCard({ id, imgUrl, name, cookTime, servings }) {
+
+export default function RecipeCard({ id, imgUrl, name, cookTime, servings, sourceUrl }) {
+    // const navigate = useNavigate();
+    // const getRecipe = () => {
+    //     // UNFINISHED -- break these calls out into a service to
+    //     if (sourceUrl !== '') { // if the recipe has a sourceUrl, don't try to save it.
+    //         // const newId = fetchRecipe({name, cookTime, servings})
+    //             // .then(data => {
+    //             //     console.log(data)
+    //             // })
+    //             // .catch(err => console.log(err))
+            
+    //     } else { // otherwise save it to db
+            
+    //     }
+    //     //navigate(`/recipe/${newId}`);
+    // }
+    
     return (
         <CardActionArea sx={{ width: 345 }}>
             <Tooltip title={name} placement='top' arrow>

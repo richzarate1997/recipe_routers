@@ -284,7 +284,6 @@ BEGIN
 		('European'),
 		('French'),
 		('German'),
-		('Greek'),
 		('Indian'),
 		('Irish'),
 		('Japanese'),
@@ -294,7 +293,6 @@ BEGIN
 		('Mediterranean'),
 		('Middle Eastern'),
 		('Nordic'),
-		('Southern'),
 		('Spanish'),
 		('Thai');
         
