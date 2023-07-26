@@ -263,6 +263,8 @@ BEGIN
 		('piece','pc'),
         ('slice','sl'),
 		('pinch', 'pn'),
+		('large', 'lg'),
+		('medium', 'md'),
 		('small','sm');
         
 	INSERT INTO `cuisine` (`cuisine_name`)

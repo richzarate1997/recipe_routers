@@ -248,6 +248,8 @@ INSERT INTO `unit` (`unit_name`, `abbrev`)
 	('piece','pc'),
 	('slice','sl'),
 	('pinch', 'pn'),
+    ('large', 'lg'),
+    ('medium', 'md'),
 	('small','sm');
     
 INSERT INTO `cuisine` (`cuisine_name`)
