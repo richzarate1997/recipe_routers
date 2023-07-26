@@ -98,44 +98,40 @@ const BASE_RECIPES = [
   }]
 
 function Recipe() {
-    const [recipes, setRecipes] = useState(BASE_RECIPES);
-    const [errors, setErrors] = useState([]);
+  const [recipes, setRecipes] = useState(BASE_RECIPES);
+  const [errors, setErrors] = useState([]);
+  const { param } = useParams();
 
-    const { param } = useParams();
+  useEffect(() => {
+    if (param) {
+      searchRecipes(param)
+        .then(data => {
+          setRecipes(data.results)
+        })
+        .catch(err => setErrors(err))
+    }
+  }, [param]);
 
-    useEffect(() => {
-        if (param) {
-            searchRecipes(param)
-                .then(data => {
-                    setRecipes(data.results)
-                })
-                .catch(err => setErrors(err))
-        }
-    }, [param]);
-
-
-
-    return (
-        <Box mx='5%' sx={{ paddingTop: 2 }}>
-            <Grid container spacing={2} my={2} >
-                {recipes.map(recipe => (
-                    <Grid key={recipe.id} item xs={12} sm={6} md={4} py={2} sx={{ position: 'static' }}>
-                        <RecipeCard
-                            id={recipe.id}
-                            imgUrl={recipe.image}
-                            name={recipe.title}
-                            cookTime={recipe.readyInMinutes}
-                            servings={recipe.servings}
-                            srcUrl={recipe.sourceUrl}
-                        />
-                    </Grid>
-                ))}
-            </Grid>
-            {errors.length > 0 &&
-                <Errors errors={errors} />
-            }
-        </Box>
-    );
+  return (
+    <Box mx='5%' sx={{ paddingTop: 2 }}>
+      <Grid container spacing={2} my={2} >
+        {recipes.map(recipe => (
+          <Grid key={recipe.id} item xs={12} sm={6} md={4} py={2} sx={{ position: 'static' }}>
+            <RecipeCard
+              id={recipe.id}
+              imgUrl={recipe.image}
+              name={recipe.title}
+              cookTime={recipe.readyInMinutes}
+              servings={recipe.servings}
+            />
+          </Grid>
+        ))}
+      </Grid>
+      {errors.length > 0 &&
+        <Errors errors={errors} />
+      }
+    </Box>
+  );
 }
 
 export default Recipe;
