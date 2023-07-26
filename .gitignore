@@ -43,3 +43,7 @@ node_modules/
 
 # VS Code
 .vscode/
+
+#temp
+clients/client-web/src/components/RecipeCard.jsx
+clients/client-web/src/components/forms/recipeFetch.js
