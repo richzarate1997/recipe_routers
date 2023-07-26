@@ -218,6 +218,11 @@ INSERT INTO `user` (`app_user_id`, `display_name`, `is_metric`)
 	VALUES
     (1, 'ADMIN', 1),
     (2, 'TESTER', 0);
+    
+INSERT INTO `grocery_list` (`grocery_list_id`, `user_app_user_id`, `grocery_list_name`)
+	VALUES
+	(1, 1, 'Main'),
+	(2, 2, 'Main');
 
 INSERT INTO `unit` (`unit_name`, `abbrev`)
 	VALUES
