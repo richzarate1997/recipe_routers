@@ -176,6 +176,7 @@ public class RecipeService {
         for (SpoonacularIngredient ing : ingredients) {
             RecipeIngredient recipeIngredient = new RecipeIngredient();
             recipeIngredient.setQuantity(ing.getAmount());
+            System.out.println(ing.getUnit());
             Unit thisUnit = allUnits.stream()
                             // match unit name
                     .filter(unit -> unit.getName().equalsIgnoreCase(ing.getUnit()) ||
