@@ -5,27 +5,10 @@ import {
 } from '@mui/material';
 import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
 import MenuBookOutlinedIcon from '@mui/icons-material/MenuBookOutlined';
-import { scrapeRecipe } from '../service/recipeApi';
-import { useNavigate } from 'react-router-dom';
 
 const imageUrl = "https://spoonacular.com/recipeImages/";
 
-
 export default function RecipeCard({ id, imgUrl, name, cookTime, servings }) {
-    const navigate = useNavigate();
-    const recipe = {
-        id: id,
-        title: name,
-        servings: servings,
-        cookMinutes: cookTime
-    };
-    const renderImage = () => imgUrl.includes(imageUrl) ? imgUrl : imageUrl + imgUrl;
-    
-    const getRecipe = () => {
-        scrapeRecipe(recipe)
-            .then(data => navigate(`/recipe/${data.id}`))
-            .catch(err => console.log(err));
-    }
     return (
         <CardActionArea sx={{ width: 345 }}>
             <Tooltip title={name} placement='top' arrow>
@@ -33,12 +16,12 @@ export default function RecipeCard({ id, imgUrl, name, cookTime, servings }) {
                     sx={{ width: 345, height: 370 }}
                     py={2} 
                     // Do not Uncomment this!
-                    onClick={getRecipe}
+                    //onClick={fetchRecipe(id, name, cookTime, servings)}
                 >
                     <CardMedia
                         component="img"
                         height="175"
-                        image={renderImage()}
+                        image={`${imageUrl}${imgUrl}`}
                         alt={name} />
                     <CardContent>
                         <Typography gutterBottom variant="h5" component="div" textAlign={'center'}>
