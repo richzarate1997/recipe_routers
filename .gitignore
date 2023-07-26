@@ -40,3 +40,9 @@ target/
 
 # Node
 node_modules/
+
+#temp
+clients/client-web/src/App.js
+clients/client-web/src/components/RecipeCard.jsx
+clients/client-web/src/components/forms/recipeFetch.js
+clients/client-web/src/components/views/RecipeResults.jsx
