@@ -59,4 +59,14 @@ public class Ingredient {
     public int hashCode() {
         return Objects.hash(id, name, imageUrl, aisle);
     }
+
+    @Override
+    public String toString() {
+        return "Ingredient{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", aisle='" + aisle + '\'' +
+                '}';
+    }
 }

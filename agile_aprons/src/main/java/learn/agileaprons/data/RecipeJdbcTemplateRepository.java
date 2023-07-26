@@ -132,20 +132,20 @@ public class RecipeJdbcTemplateRepository implements RecipeRepository {
     }
 
     private void addIngredients(Recipe recipe) {
-        final String sql = "select i.ingredient_id, i.ingredient_name, i.image_url, i.aisle, ri.recipe_id, ri.quantity, u.unit_id, u.unit_name, u.abbrev " +
+        final String sql = "select i.id ingredient_id, i.name ingredient_name, i.image_url, i.aisle, ri.recipe_id, ri.quantity, u.id unit_id, u.name unit_name, u.abbrev " +
                 "from ingredient i " +
-                "join recipe_ingredient ri on i.ingredient_id = ri.ingredient_id " +
+                "join recipe_ingredient ri on i.id = ri.ingredient_id " +
                 "join recipe r on r.id = ri.recipe_id " +
-                "join unit u on ri.unit_id = u.unit_id " +
+                "join unit u on ri.unit_id = u.id " +
                 "where r.id = ?;";
         var recipeIngredients = jdbcTemplate.query(sql, new RecipeIngredientMapper(), recipe.getId());
         recipe.setIngredients(recipeIngredients);
     }
 
     private void addCuisines(Recipe recipe) {
-        final String sql = "select c.cuisine_id, c.cuisine_name " +
+        final String sql = "select c.id cuisine_id, c.name cuisine_name " +
                 "from cuisine c " +
-                "join recipe_cuisine rc on c.cuisine_id = rc.cuisine_id " +
+                "join recipe_cuisine rc on c.id = rc.cuisine_id " +
                 "join recipe r on r.id = rc.recipe_id " +
                 "where r.id = ?;";
 

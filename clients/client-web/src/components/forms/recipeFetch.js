@@ -27,7 +27,7 @@ export function fetchRecipe({ name, cookTime, servings }) {
                     .catch((err) => console.log("There was an error with spoonacular: ", err));
             }
         })
-        .catch(err => console.log(err));
+        .catch(err => console.log("There was an error searching recipe by name: ", err));
 }
 
 function unpackRecipe(data) {
@@ -63,12 +63,22 @@ function unpackIngredients(theseIngredients) {
             recipeId: 0,
             quantity: i.amount,
             unit: units.find(u => u.name === i.unit || u.abbrev === i.unit),
-            ingredient: {
-                id: 0,
-                name: i.name,
-                aisle: i.aisle,
-                imageUrl: i.image
-            }
+            ingredient: matchOrAddIngredient(i)
         }
     })
+}
+
+async function matchOrAddIngredient(ingredient) {
+    let matchedIngredient = ingredients.find((i) => i.name === ingredient.name);
+    if (matchedIngredient === undefined) {
+        let newIngredient = {
+            id: 0,
+            name: ingredient.name,
+            aisle: ingredient.aisle,
+            imageUrl: ingredient.image
+        }
+        return await createIngredient(newIngredient).then(data => data);
+    } else {
+        return matchedIngredient;
+    }
 }

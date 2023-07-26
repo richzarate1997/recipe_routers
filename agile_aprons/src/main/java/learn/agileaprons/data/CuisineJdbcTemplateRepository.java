@@ -18,7 +18,7 @@ public class CuisineJdbcTemplateRepository implements CuisineRepository {
 
     @Override
     public List<Cuisine> findAll() {
-        final String sql = "select cuisine_id, cuisine_name from cuisine;";
+        final String sql = "select id cuisine_id, name cuisine_name from cuisine;";
         return jdbcTemplate.query(sql, new CuisineMapper());
     }
 }

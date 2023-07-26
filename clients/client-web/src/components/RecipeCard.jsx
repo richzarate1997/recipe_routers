@@ -5,9 +5,9 @@ import {
 } from '@mui/material';
 import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
 import MenuBookOutlinedIcon from '@mui/icons-material/MenuBookOutlined';
-import { useNavigate } from 'react-router-dom';
 
 const imageUrl = "https://spoonacular.com/recipeImages/";
+
 
 export default function RecipeCard({ id, imgUrl, name, cookTime, servings, sourceUrl }) {
     // const navigate = useNavigate();
@@ -31,7 +31,9 @@ export default function RecipeCard({ id, imgUrl, name, cookTime, servings, sourc
             <Tooltip title={name} placement='top' arrow>
                 <Card
                     sx={{ width: 345, height: 370 }}
-                    py={2} //onClick={getRecipe(id)}
+                    py={2} 
+                    // Do not Uncomment this!
+                    //onClick={fetchRecipe(id, name, cookTime, servings)}
                 >
                     <CardMedia
                         component="img"

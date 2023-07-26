@@ -1,9 +1,9 @@
 -- -----------------------------------------------------
 -- Schema recipe_list
 -- -----------------------------------------------------
-DROP DATABASE IF EXISTS `recipe_list`;
-CREATE DATABASE `recipe_list`;
-USE `recipe_list`;
+DROP DATABASE IF EXISTS `recipe_list_test`;
+CREATE DATABASE `recipe_list_test`;
+USE `recipe_list_test`;
 
 -- -----------------------------------------------------
 -- Table `recipe_list`.`app_user`
@@ -62,7 +62,7 @@ CREATE TABLE `recipe` (
   `title` VARCHAR(255) NOT NULL,
   `image_url` VARCHAR(255) NOT NULL,
   `image` BLOB NULL,
-  `instructions` TEXT(1000) NOT NULL,
+  `instructions` TEXT(3000) NOT NULL,
   `vegetarian` BIT(1) NOT NULL DEFAULT 0,
   `vegan` BIT(1) NOT NULL DEFAULT 0,
   `gluten_free` BIT(1) NOT NULL DEFAULT 0,
@@ -218,25 +218,37 @@ INSERT INTO `user` (`app_user_id`, `display_name`, `is_metric`)
 	VALUES
     (1, 'ADMIN', 1),
     (2, 'TESTER', 0);
+    
+INSERT INTO `grocery_list` (`grocery_list_id`, `user_app_user_id`, `grocery_list_name`)
+	VALUES
+	(1, 1, 'Main'),
+	(2, 2, 'Main');
 
 INSERT INTO `unit` (`unit_name`, `abbrev`)
 	VALUES
     ('fluid ounce','fl oz'),
-    ('ounce','oz'),
-    ('tablespoon','tbsp'),
-    ('cup','c'),
-    ('pint','pt'),
-    ('quart','qt'),
-    ('gallon','gal'),
-    ('teaspoon','tsp'),
-    ('pound','lb'),
-    ('milliliter','mL'),
-    ('liter','L'),
-    ('milligram','mg'),
-    ('gram','g'),
-    ('kilogram','kg'),
-    ('',''),
-	('count', 'ct');
+	('ounce','oz'),
+	('tablespoon','tbsp'),
+	('cup','c'),
+	('pint','pt'),
+	('quart','qt'),
+	('gallon','gal'),
+	('teaspoon','tsp'),
+	('pound','lb'),
+	('milliliter','mL'),
+	('liter','L'),
+	('milligram','mg'),
+	('gram','g'),
+	('kilogram','kg'),
+	('',''),
+	('count', 'ct'),
+	('head','head'),
+	('handful','hf'),
+	('serving','serv'),
+	('piece','pc'),
+	('slice','sl'),
+	('pinch', 'pn'),
+	('small','sm');
     
 INSERT INTO `cuisine` (`cuisine_name`)
 	VALUES -- Exhaustive to spoonacular API selection
@@ -247,6 +259,7 @@ INSERT INTO `cuisine` (`cuisine_name`)
     ('Cajun'),
     ('Carribean'),
     ('Chinese'),
+    ('Creole'),
     ('Eastern European'),
     ('European'),
     ('French'),
