@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "scheme": "acme",
+    "web": {
+      "bundler": "metro"
+    },
+    "name": "clienat-react-native",
+    "slug": "clienat-react-native"
+  }
+}
