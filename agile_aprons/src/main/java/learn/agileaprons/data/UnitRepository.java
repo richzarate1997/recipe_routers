@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface UnitRepository {
     List<Unit> findAll();
+    Unit create(Unit u);
 }

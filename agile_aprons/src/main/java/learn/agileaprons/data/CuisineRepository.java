@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface CuisineRepository {
     List<Cuisine> findAll();
+    Cuisine create(Cuisine c);
 }

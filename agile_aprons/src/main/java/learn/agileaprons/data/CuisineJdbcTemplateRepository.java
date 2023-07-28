@@ -3,9 +3,14 @@ package learn.agileaprons.data;
 import learn.agileaprons.data.mappers.CuisineMapper;
 import learn.agileaprons.models.Cuisine;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class CuisineJdbcTemplateRepository implements CuisineRepository {
@@ -21,4 +26,22 @@ public class CuisineJdbcTemplateRepository implements CuisineRepository {
         final String sql = "select id cuisine_id, name cuisine_name from cuisine;";
         return jdbcTemplate.query(sql, new CuisineMapper());
     }
+
+    @Override
+    public Cuisine create(Cuisine c) {
+        final String sql = "insert into cuisine (name) values (?);";
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        int rowsAffected = jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, c.getName());
+            return ps;
+        }, keyHolder);
+
+        if (rowsAffected <= 0) return null;
+
+        c.setId(Objects.requireNonNull(keyHolder.getKey()).intValue());
+        return c;
+    }
+
+
 }
