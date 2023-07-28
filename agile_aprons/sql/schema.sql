@@ -1,9 +1,9 @@
 -- -----------------------------------------------------
 -- Schema recipe_list
 -- -----------------------------------------------------
-DROP DATABASE IF EXISTS `recipe_list_test`;
-CREATE DATABASE `recipe_list_test`;
-USE `recipe_list_test`;
+DROP DATABASE IF EXISTS `recipe_list`;
+CREATE DATABASE `recipe_list`;
+USE `recipe_list`;
 
 -- -----------------------------------------------------
 -- Table `recipe_list`.`app_user`
