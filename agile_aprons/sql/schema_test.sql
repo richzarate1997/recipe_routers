@@ -131,9 +131,7 @@ CREATE TABLE `recipe_ingredient` (
     REFERENCES `ingredient`(`ingredient_id`),
   CONSTRAINT `fk_recipe_ingredient_unit`
     FOREIGN KEY (`unit_id`)
-    REFERENCES `unit`(`unit_id`),
-  CONSTRAINT `uq_recipe_ingredient_recipe_id_ingredient_id`
-	UNIQUE (`recipe_id`, `ingredient_id`)
+    REFERENCES `unit`(`unit_id`)
 );
 
 -- -----------------------------------------------------
