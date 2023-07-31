@@ -23,13 +23,13 @@ public class CuisineJdbcTemplateRepository implements CuisineRepository {
 
     @Override
     public List<Cuisine> findAll() {
-        final String sql = "select id cuisine_id, name cuisine_name from cuisine;";
+        final String sql = "select cuisine_id, cuisine_name from cuisine;";
         return jdbcTemplate.query(sql, new CuisineMapper());
     }
 
     @Override
     public Cuisine create(Cuisine c) {
-        final String sql = "insert into cuisine (name) values (?);";
+        final String sql = "insert into cuisine (cuisine_name) values (?);";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         int rowsAffected = jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);

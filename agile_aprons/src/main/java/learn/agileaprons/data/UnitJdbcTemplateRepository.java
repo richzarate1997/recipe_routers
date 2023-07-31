@@ -23,13 +23,13 @@ public class UnitJdbcTemplateRepository implements UnitRepository {
 
     @Override
     public List<Unit> findAll() {
-        final String sql = "select id unit_id, name unit_name, abbrev from unit;";
+        final String sql = "select unit_id, unit_name, abbrev from unit;";
         return jdbcTemplate.query(sql, new UnitMapper());
     }
 
     @Override
     public Unit create(Unit u) {
-        final String sql = "insert into unit (name, abbrev) values (?, ?);";
+        final String sql = "insert into unit (unit_name, abbrev) values (?, ?);";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         int rowsAffected = jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
