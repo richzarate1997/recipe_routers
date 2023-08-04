@@ -176,7 +176,7 @@ public class RecipeService {
                 newCuisine.setName(cuisine);
                 newCuisine = cuisineRepository.create(newCuisine);
                 theseCuisines.add(newCuisine);
-                System.out.println("New cuisine added: \n" + newCuisine);
+//                System.out.println("New cuisine added: \n" + newCuisine);
             }
         }
         theseCuisines.forEach(System.out::println);
@@ -195,7 +195,7 @@ public class RecipeService {
         for (SpoonacularIngredient ing : ingredients) {
             RecipeIngredient recipeIngredient = new RecipeIngredient();
             recipeIngredient.setQuantity(ing.getAmount());
-            System.out.println("The spoonacular ingredient unit is: " + ing.getUnit());
+//            System.out.println("The spoonacular ingredient unit is: " + ing.getUnit());
             Unit thisUnit = allUnits.stream()
                     // match unit name
                     .filter(unit -> unit.getName().equalsIgnoreCase(ing.getUnit()) ||
@@ -208,7 +208,7 @@ public class RecipeService {
                 thisUnit.setName(ing.getUnit());
                 thisUnit.setAbbreviation(ing.getUnit().toLowerCase().substring(0, 2)); // set arbitrary abbreviation
                 thisUnit = unitRepository.create(thisUnit);
-                System.out.println("New Unit created: " + thisUnit);
+//                System.out.println("New Unit created: " + thisUnit);
             }
             recipeIngredient.setUnit(thisUnit);
 
@@ -222,11 +222,12 @@ public class RecipeService {
                 matchedIngredient.setAisle(ing.getAisle());
                 matchedIngredient.setImageUrl("https://spoonacular.com/cdn/ingredients_100x100/" + ing.getImage());
                 matchedIngredient = ingredientRepository.create(matchedIngredient);
-                System.out.println("New Ingredient created: " + matchedIngredient);
+//                System.out.println("New Ingredient created: " + matchedIngredient);
                 allIngredients.add(matchedIngredient); // Avoid double ingredient creation for a single recipe
-            } else {
-                System.out.println("Ingredient matched: " + matchedIngredient);
             }
+//            else {
+//                System.out.println("Ingredient matched: " + matchedIngredient);
+//            }
 
             recipeIngredient.setIngredient(matchedIngredient);
             theseIngredients.add(recipeIngredient);
