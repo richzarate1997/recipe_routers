@@ -248,7 +248,8 @@ INSERT INTO `unit` (`unit_name`, `abbrev`)
 	('pinch', 'pn'),
     ('large', 'lg'),
     ('medium', 'md'),
-	('small','sm');
+	('small','sm'),
+    ('small clove', 'sm cl');
     
 INSERT INTO `cuisine` (`cuisine_name`)
 	VALUES -- Exhaustive to spoonacular API selection
