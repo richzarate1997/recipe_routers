@@ -100,11 +100,13 @@ public class RecipeController {
                         recipe.getCookMinutes() == r.getCookMinutes())
                 .findFirst().orElse(null);
         if (match != null) {
+//            System.out.println("[findOrScrape] match returns: " + service.findById(match.getId()));
             return new ResponseEntity<>(match, HttpStatus.OK);
         } else {
             Result<Recipe> result = service.scrape(r.getId());
             if (result.isSuccess()) {
                 service.addIngredients(result);
+//                System.out.println("[findOrScrape] scrape returns: " + result.getPayload());
                 return new ResponseEntity<>(result.getPayload(), HttpStatus.CREATED);
             }
             return ErrorResponse.build(result);

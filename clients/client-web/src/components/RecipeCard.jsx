@@ -32,7 +32,7 @@ export default function RecipeCard({ id, imgUrl, name, cookTime, servings }) {
               <Card
                   sx={{ width: 345, height: 370 }}
                   py={2} 
-                  onClick={getRecipe}
+                  onClick={() => getRecipe()}
               >
                   <CardMedia
                       component="img"
