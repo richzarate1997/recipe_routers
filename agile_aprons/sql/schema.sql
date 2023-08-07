@@ -1,9 +1,9 @@
 -- -----------------------------------------------------
 -- Schema recipe_list
 -- -----------------------------------------------------
-DROP DATABASE IF EXISTS `recipe_list_test`;
-CREATE DATABASE `recipe_list_test`;
-USE `recipe_list_test`;
+DROP DATABASE IF EXISTS `recipe_list`;
+CREATE DATABASE `recipe_list`;
+USE `recipe_list`;
 
 -- -----------------------------------------------------
 -- Table `recipe_list`.`app_user`
@@ -131,9 +131,7 @@ CREATE TABLE `recipe_ingredient` (
     REFERENCES `ingredient`(`ingredient_id`),
   CONSTRAINT `fk_recipe_ingredient_unit`
     FOREIGN KEY (`unit_id`)
-    REFERENCES `unit`(`unit_id`),
-  CONSTRAINT `uq_recipe_ingredient_recipe_id_ingredient_id`
-	UNIQUE (`recipe_id`, `ingredient_id`)
+    REFERENCES `unit`(`unit_id`)
 );
 
 -- -----------------------------------------------------
@@ -250,7 +248,8 @@ INSERT INTO `unit` (`unit_name`, `abbrev`)
 	('pinch', 'pn'),
     ('large', 'lg'),
     ('medium', 'md'),
-	('small','sm');
+	('small','sm'),
+    ('small clove', 'sm cl');
     
 INSERT INTO `cuisine` (`cuisine_name`)
 	VALUES -- Exhaustive to spoonacular API selection

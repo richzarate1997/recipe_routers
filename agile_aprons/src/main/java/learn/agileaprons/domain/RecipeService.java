@@ -102,6 +102,11 @@ public class RecipeService {
                 .bodyToMono(SpoonacularRecipe.class)
                 .map(this::mapRecipe)
                 .block();
+
+        if (response == null) {
+            Result<Recipe> failure = new Result<>();
+            failure.addMessage("There was an issue with the spoonacular request", ResultType.NOT_FOUND);
+        }
         return create(response);
     }
 
@@ -157,13 +162,27 @@ public class RecipeService {
         mappedRecipe.setGlutenFree(data.isGlutenFree());
         mappedRecipe.setDairyFree(data.isDairyFree());
 
-        List<Cuisine> theseCuisines = allCuisines.stream()
+        List<Cuisine> theseCuisines = new ArrayList<>(allCuisines.stream()
                 .filter(c -> data.getCuisines().stream()
-                        .anyMatch(cString -> cString.equalsIgnoreCase(c.getName()))).toList();
+                        .anyMatch(cString -> cString.equalsIgnoreCase(c.getName()))).toList());
+        // consider comparing lengths of data.getCuisines() with theseCuisines to decide
+        // whether to add cuisines -- will need repository method.
+        if (theseCuisines.size() != data.getCuisines().size()) {
+            List<String> newCuisines = data.getCuisines().stream()
+                    .filter(cString -> theseCuisines.stream()
+                            .noneMatch(c -> cString.equalsIgnoreCase(c.getName()))).toList();
+            for (String cuisine : newCuisines) {
+                Cuisine newCuisine = new Cuisine();
+                newCuisine.setName(cuisine);
+                newCuisine = cuisineRepository.create(newCuisine);
+                theseCuisines.add(newCuisine);
+//                System.out.println("New cuisine added: \n" + newCuisine);
+            }
+        }
+        theseCuisines.forEach(System.out::println);
         mappedRecipe.setCuisines(theseCuisines);
 
         mapIngredients(data.getExtendedIngredients(), mappedRecipe);
-        System.out.println(mappedRecipe);
 
         return mappedRecipe;
     }
@@ -176,30 +195,39 @@ public class RecipeService {
         for (SpoonacularIngredient ing : ingredients) {
             RecipeIngredient recipeIngredient = new RecipeIngredient();
             recipeIngredient.setQuantity(ing.getAmount());
-            System.out.println(ing.getUnit());
+//            System.out.println("The spoonacular ingredient unit is: " + ing.getUnit());
             Unit thisUnit = allUnits.stream()
-                            // match unit name
+                    // match unit name
                     .filter(unit -> unit.getName().equalsIgnoreCase(ing.getUnit()) ||
                             // or match abbreviation
                             unit.getAbbreviation().equalsIgnoreCase(ing.getUnit()) ||
                             // or pluralize unit to match
                             String.format("%ss", unit.getName()).equalsIgnoreCase(ing.getUnit()))
-                    .findFirst().orElse(null);
-            recipeIngredient.setUnit(thisUnit);
-            if (recipeIngredient.getUnit() == null) {
-                System.out.printf("Unable to match the unit for Ingredient: %s Unit: %s%n", ing.getName(), ing.getUnit());
+                    .findFirst().orElse(new Unit()); // create new unit
+            if (thisUnit.getId() == 0) {
+                thisUnit.setName(ing.getUnit());
+                thisUnit.setAbbreviation(ing.getUnit().toLowerCase().substring(0, 2)); // set arbitrary abbreviation
+                thisUnit = unitRepository.create(thisUnit);
+//                System.out.println("New Unit created: " + thisUnit);
             }
+            recipeIngredient.setUnit(thisUnit);
+
             // find matching ingredient
             Ingredient matchedIngredient = allIngredients.stream()
-                    .filter(ingredient -> ingredient.getName().equalsIgnoreCase(ing.getName()))
+                    .filter(ingredient -> ingredient.getName().equalsIgnoreCase(ing.getNameClean()))
                     .findFirst().orElse(new Ingredient());
             // if unmatched, create ingredient
             if (matchedIngredient.getId() == 0) {
-                matchedIngredient.setName(ing.getName());
+                matchedIngredient.setName(ing.getNameClean());
                 matchedIngredient.setAisle(ing.getAisle());
                 matchedIngredient.setImageUrl("https://spoonacular.com/cdn/ingredients_100x100/" + ing.getImage());
                 matchedIngredient = ingredientRepository.create(matchedIngredient);
+//                System.out.println("New Ingredient created: " + matchedIngredient);
+                allIngredients.add(matchedIngredient); // Avoid double ingredient creation for a single recipe
             }
+//            else {
+//                System.out.println("Ingredient matched: " + matchedIngredient);
+//            }
 
             recipeIngredient.setIngredient(matchedIngredient);
             theseIngredients.add(recipeIngredient);

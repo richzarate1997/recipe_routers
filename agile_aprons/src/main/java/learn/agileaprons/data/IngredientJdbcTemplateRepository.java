@@ -22,7 +22,7 @@ public class IngredientJdbcTemplateRepository implements IngredientRepository {
 
     @Override
     public List<Ingredient> findAll() {
-        final String sql = "select id ingredient_id, name ingredient_name, image_url, aisle " +
+        final String sql = "select ingredient_id, ingredient_name, image_url, aisle " +
                 "from ingredient;";
 
         return jdbcTemplate.query(sql, new IngredientMapper());
@@ -30,7 +30,7 @@ public class IngredientJdbcTemplateRepository implements IngredientRepository {
 
     @Override
     public Ingredient findById(int id) {
-        final String sql = "select id ingredient_id, name ingredient_name, image_url, aisle " +
+        final String sql = "select ingredient_id, ingredient_name, image_url, aisle " +
                 "from ingredient " +
                 "where ingredient_id = ?";
 
@@ -50,7 +50,7 @@ public class IngredientJdbcTemplateRepository implements IngredientRepository {
 
     @Override
     public Ingredient create(Ingredient ingredient) {
-        final String sql = "insert into ingredient (id, name, image_url, aisle) " +
+        final String sql = "insert into ingredient (ingredient_id, ingredient_name, image_url, aisle) " +
                 "values (?, ?, ?, ?);";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         int rowsAffected = jdbcTemplate.update(connection -> {
@@ -73,10 +73,10 @@ public class IngredientJdbcTemplateRepository implements IngredientRepository {
     @Override
     public boolean update(Ingredient ingredient) {
         final String sql = "update ingredient set "
-                + "name = ?, "
+                + "ingredient_name = ?, "
                 + "image_url = ?, "
                 + "aisle = ? "
-                + "where id = ?;";
+                + "where ingredient_id = ?;";
         return jdbcTemplate.update(sql, ingredient.getName(), ingredient.getImageUrl(), ingredient.getAisle(),
                 ingredient.getId()) > 0;
     }
@@ -86,7 +86,7 @@ public class IngredientJdbcTemplateRepository implements IngredientRepository {
     public boolean deleteById(int id) {
         jdbcTemplate.update("delete from recipe_ingredient where ingredient_id = ?;", id);
         jdbcTemplate.update("delete from grocery_list_ingredient where ingredient_id = ?;", id);
-        final String sql = "delete from ingredient where id = ?;";
+        final String sql = "delete from ingredient where ingredient_id = ?;";
         return jdbcTemplate.update(sql, id) > 0;
     }
 }
