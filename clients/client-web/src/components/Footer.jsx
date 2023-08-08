@@ -3,28 +3,29 @@ import SpotifyWidget from "./SpotifyWidget";
 export default function Footer() {
     const styles = {
         foot: {
-            position: 'fixed',
-            bottom: 0,
+            position: 'sticky',
+            bottom: 30,
             left: 0,
-            width: '100vw'
-        },
-        group: {
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'end',
-            padding: '5px',
+            padding: "0 1vw",
+            margin: "0",
+            height: '50px'
         },
         text: {
+            display: 'flex',
+            justifyContent: 'end',
+            alignItems: 'end',
+            padding: '15px',
             fontFamily: 'monospace',
             color: "#CA5953",
+            position: "absolute",
+            bottom: -50,
+            right: 15
         }
     }
     return (
         <footer style={styles.foot}>
-            <div style={styles.group}>
-                <SpotifyWidget />
                 <p style={styles.text}>Copyright @ GetYum 2023</p>
-            </div>
+                <SpotifyWidget />
         </footer>
     )
 }
