@@ -20,28 +20,6 @@
         <version>2.7.0</version>
         <relativePath/>
     </parent>
-    <profiles>
-        <profile>
-            <id>MacOS-M1+</id>
-            <activation>
-                <os>
-                    <name>mac os x</name>
-                    <family>mac</family>
-                    <arch>aarch64</arch>
-                </os>
-            </activation>
-            <dependencies>
-                <!-- This solves an error in webclient from macOS w/ M1+ chip -->
-                <dependency>
-                    <groupId>io.netty</groupId>
-                    <artifactId>netty-resolver-dns-native-macos</artifactId>
-                    <version>4.1.72.Final</version>
-                    <classifier>osx-aarch_64</classifier>
-                </dependency>
-            </dependencies>
-        </profile>
-    </profiles>
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -112,5 +90,25 @@
             </exclusions>
         </dependency>
     </dependencies>
-
+    <profiles>
+        <profile>
+            <id>MacOS-M1+</id>
+            <activation>
+                <os>
+                    <name>mac os x</name>
+                    <family>mac</family>
+                    <arch>aarch64</arch>
+                </os>
+            </activation>
+            <dependencies>
+                <!-- This solves an error in webclient from macOS w/ M1+ chip -->
+                <dependency>
+                    <groupId>io.netty</groupId>
+                    <artifactId>netty-resolver-dns-native-macos</artifactId>
+                    <version>4.1.72.Final</version>
+                    <classifier>osx-aarch_64</classifier>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
 </project>
