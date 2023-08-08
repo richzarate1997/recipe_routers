@@ -2,7 +2,7 @@ import { View, Text, ScrollView } from "react-native";
 import { useState } from 'react';
 import { Stack, useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import {ScreenHeaderBtn} from '../components';
+import ScreenHeaderBtn from '../components/ScreenHeaderBtn';
 
 const Home = () => {
     return (
