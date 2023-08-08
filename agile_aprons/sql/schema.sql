@@ -62,7 +62,7 @@ CREATE TABLE `recipe` (
   `title` VARCHAR(255) NOT NULL,
   `image_url` VARCHAR(255) NOT NULL,
   `image` BLOB NULL,
-  `instructions` TEXT(3000) NOT NULL,
+  `instructions` TEXT(5000) NOT NULL,
   `vegetarian` BIT(1) NOT NULL DEFAULT 0,
   `vegan` BIT(1) NOT NULL DEFAULT 0,
   `gluten_free` BIT(1) NOT NULL DEFAULT 0,

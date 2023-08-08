@@ -13,7 +13,7 @@ public class Recipe {
     @Size(max = 50, message = "Recipe name must be less than 50 characters.")
     private String title;
     @NotBlank(message = "Recipe instructions cannot be blank.")
-    @Size(max = 3000, message = "Recipe instructions must be 3000 characters or less.")
+    @Size(max = 5000, message = "Recipe instructions must be 5000 characters or less.")
     private String instructions;
     @Min(value = 1, message = "Recipe servings cannot be less than 1.")
     @Max(value = 50, message = "Recipe servings cannot be greater than 50.")
