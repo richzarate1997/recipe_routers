@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { searchRecipes } from "../../service/fetchApi";
 import Errors from "../Errors";
 import { useParams } from "react-router-dom";
+import { findAllRecipes } from "../../service/recipeApi";
 
 
 const BASE_RECIPES = [
@@ -107,8 +108,16 @@ function Recipe() {
       searchRecipes(param)
         .then(data => {
           setRecipes(data.results)
+          console.log(data.results);
         })
-        .catch(err => setErrors(err))
+        .catch(err => setErrors(err));
+    } else {
+      findAllRecipes()
+        .then(data => {
+          console.log(data); // All saved recipes
+          setRecipes([...recipes, ...data])
+        })
+        .catch(err => setErrors(err));
     }
   }, [param]);
 
@@ -119,9 +128,9 @@ function Recipe() {
           <Grid key={recipe.id} item xs={12} sm={6} md={4} py={2} sx={{ position: 'static' }}>
             <RecipeCard
               id={recipe.id}
-              imgUrl={recipe.image}
-              name={recipe.title}
-              cookTime={recipe.readyInMinutes}
+              imageUrl={recipe?.image || recipe?.imageUrl} // anticipate blob image type
+              title={recipe.title}
+              cookMinutes={recipe?.readyInMinutes || recipe?.cookMinutes} // temporary possibility - readyInMinutes to be removed
               servings={recipe.servings}
             />
           </Grid>
