@@ -60,7 +60,7 @@ CREATE TABLE `recipe` (
   `id` INT PRIMARY KEY AUTO_INCREMENT,
   `user_app_user_id` INT NOT NULL,
   `title` VARCHAR(255) NOT NULL,
-  `image_url` VARCHAR(255) NOT NULL,
+  `image_url` VARCHAR(500) NOT NULL,
   `image` BLOB NULL,
   `instructions` TEXT(5000) NOT NULL,
   `vegetarian` BIT(1) NOT NULL DEFAULT 0,

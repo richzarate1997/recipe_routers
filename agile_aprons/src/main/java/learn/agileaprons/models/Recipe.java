@@ -23,7 +23,7 @@ public class Recipe {
     private int cookMinutes;
     @NotNull
 //    @Pattern(regexp = "(http://|https://)?(www.)?([a-zA-Z0-9]+).[a-zA-Z0-9]*.[a-z]{3}.?([a-zA-Z0-9/.-]+)?|", message = "Image url does not appear valid.")
-//    @Size(max = 255, message = "Recipe image url too long.")
+    @Size(max = 500, message = "Recipe image url must be under 500 characters.")
     private String imageUrl;
     @NotNull
     @Pattern(regexp = "(http://|https://)?(www.)?([a-zA-Z0-9]+).[a-zA-Z0-9]*.[a-z]{3}.?([a-zA-Z0-9/.-]+)?|", message = "Source url does not appear valid.")
