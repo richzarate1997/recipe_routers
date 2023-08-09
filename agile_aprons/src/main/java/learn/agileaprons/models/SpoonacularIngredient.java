@@ -6,7 +6,7 @@ public class SpoonacularIngredient {
 
     // This is a fabrication of the spoonacular recipe - extendedIgnredient response
     // solely needed to retrieve the response for further dissection.
-    private String name;
+    private String nameClean;
     private double amount;
     private String unit;
     private String aisle;
@@ -14,12 +14,12 @@ public class SpoonacularIngredient {
 
     // \/\/\/\/\/\/\/\/\/\/\/\/\/ Unnecessary details below:
     private int id;
+    private String name;
     private String consistency;
-    private String nameClean;
     private String original;
     private String originalName;
     private ArrayList<String> meta;
-    private Object measures; // may fail, and require sub-class to operate...
+    private Object measures;
 
     public int getId() {
         return id;
