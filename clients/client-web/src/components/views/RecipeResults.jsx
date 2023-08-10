@@ -1,7 +1,7 @@
 import { Box, Grid } from "@mui/material";
 import RecipeCard from "../RecipeCard";
 import { useEffect, useState } from "react";
-import { searchRecipes } from "../../service/fetchApi";
+import { searchRecipes } from "../../service/recipeApi";
 import Errors from "../Errors";
 import { useParams } from "react-router-dom";
 import { findAllRecipes } from "../../service/recipeApi";
@@ -107,7 +107,7 @@ function Recipe() {
     if (param) {
       searchRecipes(param)
         .then(data => {
-          setRecipes(data.results)
+          setRecipes(data.results);
           console.log(data.results);
         })
         .catch(err => setErrors(err));
