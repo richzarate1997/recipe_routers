@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -128,7 +129,7 @@ public class RecipeService {
     public List<Recipe> search(String param) {
         System.out.println("Begin service Search");
         // Make call to spoonacular for the search param,
-        SpoonacularSearchResults response = webClient.get()
+        ResponseEntity<List<Recipe>> response = webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/recipes/complexSearch")
                         .queryParam("query", "{param}")
@@ -141,11 +142,12 @@ public class RecipeService {
                 .header("X-RapidAPI-Key", apiKey)
                 .header("X-RapidAPI-Host", HOST)
                 .retrieve()
-                .bodyToMono(SpoonacularSearchResults.class).log()
+                .toEntity(new ParameterizedTypeReference<List<Recipe>>() {
+                }).log()
                 .block();
         // Convert the spoonacular recipes to recipes
-        List<Recipe> spoonRecipes = response.getResults().stream()
-                        .map(this::mapResults)
+        List<Recipe> spoonRecipes = response.getBody().stream()
+                        .map(recipe -> rec)
                                 .toList();
         System.out.println("Completed spoonacular request, next fetching matching recipes in DB");
         // Search the titles/instructions of recipes from DB
