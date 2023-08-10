@@ -14,10 +14,10 @@ const imageBase = "https://spoonacular.com/recipeImages/";
 export default function RecipeCard({ id, imageUrl, title, cookMinutes, servings }) {
   const navigate = useNavigate();
   const recipe = {
-    id: id,
-    title: title,
-    servings: servings,
-    cookMinutes: cookMinutes
+    id,
+    title,
+    servings,
+    cookMinutes
   };
   const renderImage = () => imageUrl.includes(imageBase) ? imageUrl : imageBase + imageUrl;
 
