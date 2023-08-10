@@ -1,15 +1,23 @@
 package learn.agileaprons.domain;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import learn.agileaprons.data.*;
 import learn.agileaprons.models.*;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import javax.validation.Validator;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class RecipeService {
@@ -23,6 +31,8 @@ public class RecipeService {
     private final WebClient webClient;
     @Value("${spoonacularApiKey}")
     private String apiKey;
+    private final String HOST = "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com";
+    private static final ObjectMapper mapper = new ObjectMapper();
 
     public RecipeService(RecipeRepository recipeRepository, RecipeIngredientRepository recipeIngredientRepository, CuisineRepository cuisineRepository, IngredientRepository ingredientRepository, UnitRepository unitRepository, Validator validator) {
         this.recipeRepository = recipeRepository;
@@ -93,21 +103,62 @@ public class RecipeService {
     }
 
     public Result<Recipe> scrape(int spoonacularId) throws DataException {
+        // Collect x-ratelimit-requests-limit, x-ratelimit-requests-remaining,
+        // & x-ratelimit-results-reset from request
+
         Recipe response = webClient.get()
                 .uri("/recipes/{spoonacularId}/information", spoonacularId)
                 .header(HttpHeaders.CONTENT_TYPE, "application/json")
                 .header("X-RapidAPI-Key", apiKey)
-                .header("X-RapidAPI-Host", "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com")
+                .header("X-RapidAPI-Host", HOST)
                 .retrieve()
                 .bodyToMono(SpoonacularRecipe.class)
                 .map(this::mapRecipe)
                 .block();
 
-        if (response == null) {
-            Result<Recipe> failure = new Result<>();
-            failure.addMessage("There was an issue with the spoonacular request", ResultType.NOT_FOUND);
-        }
+//        if (response == null) {
+//            Result<Recipe> failure = new Result<>();
+//            failure.addMessage("There was an issue with the spoonacular request", ResultType.NOT_FOUND);
+//            return failure;
+//        }
         return create(response);
+    }
+
+
+    public List<Recipe> search(String param) {
+        System.out.println("Begin service Search");
+        // Make call to spoonacular for the search param,
+        SpoonacularSearchResults response = webClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/recipes/complexSearch")
+                        .queryParam("query", "{param}")
+                        .queryParam("instructionsRequired", true)
+                        .queryParam("addRecipeInformation", true)
+                        .queryParam("number", "10")
+                        .queryParam("limitLicense", true)
+                        .build(param))
+                .header(HttpHeaders.CONTENT_TYPE, "application/json")
+                .header("X-RapidAPI-Key", apiKey)
+                .header("X-RapidAPI-Host", HOST)
+                .retrieve()
+                .bodyToMono(SpoonacularSearchResults.class).log()
+                .block();
+        // Convert the spoonacular recipes to recipes
+        List<Recipe> spoonRecipes = response.getResults().stream()
+                        .map(this::mapResults)
+                                .toList();
+        System.out.println("Completed spoonacular request, next fetching matching recipes in DB");
+        // Search the titles/instructions of recipes from DB
+        List<Recipe> dbRecipes = recipeRepository.findAll().stream()
+                .filter(recipe -> recipe.getTitle().toLowerCase().contains(param.toLowerCase()) ||
+                        recipe.getInstructions().toLowerCase().contains(param.toLowerCase())).toList();
+
+        System.out.println("Next asserting spoonacular response not null");
+        assert convertedRecipes != null;
+        convertedRecipes.forEach(System.out::println);
+        // Return merged/distinct list
+        System.out.println("Returning merged, distinct list of recipes");
+        return Stream.concat(convertedRecipes.stream(), dbRecipes.stream()).toList().stream().distinct().toList();
     }
 
     private void addIngredient(RecipeIngredient recipeIngredient, Result<Recipe> result) {
@@ -165,8 +216,8 @@ public class RecipeService {
         List<Cuisine> theseCuisines = new ArrayList<>(allCuisines.stream()
                 .filter(c -> data.getCuisines().stream()
                         .anyMatch(cString -> cString.equalsIgnoreCase(c.getName()))).toList());
-        // consider comparing lengths of data.getCuisines() with theseCuisines to decide
-        // whether to add cuisines -- will need repository method.
+        // by comparing lengths of data.getCuisines() with theseCuisines
+        // we can determine whether to add cuisines
         if (theseCuisines.size() != data.getCuisines().size()) {
             List<String> newCuisines = data.getCuisines().stream()
                     .filter(cString -> theseCuisines.stream()
@@ -230,9 +281,46 @@ public class RecipeService {
 //            }
 
             recipeIngredient.setIngredient(matchedIngredient);
-            theseIngredients.add(recipeIngredient);
+            boolean redundant = false; // redundant ingredient/unit flag
+            for (RecipeIngredient ri : theseIngredients) { // iterate through current recipe ingredients
+                //if ingredient and unit already used in recipe, then sum to that quantity and move on
+                if (ri.getIngredient().equals(recipeIngredient.getIngredient()) &&
+                        ri.getUnit().equals(recipeIngredient.getUnit())) {
+                    ri.setQuantity(ri.getQuantity() + recipeIngredient.getQuantity());
+                    System.out.println("Redundant ingredient-unit combo with: " + matchedIngredient.getName() + "-" + thisUnit.getName());
+                    redundant = true;
+                    break;
+                }
+            }
+            if (!redundant) { // if there wasn't redundancy, add the new recipeIngredient
+                theseIngredients.add(recipeIngredient);
+            }
         }
         mappedRecipe.setIngredients(theseIngredients);
+    }
+
+    public Recipe matchRecipe(Recipe r) {
+        return findAll().stream()
+                .filter(recipe -> recipe.getTitle().equalsIgnoreCase(r.getTitle()) &&
+                        recipe.getServings() == r.getServings() &&
+                        recipe.getCookMinutes() == r.getCookMinutes())
+                .findFirst().orElse(null);
+    }
+
+    private List<Recipe> mapResults(List<SpoonacularRecipe> results) {
+        System.out.println("[mapResults] Mapping results");
+        List<Recipe> convertedRecipes = new ArrayList<>();
+        for (SpoonacularRecipe r : results) {
+            Recipe result = new Recipe();
+            result.setId(r.getId());
+            result.setTitle(r.getTitle());
+            result.setImageUrl(r.getImage());
+            result.setCookMinutes(r.getReadyInMinutes());
+            result.setServings(r.getServings());
+            Recipe match = matchRecipe(result);
+            convertedRecipes.add(Objects.requireNonNullElse(match, result)); // if match is null, use result
+        }
+        return convertedRecipes;
     }
 
 }

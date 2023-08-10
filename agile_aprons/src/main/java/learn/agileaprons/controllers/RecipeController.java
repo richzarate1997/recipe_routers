@@ -37,10 +37,8 @@ public class RecipeController {
     }
 
     @GetMapping("/search/{param}")
-    public List<Recipe> findByTitle(@PathVariable String param) {
-        return service.findAll().stream()
-                .filter(recipe -> recipe.getTitle().toLowerCase().contains(param.toLowerCase()))
-                .collect(Collectors.toList());
+    public List<Recipe> searchRecipes(@PathVariable String param) {
+        return service.search(param);
     }
 
     @PostMapping
@@ -94,11 +92,7 @@ public class RecipeController {
 
     @PostMapping("/scrape")
     public ResponseEntity<Object> findOrScrape(@RequestBody Recipe r) throws DataException{
-        Recipe match = service.findAll().stream()
-                .filter(recipe -> recipe.getTitle().equalsIgnoreCase(r.getTitle()) &&
-                        recipe.getServings() == r.getServings() &&
-                        recipe.getCookMinutes() == r.getCookMinutes())
-                .findFirst().orElse(null);
+        Recipe match = service.matchRecipe(r);
         if (match != null) {
 //            System.out.println("[findOrScrape] match returns: " + service.findById(match.getId()));
             return new ResponseEntity<>(match, HttpStatus.OK);
@@ -112,5 +106,6 @@ public class RecipeController {
             return ErrorResponse.build(result);
         }
     }
+
 
 }
