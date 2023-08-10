@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import LunchDiningOutlinedIcon from '@mui/icons-material/LunchDiningOutlined';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 function Header() {
@@ -8,10 +8,10 @@ function Header() {
     <SafeAreaView>
     <View style={styles.header}>
       <TouchableOpacity style={styles.leftIcon} onPress={() => console.log('Menu clicked')}>
-        <Icon name="menu" size={30} />
+        {/* <LunchDiningOutlinedIcon /> */}
       </TouchableOpacity>
       <TouchableOpacity style={styles.rightIcon} onPress={() => console.log('Profile clicked')}>
-        <Icon name="food" size={30} />  
+        {/* <LunchDiningOutlinedIcon  />   */}
       </TouchableOpacity>
     </View>
     </SafeAreaView>
@@ -31,12 +31,12 @@ const styles = StyleSheet.create({
   leftIcon: {
     position: 'absolute', 
     top: 10, 
-    left: 10,
+    left: 150,
   },
   rightIcon: {
     position: 'absolute', 
     top: 10, 
-    right: 10,
+    right: 150,
   },
 });
 
