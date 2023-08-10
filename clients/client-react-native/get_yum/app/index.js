@@ -1,8 +1,12 @@
+import React from 'react';
 import { StyleSheet, Text, View } from "react-native";
+import Header from '../components/Header';
+
 
 export default function Page() {
   return (
     <View style={styles.container}>
+      <Header />
       <View style={styles.main}>
         <Text style={styles.title}>Welcome to GetYum</Text>
         <Text style={styles.subtitle}>This is the first page of our app.</Text>
