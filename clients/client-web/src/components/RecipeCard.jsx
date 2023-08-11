@@ -19,6 +19,7 @@ export default function RecipeCard({ id, imageUrl, title, cookMinutes, servings 
     servings,
     cookMinutes
   };
+  // TODO: Consider ways to guarantee image rendering with user created image urls and blobs...
   const renderImage = () => imageUrl.includes(imageBase) ? imageUrl : imageBase + imageUrl;
 
   const getRecipe = () => {
