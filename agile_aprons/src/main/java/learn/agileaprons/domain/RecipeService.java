@@ -127,9 +127,9 @@ public class RecipeService {
 
 
     public List<Recipe> search(String param) {
-        System.out.println("Begin service Search");
+        System.out.println("[search] Begin service Search");
         // Make call to spoonacular for the search param,
-        ResponseEntity<List<Recipe>> response = webClient.get()
+        List<Recipe> convertedRecipes = webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/recipes/complexSearch")
                         .queryParam("query", "{param}")
@@ -142,24 +142,22 @@ public class RecipeService {
                 .header("X-RapidAPI-Key", apiKey)
                 .header("X-RapidAPI-Host", HOST)
                 .retrieve()
-                .toEntity(new ParameterizedTypeReference<List<Recipe>>() {
-                }).log()
+                .bodyToMono(SpoonacularSearchResults.class)
+                .map(spoonacularSearchResults -> mapResults(spoonacularSearchResults.getResults()))
                 .block();
         // Convert the spoonacular recipes to recipes
-        List<Recipe> spoonRecipes = response.getBody().stream()
-                        .map(recipe -> rec)
-                                .toList();
-        System.out.println("Completed spoonacular request, next fetching matching recipes in DB");
+        assert convertedRecipes != null;
+        System.out.println("[search] returning spoonacular recipes, length: " + convertedRecipes.size());
+        convertedRecipes.forEach(System.out::println);
         // Search the titles/instructions of recipes from DB
         List<Recipe> dbRecipes = recipeRepository.findAll().stream()
                 .filter(recipe -> recipe.getTitle().toLowerCase().contains(param.toLowerCase()) ||
                         recipe.getInstructions().toLowerCase().contains(param.toLowerCase())).toList();
 
-        System.out.println("Next asserting spoonacular response not null");
-        assert convertedRecipes != null;
-        convertedRecipes.forEach(System.out::println);
+        System.out.println("[search] returning dbRecipes, length: " + dbRecipes.size());
+        dbRecipes.forEach(System.out::println);
         // Return merged/distinct list
-        System.out.println("Returning merged, distinct list of recipes");
+        System.out.println("[search] Returning merged, distinct list of recipes");
         return Stream.concat(convertedRecipes.stream(), dbRecipes.stream()).toList().stream().distinct().toList();
     }
 
