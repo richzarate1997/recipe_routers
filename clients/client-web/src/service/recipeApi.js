@@ -47,16 +47,11 @@ export async function findRecipeById(id) {
 }
 
 export async function searchRecipes(param) {
-  try {
-    const response = await axios.get(`${API_URL}/search/${encodeURIComponent(param)}`);
-    if (response.status === 200) {
-      return response.data;
-    } else {
-      return Promise.reject(`No Recipes were found relating to ${param}.`);
-    }
-  } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
+  const response = await axios.get(`${API_URL}/search/${encodeURIComponent(param)}`);
+  if (response.status === 200) {
+    return response.data;
+  } else {
+    return Promise.reject(`No Recipes were found relating to ${param}.`);
   }
 }
 
