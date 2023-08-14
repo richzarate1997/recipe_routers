@@ -113,11 +113,13 @@ function Recipe() {
     } else {
       findAllRecipes()
         .then(data => {
-          setRecipes([...recipes, ...data].filter((val, idx, arr) => arr.indexOf(val) === idx))
+          // setRecipes([...recipes, ...data].filter((val, idx, arr) => arr.indexOf(val) === idx))
+          // use this ^^^ instead of the latter to avoid searching to begin adding recipes/ingredients
+          setRecipes(data.filter((val, idx, arr) => arr.indexOf(val) === idx))
         })
         .catch(err => setErrors(err));
     }
-    console.log(recipes);
+    // console.log(recipes);
   }, [param]);
 
   return (
