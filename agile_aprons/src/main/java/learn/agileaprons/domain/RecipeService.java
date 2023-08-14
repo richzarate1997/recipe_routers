@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import learn.agileaprons.data.*;
 import learn.agileaprons.models.*;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -93,7 +94,6 @@ public class RecipeService {
     }
 
     public void addIngredients(Result<Recipe> result) {
-        System.out.println("[addIngredients] adding ingredients to recipe");
         Recipe recipe = result.getPayload();
         recipe.getIngredients().forEach(recipeIngredient -> recipeIngredient.setRecipeId(recipe.getId()));
         recipe.getIngredients().forEach(recipeIngredient -> addIngredient(recipeIngredient, result));
@@ -126,7 +126,7 @@ public class RecipeService {
         return create(response);
     }
 
-
+    @Cacheable("Recipes")
     public List<Recipe> search(String param) {
         System.out.println("[search] Begin service Search");
         // Make call to spoonacular for the search param,
