@@ -45,7 +45,6 @@ public class IngredientJdbcTemplateRepository implements IngredientRepository {
         return findAll().stream()
                 .filter(i -> i.getName().startsWith(name))
                 .collect(Collectors.toList());
-
     }
 
     @Override
