@@ -1,4 +1,5 @@
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
+import PacmanLoader from "react-spinners/PacmanLoader";
 import RecipeCard from "../RecipeCard";
 import { useEffect, useState } from "react";
 import { searchRecipes } from "../../service/recipeApi";
@@ -98,8 +99,18 @@ const BASE_RECIPES = [
     "title": "BA’s Best Baked Ziti"
   }]
 
+const styles = {
+  loader: {
+    margin: 'auto',
+    height: '80vh',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
+}
+
 function Recipe() {
-  const [recipes, setRecipes] = useState(BASE_RECIPES);
+  const [recipes, setRecipes] = useState(null);
   const [errors, setErrors] = useState([]);
   const { param } = useParams();
 
@@ -121,6 +132,18 @@ function Recipe() {
     }
     // console.log(recipes);
   }, [param]);
+
+  if (recipes === null) {
+    return (
+      <div style={styles.loader}>
+        <PacmanLoader color="#FEAE65" />
+      </div>
+    );
+  }
+
+  if (recipes.length === 0) {
+    <Typography variant="p">No recipes to display.</Typography>
+  }
 
   return (
     <Box mx='5%' sx={{ paddingTop: 2 }}>

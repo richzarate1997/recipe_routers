@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { getRandomJoke, getRandomTrivia } from "../service/fetchApi";
 import { Box, Button, Card, CircularProgress } from "@mui/material";
+import { SemipolarSpinner } from 'react-epic-spinners';
 
 function FunFact() {
     const [text, setText] = useState("");
@@ -42,7 +43,7 @@ function FunFact() {
                 onClick={fetchFun} style={{ display: clicked ? 'none' : 'block' }} >
                 Random Joke or Fact!
             </Button>
-            {!text && clicked && <CircularProgress color="primary" />}
+            {!text && clicked && <SemipolarSpinner color="#D1483D"/>}
             <Card style={styles.card}>
                 {text}
             </Card>
