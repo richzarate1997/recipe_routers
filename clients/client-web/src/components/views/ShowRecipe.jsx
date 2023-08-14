@@ -1,7 +1,8 @@
 
-import React, { useState, useEffect } from 'react'
-import { useNavigate, useParams, useLocation } from 'react-router-dom'
-import { findRecipeById } from '../../service/recipeApi'
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import parse from 'html-react-parser';
+import { findRecipeById } from '../../service/recipeApi';
 import { Favorite, FavoriteBorder } from '@mui/icons-material';
 import {
     Alert, Typography, List, ListItem,
@@ -164,7 +165,7 @@ const ShowRecipe = ({ userId }) => {
                     </Grid>
                     <Grid item sx={{ marginX: '15%' }}>
                         <Typography>
-                            {recipe.instructions}
+                            {parse(recipe.instructions)}
                         </Typography>
                     </Grid>
                 </Grid>
