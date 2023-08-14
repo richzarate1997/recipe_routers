@@ -93,6 +93,7 @@ public class RecipeService {
     }
 
     public void addIngredients(Result<Recipe> result) {
+        System.out.println("[addIngredients] adding ingredients to recipe");
         Recipe recipe = result.getPayload();
         recipe.getIngredients().forEach(recipeIngredient -> recipeIngredient.setRecipeId(recipe.getId()));
         recipe.getIngredients().forEach(recipeIngredient -> addIngredient(recipeIngredient, result));
@@ -117,11 +118,11 @@ public class RecipeService {
                 .map(this::mapRecipe)
                 .block();
 
-//        if (response == null) {
-//            Result<Recipe> failure = new Result<>();
-//            failure.addMessage("There was an issue with the spoonacular request", ResultType.NOT_FOUND);
-//            return failure;
-//        }
+        if (response == null) {
+            Result<Recipe> failure = new Result<>();
+            failure.addMessage("There was an issue with the spoonacular request", ResultType.NOT_FOUND);
+            return failure;
+        }
         return create(response);
     }
 
@@ -135,7 +136,7 @@ public class RecipeService {
                         .queryParam("query", "{param}")
                         .queryParam("instructionsRequired", true)
                         .queryParam("addRecipeInformation", true)
-                        .queryParam("number", "10")
+                        .queryParam("number", "10") // Increase to 25 to round up to 2 point request
                         .queryParam("limitLicense", true)
                         .build(param))
                 .header(HttpHeaders.CONTENT_TYPE, "application/json")
@@ -145,19 +146,17 @@ public class RecipeService {
                 .bodyToMono(SpoonacularSearchResults.class)
                 .map(spoonacularSearchResults -> mapResults(spoonacularSearchResults.getResults()))
                 .block();
+
         // Convert the spoonacular recipes to recipes
         assert convertedRecipes != null;
-        System.out.println("[search] returning spoonacular recipes, length: " + convertedRecipes.size());
         convertedRecipes.forEach(System.out::println);
+
         // Search the titles/instructions of recipes from DB
         List<Recipe> dbRecipes = recipeRepository.findAll().stream()
                 .filter(recipe -> recipe.getTitle().toLowerCase().contains(param.toLowerCase()) ||
                         recipe.getInstructions().toLowerCase().contains(param.toLowerCase())).toList();
 
-        System.out.println("[search] returning dbRecipes, length: " + dbRecipes.size());
-        dbRecipes.forEach(System.out::println);
         // Return merged/distinct list
-        System.out.println("[search] Returning merged, distinct list of recipes");
         return Stream.concat(convertedRecipes.stream(), dbRecipes.stream()).toList().stream().distinct().toList();
     }
 
@@ -206,7 +205,8 @@ public class RecipeService {
         mappedRecipe.setInstructions(data.getInstructions());
         mappedRecipe.setServings(data.getServings());
         mappedRecipe.setCookMinutes(data.getReadyInMinutes());
-        mappedRecipe.setImageUrl(data.getImage());
+        // Hard code string format for image url, after encountering null image
+        mappedRecipe.setImageUrl(String.format("https://spoonacular.com/recipeImages/%s-556x370.jpg", data.getId()));
         mappedRecipe.setSourceUrl(data.getSourceUrl());
         mappedRecipe.setVegetarian(data.isVegetarian());
         mappedRecipe.setVegan(data.isVegan());
@@ -230,11 +230,11 @@ public class RecipeService {
 //                System.out.println("New cuisine added: \n" + newCuisine);
             }
         }
-        theseCuisines.forEach(System.out::println);
+//        theseCuisines.forEach(System.out::println);
         mappedRecipe.setCuisines(theseCuisines);
 
         mapIngredients(data.getExtendedIngredients(), mappedRecipe);
-
+//        mappedRecipe.getIngredients().forEach(System.out::println);
         return mappedRecipe;
     }
 
@@ -244,6 +244,9 @@ public class RecipeService {
         List<RecipeIngredient> theseIngredients = new ArrayList<>();
 
         for (SpoonacularIngredient ing : ingredients) {
+//            System.out.println("[getName] " + ing.getName());
+//            System.out.println("[getNameClean] " + ing.getNameClean());
+            if (ing.getNameClean() == null) continue; // Ex: crockpot liner in list of ingredients w/o clean name
             RecipeIngredient recipeIngredient = new RecipeIngredient();
             recipeIngredient.setQuantity(ing.getAmount());
 //            System.out.println("The spoonacular ingredient unit is: " + ing.getUnit());
@@ -263,7 +266,7 @@ public class RecipeService {
             }
             recipeIngredient.setUnit(thisUnit);
 
-            // find matching ingredient
+            // find matching ingredient or return new Ingredient object
             Ingredient matchedIngredient = allIngredients.stream()
                     .filter(ingredient -> ingredient.getName().equalsIgnoreCase(ing.getNameClean()))
                     .findFirst().orElse(new Ingredient());
@@ -272,6 +275,7 @@ public class RecipeService {
                 matchedIngredient.setName(ing.getNameClean());
                 matchedIngredient.setAisle(ing.getAisle());
                 matchedIngredient.setImageUrl("https://spoonacular.com/cdn/ingredients_100x100/" + ing.getImage());
+//                System.out.println("[mapIngredients] new ingredient name: " + matchedIngredient.getName());
                 matchedIngredient = ingredientRepository.create(matchedIngredient);
 //                System.out.println("New Ingredient created: " + matchedIngredient);
                 allIngredients.add(matchedIngredient); // Avoid double ingredient creation for a single recipe
@@ -281,13 +285,16 @@ public class RecipeService {
 //            }
 
             recipeIngredient.setIngredient(matchedIngredient);
+//            System.out.println("[mapIngredients] ingredient name: " + recipeIngredient.getIngredient().getName());
             boolean redundant = false; // redundant ingredient/unit flag
             for (RecipeIngredient ri : theseIngredients) { // iterate through current recipe ingredients
                 //if ingredient and unit already used in recipe, then sum to that quantity and move on
                 if (ri.getIngredient().equals(recipeIngredient.getIngredient()) &&
                         ri.getUnit().equals(recipeIngredient.getUnit())) {
-                    ri.setQuantity(ri.getQuantity() + recipeIngredient.getQuantity());
-                    System.out.println("Redundant ingredient-unit combo with: " + matchedIngredient.getName() + "-" + thisUnit.getName());
+                    if (ri.getQuantity() != recipeIngredient.getQuantity()) {
+                        ri.setQuantity(ri.getQuantity() + recipeIngredient.getQuantity());
+                    }
+                    System.out.println("Redundant ingredient-unit-quantity combo with: " + matchedIngredient.getName() + "-" + thisUnit.getName() + "-" + recipeIngredient.getQuantity());
                     redundant = true;
                     break;
                 }
@@ -295,6 +302,9 @@ public class RecipeService {
             if (!redundant) { // if there wasn't redundancy, add the new recipeIngredient
                 theseIngredients.add(recipeIngredient);
             }
+//            System.out.println("[mapIngredients] ingredient name: " + ing.getNameClean());
+//            System.out.println("[mapIngredients] ingredient amount: " + ing.getAmount());
+//            System.out.println("[mapIngredients] ingredient unit: " + ing.getUnit());
         }
         mappedRecipe.setIngredients(theseIngredients);
     }
