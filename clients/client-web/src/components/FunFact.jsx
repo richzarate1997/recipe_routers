@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { getRandomJoke, getRandomTrivia } from "../service/fetchApi";
-import { Box, Button, Card, CircularProgress } from "@mui/material";
+import { Box, Button, Card} from "@mui/material";
 import { SemipolarSpinner } from 'react-epic-spinners';
 
 function FunFact() {
