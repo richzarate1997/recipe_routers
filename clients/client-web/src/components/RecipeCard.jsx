@@ -1,7 +1,7 @@
 import {
   Card, CardActionArea,
   CardContent, CardMedia,
-  Box, Grid, Tooltip, Typography
+  Grid, Tooltip, Typography
 } from '@mui/material';
 import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
