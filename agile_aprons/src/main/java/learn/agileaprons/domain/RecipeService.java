@@ -122,8 +122,7 @@ public class RecipeService {
 
     @Cacheable("Recipes")
     public List<Recipe> search(String param) {
-        System.out.println("[search] Begin service Search");
-        // Make call to spoonacular for the search param,
+        // Make call to spoonacular for the search param
         List<Recipe> convertedRecipes = webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/recipes/complexSearch")
@@ -137,20 +136,20 @@ public class RecipeService {
                 .header("X-RapidAPI-Key", apiKey)
                 .header("X-RapidAPI-Host", HOST)
                 .retrieve()
+                // Capture the response object
                 .bodyToMono(SpoonacularSearchResults.class)
+                // Convert the spoonacular-recipes to our model
                 .map(spoonacularSearchResults -> mapResults(spoonacularSearchResults.getResults()))
                 .block();
 
-        // Convert the spoonacular recipes to recipes
-        assert convertedRecipes != null;
-        convertedRecipes.forEach(System.out::println);
 
         // Search the titles/instructions of recipes from DB
         List<Recipe> dbRecipes = recipeRepository.findAll().stream()
                 .filter(recipe -> recipe.getTitle().toLowerCase().contains(param.toLowerCase()) ||
                         recipe.getInstructions().toLowerCase().contains(param.toLowerCase())).toList();
-
-        // Return merged/distinct list
+        
+        if (convertedRecipes == null) return dbRecipes;
+        // Return merged, distinct list of recipes from response and DB
         return Stream.concat(convertedRecipes.stream(), dbRecipes.stream()).toList().stream().distinct().toList();
     }
 
@@ -194,7 +193,7 @@ public class RecipeService {
         Recipe mappedRecipe = new Recipe();
         List<Cuisine> allCuisines = cuisineRepository.findAll();
 
-        mappedRecipe.setUserId(1); // Attach all scraped recipes to ADMIN
+        mappedRecipe.setUserId(1); // Attach all scraped recipes to ADMIN user
         mappedRecipe.setTitle(data.getTitle());
         mappedRecipe.setInstructions(data.getInstructions());
         mappedRecipe.setServings(data.getServings());
@@ -211,7 +210,7 @@ public class RecipeService {
                 .filter(c -> data.getCuisines().stream()
                         .anyMatch(cString -> cString.equalsIgnoreCase(c.getName()))).toList());
         // by comparing lengths of data.getCuisines() with theseCuisines
-        // we can determine whether to add cuisines
+        // we can determine whether to add new cuisines
         if (theseCuisines.size() != data.getCuisines().size()) {
             List<String> newCuisines = data.getCuisines().stream()
                     .filter(cString -> theseCuisines.stream()
@@ -224,11 +223,9 @@ public class RecipeService {
 //                System.out.println("New cuisine added: \n" + newCuisine);
             }
         }
-//        theseCuisines.forEach(System.out::println);
         mappedRecipe.setCuisines(theseCuisines);
 
         mapIngredients(data.getExtendedIngredients(), mappedRecipe);
-//        mappedRecipe.getIngredients().forEach(System.out::println);
         return mappedRecipe;
     }
 
@@ -238,9 +235,7 @@ public class RecipeService {
         List<RecipeIngredient> theseIngredients = new ArrayList<>();
 
         for (SpoonacularIngredient ing : ingredients) {
-//            System.out.println("[getName] " + ing.getName());
-//            System.out.println("[getNameClean] " + ing.getNameClean());
-            if (ing.getNameClean() == null) continue; // Ex: crockpot liner in list of ingredients w/o clean name
+            if (ing.getNameClean() == null) continue; // Ex: crockpot liner found in list of ingredients w/o clean name
             RecipeIngredient recipeIngredient = new RecipeIngredient();
             recipeIngredient.setQuantity(ing.getAmount());
 //            System.out.println("The spoonacular ingredient unit is: " + ing.getUnit());
@@ -269,22 +264,21 @@ public class RecipeService {
                 matchedIngredient.setName(ing.getNameClean());
                 matchedIngredient.setAisle(ing.getAisle());
                 matchedIngredient.setImageUrl("https://spoonacular.com/cdn/ingredients_100x100/" + ing.getImage());
-//                System.out.println("[mapIngredients] new ingredient name: " + matchedIngredient.getName());
                 matchedIngredient = ingredientRepository.create(matchedIngredient);
 //                System.out.println("New Ingredient created: " + matchedIngredient);
-                allIngredients.add(matchedIngredient); // Avoid double ingredient creation for a single recipe
+                allIngredients.add(matchedIngredient);
             }
 //            else {
 //                System.out.println("Ingredient matched: " + matchedIngredient);
 //            }
 
             recipeIngredient.setIngredient(matchedIngredient);
-//            System.out.println("[mapIngredients] ingredient name: " + recipeIngredient.getIngredient().getName());
             boolean redundant = false; // redundant ingredient/unit flag
             for (RecipeIngredient ri : theseIngredients) { // iterate through current recipe ingredients
-                //if ingredient and unit already used in recipe, then sum to that quantity and move on
+                // if ingredient and unit already used in recipe
                 if (ri.getIngredient().equals(recipeIngredient.getIngredient()) &&
                         ri.getUnit().equals(recipeIngredient.getUnit())) {
+                    // and the quantities differ, then sum to that quantity and move on
                     if (ri.getQuantity() != recipeIngredient.getQuantity()) {
                         ri.setQuantity(ri.getQuantity() + recipeIngredient.getQuantity());
                     }
@@ -293,12 +287,10 @@ public class RecipeService {
                     break;
                 }
             }
-            if (!redundant) { // if there wasn't redundancy, add the new recipeIngredient
+            if (!redundant) { // if ingredient isn't redundant
+                // add the new recipeIngredient
                 theseIngredients.add(recipeIngredient);
             }
-//            System.out.println("[mapIngredients] ingredient name: " + ing.getNameClean());
-//            System.out.println("[mapIngredients] ingredient amount: " + ing.getAmount());
-//            System.out.println("[mapIngredients] ingredient unit: " + ing.getUnit());
         }
         mappedRecipe.setIngredients(theseIngredients);
     }
@@ -312,7 +304,6 @@ public class RecipeService {
     }
 
     private List<Recipe> mapResults(List<SpoonacularRecipe> results) {
-        System.out.println("[mapResults] Mapping results");
         List<Recipe> convertedRecipes = new ArrayList<>();
         for (SpoonacularRecipe r : results) {
             Recipe result = new Recipe();
@@ -322,7 +313,8 @@ public class RecipeService {
             result.setCookMinutes(r.getReadyInMinutes());
             result.setServings(r.getServings());
             Recipe match = matchRecipe(result);
-            convertedRecipes.add(Objects.requireNonNullElse(match, result)); // if match is null, use result
+            // if match is null, use result--temporary recipe object
+            convertedRecipes.add(Objects.requireNonNullElse(match, result));
         }
         return convertedRecipes;
     }
