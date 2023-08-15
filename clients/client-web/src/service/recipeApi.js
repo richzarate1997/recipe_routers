@@ -118,4 +118,11 @@ export async function deleteRecipeById(id) {
   }
 }
 
-
+export const getRandomJokeOrTrivia = async () => {
+  const response = await axios.get(`${API_URL}/random-text`);
+  if (response.status === 200) {
+    return response.data.text;
+  } else {
+    console.log(response.statusText);
+  }
+}

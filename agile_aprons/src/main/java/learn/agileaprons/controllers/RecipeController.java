@@ -107,5 +107,8 @@ public class RecipeController {
         }
     }
 
-
+    @GetMapping("/random-text")
+    public ResponseEntity<Object> randomFoodText() {
+        return new ResponseEntity<>(service.getJokeOrFact(), HttpStatus.OK);
+    }
 }

@@ -8,11 +8,13 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import javax.validation.Validator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 import java.util.stream.Stream;
 
 @Service
@@ -99,9 +101,6 @@ public class RecipeService {
     }
 
     public Result<Recipe> scrape(int spoonacularId) throws DataException {
-        // Collect x-ratelimit-requests-limit, x-ratelimit-requests-remaining,
-        // & x-ratelimit-results-reset from request
-
         Recipe response = webClient.get()
                 .uri("/recipes/{spoonacularId}/information", spoonacularId)
                 .header(HttpHeaders.CONTENT_TYPE, "application/json")
@@ -142,15 +141,35 @@ public class RecipeService {
                 .map(spoonacularSearchResults -> mapResults(spoonacularSearchResults.getResults()))
                 .block();
 
-
         // Search the titles/instructions of recipes from DB
         List<Recipe> dbRecipes = recipeRepository.findAll().stream()
                 .filter(recipe -> recipe.getTitle().toLowerCase().contains(param.toLowerCase()) ||
                         recipe.getInstructions().toLowerCase().contains(param.toLowerCase())).toList();
-        
+
         if (convertedRecipes == null) return dbRecipes;
-        // Return merged, distinct list of recipes from response and DB
+        // Otherwise, return merged-distinct list of recipes from response and DB
         return Stream.concat(convertedRecipes.stream(), dbRecipes.stream()).toList().stream().distinct().toList();
+    }
+
+    public Recipe matchRecipe(Recipe r) {
+        return findAll().stream()
+                .filter(recipe -> recipe.getTitle().equalsIgnoreCase(r.getTitle()) &&
+                        recipe.getServings() == r.getServings() &&
+                        recipe.getCookMinutes() == r.getCookMinutes())
+                .findFirst().orElse(null);
+    }
+
+    public String getJokeOrFact() {
+        String endpoint = new Random().nextBoolean() ? "trivia" : "jokes";
+        return webClient.get()
+                .uri("/food/{endpoint}/random", endpoint)
+                .header(HttpHeaders.CONTENT_TYPE, "application/json")
+                .header("X-RapidAPI-Key", apiKey)
+                .header("X-RapidAPI-Host", HOST)
+                .retrieve()
+                // Capture the response object
+                .bodyToMono(String.class)
+                .block();
     }
 
     private void addIngredient(RecipeIngredient recipeIngredient, Result<Recipe> result) {
@@ -293,14 +312,6 @@ public class RecipeService {
             }
         }
         mappedRecipe.setIngredients(theseIngredients);
-    }
-
-    public Recipe matchRecipe(Recipe r) {
-        return findAll().stream()
-                .filter(recipe -> recipe.getTitle().equalsIgnoreCase(r.getTitle()) &&
-                        recipe.getServings() == r.getServings() &&
-                        recipe.getCookMinutes() == r.getCookMinutes())
-                .findFirst().orElse(null);
     }
 
     private List<Recipe> mapResults(List<SpoonacularRecipe> results) {
