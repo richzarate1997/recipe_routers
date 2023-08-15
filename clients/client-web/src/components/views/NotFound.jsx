@@ -30,7 +30,7 @@ const NotFound = () => {
                 <CardMedia
                     sx={styles.img}
                     component="img"
-                    image='/images/sad_plate.jpg'
+                    image={ Math.ceil(Math.random() * 2) === 1 ? '/images/sad_plate.jpg' : '/images/sad_fruit.jpg'}
                     alt="empty plate is sad"
                 />
         </Paper>
