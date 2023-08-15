@@ -27,6 +27,19 @@ export default function RecipeCard({ id, imageUrl, title, cookMinutes, servings 
       .then(data => navigate(`/recipe/${data.id}`))
       .catch(err => console.log(err));
   }
+
+  const renderCooktime = () => {
+    let result = "\n";
+    if (cookMinutes >= 60) {
+      result += Math.floor(cookMinutes / 60) + " hr ";
+    }
+    if (cookMinutes % 60 != 0) {
+      result += cookMinutes % 60 + " min";
+    }
+    // if (cookMinutes < 60) result += cookMinutes + " min";
+    return result;
+  }
+
   return (
     <CardActionArea sx={{ width: 345 }}>
       <Tooltip title={title} placement='top' arrow>
@@ -54,7 +67,7 @@ export default function RecipeCard({ id, imageUrl, title, cookMinutes, servings 
                   justifyContent: 'center'
                 }}>
                 <AccessTimeOutlinedIcon />
-                <Typography>{cookMinutes} minutes</Typography>
+                <Typography>{renderCooktime()}</Typography>
               </Grid>
               <Grid item xs={12} sm={6} md={4}
                 sx={{
