@@ -1,21 +1,17 @@
 
-import { useState } from "react";
-import { getRandomJoke, getRandomTrivia } from "../service/fetchApi";
 import { Box, Button, Card} from "@mui/material";
-import { SemipolarSpinner } from 'react-epic-spinners';
+import { useState } from "react";
+import CircleLoader from 'react-spinners/CircleLoader';
+import { getRandomJokeOrTrivia } from "../service/recipeApi";
 
 function FunFact() {
     const [text, setText] = useState("");
     const [clicked, setClicked] = useState(false);
-    const headsOrTails = Math.floor(Math.random() * 2);
 
     const fetchFun = () => {
-        if (headsOrTails) {
-            getRandomJoke().then(joke => setText(joke))
-        } else {
-            getRandomTrivia().then(trivia => setText(trivia))
-        }
-        setClicked(true);
+      setClicked(true);
+      getRandomJokeOrTrivia()
+        .then(data => setText(data));
     }
 
     const styles = {
@@ -43,7 +39,7 @@ function FunFact() {
                 onClick={fetchFun} style={{ display: clicked ? 'none' : 'block' }} >
                 Random Joke or Fact!
             </Button>
-            {!text && clicked && <SemipolarSpinner color="#D1483D"/>}
+            {!text && clicked && <CircleLoader color="#7CA65A" />}
             <Card style={styles.card}>
                 {text}
             </Card>

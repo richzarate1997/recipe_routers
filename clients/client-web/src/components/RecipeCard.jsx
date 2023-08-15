@@ -4,12 +4,25 @@ import {
   Box, Grid, Tooltip, Typography
 } from '@mui/material';
 import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
-import MenuBookOutlinedIcon from '@mui/icons-material/MenuBookOutlined';
-import { scrapeRecipe } from '../service/recipeApi';
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import { useNavigate } from 'react-router-dom';
+import { renderCooktime } from './modules/conversions';
+import { scrapeRecipe } from '../service/recipeApi';
 
 const imageBase = "https://spoonacular.com/recipeImages/";
 
+const styles = {
+  gridContainer: {
+    display: 'flex',
+    justifyContent: 'space-around',
+    alignContent: 'flex-end'
+  },
+  gridItem: {
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'column',
+  }
+}
 
 export default function RecipeCard({ id, imageUrl, title, cookMinutes, servings }) {
   const navigate = useNavigate();
@@ -28,18 +41,6 @@ export default function RecipeCard({ id, imageUrl, title, cookMinutes, servings 
       .catch(err => console.log(err));
   }
 
-  const renderCooktime = () => {
-    let result = "\n";
-    if (cookMinutes >= 60) {
-      result += Math.floor(cookMinutes / 60) + " hr ";
-    }
-    if (cookMinutes % 60 != 0) {
-      result += cookMinutes % 60 + " min";
-    }
-    // if (cookMinutes < 60) result += cookMinutes + " min";
-    return result;
-  }
-
   return (
     <CardActionArea sx={{ width: 345 }}>
       <Tooltip title={title} placement='top' arrow>
@@ -54,31 +55,18 @@ export default function RecipeCard({ id, imageUrl, title, cookMinutes, servings 
             image={renderImage()}
             alt={title} />
           <CardContent>
-            <Typography gutterBottom variant="h5" component="div" textAlign={'center'}>
+            <Typography gutterBottom variant="h5" component="div" textAlign="center">
               {title}
             </Typography>
-            <Grid container px={2} pt={3} >
+            <Grid container sx={styles.gridContainer}>
               <Grid item xs={12} sm={6} md={4}
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  flexWrap: 'wrap',
-                  marginRight: 6,
-                  justifyContent: 'center'
-                }}>
+                sx={styles.gridItem}>
                 <AccessTimeOutlinedIcon />
-                <Typography>{renderCooktime()}</Typography>
+                <Typography>{renderCooktime(cookMinutes)}</Typography>
               </Grid>
               <Grid item xs={12} sm={6} md={4}
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  flexWrap: 'wrap',
-                  justifyContent: 'center'
-                }}>
-                <Box sx={{ justifyContent: 'center' }}>
-                  <MenuBookOutlinedIcon />
-                </Box>
+                sx={styles.gridItem}>
+                <PeopleAltIcon />
                 <Typography>{servings} servings</Typography>
               </Grid>
             </Grid>
