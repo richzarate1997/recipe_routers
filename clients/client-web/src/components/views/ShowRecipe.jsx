@@ -50,7 +50,7 @@ const ShowRecipe = ({ userId }) => {
   const styles = {
     paper: {
       textAlign: 'center',
-      width: '75vw',
+      width: '85vw',
       margin: '5vh auto',
       borderRadius: '25px'
     },
@@ -64,23 +64,29 @@ const ShowRecipe = ({ userId }) => {
     heading: {
       marginX: '15%',
       display: 'flex',
-      alignItems: 'center'
+      alignItems: 'center',
+      justifyContent: 'center'
     },
     instr: {
       marginX: '15%',
       textAlign: 'left',
-      fontFamily: 'Roboto'
+      fontFamily: 'Roboto',
+      overflow: 'auto',
+      maxHeight: '400px',
     },
     top: {
       display: 'flex',
       alignItems: 'center',
-      justifyContent: 'center'
+      justifyContent: 'space-evenly',
+      paddingX: '10px'
     },
     list: {
       overflow: 'auto',
       maxHeight: 300,
-      width: '50%',
-      bgColor: 'primary'
+      maxWidth: '100%',
+      backgroundColor: '#D1483D',
+      color: '#fff',
+      borderRadius: '25px 25px'
     }
   }
 
@@ -163,18 +169,31 @@ const ShowRecipe = ({ userId }) => {
           <Grid item pt={2}>
             <Typography variant='h3'>{recipe.title}</Typography>
             <Divider sx={{ paddingY: 1 }} />
-            <Box component='img' src={image} alt={recipe.title} height='50vh' pt={1} sx={{ borderRadius: '25px 25px' }} />
+            <Box component='img' src={image} alt={recipe.title} maxWidth='100%' pt={1} sx={{ borderRadius: '25px 25px' }} />
           </Grid>
-        </Grid>
-
-        <Grid container>
-          <Grid item xs={6}>
-            <AccessTimeOutlinedIcon />
-            <Typography>{renderCooktime(recipe.cookMinutes)}</Typography>
-          </Grid>
-          <Grid item xs={6}>
-            <PeopleAltIcon />
-            <Typography>{recipe.servings} Servings</Typography>
+          <Grid item sx={{ width: '30vw' }}>
+            <Grid container sx={{ marginY: '5%'}}>
+              <Grid item xs={6}>
+                <AccessTimeOutlinedIcon />
+                <Typography>{renderCooktime(recipe.cookMinutes)}</Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <PeopleAltIcon />
+                <Typography>{recipe.servings} Servings</Typography>
+              </Grid>
+            </Grid>
+            <Grid item sx={styles.heading}>
+              <ListAltIcon />
+              <Typography variant='h6'>Ingredients: </Typography>
+            </Grid>
+              <Divider sx={{ marginY: 1 }} />
+            <List sx={styles.list}>
+              {ingredients.map(ingredient => (
+                <ListItem key={ingredient.ingredient.id}>
+                  <ListItemText primary={renderIngredientText(ingredient)} />
+                </ListItem>
+              ))}
+            </List>
           </Grid>
         </Grid>
 
@@ -186,22 +205,7 @@ const ShowRecipe = ({ userId }) => {
           {recipe.cuisines.length ? recipe.cuisines.map((c) => <Chip variant='outlined' size='medium' key={`${recipe.id}-${c.name}`} label={c.name} color='warning' />) : null}
         </Stack>
 
-        <Grid container>
-          <Grid item sx={styles.heading}>
-            <ListAltIcon />
-            <Typography variant='h6'>Ingredients: </Typography>
-          </Grid>
-        </Grid>
-
-        <Grid item marginX='15%'>
-          <List sx={styles.list}>
-            {ingredients.map(ingredient => (
-              <ListItem key={ingredient.ingredient.id}>
-                <ListItemText primary={renderIngredientText(ingredient)} />
-              </ListItem>
-            ))}
-          </List>
-        </Grid>
+        
 
         <Grid container >
           <Grid item sx={styles.heading}>
