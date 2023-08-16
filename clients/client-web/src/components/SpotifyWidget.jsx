@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import SpotifyPlayer from 'react-spotify-web-playback';
 import { loginUrl, getTokenFromUrl } from "../service/spotifyAuthorization";
 import SpotifyWebApi from 'spotify-web-api-js';
+import { Tooltip } from '@mui/material';
 
 const spotify = new SpotifyWebApi();
 
@@ -41,9 +42,11 @@ const SpotifyWidget = () => {
   return (
     <div>
       {!spotifyToken &&
-        <a href={loginUrl} style={styles.link}>
-          <img src='/images/Spotify_Logo_CMYK_Green.png' alt='spotify logo' style={styles.logo} />
-        </a>
+        <Tooltip arrow title='Stream with spotify while you GetYum!'>
+          <a href={loginUrl} style={styles.link}>
+            <img src='/images/Spotify_Logo_CMYK_Green.png' alt='spotify logo' style={styles.logo} />
+          </a>
+        </Tooltip>
       }
       {spotifyToken &&
         <SpotifyPlayer
