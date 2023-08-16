@@ -51,13 +51,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "react-dotenv": {
-    "whitelist": [
-      "SPOONACULAR_API_KEY"
-    ]
-  },
-  "devDependencies": {
-    "@spotifly/auth-token": "^2.0.1"
   }
 }
