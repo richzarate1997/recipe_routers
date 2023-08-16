@@ -112,7 +112,9 @@ function makeRecipeInit(token) {
 }
 
 export async function deleteRecipeById(id) {
-  const response = await axios.delete(`${API_URL}/${id}`);
+  const jwtToken = localStorage.getItem('jwt_token');
+  const init = makeRecipeInit(jwtToken);
+  const response = await axios.delete(`${API_URL}/${id}`, init);
   if (response.status === 400) {
     return Promise.reject(`Recipe: ${id} was not found.`);
   }
