@@ -4,14 +4,15 @@ import learn.agileaprons.data.DataException;
 import learn.agileaprons.domain.GroceryListService;
 import learn.agileaprons.domain.Result;
 import learn.agileaprons.domain.UserService;
-import learn.agileaprons.models.*;
+import learn.agileaprons.models.AppUser;
+import learn.agileaprons.models.GroceryList;
+import learn.agileaprons.models.User;
+import learn.agileaprons.models.UserFavorite;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.parameters.P;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -69,8 +70,6 @@ public class UserController {
     public void deleteFavorite(@RequestBody UserFavorite userFavorite) {
         service.removeFavorite(userFavorite.getUserId(), userFavorite.getRecipeId());
     }
-
-
 
     @GetMapping("/list")
     public List<GroceryList> findAllGroceryLists() {
