@@ -138,6 +138,13 @@ Today we will return a schedule of tasks, database schema, class diagram with la
 
 * Clients:
   * [x] Web UI
+    * [x] Register - Adapt login form to be reused for registering 
+    * [x] createUser endpoint from authApi, and redirect backward
+    * [x] Recipe Form - Parent component with stepper
+      * [x] 5 sub components for each part
+      * [x] save recipe on last step
+      * [x] Create 
+    * [x] Spotify Webplayer API 
   * [ ] Mobile UI - ***Main Learning Goal***
     * [ ] Prepare development environment for Mobile
 
@@ -208,12 +215,11 @@ Today we will return a schedule of tasks, database schema, class diagram with la
 * [ ] Deal with duplicate Ingredients/Recipes by overriding equals methods and preparing for equivalence comparison with internal objects.
 
 ### Short Term Task List
-* [ ] Register - Adapt login form to be reused for registering 
-  * [ ] createUser endpoint from authApi, and redirect backward
-* [ ] Recipe Form - Parent component with stepper
-  * [ ] 3 sub components for each part
-  * [ ] save recipe on last step
-  * [ ] Create 
-* [ ] Spotify API -- or any semblance of "In Browser Audio"
+* [ ] Transition recipe results component to consume java API
+* [ ] Adapt all spoonacular requests into the java API
+  * [ ] Create endpoint in recipe controller for fetching recipes
+  * [ ] Create service method(s) to match or consume new recipes and deliver all results
+  * [ ] Blend recipes from DB and spoonacular results in search
+* [ ] Create spoonacular consumption logic to eliminate over-consumption of free tier
 
 *==Add'l Learning Goal==

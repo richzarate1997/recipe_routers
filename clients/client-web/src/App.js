@@ -1,3 +1,7 @@
+import { Route, Routes, BrowserRouter as Router, Navigate } from "react-router-dom";
+import { useState, useEffect, useCallback } from "react";
+import { refreshToken, signOut } from "./service/authApi";
+import { ThemeProvider, createTheme } from "@mui/material"
 import Home from "./components/views/Home";
 import ResponsiveAppBar from "./components/ResponsiveAppBar";
 import Recipe from "./components/views/RecipeResults";
@@ -9,14 +13,10 @@ import Footer from "./components/Footer";
 import GroceryListForm from "./components/forms/GroceryListForm";
 import RecipeForm from "./components/forms/RecipeForm";
 import NotFound from "./components/views/NotFound";
-import { Route, Routes, BrowserRouter as Router, Navigate } from "react-router-dom";
-import { useState, useEffect, useCallback } from "react";
-import { refreshToken, signOut } from "./service/authApi";
-import AuthContext from "./contexts/AuthContext";
-import { ThemeProvider, createTheme } from "@mui/material"
-import './App.css';
 import AddGroceries from "./components/AddGroceries";
 import FavoriteRecipesList from "./components/FavoriteRecipesList";
+import AuthContext from "./contexts/AuthContext";
+import './App.css';
 
 
 const EMPTY_USER = {

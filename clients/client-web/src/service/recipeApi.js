@@ -46,17 +46,12 @@ export async function findRecipeById(id) {
   }
 }
 
-export async function findRecipeByTitle(title) {
-  try {
-    const response = await axios.get(`${API_URL}/search/${encodeURIComponent(title)}`);
-    if (response.status === 200) {
-      return response.data;
-    } else {
-      return Promise.reject(`Recipe: ${title} was not found.`);
-    }
-  } catch (error) {
-    console.error(error);
-    return Promise.reject(error);
+export async function searchRecipes(param) {
+  const response = await axios.get(`${API_URL}/search/${encodeURIComponent(param)}`);
+  if (response.status === 200) {
+    return response.data;
+  } else {
+    return Promise.reject(`No Recipes were found relating to ${param}.`);
   }
 }
 
@@ -123,4 +118,11 @@ export async function deleteRecipeById(id) {
   }
 }
 
-
+export const getRandomJokeOrTrivia = async () => {
+  const response = await axios.get(`${API_URL}/random-text`);
+  if (response.status === 200) {
+    return response.data.text;
+  } else {
+    console.log(response.statusText);
+  }
+}

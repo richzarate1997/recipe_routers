@@ -56,7 +56,8 @@ const NavBarSearch = () => {
     
     const handleSubmit = (e) => {
         e.preventDefault();
-        navigate(`/search/${searchQuery}`)
+        navigate(`/search/${searchQuery}`);
+        setSearchQuery("");
     };
     return (
         <Box m={1} component={'form'} onSubmit={handleSubmit}>

@@ -1,10 +1,14 @@
 package learn.agileaprons.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.ArrayList;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SpoonacularRecipe {
     // This is a fabrication of the spoonacular recipe information response
     // solely needed to retrieve the response for further dissection.
+    private int id;
     private String title;
     private int readyInMinutes;
     private int servings;
@@ -17,31 +21,6 @@ public class SpoonacularRecipe {
     private boolean glutenFree;
     private boolean dairyFree;
     private ArrayList<SpoonacularIngredient> extendedIngredients;
-
-    // \/\/\/\/\/\/\/\/\/\/\/\/\/ Unnecessary details below:
-    private int id;
-    private String summary;
-    private String imageType;
-    private ArrayList<String> dishTypes;
-    private ArrayList<String> diets;
-    private ArrayList<String> occasions;
-    private boolean veryHealthy;
-    private boolean cheap;
-    private boolean veryPopular;
-    private boolean sustainable;
-    private boolean lowFodmap;
-    private int weightWatcherSmartPoints;
-    private String gaps;
-    private int preparationMinutes;
-    private int cookingMinutes;
-    private int aggregateLikes;
-    private int healthScore;
-    private String creditsText;
-    private String sourceName;
-    private double pricePerServing;
-    private Object winePairing;
-    private ArrayList<Object> analyzedInstructions;
-    private String originalId;
 
     public int getId() {
         return id;
@@ -147,182 +126,6 @@ public class SpoonacularRecipe {
         this.extendedIngredients = extendedIngredients;
     }
 
-    public String getSummary() {
-        return summary;
-    }
-
-    public void setSummary(String summary) {
-        this.summary = summary;
-    }
-
-    public String getImageType() {
-        return imageType;
-    }
-
-    public void setImageType(String imageType) {
-        this.imageType = imageType;
-    }
-
-    public ArrayList<String> getDishTypes() {
-        return dishTypes;
-    }
-
-    public void setDishTypes(ArrayList<String> dishTypes) {
-        this.dishTypes = dishTypes;
-    }
-
-    public ArrayList<String> getDiets() {
-        return diets;
-    }
-
-    public void setDiets(ArrayList<String> diets) {
-        this.diets = diets;
-    }
-
-    public ArrayList<String> getOccasions() {
-        return occasions;
-    }
-
-    public void setOccasions(ArrayList<String> occasions) {
-        this.occasions = occasions;
-    }
-
-    public boolean isVeryHealthy() {
-        return veryHealthy;
-    }
-
-    public void setVeryHealthy(boolean veryHealthy) {
-        this.veryHealthy = veryHealthy;
-    }
-
-    public boolean isCheap() {
-        return cheap;
-    }
-
-    public void setCheap(boolean cheap) {
-        this.cheap = cheap;
-    }
-
-    public boolean isVeryPopular() {
-        return veryPopular;
-    }
-
-    public void setVeryPopular(boolean veryPopular) {
-        this.veryPopular = veryPopular;
-    }
-
-    public boolean isSustainable() {
-        return sustainable;
-    }
-
-    public void setSustainable(boolean sustainable) {
-        this.sustainable = sustainable;
-    }
-
-    public boolean isLowFodmap() {
-        return lowFodmap;
-    }
-
-    public void setLowFodmap(boolean lowFodmap) {
-        this.lowFodmap = lowFodmap;
-    }
-
-    public int getWeightWatcherSmartPoints() {
-        return weightWatcherSmartPoints;
-    }
-
-    public void setWeightWatcherSmartPoints(int weightWatcherSmartPoints) {
-        this.weightWatcherSmartPoints = weightWatcherSmartPoints;
-    }
-
-    public String getGaps() {
-        return gaps;
-    }
-
-    public void setGaps(String gaps) {
-        this.gaps = gaps;
-    }
-
-    public int getPreparationMinutes() {
-        return preparationMinutes;
-    }
-
-    public void setPreparationMinutes(int preparationMinutes) {
-        this.preparationMinutes = preparationMinutes;
-    }
-
-    public int getCookingMinutes() {
-        return cookingMinutes;
-    }
-
-    public void setCookingMinutes(int cookingMinutes) {
-        this.cookingMinutes = cookingMinutes;
-    }
-
-    public int getAggregateLikes() {
-        return aggregateLikes;
-    }
-
-    public void setAggregateLikes(int aggregateLikes) {
-        this.aggregateLikes = aggregateLikes;
-    }
-
-    public int getHealthScore() {
-        return healthScore;
-    }
-
-    public void setHealthScore(int healthScore) {
-        this.healthScore = healthScore;
-    }
-
-    public String getCreditsText() {
-        return creditsText;
-    }
-
-    public void setCreditsText(String creditsText) {
-        this.creditsText = creditsText;
-    }
-
-    public String getSourceName() {
-        return sourceName;
-    }
-
-    public void setSourceName(String sourceName) {
-        this.sourceName = sourceName;
-    }
-
-    public double getPricePerServing() {
-        return pricePerServing;
-    }
-
-    public void setPricePerServing(double pricePerServing) {
-        this.pricePerServing = pricePerServing;
-    }
-
-    public Object getWinePairing() {
-        return winePairing;
-    }
-
-    public void setWinePairing(Object winePairing) {
-        this.winePairing = winePairing;
-    }
-
-    public ArrayList<Object> getAnalyzedInstructions() {
-        return analyzedInstructions;
-    }
-
-    public void setAnalyzedInstructions(ArrayList<Object> analyzedInstructions) {
-        this.analyzedInstructions = analyzedInstructions;
-    }
-
-    public String getOriginalId() {
-        return originalId;
-    }
-
-    public void setOriginalId(String originalId) {
-        this.originalId = originalId;
-    }
-
     @Override
     public String toString() {
         return "{" +
@@ -341,4 +144,28 @@ public class SpoonacularRecipe {
                 ", extendedIngredients=" + extendedIngredients +
                 '}';
     }
+
+//    All unused properties of the response
+//    private String summary;
+//    private String imageType;
+//    private ArrayList<String> dishTypes;
+//    private ArrayList<String> diets;
+//    private ArrayList<String> occasions;
+//    private boolean veryHealthy;
+//    private boolean cheap;
+//    private boolean veryPopular;
+//    private boolean sustainable;
+//    private boolean lowFodmap;
+//    private int weightWatcherSmartPoints;
+//    private String gaps;
+//    private int preparationMinutes;
+//    private int cookingMinutes;
+//    private int aggregateLikes;
+//    private int healthScore;
+//    private String creditsText;
+//    private String sourceName;
+//    private double pricePerServing;
+//    private Object winePairing;
+//    private ArrayList<Object> analyzedInstructions;
+//    private String originalId;
 }
