@@ -6,10 +6,12 @@ import ListAltIcon from '@mui/icons-material/ListAlt';
 import MenuBookOutlinedIcon from '@mui/icons-material/MenuBookOutlined';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import {
-  Alert, Typography, List, ListItem,
-  ListItemText, Box, Grid, Divider,
-  Paper, Chip, Stack, Checkbox, Button, IconButton, Tooltip
+  Alert, Box, Checkbox, Chip, Divider,
+  Grid, IconButton, List, ListItem,
+  ListItemText, Paper, Stack, Tooltip,
+  Typography, useMediaQuery
 } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import * as DOMPurify from 'dompurify';
 import { toFraction } from 'fraction-parser';
 import parse from 'html-react-parser';
@@ -18,6 +20,7 @@ import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { renderCooktime } from '../modules/conversions';
 import { findRecipeById } from '../../service/recipeApi';
 import { addFavorite, removeFavorite, isFavorite } from '../../service/userApi';
+import ConfirmDelete from '../ConfirmDelete';
 
 
 const EMPTY_RECIPE = {
@@ -86,9 +89,12 @@ const ShowRecipe = ({ userId }) => {
   const [ingredients, setIngredients] = useState([]);
   const [image, setImage] = useState(null);
   const [checked, setChecked] = useState(false);
+  const [open, setOpen] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
   // const renderBlob = () => {
   //     console.log(recipe.image)
@@ -106,6 +112,14 @@ const ShowRecipe = ({ userId }) => {
   //         reader.readAsDataURL(atob(recipe.image));
   //     })
   // }
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const handleFavoriteChange = (e) => {
     e.target.checked ? addFavorite(recipe.id) : removeFavorite(recipe.id);
@@ -125,7 +139,7 @@ const ShowRecipe = ({ userId }) => {
         .then((data) => setChecked(data))
         .catch((err) => console.log(err))
     }
-  }, [id, navigate, userId]);
+  }, [id, userId, navigate]);
 
   useEffect(() => {
     if (recipe.imageUrl !== '') {
@@ -144,12 +158,12 @@ const ShowRecipe = ({ userId }) => {
     } else {
       return `${toFraction(ingredient.quantity, true)} ${ingredient.unit.name} ${ingredient.ingredient.name}`
     }
-  }
+  };
 
   const renderInstructionText = () => {
     let cleanInstructions = DOMPurify.sanitize(recipe.instructions);
     return parse(cleanInstructions);
-  }
+  };
 
   return (
     <>{
@@ -226,15 +240,29 @@ const ShowRecipe = ({ userId }) => {
           :
           <Grid sx={{ mt: '5%' }}>
             <Tooltip title='Delete'>
-              <IconButton aria-label='delete recipe' color='info' size='large'>
+              <IconButton
+                aria-label='delete recipe'
+                color='info' size='large'
+                onClick={handleClickOpen}>
                 <DeleteIcon fontSize={'inherit'} />
               </IconButton>
             </Tooltip>
             <Tooltip title='Update'>
-              <IconButton aria-label='update recipe' color='primary' size='large'>
+              <IconButton
+                aria-label='update recipe'
+                color='primary' size='large'
+                onClick={() => navigate(`/edit/recipe/${recipe.id}`)}
+              >
                 <EditNote fontSize={'inherit'} />
               </IconButton>
             </Tooltip>
+            <ConfirmDelete 
+              fullScreen={fullScreen}
+              open={open}
+              handleClose={handleClose}
+              title={recipe.title}
+              id={recipe.id}
+            />
           </Grid>
         )}
 
