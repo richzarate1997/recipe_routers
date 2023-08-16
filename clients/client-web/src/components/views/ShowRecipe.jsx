@@ -1,13 +1,14 @@
 
-import { Favorite, FavoriteBorder } from '@mui/icons-material';
+import { EditNote, Favorite, FavoriteBorder } from '@mui/icons-material';
 import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
+import DeleteIcon from '@mui/icons-material/Delete';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import MenuBookOutlinedIcon from '@mui/icons-material/MenuBookOutlined';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import {
   Alert, Typography, List, ListItem,
   ListItemText, Box, Grid, Divider,
-  Paper, Chip, Stack, Checkbox
+  Paper, Chip, Stack, Checkbox, Button, IconButton, Tooltip
 } from '@mui/material';
 import * as DOMPurify from 'dompurify';
 import { toFraction } from 'fraction-parser';
@@ -37,6 +38,48 @@ const EMPTY_RECIPE = {
   cuisines: []
 }
 
+const styles = {
+  paper: {
+    textAlign: 'center',
+    width: '85vw',
+    margin: '5vh auto',
+    borderRadius: '25px'
+  },
+  alert: {
+    borderRadius: '20px 20px 0 0',
+    margin: 'auto',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  heading: {
+    marginX: '15%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  instr: {
+    marginX: '15%',
+    textAlign: 'left',
+    fontFamily: 'Roboto',
+    overflow: 'auto',
+    maxHeight: '400px',
+  },
+  top: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    paddingX: '10px'
+  },
+  list: {
+    overflow: 'auto',
+    maxHeight: 300,
+    maxWidth: '100%',
+    backgroundColor: '#D1483D',
+    color: '#fff',
+    borderRadius: '25px 25px'
+  }
+}
 
 const ShowRecipe = ({ userId }) => {
   const [recipe, setRecipe] = useState(EMPTY_RECIPE);
@@ -46,50 +89,6 @@ const ShowRecipe = ({ userId }) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-
-  const styles = {
-    paper: {
-      textAlign: 'center',
-      width: '85vw',
-      margin: '5vh auto',
-      borderRadius: '25px'
-    },
-    alert: {
-      borderRadius: '20px 20px 0 0',
-      margin: 'auto',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center'
-    },
-    heading: {
-      marginX: '15%',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center'
-    },
-    instr: {
-      marginX: '15%',
-      textAlign: 'left',
-      fontFamily: 'Roboto',
-      overflow: 'auto',
-      maxHeight: '400px',
-    },
-    top: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-evenly',
-      paddingX: '10px'
-    },
-    list: {
-      overflow: 'auto',
-      maxHeight: 300,
-      maxWidth: '100%',
-      backgroundColor: '#D1483D',
-      color: '#fff',
-      borderRadius: '25px 25px'
-    }
-  }
-
 
   // const renderBlob = () => {
   //     console.log(recipe.image)
@@ -107,7 +106,6 @@ const ShowRecipe = ({ userId }) => {
   //         reader.readAsDataURL(atob(recipe.image));
   //     })
   // }
-
 
   const handleFavoriteChange = (e) => {
     e.target.checked ? addFavorite(recipe.id) : removeFavorite(recipe.id);
@@ -172,7 +170,7 @@ const ShowRecipe = ({ userId }) => {
             <Box component='img' src={image} alt={recipe.title} maxWidth='100%' pt={1} sx={{ borderRadius: '25px 25px' }} />
           </Grid>
           <Grid item sx={{ width: '30vw' }} xs={12} sm={9} md={8} lg={4}>
-            <Grid container sx={{ marginY: '5%'}}>
+            <Grid container sx={{ marginY: '5%' }}>
               <Grid item xs={6}>
                 <AccessTimeOutlinedIcon />
                 <Typography>{renderCooktime(recipe.cookMinutes)}</Typography>
@@ -186,7 +184,7 @@ const ShowRecipe = ({ userId }) => {
               <ListAltIcon />
               <Typography variant='h6'>Ingredients: </Typography>
             </Grid>
-              <Divider sx={{ marginY: 1 }} />
+            <Divider sx={{ marginY: 1 }} />
             <List sx={styles.list}>
               {ingredients.map(ingredient => (
                 <ListItem key={ingredient.ingredient.id}>
@@ -205,8 +203,6 @@ const ShowRecipe = ({ userId }) => {
           {recipe.cuisines.length ? recipe.cuisines.map((c) => <Chip variant='outlined' size='medium' key={`${recipe.id}-${c.name}`} label={c.name} color='warning' />) : null}
         </Stack>
 
-        
-
         <Grid container >
           <Grid item sx={styles.heading}>
             <MenuBookOutlinedIcon />
@@ -219,7 +215,7 @@ const ShowRecipe = ({ userId }) => {
           </Grid>
         </Grid>
 
-        {userId && userId !== recipe.userId &&
+        {userId && (userId !== recipe.userId ?
           <Checkbox
             icon={<FavoriteBorder />}
             checkedIcon={<Favorite />}
@@ -227,7 +223,20 @@ const ShowRecipe = ({ userId }) => {
             checked={checked}
             onChange={handleFavoriteChange}
           />
-        }
+          :
+          <Grid sx={{ mt: '5%' }}>
+            <Tooltip title='Delete'>
+              <IconButton aria-label='delete recipe' color='info' size='large'>
+                <DeleteIcon fontSize={'inherit'} />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title='Update'>
+              <IconButton aria-label='update recipe' color='primary' size='large'>
+                <EditNote fontSize={'inherit'} />
+              </IconButton>
+            </Tooltip>
+          </Grid>
+        )}
 
         <Box sx={{ paddingY: '3%' }}>
           {recipe.sourceUrl &&
