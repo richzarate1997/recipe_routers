@@ -171,7 +171,7 @@ const ShowRecipe = ({ userId }) => {
             <Divider sx={{ paddingY: 1 }} />
             <Box component='img' src={image} alt={recipe.title} maxWidth='100%' pt={1} sx={{ borderRadius: '25px 25px' }} />
           </Grid>
-          <Grid item sx={{ width: '30vw' }}>
+          <Grid item sx={{ width: '30vw' }} xs={12} sm={9} md={8} lg={4}>
             <Grid container sx={{ marginY: '5%'}}>
               <Grid item xs={6}>
                 <AccessTimeOutlinedIcon />
