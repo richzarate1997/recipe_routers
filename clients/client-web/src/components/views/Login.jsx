@@ -7,9 +7,8 @@ import LoginErrors from "../LoginErrors";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
 
-function Login(props) {
+function Login({ purpose, isRegister }) {
     const location = useLocation();
-    const { heading, buttonText, isRegistration } = props;
     const [showPassword, setShowPassword] = useState(false);
     const [errors, setErrors] = useState([]);
     const [credentials, setCredentials] = useState({
@@ -55,7 +54,7 @@ function Login(props) {
                     <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    {heading}
+                    {purpose}
                 </Typography>
                 <Box component="form" sx={{ mt: 1 }} onSubmit={handleSubmit}>
                     <TextField
@@ -97,10 +96,10 @@ function Login(props) {
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
                     >
-                        {buttonText}
+                        {purpose}
                     </Button>
                     <Grid container>
-                        {isRegistration ? null : (
+                        {isRegister ? null : (
                             <Grid item xs>
                                 <Tooltip title="Well that sucks!">
                                     <Link variant="body2">
@@ -110,8 +109,8 @@ function Login(props) {
                             </Grid>
                         )}
                         <Grid item>
-                            <Link to={isRegistration ? "/login" : "/register"} variant="body2">
-                                {isRegistration ? "Already have an account? Sign In" : "Don't have an account? Sign Up"}
+                            <Link to={isRegister ? "/login" : "/register"} variant="body2">
+                                {isRegister ? "Already have an account? Sign In" : "Don't have an account? Sign Up"}
                             </Link>
                         </Grid>
                     </Grid>
