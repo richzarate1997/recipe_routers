@@ -1,4 +1,4 @@
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import PacmanLoader from "react-spinners/PacmanLoader";
@@ -106,6 +106,11 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  none: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginY: '20%'
   }
 }
 
@@ -127,7 +132,7 @@ function Recipe() {
         .then(data => {
           // setRecipes([...recipes, ...data].filter((val, idx, arr) => arr.indexOf(val) === idx))
           // use this ^^^ instead of the latter to avoid searching to begin adding recipes/ingredients
-          setRecipes(data.filter((val, idx, arr) => arr.indexOf(val) === idx))
+          setRecipes(data.filter((val, idx, arr) => arr.indexOf(val) === idx));
         })
         .catch(err => setErrors(err));
     }
@@ -141,19 +146,26 @@ function Recipe() {
     );
   }
 
-  if (recipes.length === 0) {
-    return navigate("/notfound", {
-      state: {
-        msg: `No recipes found searching: ${param}. Try something else.`
-      }
-    })
+  if (recipes.length === 0) { // check if just the recipes page, to confirm if `param` exists
+    if (param) {
+      return navigate('/notfound', {
+        state: {
+          msg: `No recipes found searching: ${param}. Try searching something else.`
+        }
+      })
+    } else {
+      return <Typography variant="h4" sx={styles.none}>There are currently no recipes to display.</Typography>;
+    }
   }
 
   return (
-    <Box mx='5%' sx={{ paddingTop: 2 }}>
-      <Grid container spacing={2} my={2} >
+    <Box p={4}>
+      <Grid container
+        justifyContent='space-around'
+        spacing={5}
+      >
         {recipes.map(recipe => (
-          <Grid key={`${recipe.id}-${recipe.title}`} item xs={12} sm={6} md={4} py={2} sx={{ position: 'static' }}>
+          <Grid key={`${recipe.id}-${recipe.title}`} item xs={12} sm={6} md={4} lg={3} xl={2}>
             <RecipeCard
               id={recipe.id}
               imageUrl={recipe?.imageUrl || recipe?.image} // anticipate blob image type

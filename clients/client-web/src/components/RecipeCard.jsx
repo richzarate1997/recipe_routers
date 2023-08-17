@@ -14,13 +14,15 @@ const imageBase = "https://spoonacular.com/recipeImages/";
 const styles = {
   gridContainer: {
     display: 'flex',
-    justifyContent: 'space-around',
-    alignContent: 'flex-end'
+    justifyContent: 'space-around'
   },
   gridItem: {
     display: 'flex',
-    alignItems: 'center',
     flexDirection: 'column',
+    alignItems: 'center',
+  },
+  card: {
+    height: 370,
   }
 }
 
@@ -42,10 +44,10 @@ export default function RecipeCard({ id, imageUrl, title, cookMinutes, servings 
   }
 
   return (
-    <CardActionArea sx={{ width: 345 }}>
+    <CardActionArea >
       <Tooltip title={title} placement='top' arrow>
         <Card
-          sx={{ width: 345, height: 370 }}
+          sx={{ height: 370 }}
           py={2}
           onClick={() => getRecipe()}
         >
@@ -54,7 +56,7 @@ export default function RecipeCard({ id, imageUrl, title, cookMinutes, servings 
             height="175"
             image={renderImage()}
             alt={title} />
-          <CardContent>
+          <CardContent sx={{ height: 160, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
             <Typography gutterBottom variant="h5" component="div" textAlign="center">
               {title}
             </Typography>
