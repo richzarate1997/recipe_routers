@@ -239,7 +239,7 @@ const ShowRecipe = ({ userId }) => {
           />
           :
           <Grid sx={{ mt: '5%' }}>
-            <Tooltip title='Delete'>
+            <Tooltip title='Delete Recipe'>
               <IconButton
                 aria-label='delete recipe'
                 color='info' size='large'
@@ -247,9 +247,9 @@ const ShowRecipe = ({ userId }) => {
                 <DeleteIcon fontSize={'inherit'} />
               </IconButton>
             </Tooltip>
-            <Tooltip title='Update'>
+            <Tooltip title='Edit Recipe'>
               <IconButton
-                aria-label='update recipe'
+                aria-label='edit recipe'
                 color='primary' size='large'
                 onClick={() => navigate(`/edit/recipe/${recipe.id}`)}
               >
