@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Box, Tab, Tabs, List, ListItem, ListItemText, ListItemButton } from '@mui/material';
+import { Box, Tab, Tabs, List, ListItem, ListItemText, ListItemButton, ListItemAvatar, Avatar } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 
@@ -62,10 +62,13 @@ export default function MyRecipes({ recipes, favorites }) {
           <Tab value={1} label="My Favorites" />
         </Tabs>
       </Box>
-      <TabPanel value={value} index={0}>
+      <TabPanel value={value} index={0} sx={{ overflow: 'auto', height: '50%' }}>
         {myRecipes?.map(recipe => (
           <ListItem key={recipe.id}>
-            <ListItemButton onClick={() => (navigate(`/recipe/${recipe.id}`))}  >
+            <ListItemButton onClick={() => (navigate(`/recipe/${recipe.id}`))}>
+              <ListItemAvatar>
+                <Avatar alt={recipe.title} src={recipe.imageUrl} />
+              </ListItemAvatar>
               <ListItemText>{recipe.title}</ListItemText>
             </ListItemButton>
           </ListItem>
@@ -74,7 +77,10 @@ export default function MyRecipes({ recipes, favorites }) {
       <TabPanel value={value} index={1}>
         {myFavorites?.map(favorite => (
           <ListItem key={favorite.id}>
-            <ListItemButton onClick={() => navigate(`/recipe/${favorite.id}`)} >
+            <ListItemButton onClick={() => navigate(`/recipe/${favorite.id}`)}>
+              <ListItemAvatar>
+                <Avatar alt={favorite.title} src={favorite.imageUrl} />
+              </ListItemAvatar>
               <ListItemText>{favorite.title}</ListItemText>
             </ListItemButton>
           </ListItem>
