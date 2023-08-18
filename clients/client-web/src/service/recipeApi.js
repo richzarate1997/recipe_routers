@@ -100,7 +100,6 @@ export async function updateRecipe(recipe) {
   } else if (response.status === 409) {
     return Promise.reject('Oopsie');
   }
-
 }
 
 function makeRecipeInit(token) {
