@@ -1,7 +1,7 @@
-import { Route, Routes, BrowserRouter as Router, Navigate } from "react-router-dom";
-import { useState, useEffect, useCallback } from "react";
-import { refreshToken, signOut } from "./service/authApi";
 import { ThemeProvider, createTheme } from "@mui/material"
+import { useState, useEffect, useCallback, useDeferredValue } from "react";
+import { Route, Routes, BrowserRouter as Router, Navigate } from "react-router-dom";
+import './App.css';
 import Home from "./components/views/Home";
 import ResponsiveAppBar from "./components/ResponsiveAppBar";
 import Recipe from "./components/views/RecipeResults";
@@ -16,7 +16,7 @@ import NotFound from "./components/views/NotFound";
 import AddGroceries from "./components/AddGroceries";
 import FavoriteRecipesList from "./components/FavoriteRecipesList";
 import AuthContext from "./contexts/AuthContext";
-import './App.css';
+import { refreshToken, signOut } from "./service/authApi";
 
 
 const EMPTY_USER = {
@@ -28,11 +28,17 @@ const WAIT_TIME = 1000 * 60 * 14;
 
 function App() {
   const [user, setUser] = useState(EMPTY_USER);
+  
+  useEffect(() => {
+    refreshToken()
+      .then(existingUser => setUser(existingUser))
+      .catch(() => auth.signOut());
+  }, []);
 
   const auth = {
     user: user,
     isLoggedIn() {
-      return !!user.username;
+      return !!localStorage.getItem('jwt_token');
     },
     hasRole(role) {
       return user.roles.includes(role);
@@ -48,7 +54,7 @@ function App() {
   };
 
   const refreshUser = useCallback(() => {
-    if (auth.user.username) {
+    if (auth.user.appUserId) {
       refreshToken()
         .then(existingUser => {
           setUser(existingUser);
@@ -61,6 +67,7 @@ function App() {
   useEffect(() => {
     refreshUser();
   }, [refreshUser]);
+
 
   const theme = createTheme({
     palette: {

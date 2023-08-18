@@ -32,10 +32,7 @@ const Profile = ({ appUser }) => {
 
   useEffect(() => {
     findUser()
-      .then(data => {
-        setUser(data)
-        console.log(data);
-      })
+      .then(userData => setUser(userData))
       .catch(err => console.log(err));
   }, [appUser]);
 
