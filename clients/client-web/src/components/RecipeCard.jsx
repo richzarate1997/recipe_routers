@@ -21,8 +21,11 @@ const styles = {
     flexDirection: 'column',
     alignItems: 'center',
   },
-  card: {
-    height: 370,
+  content: {
+    height: 160,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between'
   }
 }
 
@@ -44,19 +47,15 @@ export default function RecipeCard({ id, imageUrl, title, cookMinutes, servings 
   }
 
   return (
-    <CardActionArea >
-      <Tooltip title={title} placement='top' arrow>
-        <Card
-          sx={{ height: 370 }}
-          py={2}
-          onClick={() => getRecipe()}
-        >
+    <Tooltip title={title} placement='top' arrow>
+      <Card py={2} height={370} onClick={() => getRecipe()}>
+        <CardActionArea >
           <CardMedia
             component="img"
             height="175"
             image={renderImage()}
             alt={title} />
-          <CardContent sx={{ height: 160, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+          <CardContent sx={styles.content}>
             <Typography gutterBottom variant="h5" component="div" textAlign="center">
               {title}
             </Typography>
@@ -73,8 +72,8 @@ export default function RecipeCard({ id, imageUrl, title, cookMinutes, servings 
               </Grid>
             </Grid>
           </CardContent>
-        </Card>
-      </Tooltip>
-    </CardActionArea>
+        </CardActionArea>
+      </Card>
+    </Tooltip>
   );
 }
