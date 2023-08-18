@@ -200,8 +200,8 @@ const ShowRecipe = ({ userId }) => {
             </Grid>
             <Divider sx={{ marginY: 1 }} />
             <List sx={styles.list}>
-              {ingredients.map(ingredient => (
-                <ListItem key={ingredient.ingredient.id}>
+              {ingredients.map((ingredient, idx) => (
+                <ListItem key={`${ingredient.ingredient.id}-${idx}`}>
                   <ListItemText primary={renderIngredientText(ingredient)} />
                 </ListItem>
               ))}
