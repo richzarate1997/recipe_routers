@@ -16,6 +16,7 @@ const ConfirmDelete = ({ fullScreen, open, handleClose, title, id }) => {
         handleClose()
         navigate('/profile', {
           state: {
+            type: 'success',
             msg: `Successfully deleted ${title}, with id: ${id}.`
           }
         })

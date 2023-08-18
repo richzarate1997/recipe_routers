@@ -42,7 +42,7 @@ const Profile = ({ appUser }) => {
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <Typography variant='h3'>Hey there, {user.displayName}</Typography>
         {location.state &&
-          <Alert severity="success" sx={styles.alert}>
+          <Alert severity={location.state.type} sx={styles.alert}>
             <Typography variant="subtitle1">
               {location.state.msg}
             </Typography>
