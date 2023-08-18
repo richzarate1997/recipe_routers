@@ -107,7 +107,7 @@ function App() {
             <Route path="/recipe/:id" element={<ShowRecipe userId={user.appUserId} />} />
             <Route path="/add/ingredient" element={<AddGroceries />} />
             <Route path="/new/recipe" element={mayRedirect(<RecipeForm />, <Navigate to="/recipes" />)} />
-            <Route path="/edit/recipe/:id" element={mayRedirect(<RecipeForm />, <Navigate to="/recipes" />)} />
+            <Route path="/edit/recipe/:id" element={mayRedirect(<RecipeForm userId={auth.user.appUserId}/>, <Navigate to="/recipes" />)} />
             <Route path="/add/grocerylist" element={mayRedirect(<GroceryListForm />, <Navigate to="/recipes" />)} />
             <Route path="/myfavorites" element={mayRedirect(<FavoriteRecipesList />, <Navigate to="/recipes" />)} />
             <Route path="/about" element={<About />} />
