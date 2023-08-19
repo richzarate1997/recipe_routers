@@ -31,17 +31,17 @@ const ConfirmDelete = ({ fullScreen, open, handleClose, title, id }) => {
       aria-labelledby='confirm-recipe-delete'
     >
       <DialogTitle id='confirm-recipe-delete'>
-        {`Delete ${title}?`}
+        Delete Confirmation
       </DialogTitle>
       <DialogContent>
-        <DialogContentText>
-          Are you sure you want to delete this recipe? You cannot undo this action.
+        <DialogContentText align='center'>
+          Do you want to permanently delete your "<em>{title}</em>" recipe?<br/> You cannot undo this action.
         </DialogContentText>
         <DialogActions>
-          <Button autoFocus onClick={() => handleDelete()} color='info'>
+          <Button onClick={() => handleDelete()} color='info' variant='contained'>
             Delete
           </Button>
-          <Button onClick={handleClose} autoFocus>
+          <Button onClick={handleClose} autoFocus color='secondary' variant='contained'>
             Cancel
           </Button>
         </DialogActions>
