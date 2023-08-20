@@ -1,7 +1,12 @@
-import { Box, Grid, Button, StepLabel, Stepper, Step, Typography } from "@mui/material";
+import {
+  Box, Grid, Button, Modal,
+  StepLabel, Stepper, Step,
+  Typography
+} from "@mui/material";
 import { Fragment, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Errors from "../Errors";
+import IngredientForm from './IngredientForm';
 import RecipeFormStep1 from "../RecipeFormStep1";
 import RecipeFormStep2 from "../RecipeFormStep2";
 import RecipeFormStep3 from "../RecipeFormStep3";
@@ -34,17 +39,20 @@ function RecipeForm({ userId }) {
   const [errors, setErrors] = useState([]);
   const [activeStep, setActiveStep] = useState(0);
   const [allCuisines, setAllCuisines] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
     if (id) {
       findRecipeById(id)
-        .then(data => data.userId === userId ? setRecipe(data) : () => navigate('/profile', 
-        { state: {
-          type: 'warning',
-          msg: 'Cannot edit other users\' recipes'
-        }}))
+        .then(data => data.userId === userId ? setRecipe(data) : () => navigate('/profile',
+          {
+            state: {
+              type: 'warning',
+              msg: 'Cannot edit other users\' recipes'
+            }
+          }))
         .catch(err => {
           navigate("/error", {
             state: { msg: err }
@@ -74,6 +82,9 @@ function RecipeForm({ userId }) {
     const newRecipeIngredients = recipe.ingredients.map(i => i.ingredient.id === rI.ingredient.id ? rI : i);
     setRecipe({ ...recipe, ingredients: newRecipeIngredients })
   }
+
+  const handleModalOpen = () => setModalOpen(true);
+  const handleModalClose = () => setModalOpen(false);
 
   const handleCuisineChange = (cuisines) => {
     const theseCuisines = allCuisines.filter((c1) => cuisines.some((c2) => c2 === c1.name));
@@ -161,6 +172,7 @@ function RecipeForm({ userId }) {
           header={steps[step]}
           recipe={recipe}
           handleIngredientsChanged={handleIngredientsChanged}
+          handleModalOpen={handleModalOpen}
         />;
       case 2:
         return <RecipeFormStep3
@@ -254,6 +266,15 @@ function RecipeForm({ userId }) {
           )}
         </Box>
       </Box>
+      <Modal
+        open={modalOpen}
+        onClose={handleModalClose}
+      >
+        <IngredientForm
+          onClose={handleModalClose}
+        // onIngredientCreate={handleIngredientCreate}
+        />
+      </Modal>
     </Grid>
   );
 }
