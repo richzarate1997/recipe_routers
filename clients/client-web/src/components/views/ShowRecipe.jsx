@@ -94,7 +94,7 @@ const ShowRecipe = ({ userId }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   // const renderBlob = () => {
   //     console.log(recipe.image)
