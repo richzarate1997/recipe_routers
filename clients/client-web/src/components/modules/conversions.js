@@ -8,3 +8,10 @@ export const renderCooktime = (cookMinutes) => {
   }
   return result;
 }
+
+export const hyphenate = (string) => {
+  if (string.split(' ').length > 1){
+    return string.split(' ').join('-');
+  }
+  return string;
+}
