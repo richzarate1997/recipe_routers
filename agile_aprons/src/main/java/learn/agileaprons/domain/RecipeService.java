@@ -264,10 +264,13 @@ public class RecipeService {
                             // or match abbreviation
                             unit.getAbbreviation().equalsIgnoreCase(ing.getUnit()) ||
                             // or pluralize unit to match
-                            String.format("%ss", unit.getName()).equalsIgnoreCase(ing.getUnit()))
+                            String.format("%ss", unit.getName()).equalsIgnoreCase(ing.getUnit()) ||
+                            // or pluralize other unit to match
+                            String.format("%ss", ing.getUnit()).equalsIgnoreCase(unit.getName())
+                    )
                     .findFirst().orElse(new Unit()); // create new unit
             if (thisUnit.getId() == 0) {
-                thisUnit.setName(ing.getUnit());
+                thisUnit.setName(ing.getUnit().toLowerCase());
                 thisUnit.setAbbreviation(ing.getUnit().toLowerCase().substring(0, 2)); // set arbitrary abbreviation
                 thisUnit = unitRepository.create(thisUnit);
 //                System.out.println("New Unit created: " + thisUnit);
