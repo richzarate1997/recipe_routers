@@ -1,8 +1,9 @@
 import {
-  Box, Grid, Button, Modal,
+  Box, Grid, Button,
   StepLabel, Stepper, Step,
-  Typography
+  Typography, useMediaQuery
 } from "@mui/material";
+import { useTheme } from '@mui/material/styles';
 import { Fragment, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Errors from "../Errors";
@@ -39,9 +40,11 @@ function RecipeForm({ userId }) {
   const [errors, setErrors] = useState([]);
   const [activeStep, setActiveStep] = useState(0);
   const [allCuisines, setAllCuisines] = useState([]);
-  const [modalOpen, setModalOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   useEffect(() => {
     if (id) {
@@ -83,8 +86,8 @@ function RecipeForm({ userId }) {
     setRecipe({ ...recipe, ingredients: newRecipeIngredients })
   }
 
-  const handleModalOpen = () => setModalOpen(true);
-  const handleModalClose = () => setModalOpen(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const handleCuisineChange = (cuisines) => {
     const theseCuisines = allCuisines.filter((c1) => cuisines.some((c2) => c2 === c1.name));
@@ -172,7 +175,8 @@ function RecipeForm({ userId }) {
           header={steps[step]}
           recipe={recipe}
           handleIngredientsChanged={handleIngredientsChanged}
-          handleModalOpen={handleModalOpen}
+          handleOpen={handleOpen}
+          open={open}
         />;
       case 2:
         return <RecipeFormStep3
@@ -266,15 +270,11 @@ function RecipeForm({ userId }) {
           )}
         </Box>
       </Box>
-      <Modal
-        open={modalOpen}
-        onClose={handleModalClose}
-      >
-        <IngredientForm
-          onClose={handleModalClose}
-        // onIngredientCreate={handleIngredientCreate}
-        />
-      </Modal>
+      <IngredientForm
+        fullScreen={fullScreen}
+        open={open}
+        handleClose={handleClose}
+      />
     </Grid>
   );
 }
