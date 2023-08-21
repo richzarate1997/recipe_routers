@@ -1,6 +1,6 @@
 import {
   Button, Dialog, DialogActions,
-  DialogContent, DialogContentText, 
+  DialogContent, DialogContentText,
   DialogTitle
 } from '@mui/material'
 import React from 'react'

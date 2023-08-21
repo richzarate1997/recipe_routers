@@ -1,5 +1,5 @@
 import { ThemeProvider, createTheme } from "@mui/material"
-import { useState, useEffect, useCallback, useDeferredValue } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Route, Routes, BrowserRouter as Router, Navigate } from "react-router-dom";
 import './App.css';
 import Home from "./components/views/Home";
@@ -77,7 +77,8 @@ function App() {
         contrastText: '#fff'
       },
       secondary: {
-        main: "#FEAE65"
+        main: "#FEAE65",
+        // contrastText: '#fff'
       },
       warning: {
         main: '#CA5953'

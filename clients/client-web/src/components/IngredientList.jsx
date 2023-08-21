@@ -1,18 +1,10 @@
 import { useEffect, useState } from "react";
-import { findAllIngredients } from "../service/ingredientApi";
-import Grid from '@mui/material/Grid';
-import Modal from '@mui/material/Modal';
-import List from '@mui/material/List';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import Checkbox from '@mui/material/Checkbox';
-import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
-import TextField from '@mui/material/TextField';
-import IngredientForm from "./forms/IngredientForm";
+import {
+  Button, Card, CardHeader,
+  Checkbox, Divider, Grid,
+  List, ListItem, ListItemIcon,
+  ListItemText, TextField
+} from '@mui/material';
 
 function not(a, b) {
   return a.filter((value) => b.indexOf(value) === -1);

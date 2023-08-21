@@ -82,9 +82,6 @@ export async function createRecipe(recipe) {
     return response.data;
   } else if (response.status === 403) {
     return Promise.reject('Unauthorized');
-  } else if (response.status === 400) {
-    const errors = await response.json();
-    return Promise.reject(errors);
   } else {
     const errors = await response.json();
     return Promise.reject(errors);

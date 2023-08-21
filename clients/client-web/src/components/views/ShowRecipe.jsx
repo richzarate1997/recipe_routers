@@ -113,13 +113,8 @@ const ShowRecipe = ({ userId }) => {
   //     })
   // }
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const handleClickOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const handleFavoriteChange = (e) => {
     e.target.checked ? addFavorite(recipe.id) : removeFavorite(recipe.id);
