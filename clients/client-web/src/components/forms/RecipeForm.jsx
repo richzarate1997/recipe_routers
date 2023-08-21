@@ -49,7 +49,7 @@ function RecipeForm({ userId }) {
   useEffect(() => {
     if (id) {
       findRecipeById(id)
-        .then(data => data.userId === userId ? setRecipe(data) : () => navigate('/profile',
+        .then(data => data.userId === userId ? setRecipe(data) : navigate('/profile',
           {
             state: {
               type: 'warning',

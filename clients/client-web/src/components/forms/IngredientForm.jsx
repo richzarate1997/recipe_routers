@@ -31,6 +31,9 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center'
+  },
+  urlInput: {
+    marginBottom: 4,
   }
 }
 
@@ -66,6 +69,7 @@ function IngredientForm({ fullScreen, open, handleClose }) {
   const handleCancel = () => {
     setErrors([]);
     setIngredient(EMPTY_INGREDIENT);
+    setUrlManualEntry(false);
     handleClose();
   }
 
@@ -83,7 +87,7 @@ function IngredientForm({ fullScreen, open, handleClose }) {
           {errors.length > 0 && <Errors errs={errors} />}
         </DialogContentText>
         <DialogActions>
-          <Box component={'form'} onSubmit={handleSaveIngredient}>
+          <Box component={'form'} onSubmit={handleSaveIngredient} >
             <Stack direction={'row'} alignItems={'center'}>
               <Grid item>
                 <FormGroup sx={styles.formGroup}>
@@ -105,7 +109,7 @@ function IngredientForm({ fullScreen, open, handleClose }) {
                 </FormGroup>
               </Grid>
               <Grid item sx={styles.img}>
-                <Box component='img' alt={ingredient.name} src={ingredient.imageUrl} width={100} />
+                <Box component='img' alt={ingredient.name} src={ingredient.imageUrl} height={100} />
                 <FormControlLabel
                   label="Manually Enter Image URL"
                   control={
@@ -118,7 +122,7 @@ function IngredientForm({ fullScreen, open, handleClose }) {
                 />
               </Grid>
             </Stack>
-            {urlManualEntry && <FormGroup sx={styles.formGroup}>
+            {urlManualEntry && <FormGroup sx={ styles.urlInput }>
               <TextField
                 label="Image URL"
                 name="imageUrl"
