@@ -123,7 +123,7 @@ const IngredientList = ({ allIngredients, recipe, handleIngredientsChanged }) =>
       )}
       <Divider />
       <List
-        sx={{ width: 200, height: isSearchable ? 250 : 322, overflow: 'auto' }}
+        sx={{ minWidth: 200, height: isSearchable ? 250 : 322, overflow: 'auto' }}
         dense
         component='div'
         role='list'
