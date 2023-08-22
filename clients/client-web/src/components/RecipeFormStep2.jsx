@@ -16,7 +16,7 @@ const RecipeFormStep2 = ({ header, recipe, handleIngredientsChanged, handleOpen,
     <Fragment>
       <Typography variant='h4' p={2}>{header}</Typography>
       <Fragment>
-        <IngredientList allIngredients={allIngredients} recipeIngredients={recipe.ingredients} handleIngredientsChanged={handleIngredientsChanged} />
+        <IngredientList allIngredients={allIngredients} recipe={recipe} handleIngredientsChanged={handleIngredientsChanged} />
         <Tooltip arrow title='Add a New One!'>
           <Button onClick={handleOpen} color='secondary' variant='contained' sx={{ marginTop: 3 }}>
             Can't find an ingredient?

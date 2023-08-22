@@ -23,7 +23,7 @@ const RecipeIngredient = ({ units, ingredient, onChange }) => {
     const nextRecipeIngredient = { ...ingredient };
     let nextValue = e.target.value;
     if (e.target.type === 'number') {
-      nextRecipeIngredient[e.target.name] = parseFloat(nextValue, 10);
+      nextRecipeIngredient[e.target.name] = Math.abs(parseFloat(nextValue, 10));
     } else {
       nextValue = parseInt(nextValue, 10);
       nextRecipeIngredient[e.target.name] = units.find(u => u.id === nextValue);
@@ -42,7 +42,7 @@ const RecipeIngredient = ({ units, ingredient, onChange }) => {
           type='number'
           name='quantity'
           size='small'
-          inputProps={{ inputprops: { step: '0.5' } }}
+          inputProps={{ step: '0.5' }}
           required
           value={ingredient.quantity}
           onChange={handleChange}
