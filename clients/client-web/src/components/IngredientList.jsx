@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
 import {
   Button, Card, CardHeader,
   Checkbox, Divider, Grid,
   List, ListItem, ListItemIcon,
-  ListItemText, TextField
+  ListItemText, TextField,
+  useMediaQuery
 } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
+import { useEffect, useState } from 'react';
 
 function not(a, b) {
   return a.filter((value) => b.indexOf(value) === -1);
@@ -18,22 +20,23 @@ function union(a, b) {
   return [...a, ...not(b, a)];
 }
 
-const IngredientList = ({ allIngredients, recipeIngredients, handleIngredientsChanged }) => {
+const IngredientList = ({ allIngredients, recipe, handleIngredientsChanged }) => {
   const [checked, setChecked] = useState([]);
   const [left, setLeft] = useState([]);
   const [right, setRight] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
+  const theme = useTheme();
 
   const leftChecked = intersection(checked, left);
   const rightChecked = intersection(checked, right);
 
   useEffect(() => {
-    setLeft(allIngredients.map(item => item.name));
-  }, [allIngredients]);
+    setLeft(allIngredients.filter(i1 => !recipe.ingredients.filter(i2 => i2.ingredient.name === i1.name).length).map(item => item.name));
+  }, [allIngredients, recipe.ingredients]);
 
   useEffect(() => {
-    setRight(recipeIngredients.map(item => item.ingredient.name));
-  }, [recipeIngredients])
+    setRight(recipe.ingredients.map(i => i.ingredient.name));
+  }, [recipe.ingredients])
 
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
@@ -60,7 +63,8 @@ const IngredientList = ({ allIngredients, recipeIngredients, handleIngredientsCh
   const handleCheckedRight = () => {
     const newRecipeIngredients = leftChecked.map(i => {
       return {
-        quantity: 1,
+        recipeId: recipe.id,
+        quantity: 0,
         unit: {
           id: 0,
           abbreviation: '',
@@ -69,15 +73,17 @@ const IngredientList = ({ allIngredients, recipeIngredients, handleIngredientsCh
         ingredient: allIngredients.find((ing) => ing.name === i)
       }
     });
-    const nextRecipeIngredients = [...recipeIngredients, ...newRecipeIngredients];
+    const nextRecipeIngredients = [...recipe.ingredients, ...newRecipeIngredients];
     handleIngredientsChanged(nextRecipeIngredients);
     setLeft(not(left, leftChecked));
     setChecked(not(checked, leftChecked));
   };
 
   const handleCheckedLeft = () => {
+    const nextRight = not(right, rightChecked);
+    handleIngredientsChanged(recipe.ingredients.filter(i => nextRight.includes(i.ingredient.name)));
     setLeft(left.concat(rightChecked));
-    setRight(not(right, rightChecked));
+    setRight(nextRight);
     setChecked(not(checked, rightChecked));
   };
 
@@ -107,9 +113,9 @@ const IngredientList = ({ allIngredients, recipeIngredients, handleIngredientsCh
       />
       {isSearchable && (
         <TextField
-          variant="outlined"
-          size="small"
-          placeholder="Filter…"
+          variant='outlined'
+          size='small'
+          placeholder='Filter…'
           value={searchTerm}
           onChange={handleSearch}
           sx={{ margin: 2, width: 168 }}
@@ -117,18 +123,18 @@ const IngredientList = ({ allIngredients, recipeIngredients, handleIngredientsCh
       )}
       <Divider />
       <List
-        sx={{ width: 200, height: isSearchable ? 250 : 322, bgcolor: 'background.paper', overflow: 'auto' }}
+        sx={{ width: 200, height: isSearchable ? 250 : 322, overflow: 'auto' }}
         dense
-        component="div"
-        role="list"
+        component='div'
+        role='list'
       >
-        {items.map((value) => {
+        {items.map((value, idx) => {
           const labelId = `transfer-list-all-item-${value}-label`;
 
           return (
             <ListItem
-              key={value}
-              role="listitem"
+              key={idx}
+              role='listitem'
               onClick={handleToggle(value)}
             >
               <ListItemIcon>
@@ -148,33 +154,36 @@ const IngredientList = ({ allIngredients, recipeIngredients, handleIngredientsCh
   );
 
   return (
-    <Grid container spacing={2} justifyContent="center" alignItems="center">
-      <Grid item>{customList('Choices', filteredLeft, true)}</Grid>
+    <Grid container spacing={2} justifyContent='center' alignItems='center'>
+      <Grid item xs={10} sm={5}>{customList('Choices', filteredLeft, true)}</Grid>
       <Grid item>
-        <Grid container direction="column" alignItems="center">
+        <Grid container
+          direction={useMediaQuery(theme.breakpoints.down('sm')) ? 'row' : 'column'}
+          alignItems='center'
+        >
           <Button
-            sx={{ my: 0.5 }}
-            variant="outlined"
-            size="small"
+            sx={{ my: 0.5, mx: useMediaQuery(theme.breakpoints.down('sm')) ? 1 : 0 }}
+            variant='contained'
+            size='small'
             onClick={handleCheckedRight}
             disabled={leftChecked.length === 0}
-            aria-label="move selected right"
+            aria-label='move selected to chosen'
           >
-            &gt;
+            { useMediaQuery(theme.breakpoints.down('sm')) ? '↓' : '→'}
           </Button>
           <Button
-            sx={{ my: 0.5 }}
-            variant="outlined"
-            size="small"
+            sx={{ my: 0.5, mx: useMediaQuery(theme.breakpoints.down('sm')) ? 1 : 0 }}
+            variant='contained'
+            size='small'
             onClick={handleCheckedLeft}
             disabled={rightChecked.length === 0}
-            aria-label="move selected left"
+            aria-label='move selected to choices'
           >
-            &lt;
+            { useMediaQuery(theme.breakpoints.down('sm')) ? '↑' : '←'}
           </Button>
         </Grid>
       </Grid>
-      <Grid item>{customList('Chosen', right)}</Grid>
+      <Grid item xs={10} sm={5}>{customList('Chosen', right)}</Grid>
     </Grid>
   );
 };
