@@ -1,7 +1,8 @@
 import {
-  Box, Grid, Paper, Table, 
-  TableBody, TableCell, 
-  TableContainer, TableHead, TableRow, 
+  Box, Grid, Paper, Table,
+  TableBody, TableCell,
+  TableContainer, TableHead, TableRow,
+  Tooltip,
   Typography
 } from '@mui/material';
 import { renderCooktime, renderIngredientText, renderInstructionText } from './modules/conversions';
@@ -16,7 +17,7 @@ const VerifyRecipe = ({ recipe, fullScreen, styles }) => {
           <Typography variant='body1'>Serves: {recipe.servings}</Typography>
           <Typography variant='body1'>Cuisines: {recipe.cuisines.length ? recipe.cuisines.map(c => c.name).join(", ") : 'None'}</Typography>
           <Typography variant='body1'>
-            Diets:
+            Dietary Restrictions:
             {recipe.vegetarian && ' Vegetarian'}
             {recipe.vegetarian && (recipe.vegan || recipe.dairyFree || recipe.glutenFree) ? ',' : ''}
             {recipe.vegan && ' Vegan'}
@@ -28,11 +29,13 @@ const VerifyRecipe = ({ recipe, fullScreen, styles }) => {
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6} display='flex' justifyContent='center' px={3}>
-          <Box component='img' alt={recipe.title} src={recipe.imageUrl} sx={styles.img} borderRadius='20px' />
+          <Tooltip title='Oh Yum!'>
+            <Box component='img' alt={recipe.title} src={recipe.imageUrl} sx={styles.img} borderRadius='20px' />
+          </Tooltip>
         </Grid>
       </Grid>
       <Grid container m={2} px={2} justifyContent={fullScreen ? 'center' : 'space-around'} alignItems='center'>
-        <TableContainer 
+        <TableContainer
           component={Paper}
           sx={{ maxWidth: 'fit-content', maxHeight: 300, overflow: 'auto' }}>
           <Table stickyHeader aria-label='ingredient table'>
