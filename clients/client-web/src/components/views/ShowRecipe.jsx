@@ -12,7 +12,7 @@ import {
   Typography, useMediaQuery
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import * as DOMPurify from 'dompurify';
+import DOMPurify from 'dompurify';
 import { toFraction } from 'fraction-parser';
 import parse from 'html-react-parser';
 import React, { useState, useEffect } from 'react';
@@ -27,11 +27,11 @@ const EMPTY_RECIPE = {
   id: 0,
   userId: 0,
   title: 0,
-  instructions: "",
-  servings: "",
+  instructions: '',
+  servings: '',
   cookMinutes: 0,
-  imageUrl: "",
-  sourceUrl: "",
+  imageUrl: '',
+  sourceUrl: '',
   image: null,
   vegetarian: false,
   vegan: false,
@@ -106,7 +106,7 @@ const ShowRecipe = ({ userId }) => {
   //             resolve(base64data);
   //         };
   //         reader.onerror = (e) => {
-  //             console.log("error: ", e.target.error);
+  //             console.log('error: ', e.target.error);
   //             reject(e.target.error);
   //         }
   //         reader.readAsDataURL(atob(recipe.image));
@@ -124,7 +124,7 @@ const ShowRecipe = ({ userId }) => {
   useEffect(() => {
     findRecipeById(id)
       .then(data => setRecipe(data))
-      .catch(() => navigate("/notfound", {
+      .catch(() => navigate('/notfound', {
         state: {
           msg: `Recipe ${id} not found. 🤷`
         }
@@ -147,8 +147,8 @@ const ShowRecipe = ({ userId }) => {
   }, [recipe]);
 
   const renderIngredientText = (ingredient) => {
-    if (ingredient.unit.name === "serving" && ingredient.quantity === recipe.servings) {
-      if (ingredient.ingredient.aisle === "Spices and Seasonings") return ingredient.ingredient.name + " to taste"
+    if (ingredient.unit.name === 'serving' && ingredient.quantity === recipe.servings) {
+      if (ingredient.ingredient.aisle === 'Spices and Seasonings') return ingredient.ingredient.name + ' to taste'
       return `${ingredient.quantity} serving(s) ${ingredient.ingredient.name} `;
     } else {
       return `${toFraction(ingredient.quantity, true)} ${ingredient.unit.name} ${ingredient.ingredient.name}`
@@ -165,8 +165,8 @@ const ShowRecipe = ({ userId }) => {
       ingredients.length > 0 &&
       <Paper elevation={4} style={styles.paper}>
         {location.state &&
-          <Alert severity="success" sx={styles.alert}>
-            <Typography variant="subtitle1">
+          <Alert severity='success' sx={styles.alert}>
+            <Typography variant='subtitle1'>
               {location.state.msg}
             </Typography>
           </Alert>
@@ -204,7 +204,7 @@ const ShowRecipe = ({ userId }) => {
           </Grid>
         </Grid>
 
-        <Stack direction="row" spacing={1} py={2} sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
+        <Stack direction='row' spacing={1} py={2} sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
           {recipe.vegetarian && <Chip variant='outlined' size='medium' key={`${recipe.id}-vegetarian`} label='Vegetarian' color='primary' />}
           {recipe.vegan && <Chip variant='outlined' size='medium' key={`${recipe.id}-vegan`} label='Vegan' color='primary' />}
           {recipe.glutenFree && <Chip variant='outlined' size='medium' key={`${recipe.id}-glutenFree`} label='Gluten Free' color='secondary' />}
