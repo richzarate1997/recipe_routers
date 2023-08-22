@@ -89,6 +89,19 @@ function RecipeForm({ userId }) {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const handleIngredientCreation = (newIngredient) => {
+    const newRecipeIngredient = {
+      quantity: 1,
+      unit: {
+        id: 0,
+        abbreviation: '',
+        name: ''
+      },
+      ingredient: newIngredient
+    }
+    setRecipe({...recipe, ingredients: [...recipe.ingredients, newRecipeIngredient]});
+  }
+
   const handleCuisineChange = (cuisines) => {
     const theseCuisines = allCuisines.filter((c1) => cuisines.some((c2) => c2 === c1.name));
     setRecipe({ ...recipe, cuisines: theseCuisines });
@@ -173,7 +186,7 @@ function RecipeForm({ userId }) {
       case 1:
         return <RecipeFormStep2
           header={steps[step]}
-          recipe={recipe}
+          recipeIngredients={recipe.ingredients.map((i) => i.ingredient)}
           handleIngredientsChanged={handleIngredientsChanged}
           handleOpen={handleOpen}
           open={open}
@@ -274,6 +287,7 @@ function RecipeForm({ userId }) {
         fullScreen={fullScreen}
         open={open}
         handleClose={handleClose}
+        onIngredientCreation={handleIngredientCreation}
       />
     </Grid>
   );

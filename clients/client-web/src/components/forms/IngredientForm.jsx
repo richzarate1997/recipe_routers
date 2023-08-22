@@ -37,7 +37,7 @@ const styles = {
   }
 }
 
-function IngredientForm({ fullScreen, open, handleClose }) {
+function IngredientForm({ fullScreen, open, handleClose, onIngredientCreation }) {
   const [ingredient, setIngredient] = useState(EMPTY_INGREDIENT);
   const [errors, setErrors] = useState([]);
   const [urlManualEntry, setUrlManualEntry] = useState(false);
@@ -62,7 +62,10 @@ function IngredientForm({ fullScreen, open, handleClose }) {
     event.preventDefault();
 
     createIngredient(ingredient)
-      .then(() => handleCancel())
+      .then((data) => {
+        onIngredientCreation(data);
+        handleCancel();
+      })
       .catch(err => setErrors(err.response.data));
   }
 
