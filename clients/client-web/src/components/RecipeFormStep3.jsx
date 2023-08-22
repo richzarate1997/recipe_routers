@@ -15,9 +15,9 @@ const RecipeFormStep3 = ({ header, recipeIngredients, onRecipeIngredientChange }
         <Fragment>
             <Typography variant="h4" p={2}>{header}</Typography>
             <Fragment>
-                {recipeIngredients.length > 0 && recipeIngredients.map((i) => 
+                {recipeIngredients.length > 0 && recipeIngredients.map((i,idx) => 
                     <RecipeIngredient 
-                    key={i.ingredient.id} ingredient={i} 
+                    key={idx} ingredient={i} 
                     onChange={onRecipeIngredientChange} 
                     units={units} 
                     />
