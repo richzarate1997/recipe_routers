@@ -78,7 +78,6 @@ function App() {
       },
       secondary: {
         main: "#FEAE65",
-        // contrastText: '#fff'
       },
       warning: {
         main: '#CA5953'
