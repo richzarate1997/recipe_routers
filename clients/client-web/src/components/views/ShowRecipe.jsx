@@ -12,12 +12,9 @@ import {
   Typography, useMediaQuery
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import DOMPurify from 'dompurify';
-import { toFraction } from 'fraction-parser';
-import parse from 'html-react-parser';
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
-import { renderCooktime } from '../modules/conversions';
+import { renderCooktime, renderIngredientText, renderInstructionText } from '../modules/conversions';
 import { findRecipeById } from '../../service/recipeApi';
 import { addFavorite, removeFavorite, isFavorite } from '../../service/userApi';
 import ConfirmDelete from '../ConfirmDelete';
@@ -146,20 +143,6 @@ const ShowRecipe = ({ userId }) => {
     setIngredients(recipe.ingredients);
   }, [recipe]);
 
-  const renderIngredientText = (ingredient) => {
-    if (ingredient.unit.name === 'serving' && ingredient.quantity === recipe.servings) {
-      if (ingredient.ingredient.aisle === 'Spices and Seasonings') return ingredient.ingredient.name + ' to taste'
-      return `${ingredient.quantity} serving(s) ${ingredient.ingredient.name} `;
-    } else {
-      return `${toFraction(ingredient.quantity, true)} ${ingredient.unit.name} ${ingredient.ingredient.name}`
-    }
-  };
-
-  const renderInstructionText = () => {
-    let cleanInstructions = DOMPurify.sanitize(recipe.instructions);
-    return parse(cleanInstructions);
-  };
-
   return (
     <>{
       ingredients.length > 0 &&
@@ -197,7 +180,7 @@ const ShowRecipe = ({ userId }) => {
             <List sx={styles.list}>
               {ingredients.map((ingredient, idx) => (
                 <ListItem key={`${ingredient.ingredient.id}-${idx}`}>
-                  <ListItemText primary={renderIngredientText(ingredient)} />
+                  <ListItemText primary={renderIngredientText(recipe.servings, ingredient)} />
                 </ListItem>
               ))}
             </List>
@@ -220,7 +203,7 @@ const ShowRecipe = ({ userId }) => {
             </Typography>
           </Grid>
           <Grid item sx={styles.instr}>
-            {renderInstructionText()}
+            {renderInstructionText(recipe.instructions)}
           </Grid>
         </Grid>
 
