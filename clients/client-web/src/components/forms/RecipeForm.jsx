@@ -2,18 +2,19 @@ import {
   Box, Grid, Button,
   StepLabel, Stepper, Step,
   Typography, useMediaQuery
-} from "@mui/material";
+} from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { Fragment, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import Errors from "../Errors";
+import { Fragment, useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import IngredientForm from './IngredientForm';
-import RecipeFormStep1 from "../RecipeFormStep1";
-import RecipeFormStep2 from "../RecipeFormStep2";
-import RecipeFormStep3 from "../RecipeFormStep3";
-import RecipeFormStep4 from "../RecipeFormStep4";
-import RecipeFormStep5 from "../RecipeFormStep5";
-import { createRecipe, updateRecipe, findRecipeById, findAllCuisines } from "../../service/recipeApi";
+import Errors from '../Errors';
+import RecipeFormStep1 from '../RecipeFormStep1';
+import RecipeFormStep2 from '../RecipeFormStep2';
+import RecipeFormStep3 from '../RecipeFormStep3';
+import RecipeFormStep4 from '../RecipeFormStep4';
+import RecipeFormStep5 from '../RecipeFormStep5';
+import { createRecipe, updateRecipe, findRecipeById, findAllCuisines } from '../../service/recipeApi';
+import VerifyRecipe from '../VerifyRecipe';
 
 const EMPTY_RECIPE = {
   id: 0,
@@ -46,6 +47,35 @@ function RecipeForm({ userId }) {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
+  const styles = {
+    img: {
+      maxHeight: 200,
+    },
+    form: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      minHeight: '70vh',
+      p: 3,
+    },
+    stepContainer: {
+      maxWidth: '90%',
+      minWidth: '50%',
+      p: 3,
+      border: '1px solid #FEAE65',
+      borderRadius: '8px',
+      backgroundColor: '#fff',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+    },
+    stepButtons: {
+      display: 'flex',
+      flexDirection: 'row',
+      pt: 2,
+    }
+  }
+
   useEffect(() => {
     if (id) {
       findRecipeById(id)
@@ -57,7 +87,7 @@ function RecipeForm({ userId }) {
             }
           }))
         .catch(err => {
-          navigate("/error", {
+          navigate('/error', {
             state: { msg: err }
           });
         });
@@ -70,7 +100,7 @@ function RecipeForm({ userId }) {
     findAllCuisines()
       .then(data => setAllCuisines(data))
       .catch(err => {
-        navigate("/error", {
+        navigate('/error', {
           state: { msg: err }
         });
       });
@@ -99,7 +129,7 @@ function RecipeForm({ userId }) {
       },
       ingredient: newIngredient
     }
-    setRecipe({...recipe, ingredients: [...recipe.ingredients, newRecipeIngredient]});
+    setRecipe({ ...recipe, ingredients: [...recipe.ingredients, newRecipeIngredient] });
   }
 
   const handleCuisineChange = (cuisines) => {
@@ -186,7 +216,7 @@ function RecipeForm({ userId }) {
       case 1:
         return <RecipeFormStep2
           header={steps[step]}
-          recipeIngredients={recipe.ingredients.map((i) => i.ingredient)}
+          recipe={recipe}
           handleIngredientsChanged={handleIngredientsChanged}
           handleOpen={handleOpen}
           open={open}
@@ -218,26 +248,10 @@ function RecipeForm({ userId }) {
   return (
     <Grid>
       <Box component={'form'} onSubmit={handleSaveRecipe}
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          minHeight: '70vh',
-          p: 3,
-        }}
+        sx={styles.form}
       >
         <Box
-          sx={{
-            maxWidth: '90%',
-            minWidth: '50%',
-            p: 3,
-            border: '1px solid #FEAE65',
-            borderRadius: '8px',
-            backgroundColor: '#fff',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
+          sx={styles.stepContainer}
         >
           <Stepper activeStep={activeStep}>
             {steps.map((label) => {
@@ -253,21 +267,22 @@ function RecipeForm({ userId }) {
           {activeStep === steps.length ? (
             <Fragment>
               <Typography variant={'h4'} sx={{ mt: 2, mb: 1 }}>
-                Recipe Complete
+                Verify Recipe
               </Typography>
-              <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                <Button color="info" onClick={handleBack}>Back</Button>
-                <Button type="submit">Submit Recipe</Button>
-                <Button onClick={handleReset}>Reset</Button>
+              <VerifyRecipe recipe={recipe} fullScreen={fullScreen} styles={styles} />
+              <Box sx={styles.stepButtons}>
+                <Button color='info' onClick={handleBack}>Back</Button>
+                <Button type='submit'>Submit</Button>
+                <Button color='secondary' onClick={handleReset}>Reset</Button>
               </Box>
               {errors.length > 0 && <Errors errs={errors} />}
             </Fragment>
           ) : (
             <Fragment>
               {renderFormStep(activeStep)}
-              <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
+              <Box sx={styles.stepButtons}>
                 <Button
-                  color="info"
+                  color='info'
                   disabled={activeStep === 0}
                   onClick={handleBack}
                   sx={{ mr: 1 }}
