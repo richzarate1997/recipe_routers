@@ -1,8 +1,8 @@
+import { Tooltip } from '@mui/material';
 import { useState, useEffect } from 'react';
 import SpotifyPlayer from 'react-spotify-web-playback';
-import { loginUrl, getTokenFromUrl } from "../service/spotifyAuthorization";
 import SpotifyWebApi from 'spotify-web-api-js';
-import { Tooltip } from '@mui/material';
+import { loginUrl, getTokenFromUrl } from '../service/spotifyAuthorization';
 
 const spotify = new SpotifyWebApi();
 
@@ -25,14 +25,14 @@ const styles = {
 }
 
 const SpotifyWidget = () => {
-  const [spotifyToken, setSpotifyToken] = useState("");
+  const [spotifyToken, setSpotifyToken] = useState('');
   const offset = Math.floor(Math.random() * 671);
 
   useEffect(() => {
     const token = getTokenFromUrl().access_token;
     // Clear it from the uri
-    window.location.hash = "";
-    // console.log("Spotify Token: ", token);
+    window.location.hash = '';
+    // console.log('Spotify Token: ', token);
     if (token) {
       setSpotifyToken(token);
       spotify.setAccessToken(token);

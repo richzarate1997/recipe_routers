@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { renderCooktime } from './modules/conversions';
 import { scrapeRecipe } from '../service/recipeApi';
 
-const imageBase = "https://spoonacular.com/recipeImages/";
+const imageBase = 'https://spoonacular.com/recipeImages/';
 
 const styles = {
   gridContainer: {
@@ -51,12 +51,12 @@ export default function RecipeCard({ id, imageUrl, title, cookMinutes, servings 
       <Card py={2} height={370} onClick={() => getRecipe()}>
         <CardActionArea >
           <CardMedia
-            component="img"
-            height="175"
+            component='img'
+            height='175'
             image={renderImage()}
             alt={title} />
           <CardContent sx={styles.content}>
-            <Typography gutterBottom variant="h5" component="div" textAlign="center">
+            <Typography gutterBottom variant='h5' component='div' textAlign='center'>
               {title}
             </Typography>
             <Grid container sx={styles.gridContainer}>

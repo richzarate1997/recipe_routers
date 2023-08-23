@@ -14,10 +14,10 @@ import {
 import { useTheme } from '@mui/material/styles';
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import ConfirmDelete from '../ConfirmDelete';
 import { renderCooktime, renderIngredientText, renderInstructionText } from '../modules/conversions';
 import { findRecipeById } from '../../service/recipeApi';
 import { addFavorite, removeFavorite, isFavorite } from '../../service/userApi';
-import ConfirmDelete from '../ConfirmDelete';
 
 
 const EMPTY_RECIPE = {
@@ -145,7 +145,7 @@ const ShowRecipe = ({ userId }) => {
 
   return (
     <>{
-      ingredients.length > 0 &&
+      ingredients?.length &&
       <Paper elevation={4} style={styles.paper}>
         {location.state &&
           <Alert severity='success' sx={styles.alert}>
@@ -154,7 +154,6 @@ const ShowRecipe = ({ userId }) => {
             </Typography>
           </Alert>
         }
-
         <Grid container sx={styles.top}>
           <Grid item pt={2}>
             <Typography variant='h3'>{recipe.title}</Typography>
@@ -186,7 +185,6 @@ const ShowRecipe = ({ userId }) => {
             </List>
           </Grid>
         </Grid>
-
         <Stack direction='row' spacing={1} py={2} sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
           {recipe.vegetarian && <Chip variant='outlined' size='medium' key={`${recipe.id}-vegetarian`} label='Vegetarian' color='primary' />}
           {recipe.vegan && <Chip variant='outlined' size='medium' key={`${recipe.id}-vegan`} label='Vegan' color='primary' />}
@@ -194,7 +192,6 @@ const ShowRecipe = ({ userId }) => {
           {recipe.dairyFree && <Chip variant='outlined' size='medium' key={`${recipe.id}-dairyFree`} label='Dairy Free' color='secondary' />}
           {recipe.cuisines.length ? recipe.cuisines.map((c) => <Chip variant='outlined' size='medium' key={`${recipe.id}-${c.name}`} label={c.name} color='warning' />) : null}
         </Stack>
-
         <Grid container >
           <Grid item sx={styles.heading}>
             <MenuBookOutlinedIcon />
@@ -206,7 +203,6 @@ const ShowRecipe = ({ userId }) => {
             {renderInstructionText(recipe.instructions)}
           </Grid>
         </Grid>
-
         {userId && (userId !== recipe.userId ?
           <Checkbox
             icon={<FavoriteBorder />}
@@ -243,7 +239,6 @@ const ShowRecipe = ({ userId }) => {
             />
           </Grid>
         )}
-
         <Box sx={{ paddingY: '3%' }}>
           {recipe.sourceUrl &&
             <Typography variant='overline'><a href={recipe.sourceUrl}>Source</a></Typography>

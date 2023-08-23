@@ -50,14 +50,14 @@ const UserIcon = () => {
 
     return (
         <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
+            <Tooltip title='Open settings'>
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                     <Avatar style={styles}/>
                 </IconButton>
             </Tooltip>
             <Menu
                 sx={{ mt: '45px' }}
-                id="menu-appbar"
+                id='menu-appbar'
                 anchorEl={anchorUser}
                 anchorOrigin={{
                     vertical: 'top',
@@ -72,19 +72,19 @@ const UserIcon = () => {
                 onClose={handleCloseUserMenu}
             >
                 <MenuItem onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center" to={`/profile`} component={Link}>Profile</Typography>
+                    <Typography textAlign='center' to={`/profile`} component={Link}>Profile</Typography>
                 </MenuItem>
                 <MenuItem onClick={handleCloseUserMenu}>
-                <Typography textAlign="center" to={`/new/recipe`} component={Link}>Create Recipe</Typography>
+                <Typography textAlign='center' to={`/new/recipe`} component={Link}>Create Recipe</Typography>
                 </MenuItem>
                 {/* <MenuItem onClick={handleCloseUserMenu}>
-                <Typography textAlign="center" to={`/add/grocerylist`} component={Link}>Create Grocery List</Typography>
+                <Typography textAlign='center' to={`/add/grocerylist`} component={Link}>Create Grocery List</Typography>
                 </MenuItem> */}
                 {/* <MenuItem onClick={handleCloseUserMenu}>
-                <Typography textAlign="center" to={`/myfavorites`} component={Link}>My Favorites</Typography>
+                <Typography textAlign='center' to={`/myfavorites`} component={Link}>My Favorites</Typography>
                 </MenuItem> */}
                 <MenuItem onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center" onClick={() => auth.signOut()} component={Link}>Logout</Typography>
+                    <Typography textAlign='center' onClick={() => auth.signOut()} component={Link}>Logout</Typography>
                 </MenuItem>
             </Menu>
         </Box>

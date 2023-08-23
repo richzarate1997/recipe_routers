@@ -19,7 +19,7 @@ const NotFound = () => {
     return (
         <Paper elevation={3} style={styles.paper}>
             <Typography m={4} variant='h3'>Not Found</Typography>
-                    <Typography variant='h5' color="">
+                    <Typography variant='h5'>
                         {location.state
                             ? location.state.msg
                             : `Ah cheese! This was a fruitless endeavor, if we're not mis-steak-en. To get out of this pickle, lettuce try something else.`
@@ -29,9 +29,9 @@ const NotFound = () => {
                 </CardContent>
                 <CardMedia
                     sx={styles.img}
-                    component="img"
+                    component='img'
                     image={ Math.ceil(Math.random() * 2) === 1 ? '/images/sad_plate.jpg' : '/images/sad_fruit.jpg'}
-                    alt="empty plate is sad"
+                    alt='empty plate is sad'
                 />
         </Paper>
     )

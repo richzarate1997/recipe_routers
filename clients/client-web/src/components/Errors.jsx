@@ -1,5 +1,5 @@
-import { Alert, List, ListItem, ListItemText } from "@mui/material";
-import { useState, useEffect } from "react";
+import { Alert, List, ListItem, ListItemText } from '@mui/material';
+import { useState, useEffect } from 'react';
 
 
 function Errors({ errs }) {
@@ -8,10 +8,10 @@ function Errors({ errs }) {
   useEffect(() => {
     setErrors(errs);
   }, [errs]);
+
   return (
     <>
-
-      <Alert severity="error" style={{ display: 'flex', alignItems: 'center', marginTop: '20px' }}>
+      <Alert severity='error' style={{ display: 'flex', alignItems: 'center', marginTop: '20px' }}>
         <List>
           {typeof errors === 'object'
             ? errors.map(err => <ListItem key={err}><ListItemText primary={err} /></ListItem>)

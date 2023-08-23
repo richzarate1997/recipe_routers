@@ -1,33 +1,36 @@
-import { Fragment, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Paper, Typography } from '@mui/material'
 import RecipeIngredient from './RecipeIngredient'
 import { findAllUnits } from '../service/recipeApi';
 
-const RecipeFormStep3 = ({ header, recipeIngredients, onRecipeIngredientChange }) => {
-    const [units, setUnits] = useState([]);
+const RecipeFormStep3 = ({ header, recipeIngredients, onRecipeIngredientChange, fullScreen, onIngredientCreation }) => {
+  const [units, setUnits] = useState([]);
 
-    useEffect(() => {
-        findAllUnits()
-            .then(data => setUnits(data));
-    }, []);
-    
-    return (
-        <Fragment>
-            <Typography variant='h4' p={2}>{header}</Typography>
-            <Paper elevation={2} sx={{ 
-    overflow: 'auto',
-    maxHeight: '48vh',
-    width: '100%'}}>
-                {recipeIngredients.length > 0 && recipeIngredients.map((i,idx) => 
-                    <RecipeIngredient 
-                    key={idx} ingredient={i} 
-                    onChange={onRecipeIngredientChange} 
-                    units={units} 
-                    />
-                )}
-            </Paper>
-        </Fragment>
-    )
+  useEffect(() => {
+    findAllUnits()
+      .then(data => setUnits(data));
+  }, []);
+
+  return (
+    <>
+      <Typography variant='h4' p={2}>{header}</Typography>
+      <Paper elevation={2} sx={{
+        overflow: 'auto',
+        maxHeight: '48vh',
+        width: fullScreen ? '110%' : '100%'
+      }}>
+        { recipeIngredients?.map((i, idx) =>
+          <RecipeIngredient
+            key={idx} index={idx} recipeIngredient={i}
+            onChange={onRecipeIngredientChange}
+            units={units}
+            recipeIngredients={recipeIngredients}
+            onRecipeIngredientCreation={onIngredientCreation}
+          />
+        )}
+      </Paper>
+    </>
+  )
 }
 
 export default RecipeFormStep3

@@ -3,7 +3,7 @@ import {
   FormControlLabel, FormGroup, Select,
   OutlinedInput, MenuItem, Checkbox, Stack
 } from '@mui/material';
-import { Fragment, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const styles = {
   checkboxes: {
@@ -28,13 +28,13 @@ const RecipeFormStep1 = ({ recipe, handleChange, handleCuisineUpdate, allCuisine
   }, [recipe]);
 
   return (
-    <Fragment>
-      <Typography variant="h4" p={2}>{header}</Typography>
+    <>
+      <Typography variant='h4' p={2}>{header}</Typography>
       <Stack xs={10} md={8}>
-        <FormControl sx={{ width: '100%' }} component="fieldset">
+        <FormControl sx={{ width: '100%' }} component='fieldset'>
           <TextField
-            label="Title"
-            name="title"
+            label='Title'
+            name='title'
             value={recipe.title}
             onChange={handleChange}
             required
@@ -42,12 +42,12 @@ const RecipeFormStep1 = ({ recipe, handleChange, handleCuisineUpdate, allCuisine
         </FormControl>
         <Stack direction='row' py={2} columnGap={3} marginLeft={3}>
           <FormControlLabel
-            component="fieldset"
+            component='fieldset'
             control={
               <TextField
-                label="Servings"
-                type="number"
-                name="servings"
+                label='Servings'
+                type='number'
+                name='servings'
                 InputProps={{ inputProps: { min: '1' } }}
                 value={recipe.servings}
                 onChange={handleChange}
@@ -55,12 +55,12 @@ const RecipeFormStep1 = ({ recipe, handleChange, handleCuisineUpdate, allCuisine
             }
           />
           <FormControlLabel
-            component="fieldset"
+            component='fieldset'
             control={
               <TextField
-                label="Cook Minutes"
-                type="number"
-                name="cookMinutes"
+                label='Cook Minutes'
+                type='number'
+                name='cookMinutes'
                 InputProps={{ inputProps: { min: '1' } }}
                 value={recipe.cookMinutes}
                 onChange={handleChange}
@@ -89,49 +89,49 @@ const RecipeFormStep1 = ({ recipe, handleChange, handleCuisineUpdate, allCuisine
           </Select>
         </FormControl>
         <Grid item xs={12} pt={3} sx={styles.checkboxes}>
-          <FormControl component="fieldset">
+          <FormControl component='fieldset'>
             <FormGroup>
               <FormControlLabel
-                label="Vegetarian"
+                label='Vegetarian'
                 control={
                   <Checkbox
                     checked={recipe.vegetarian}
                     onChange={handleChange}
-                    name="vegetarian"
+                    name='vegetarian'
                   />
                 }
               />
               <FormControlLabel
-                label="Vegan"
+                label='Vegan'
                 control={
                   <Checkbox
                     checked={recipe.vegan}
                     onChange={handleChange}
-                    name="vegan"
+                    name='vegan'
                   />
                 }
               />
             </FormGroup>
           </FormControl>
-          <FormControl component="fieldset">
+          <FormControl component='fieldset'>
             <FormGroup>
               <FormControlLabel
-                label="Dairy Free"
+                label='Dairy Free'
                 control={
                   <Checkbox
                     checked={recipe.dairyFree}
                     onChange={handleChange}
-                    name="dairyFree"
+                    name='dairyFree'
                   />
                 }
               />
               <FormControlLabel
-                label="Gluten Free"
+                label='Gluten Free'
                 control={
                   <Checkbox
                     checked={recipe.glutenFree}
                     onChange={handleChange}
-                    name="glutenFree"
+                    name='glutenFree'
                   />
                 }
               />
@@ -139,7 +139,7 @@ const RecipeFormStep1 = ({ recipe, handleChange, handleCuisineUpdate, allCuisine
           </FormControl>
         </Grid>
       </Stack>
-    </Fragment>
+    </>
   );
 }
 
