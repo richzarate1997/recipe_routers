@@ -3,7 +3,7 @@ import { Paper, Typography } from '@mui/material'
 import RecipeIngredient from './RecipeIngredient'
 import { findAllUnits } from '../service/recipeApi';
 
-const RecipeFormStep3 = ({ header, recipeIngredients, onRecipeIngredientChange, fullScreen, onIngredientCreation }) => {
+const RecipeFormStep3 = ({ header, recipeIngredients, onRecipeIngredientChange, fullScreen, onRecipeIngredientFlux }) => {
   const [units, setUnits] = useState([]);
 
   useEffect(() => {
@@ -25,7 +25,7 @@ const RecipeFormStep3 = ({ header, recipeIngredients, onRecipeIngredientChange, 
             onChange={onRecipeIngredientChange}
             units={units}
             recipeIngredients={recipeIngredients}
-            onRecipeIngredientCreation={onIngredientCreation}
+            onRecipeIngredientFlux={onRecipeIngredientFlux}
           />
         )}
       </Paper>

@@ -111,8 +111,8 @@ function RecipeForm({ userId }) {
     setRecipe(nextRecipe);
   }
 
-  const onRecipeIngredientChange = (rI) => {
-    const newRecipeIngredients = recipe.ingredients.map(i => i.ingredient.id === rI.ingredient.id ? rI : i);
+  const onRecipeIngredientChange = (index, rI) => {
+    const newRecipeIngredients = recipe.ingredients.map((i, idx) => i.ingredient.id === rI.ingredient.id && idx === index ? rI : i);
     setRecipe({ ...recipe, ingredients: newRecipeIngredients });
   }
 
@@ -228,7 +228,7 @@ function RecipeForm({ userId }) {
           recipeIngredients={recipe.ingredients}
           onRecipeIngredientChange={onRecipeIngredientChange}
           fullScreen={fullScreen}
-          onIngredientCreation={handleRecipeIngredientCreation}
+          onRecipeIngredientFlux={handleIngredientsChanged}
         />;
       case 3:
         return <RecipeFormStep4
@@ -249,7 +249,7 @@ function RecipeForm({ userId }) {
   }
 
   return (
-    <Grid sx={{ height: '78.5vh'}}>
+    <Grid sx={{ height: '100%'}}>
       <Box component={'form'} onSubmit={handleSaveRecipe}
         sx={styles.form}
       >
