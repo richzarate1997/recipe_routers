@@ -35,7 +35,9 @@ const IngredientList = ({ allIngredients, recipe, handleIngredientsChanged }) =>
   }, [allIngredients, recipe.ingredients]);
 
   useEffect(() => {
-    setRight(recipe.ingredients.map(i => i.ingredient.name));
+    setRight(recipe.ingredients
+      .filter((ing, idx, self) => self.findIndex((ing2) => ing2.ingredient.id === ing.ingredient.id) === idx)
+      .map(i => i.ingredient.name));
   }, [recipe.ingredients])
 
   const handleToggle = (value) => () => {
@@ -92,7 +94,7 @@ const IngredientList = ({ allIngredients, recipe, handleIngredientsChanged }) =>
   const filteredLeft = left.filter(item => item.includes(searchTerm));
 
   const customList = (title, items, isSearchable = false) => (
-    <Card sx={{ minHeight: 400 }}>
+    <Card sx={{ minHeight: 350 }}>
       <CardHeader
         sx={{ px: 2, py: 1 }}
         avatar={
@@ -123,7 +125,7 @@ const IngredientList = ({ allIngredients, recipe, handleIngredientsChanged }) =>
       )}
       <Divider />
       <List
-        sx={{ minWidth: 200, height: isSearchable ? 250 : 322, overflow: 'auto' }}
+        sx={{ minWidth: 200, height: isSearchable ? 200 : 272, overflow: 'auto' }}
         dense
         component='div'
         role='list'
@@ -169,7 +171,7 @@ const IngredientList = ({ allIngredients, recipe, handleIngredientsChanged }) =>
             disabled={leftChecked.length === 0}
             aria-label='move selected to chosen'
           >
-            { useMediaQuery(theme.breakpoints.down('sm')) ? '↓' : '→'}
+            {useMediaQuery(theme.breakpoints.down('sm')) ? '↓' : '→'}
           </Button>
           <Button
             sx={{ my: 0.5, mx: useMediaQuery(theme.breakpoints.down('sm')) ? 1 : 0 }}
@@ -179,7 +181,7 @@ const IngredientList = ({ allIngredients, recipe, handleIngredientsChanged }) =>
             disabled={rightChecked.length === 0}
             aria-label='move selected to choices'
           >
-            { useMediaQuery(theme.breakpoints.down('sm')) ? '↑' : '←'}
+            {useMediaQuery(theme.breakpoints.down('sm')) ? '↑' : '←'}
           </Button>
         </Grid>
       </Grid>
