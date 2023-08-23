@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState } from 'react'
-import { Typography } from '@mui/material'
+import { Paper, Typography } from '@mui/material'
 import RecipeIngredient from './RecipeIngredient'
 import { findAllUnits } from '../service/recipeApi';
 
@@ -13,8 +13,11 @@ const RecipeFormStep3 = ({ header, recipeIngredients, onRecipeIngredientChange }
     
     return (
         <Fragment>
-            <Typography variant="h4" p={2}>{header}</Typography>
-            <Fragment>
+            <Typography variant='h4' p={2}>{header}</Typography>
+            <Paper elevation={2} sx={{ 
+    overflow: 'auto',
+    maxHeight: '48vh',
+    width: '100%'}}>
                 {recipeIngredients.length > 0 && recipeIngredients.map((i,idx) => 
                     <RecipeIngredient 
                     key={idx} ingredient={i} 
@@ -22,7 +25,7 @@ const RecipeFormStep3 = ({ header, recipeIngredients, onRecipeIngredientChange }
                     units={units} 
                     />
                 )}
-            </Fragment>
+            </Paper>
         </Fragment>
     )
 }
