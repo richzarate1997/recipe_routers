@@ -14,7 +14,7 @@ export default function Footer() {
             display: 'flex',
             justifyContent: 'end',
             alignItems: 'end',
-            padding: '15px',
+            padding: '10px',
             fontFamily: 'monospace',
             color: '#CA5953',
             position: 'absolute',
