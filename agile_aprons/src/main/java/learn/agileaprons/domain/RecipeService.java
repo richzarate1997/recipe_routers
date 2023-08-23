@@ -218,7 +218,7 @@ public class RecipeService {
         mappedRecipe.setServings(data.getServings());
         mappedRecipe.setCookMinutes(data.getReadyInMinutes());
         // Hard code string format for image url, after encountering null image
-        mappedRecipe.setImageUrl(String.format("https://spoonacular.com/recipeImages/%s-556x370.jpg", data.getId()));
+        mappedRecipe.setImageUrl(String.format("https://spoonacular.com/recipeImages/%s-556x370.%s", data.getId(), data.getImageType()));
         mappedRecipe.setSourceUrl(data.getSourceUrl());
         mappedRecipe.setVegetarian(data.isVegetarian());
         mappedRecipe.setVegan(data.isVegan());
