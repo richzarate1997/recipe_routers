@@ -4,7 +4,7 @@ import {
   Typography, useMediaQuery
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { Fragment, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import IngredientForm from './IngredientForm';
 import Errors from '../Errors';
@@ -113,14 +113,15 @@ function RecipeForm({ userId }) {
 
   const onRecipeIngredientChange = (rI) => {
     const newRecipeIngredients = recipe.ingredients.map(i => i.ingredient.id === rI.ingredient.id ? rI : i);
-    setRecipe({ ...recipe, ingredients: newRecipeIngredients })
+    setRecipe({ ...recipe, ingredients: newRecipeIngredients });
   }
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const handleIngredientCreation = (newIngredient) => {
+  const handleRecipeIngredientCreation = (newIngredient) => {
     const newRecipeIngredient = {
+      recipeId: recipe.id,
       quantity: 1,
       unit: {
         id: 0,
@@ -226,6 +227,8 @@ function RecipeForm({ userId }) {
           header={steps[step]}
           recipeIngredients={recipe.ingredients}
           onRecipeIngredientChange={onRecipeIngredientChange}
+          fullScreen={fullScreen}
+          onIngredientCreation={handleRecipeIngredientCreation}
         />;
       case 3:
         return <RecipeFormStep4
@@ -246,7 +249,7 @@ function RecipeForm({ userId }) {
   }
 
   return (
-    <Grid>
+    <Grid sx={{ height: '78.5vh'}}>
       <Box component={'form'} onSubmit={handleSaveRecipe}
         sx={styles.form}
       >
@@ -254,18 +257,18 @@ function RecipeForm({ userId }) {
           sx={styles.stepContainer}
         >
           <Stepper activeStep={activeStep}>
-            {steps.map((label) => {
+            {steps.map((label, idx) => {
               const stepProps = {};
               const labelProps = {};
               return (
                 <Step key={label} {...stepProps}>
-                  <StepLabel {...labelProps}>{label}</StepLabel>
+                  <StepLabel {...labelProps}>{fullScreen ? idx === activeStep ? label : '' : label}</StepLabel>
                 </Step>
               );
             })}
           </Stepper>
           {activeStep === steps.length ? (
-            <Fragment>
+            <>
               <Typography variant={'h4'} sx={{ mt: 2, mb: 1 }}>
                 Verify Recipe
               </Typography>
@@ -276,9 +279,9 @@ function RecipeForm({ userId }) {
                 <Button color='secondary' onClick={handleReset}>Reset</Button>
               </Box>
               {errors.length > 0 && <Errors errs={errors} />}
-            </Fragment>
+            </>
           ) : (
-            <Fragment>
+            <>
               {renderFormStep(activeStep)}
               <Box sx={styles.stepButtons}>
                 <Button
@@ -294,7 +297,7 @@ function RecipeForm({ userId }) {
                   {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
                 </Button>
               </Box>
-            </Fragment>
+            </>
           )}
         </Box>
       </Box>
@@ -302,7 +305,7 @@ function RecipeForm({ userId }) {
         fullScreen={fullScreen}
         open={open}
         handleClose={handleClose}
-        onIngredientCreation={handleIngredientCreation}
+        onIngredientCreation={handleRecipeIngredientCreation}
       />
     </Grid>
   );
