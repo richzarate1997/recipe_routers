@@ -22,7 +22,7 @@ function Home() {
   }
 
   return (
-    <Box sx={{ height: '80vh' }}>
+    <Box sx={{ height: '83vh' }}>
       <Box pt={8} style={styles.box}>
         <img src={logo} alt='hambuger logo' style={styles.logo} />
       </Box>

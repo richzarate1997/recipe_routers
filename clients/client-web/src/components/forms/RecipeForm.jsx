@@ -55,7 +55,7 @@ function RecipeForm({ userId }) {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      minHeight: '70vh',
+      minHeight: '73vh',
       p: 3,
     },
     stepContainer: {
@@ -250,12 +250,8 @@ function RecipeForm({ userId }) {
 
   return (
     <Grid sx={{ height: '100%'}}>
-      <Box component={'form'} onSubmit={handleSaveRecipe}
-        sx={styles.form}
-      >
-        <Box
-          sx={styles.stepContainer}
-        >
+      <Box component={'form'} onSubmit={handleSaveRecipe} sx={styles.form}>
+        <Box sx={styles.stepContainer}>
           <Stepper activeStep={activeStep}>
             {steps.map((label, idx) => {
               const stepProps = {};

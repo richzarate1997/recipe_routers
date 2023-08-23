@@ -47,7 +47,7 @@ function Login({ purpose, isRegister }) {
   };
 
   return (
-    <Container component='main' maxWidth='xs' sx={{ minHeight: '70vh' }}>
+    <Container component='main' maxWidth='xs' sx={{ minHeight: '71vh' }}>
       <Box
         sx={{
           marginTop: 8,
