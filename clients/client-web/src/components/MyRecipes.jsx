@@ -62,7 +62,8 @@ export default function MyRecipes({ recipes, favorites }) {
           <Tab value={1} label="My Favorites" />
         </Tabs>
       </Box>
-      <TabPanel value={value} index={0} sx={{ overflow: 'auto', height: '50%' }}>
+      <TabPanel value={value} index={0}>
+        <List sx={{ overflow: 'auto', height: '50vh' }}>
         {myRecipes?.map(recipe => (
           <ListItem key={recipe.id}>
             <ListItemButton onClick={() => (navigate(`/recipe/${recipe.id}`))}>
@@ -73,8 +74,10 @@ export default function MyRecipes({ recipes, favorites }) {
             </ListItemButton>
           </ListItem>
         ))}
+        </List>
       </TabPanel>
       <TabPanel value={value} index={1}>
+        <List sx={{ overflow: 'auto', height: '50vh' }}>
         {myFavorites?.map(favorite => (
           <ListItem key={favorite.id}>
             <ListItemButton onClick={() => navigate(`/recipe/${favorite.id}`)}>
@@ -85,6 +88,7 @@ export default function MyRecipes({ recipes, favorites }) {
             </ListItemButton>
           </ListItem>
         ))}
+        </List>
       </TabPanel>
     </Box>
   );
