@@ -8,7 +8,7 @@ import FastfoodOutlinedIcon from '@mui/icons-material/FastfoodOutlined';
 import LunchDiningOutlinedIcon from '@mui/icons-material/LunchDiningOutlined';
 import { useContext, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import UserIcon from './UserIcon';
+import UserIconMenu from './UserIconMenu';
 import NavBarSearch from './NavBarSearch';
 import AuthContext from '../contexts/AuthContext';
 
@@ -41,7 +41,6 @@ function ResponsiveAppBar() {
       <AppBar position='sticky'>
         <Container maxWidth='xl'>
           <Toolbar disableGutters>
-            <FastfoodOutlinedIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
             <Typography
               variant='h6' noWrap
               component={Link} to='/'
@@ -52,9 +51,13 @@ function ResponsiveAppBar() {
                 fontWeight: 700,
                 letterSpacing: '.3rem',
                 color: 'inherit',
+                alignItems: 'center',
                 textDecoration: 'none'
               }}
-            >GetYum</Typography>
+            >
+              <FastfoodOutlinedIcon sx={{ mr: 1 }} />
+              GetYum
+            </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
               <IconButton
                 size='large'
@@ -102,13 +105,13 @@ function ResponsiveAppBar() {
                 </Box>
               </Menu>
             </Box>
-            <FastfoodOutlinedIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
             <Typography
               variant='h5' noWrap
               component={Link} to='/'
               sx={{
-                mr: 2,
+                mr: 1,
                 display: { xs: 'flex', md: 'none' },
+                alignItems: 'center',
                 flexGrow: 1,
                 fontFamily: 'monospace',
                 fontWeight: 700,
@@ -117,6 +120,7 @@ function ResponsiveAppBar() {
                 textDecoration: 'none',
               }}
             >
+              <FastfoodOutlinedIcon sx={{ mr: 1 }} />
               GetYum
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
@@ -142,8 +146,8 @@ function ResponsiveAppBar() {
                 </Button>
               }
             </Box>
-            { location.pathname !== '/' && <NavBarSearch /> }
-            { auth.isLoggedIn() && <UserIcon /> }
+            {location.pathname !== '/' && <NavBarSearch />}
+            {auth.isLoggedIn() && <UserIconMenu auth={auth}/>}
           </Toolbar>
         </Container>
       </AppBar>

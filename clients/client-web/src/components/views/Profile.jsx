@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import GroceryListList from '../GroceryListList';
 import MyRecipes from '../MyRecipes';
-import { findUser, update } from '../../service/userApi';
+import { findUser } from '../../service/userApi';
 
 const EMPTY_USER = {
   displayName: '',
@@ -33,14 +33,14 @@ const Profile = ({ appUser }) => {
   useEffect(() => {
     findUser()
       .then(userData => setUser(userData))
-      .catch(err => console.log(err));
+      .catch(() => appUser.signOut());
   }, [appUser]);
 
   const label = { inputProps: { 'aria-label': 'Metric/Imperial units preference toggle' } }
   return (
     <Box mx={5} sx={{ paddingTop: 2 }} >
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Typography variant='h3'>Hey there, {user.displayName}</Typography>
+        <Typography variant='h3'>{user.displayName}'s Profile</Typography>
         {location.state &&
           <Alert severity={location.state.type} sx={styles.alert}>
             <Typography variant="subtitle1">
@@ -66,7 +66,6 @@ const Profile = ({ appUser }) => {
           {user && <GroceryListList />}
         </Grid>
       </Grid>
-
     </Box>
   )
 }

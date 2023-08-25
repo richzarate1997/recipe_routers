@@ -9,10 +9,10 @@ import { renderCooktime, renderIngredientText, renderInstructionText } from './m
 
 const VerifyRecipe = ({ recipe, fullScreen, styles }) => {
   return (
-    <>
-      <Grid container justifyContent={fullScreen ? 'center' : 'space-around'} alignItems='center'>
-        <Grid item xs={12} sm={6} textAlign='center'>
-          <Typography variant='h6'>Title: {recipe.title}</Typography>
+    <Paper sx={{ maxWidth: 800}} elevation={3}>
+      <Grid container justifyContent={fullScreen ? 'center' : 'space-evenly'} alignItems='center' >
+        <Grid item xs={12} md={4} lg={4} textAlign='center' py={2} px={1}>
+          <Typography variant='h5'>{recipe.title}</Typography>
           <Typography variant='body1'>Total Cooktime: {renderCooktime(recipe.cookMinutes)}</Typography>
           <Typography variant='body1'>Serves: {recipe.servings}</Typography>
           <Typography variant='body1'>Cuisines: {recipe.cuisines.length ? recipe.cuisines.map(c => c.name).join(", ") : 'None'}</Typography>
@@ -28,16 +28,18 @@ const VerifyRecipe = ({ recipe, fullScreen, styles }) => {
             {recipe.vegetarian || recipe.vegan || recipe.dairyFree || recipe.glutenFree ? '' : ' None'}
           </Typography>
         </Grid>
-        <Grid item xs={12} sm={6} display='flex' justifyContent='center' px={3}>
-          <Tooltip title='Oh Yum!'>
-            <Box component='img' alt={recipe.title} src={recipe.imageUrl} sx={styles.img} borderRadius='20px' />
-          </Tooltip>
+        <Grid item m={2} xs={12} md={7} lg={7}>
+          <Typography variant='overline'>Instructions:</Typography>
+          <Typography variant='body2' sx={{ maxHeight: 130, overflow: 'auto' }}>
+            {renderInstructionText(recipe.instructions)}
+          </Typography>
         </Grid>
       </Grid>
-      <Grid container m={2} px={2} justifyContent={fullScreen ? 'center' : 'space-around'} alignItems='center'>
+      <Grid container justifyContent={fullScreen ? 'center' : 'space-evenly'} alignItems='center'>
         <TableContainer
           component={Paper}
-          sx={{ maxWidth: 'fit-content', maxHeight: 300, overflow: 'auto' }}>
+          xs={12} sm={4} md={6} py={2} px={1}
+          sx={{ maxWidth: 'fit-content', maxHeight: 250, overflow: 'auto' }}>
           <Table stickyHeader aria-label='ingredient table'>
             <TableHead>
               <TableRow>
@@ -47,25 +49,21 @@ const VerifyRecipe = ({ recipe, fullScreen, styles }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {recipe.ingredients.map((ri) => (
-                <TableRow
-                  key={ri.id}
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
+              {recipe.ingredients.map((ri, idx) => (
+                <TableRow key={idx} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                   <TableCell>{renderIngredientText(recipe.servings, ri)}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
-        <Grid item m={2}>
-          <Typography variant='overline'>Instructions:</Typography>
-          <Typography variant='body2' sx={{ maxHeight: 270, overflow: 'auto', maxWidth: '60vw' }}>
-            {renderInstructionText(recipe.instructions)}
-          </Typography>
+        <Grid item xs={12} sm={8} md={6} display='flex' justifyContent='center' py={2} px={1}>
+          <Tooltip title='Oh Yum!'>
+            <Box component='img' alt={recipe.title} src={recipe.imageUrl} sx={styles.img}/>
+          </Tooltip>
         </Grid>
       </Grid>
-    </>
+    </Paper>
   )
 }
 
