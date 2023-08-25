@@ -1,7 +1,7 @@
 import { Fragment, useState, useEffect } from 'react'
 import { Typography, Button, Tooltip } from '@mui/material';
 import IngredientList from './IngredientList';
-import { findAllIngredients } from '../service/ingredientApi';
+import { findAllIngredients } from '../../../service/ingredientApi';
 
 const RecipeFormStep2 = ({ header, recipe, handleIngredientsChanged, handleOpen, open }) => {
   const [allIngredients, setAllIngredients] = useState([]);

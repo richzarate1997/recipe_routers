@@ -6,8 +6,8 @@ import {
   Grid, Stack, TextField
 } from '@mui/material/';
 import { useState } from "react";
-import Errors from "../Errors";
-import { hyphenate } from '../modules/conversions';
+import Errors from "../errors/Errors";
+import { hyphenate } from '../../modules/conversions';
 import { createIngredient } from "../../service/ingredientApi";
 
 const EMPTY_INGREDIENT = {

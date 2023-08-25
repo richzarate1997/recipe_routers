@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Paper, Typography } from '@mui/material'
 import RecipeIngredient from './RecipeIngredient'
-import { findAllUnits } from '../service/recipeApi';
+import { findAllUnits } from '../../../service/recipeApi';
 
 const RecipeFormStep3 = ({ header, recipeIngredients, onRecipeIngredientChange, fullScreen, onRecipeIngredientFlux }) => {
   const [units, setUnits] = useState([]);

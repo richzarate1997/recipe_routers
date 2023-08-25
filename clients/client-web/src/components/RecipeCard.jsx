@@ -6,7 +6,7 @@ import {
 import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import { useNavigate } from 'react-router-dom';
-import { renderCooktime } from './modules/conversions';
+import { renderCooktime } from '../modules/conversions';
 import { scrapeRecipe } from '../service/recipeApi';
 
 const imageBase = 'https://spoonacular.com/recipeImages/';

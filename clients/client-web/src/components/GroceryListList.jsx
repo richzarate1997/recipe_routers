@@ -4,9 +4,9 @@ import { useState, useEffect } from 'react';
 import { findGroceryListByName, updateList } from '../service/userApi';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
-import Errors from './Errors';
+import Errors from './errors/Errors';
 import { useNavigate } from 'react-router-dom';
-import AddGroceries from './AddGroceries';
+import AddGroceries from './forms/AddGroceries';
 
 function GroceryListList() {
     const [mainList, setMainList] = useState({

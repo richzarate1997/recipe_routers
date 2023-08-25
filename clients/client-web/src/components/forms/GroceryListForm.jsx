@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { createList, findGroceryListById, updateList } from "../../service/userApi";
 import { Autocomplete, Button, Box, TextField } from '@mui/material';
-import Errors from "../Errors";
+import Errors from "../errors/Errors";
 import NavBarSearch from "../NavBarSearch";
 import IngredientSearch from "../IngredientSearch";
-import IngredientList from "../IngredientList";
+import IngredientList from "./formComponents/IngredientList";
 
 const EMPTY_GROCERY_LIST = {
   id: 0,

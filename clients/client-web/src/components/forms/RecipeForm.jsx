@@ -7,14 +7,14 @@ import { useTheme } from '@mui/material/styles';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import IngredientForm from './IngredientForm';
-import Errors from '../Errors';
-import RecipeFormStep1 from '../RecipeFormStep1';
-import RecipeFormStep2 from '../RecipeFormStep2';
-import RecipeFormStep3 from '../RecipeFormStep3';
-import RecipeFormStep4 from '../RecipeFormStep4';
-import RecipeFormStep5 from '../RecipeFormStep5';
+import Errors from '../errors/Errors';
+import RecipeFormStep1 from './formComponents/RecipeFormStep1';
+import RecipeFormStep2 from './formComponents/RecipeFormStep2';
+import RecipeFormStep3 from './formComponents/RecipeFormStep3';
+import RecipeFormStep4 from './formComponents/RecipeFormStep4';
+import RecipeFormStep5 from './formComponents/RecipeFormStep5';
 import { createRecipe, updateRecipe, findRecipeById, findAllCuisines } from '../../service/recipeApi';
-import VerifyRecipe from '../VerifyRecipe';
+import VerifyRecipe from './formComponents/VerifyRecipe';
 
 const EMPTY_RECIPE = {
   id: 0,

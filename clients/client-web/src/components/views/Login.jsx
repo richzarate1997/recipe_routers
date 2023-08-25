@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 import { useContext, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import LoginErrors from '../LoginErrors';
+import LoginErrors from '../../components/errors/LoginErrors';
 import AuthContext from '../../contexts/AuthContext';
 import { authenticate } from '../../service/authApi';
 

@@ -13,7 +13,7 @@ import Footer from './components/Footer';
 import GroceryListForm from './components/forms/GroceryListForm';
 import RecipeForm from './components/forms/RecipeForm';
 import NotFound from './components/views/NotFound';
-import AddGroceries from './components/AddGroceries';
+import AddGroceries from './components/forms/AddGroceries';
 import FavoriteRecipesList from './components/FavoriteRecipesList';
 import AuthContext from './contexts/AuthContext';
 import { refreshToken, signOut } from './service/authApi';

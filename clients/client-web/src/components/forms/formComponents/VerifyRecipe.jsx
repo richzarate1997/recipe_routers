@@ -5,7 +5,7 @@ import {
   Tooltip,
   Typography
 } from '@mui/material';
-import { renderCooktime, renderIngredientText, renderInstructionText } from './modules/conversions';
+import { renderCooktime, renderIngredientText, renderInstructionText } from '../../../modules/conversions';
 
 const VerifyRecipe = ({ recipe, fullScreen, styles }) => {
   return (

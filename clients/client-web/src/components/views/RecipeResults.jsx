@@ -2,7 +2,7 @@ import { Box, Grid, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import PacmanLoader from "react-spinners/PacmanLoader";
-import Errors from "../Errors";
+import Errors from "../errors/Errors";
 import RecipeCard from "../RecipeCard";
 import { searchRecipes, findAllRecipes } from "../../service/recipeApi";
 

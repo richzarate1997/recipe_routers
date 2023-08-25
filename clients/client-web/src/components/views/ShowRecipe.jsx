@@ -15,7 +15,7 @@ import { useTheme } from '@mui/material/styles';
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import ConfirmDelete from '../ConfirmDelete';
-import { renderCooktime, renderIngredientText, renderInstructionText } from '../modules/conversions';
+import { renderCooktime, renderIngredientText, renderInstructionText } from '../../modules/conversions';
 import { findRecipeById } from '../../service/recipeApi';
 import { addFavorite, removeFavorite, isFavorite } from '../../service/userApi';
 
