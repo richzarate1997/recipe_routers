@@ -21,8 +21,8 @@ const EMPTY_RECIPE = {
   userId: 0,
   title: '',
   instructions: '',
-  servings: 1,
-  cookMinutes: 1,
+  servings: 0,
+  cookMinutes: 0,
   imageUrl: '',
   sourceUrl: '',
   image: null,
@@ -49,7 +49,8 @@ function RecipeForm({ userId }) {
 
   const styles = {
     img: {
-      maxHeight: 200,
+      maxHeight: fullScreen ? 200 : 250,
+      borderRadius: '20px'
     },
     form: {
       display: 'flex',
@@ -79,7 +80,7 @@ function RecipeForm({ userId }) {
   useEffect(() => {
     if (id) {
       findRecipeById(id)
-        .then(data => data.userId === userId ? setRecipe(data) : navigate('/profile',
+        .then(data => data.userId === userId ? setRecipe(data) : () => navigate('/profile',
           {
             state: {
               type: 'warning',
@@ -188,19 +189,16 @@ function RecipeForm({ userId }) {
             state: { msg: `${recipe.title} was added!` }
           })
         })
-        .catch(err => {
-          console.log(err)
-          setErrors(err.response.data)
-        });
+        .catch(err => setErrors(err.response.data));
     } else {
       updateRecipe(recipe)
-        .then(navigate(`/recipe/${recipe.id}`, {
+        .then(() => navigate(`/recipe/${recipe.id}`, {
           state: {
             msgType: 'success',
             msg: `${recipe.title} was updated!`
           }
         }))
-        .catch(err => setErrors(err));
+        .catch(err => setErrors(err.response.data));
     }
   }
 
@@ -269,12 +267,12 @@ function RecipeForm({ userId }) {
                 Verify Recipe
               </Typography>
               <VerifyRecipe recipe={recipe} fullScreen={fullScreen} styles={styles} />
+              {errors.length > 0 && <Errors errs={errors} />}
               <Box sx={styles.stepButtons}>
                 <Button color='info' onClick={handleBack}>Back</Button>
                 <Button type='submit'>Submit</Button>
                 <Button color='secondary' onClick={handleReset}>Reset</Button>
               </Box>
-              {errors.length > 0 && <Errors errs={errors} />}
             </>
           ) : (
             <>
