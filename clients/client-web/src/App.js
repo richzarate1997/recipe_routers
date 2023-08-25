@@ -18,7 +18,6 @@ import FavoriteRecipesList from './components/FavoriteRecipesList';
 import AuthContext from './contexts/AuthContext';
 import { refreshToken, signOut } from './service/authApi';
 
-
 const EMPTY_USER = {
   username: '',
   roles: []
@@ -28,11 +27,17 @@ const WAIT_TIME = 1000 * 60 * 14;
 
 function App() {
   const [user, setUser] = useState(EMPTY_USER);
-  
+
+  const logOut = () => {
+    setUser(EMPTY_USER);
+    alert("You have been signed out!");
+    signOut();
+  }
+
   useEffect(() => {
     refreshToken()
       .then(existingUser => setUser(existingUser))
-      .catch(() => auth.signOut());
+      .catch(() => logOut());
   }, []);
 
   const auth = {
@@ -48,21 +53,22 @@ function App() {
       setTimeout(refreshUser, WAIT_TIME);
     },
     signOut() {
-      setUser(EMPTY_USER);
-      signOut();
+      logOut();
     }
   };
 
   const refreshUser = useCallback(() => {
-    if (auth.user.appUserId) {
+    if (user.appUserId) {
       refreshToken()
         .then(existingUser => {
           setUser(existingUser);
           setTimeout(refreshUser, WAIT_TIME);
         })
-        .catch(() => auth.signOut());
+        .catch(() => {
+          logOut();
+        });
     }
-  }, []);
+  }, [user.appUserId]);
 
   useEffect(() => {
     refreshUser();
@@ -107,11 +113,11 @@ function App() {
             <Route path='/recipe/:id' element={<ShowRecipe userId={user.appUserId} />} />
             <Route path='/add/ingredient' element={<AddGroceries />} />
             <Route path='/new/recipe' element={mayRedirect(<RecipeForm />, <Navigate to='/recipes' />)} />
-            <Route path='/edit/recipe/:id' element={mayRedirect(<RecipeForm userId={auth.user.appUserId}/>, <Navigate to='/recipes' />)} />
+            <Route path='/edit/recipe/:id' element={mayRedirect(<RecipeForm userId={auth.user.appUserId} />, <Navigate to='/recipes' />)} />
             <Route path='/add/grocerylist' element={mayRedirect(<GroceryListForm />, <Navigate to='/recipes' />)} />
             <Route path='/myfavorites' element={mayRedirect(<FavoriteRecipesList />, <Navigate to='/recipes' />)} />
             <Route path='/about' element={<About />} />
-            <Route path='/profile' element={mayRedirect(<Profile appUser={auth.user} />, <Navigate to='/' />)} />
+            <Route path='/profile' element={mayRedirect(<Profile appUser={auth} />, <Navigate to='/' />)} />
             <Route path='/login' element={mayRedirect(<Navigate to='/profile' />, <Login purpose='Sign In' />)} />
             <Route path='/register' element={
               mayRedirect(<Navigate to='/profile' />, <Login purpose='Register' isRegister={true} />)
