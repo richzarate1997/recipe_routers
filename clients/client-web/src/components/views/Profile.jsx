@@ -36,9 +36,10 @@ const Profile = ({ appUser }) => {
       .catch(() => appUser.signOut());
   }, [appUser]);
 
-  const label = { inputProps: { 'aria-label': 'Metric/Imperial units preference toggle' } }
+  // const label = { inputProps: { 'aria-label': 'Metric/Imperial units preference toggle' } };
+
   return (
-    <Box mx={5} sx={{ paddingTop: 2 }} >
+    <Box mx={5} py={2}>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <Typography variant='h3'>{user.displayName}'s Profile</Typography>
         {location.state &&
@@ -48,21 +49,20 @@ const Profile = ({ appUser }) => {
             </Typography>
           </Alert>
         }
-        <FormControlLabel
+        {/* <FormControlLabel
           control={<Switch {...label}
             checked={user.metric}
             color="default" />
           }
           label="Metric / Imperial"
           labelPlacement='top'
-        />
+        /> */}
       </div>
-      <Grid container spacing={2} mx='auto' my={2}>
-        <Grid item xs={12} sm={10} md={4}>
+      <Grid container columnGap={2} my={2} justifyContent={{ sm: 'center', md: 'space-evenly'}}>
+        <Grid item xs={12} sm={12} md={5}>
           <MyRecipes recipes={user.myRecipes} favorites={user.myFavorites} />
         </Grid>
-        <Grid item xs={12} sm={4} md={4}>
-          <Typography variant='h5'>My Grocery List</Typography>
+        <Grid item xs={12} sm={12} md={5}>
           {user && <GroceryListList />}
         </Grid>
       </Grid>
@@ -70,4 +70,4 @@ const Profile = ({ appUser }) => {
   )
 }
 
-export default Profile
+export default Profile;
