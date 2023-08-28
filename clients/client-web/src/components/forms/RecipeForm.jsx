@@ -186,6 +186,7 @@ function RecipeForm({ userId }) {
       createRecipe(recipe)
         .then((data) => {
           navigate(`/recipe/${data.id}`, {
+            msgType: 'success',
             state: { msg: `${recipe.title} was added!` }
           })
         })
