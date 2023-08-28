@@ -34,19 +34,20 @@ const UserIconMenu = ({ auth }) => {
   };
 
   function stringAvatar(name) {
+    const upper = name.toUpperCase();
     return {
       sx: {
         bgcolor: stringToColor(name),
       },
-      children: name.includes(' ') ? `${name.split(' ')[0][0]}${name.split(' ')[1][0]}` : `${name[0]}`,
+      children: upper.includes(' ') ? `${upper.split(' ')[0][0]}${upper.split(' ')[1][0]}` : `${upper[0]}`,
     };
   }
 
   return (
     <Box sx={{ flexGrow: 0 }}>
-      <Tooltip title='Open settings'>
+      <Tooltip title='Open user menu options'>
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-          <Avatar {...stringAvatar(auth.user.username)}/>
+          <Avatar {...stringAvatar(auth.user.username)} />
         </IconButton>
       </Tooltip>
       <Menu
@@ -78,11 +79,11 @@ const UserIconMenu = ({ auth }) => {
                 <Typography textAlign='center' to={`/myfavorites`} component={Link}>My Favorites</Typography>
                 </MenuItem> */}
         <MenuItem onClick={handleCloseUserMenu}>
-          <Typography textAlign='center' onClick={() => auth.signOut()} component={Link}>Logout</Typography>
+          <Typography textAlign='center' onClick={() => auth.signOut()} component={Link}>Sign Out</Typography>
         </MenuItem>
       </Menu>
     </Box>
   )
 }
 
-export default UserIconMenu
+export default UserIconMenu;
