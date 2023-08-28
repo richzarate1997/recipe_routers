@@ -9,8 +9,6 @@ import { useNavigate } from 'react-router-dom';
 import { renderCooktime } from '../modules/conversions';
 import { scrapeRecipe } from '../service/recipeApi';
 
-const imageBase = 'https://spoonacular.com/recipeImages/';
-
 const styles = {
   gridContainer: {
     display: 'flex',
@@ -29,7 +27,7 @@ const styles = {
   }
 }
 
-export default function RecipeCard({ id, imageUrl, title, cookMinutes, servings }) {
+export function RecipeCard({ id, imageUrl, title, cookMinutes, servings }) {
   const navigate = useNavigate();
   const recipe = {
     id,
@@ -37,8 +35,11 @@ export default function RecipeCard({ id, imageUrl, title, cookMinutes, servings 
     servings,
     cookMinutes
   };
-  // TODO: Consider ways to guarantee image rendering with user created image urls and blobs...
-  const renderImage = () => imageUrl.includes(imageBase) ? imageUrl : imageBase + imageUrl;
+
+  const renderImage = () => {
+    // TODO: Consider ways to guarantee image rendering with user created image urls and blobs...
+    return imageUrl;
+  };
 
   const getRecipe = () => {
     scrapeRecipe(recipe)
@@ -77,3 +78,5 @@ export default function RecipeCard({ id, imageUrl, title, cookMinutes, servings 
     </Tooltip>
   );
 }
+
+export default RecipeCard;
