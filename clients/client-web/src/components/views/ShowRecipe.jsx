@@ -145,10 +145,10 @@ const ShowRecipe = ({ userId }) => {
 
   return (
     <>{
-      ingredients?.length &&
+      recipe.id !== 0 &&
       <Paper elevation={4} style={styles.paper}>
         {location.state &&
-          <Alert severity='success' sx={styles.alert}>
+          <Alert severity={location.state.msgType} sx={styles.alert}>
             <Typography variant='subtitle1'>
               {location.state.msg}
             </Typography>
@@ -158,7 +158,7 @@ const ShowRecipe = ({ userId }) => {
           <Grid item pt={2}>
             <Typography variant='h3'>{recipe.title}</Typography>
             <Divider sx={{ paddingY: 1 }} />
-            <Box component='img' src={image} alt={recipe.title} maxWidth='100%' pt={1} sx={{ borderRadius: '25px 25px' }} />
+            <Box component='img' src={image} alt={recipe.title} maxWidth='556px' width={'60vw'} pt={1} sx={{ borderRadius: '25px 25px' }} />
           </Grid>
           <Grid item sx={{ width: '30vw' }} xs={12} sm={9} md={8} lg={4}>
             <Grid container sx={{ marginY: '5%' }}>
@@ -204,13 +204,16 @@ const ShowRecipe = ({ userId }) => {
           </Grid>
         </Grid>
         {userId && (userId !== recipe.userId ?
-          <Checkbox
-            icon={<FavoriteBorder />}
-            checkedIcon={<Favorite />}
-            sx={{ mt: '5%', '& .MuiSvgIcon-root': { fontSize: 30 } }}
-            checked={checked}
-            onChange={handleFavoriteChange}
-          />
+
+          <Tooltip title={ checked ? 'Remove from favorites' : 'Add to favorites'} placement='top' arrow>
+            <Checkbox
+              icon={<FavoriteBorder />}
+              checkedIcon={<Favorite />}
+              sx={{ mt: '5%', '& .MuiSvgIcon-root': { fontSize: 30 } }}
+              checked={checked}
+              onChange={handleFavoriteChange}
+            />
+          </Tooltip>
           :
           <Grid sx={{ mt: '5%' }}>
             <Tooltip title='Delete Recipe'>
@@ -230,7 +233,7 @@ const ShowRecipe = ({ userId }) => {
                 <EditNote fontSize={'inherit'} />
               </IconButton>
             </Tooltip>
-            <ConfirmDelete 
+            <ConfirmDelete
               fullScreen={fullScreen}
               open={open}
               handleClose={handleClose}
