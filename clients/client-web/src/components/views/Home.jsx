@@ -1,9 +1,10 @@
-import { Box } from '@mui/material'
+import { Box } from '@mui/material';
 import FunFact from '../FunFact';
 import SearchBar from '../SearchBar';
 import logo from '../../assets/logo.png';
 
 function Home() {
+
   const styles = {
     box: {
       display: 'flex',
