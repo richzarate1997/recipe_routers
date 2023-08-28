@@ -44,8 +44,6 @@ function FunFact() {
         {text}
       </Card>
     </Box>
-
-
   );
 }
 

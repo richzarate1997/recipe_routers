@@ -33,4 +33,4 @@ const RecipeFormStep3 = ({ header, recipeIngredients, onRecipeIngredientChange, 
   )
 }
 
-export default RecipeFormStep3
+export default RecipeFormStep3;
