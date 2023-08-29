@@ -215,10 +215,9 @@ Docker version 24.0.2, build cb74dfc
 ```
 You should see a Docker version number.
 
+#### 4. Install MySQL As Docker Container
 If you receive an error and the install appeared to be successful, try a full machine restart and try `docker --version` again. If the error persists, troubleshoot.
 
-
-#### 4. Install MySQL As Docker Container
 Open a terminal and use the shortcut command `docker run` to install a local MySQL image, create a container from the image, and start the container.
 
 To split the command into separate lines, each terminal requires a different line continuation character.
@@ -294,14 +293,19 @@ If it does:
 
 
 ### Installation
-<!-- Incomplete -->
 1. Get a an API Key by subscribing to the spoonacular API at [https://rapidapi.com](https://rapidapi.com/spoonacular/api/recipe-food-nutrition/)
    * The free tier of this API is sufficient but requires a credit card on file in case you make more than the 50 requests daily. To avoid making too many requests the GetYum Java API caches requests from recipe searches, and the home page `Click Me` button is only enabled to run once per load of the home page. If you are concerned about making too many requests, you can watch your API consumption in the [RapidAPI Dashboard](https://rapidapi.com/developer/dashboard).
 2. Clone the repo
    ```sh
    git clone https://github.com/richzarate1997/recipe_routers.git
    ```
-3. Connect to the MySQL Server with Workbench
+3. Get a Spotify Client ID from [Spotify for Developers](https://developer.spotify.com/documentation/web-api) (*optional -- web player won't operate without this*)
+   * If you have a Spotify Account, you can follow the steps [here](https://developer.spotify.com/documentation/web-api) to "create an app". Once you have created the app you will receive a Client ID.
+   * In `<your_repository_path>/recipe_routers/clients/client-web` create a file called `.env` insert your Spotify Client ID:
+   ```sh
+   REACT_APP_SPOTIFY_CLIENT_ID=your-spotify-client-id
+   ```
+4. Connect to the MySQL Server with Workbench
    * Run MySQL Workbench. Workbench starts with a home view.
    * The home view may warn:
    *MySQL Workbench could not detect any MySQL server running. This means that MySQL is not installed or is not running.*
@@ -311,26 +315,26 @@ If it does:
    * A connection success dialog appears on success. Dismiss it and then click OK to complete the connection set up.
    * The Workbench home view now shows the learn-mysql connection.
    * Click on the connection. If asked to enter your password again, do so and click OK. Workbench switches to an active mode when it connects to a database.
-4. Run DB Schema Script
+5. Run DB Schema Script
    * Open up the SQL schema script by selecting *File->Open SQL Script...* and then selecting the schema at `<your_repository_path>/recipe_routers/agile_aprons/sql/schema.sql`.
    * You can run the script by clicking the lightning bolt icon (the one without the cursor on it). The Action Output should fill with several lines with corresponding green checkmarks. If you see any red *x* icons instead, run the script again.
-5. Configure & Run the GetYum Server
-   * In IntelliJ (or your preferred Java IDE) open the project from the `agile_aprons` directory that is nested inside the root of the recipe_routers repository: `<your_repository_path>/recipe_routers/agile_aprons`. Right-click the `App` file from the Project file tree and select `Modify Run Configuration...`. Here you need to add the following environment variables for it to run correctly (==Replace `your-password` & `your-API-key` with your own values==):
+6. Configure & Run the GetYum Server
+   * In IntelliJ (or your preferred Java IDE) open the project from the `agile_aprons` directory that is nested inside the root of the recipe_routers repository: `<your_repository_path>/recipe_routers/agile_aprons`. Right-click the `App` file from the Project file tree and select `Modify Run Configuration...`. Here you need to add the following environment variables for it to run correctly:
    ```sh
    DB_USERNAME=root;DB_PASSWORD=your-password;DB_URL=jdbc:mysql://localhost:3306/recipe_list;API_KEY=your-API-key
    ```
    * Click `Apply` and `Close`, then right-click on `App` again and select `Run 'App'` to start the server.
-6. Install NPM packages
+7. Install NPM packages
    From the root directory of the repository:
    ```sh
    cd clients/client-web
    npm install
    ```
-7. Run the React Web Client
+8. Run the React Web Client
    ```sh
    npm start
    ```
-Now you should have the whole application available and running.
+Now you should have the whole application available and running from the react client at `http://localhost:3000`.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -339,9 +343,11 @@ Now you should have the whole application available and running.
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+<!-- Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources. -->
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+
+
+<!-- _For examples, please refer to the [Documentation](https://example.com)_ -->
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -350,10 +356,22 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
+- [x] Java API with full CRUD functionality for Recipes
+  - [x] Conditionally rendered validation messages for recipe creation & user login/registration
+- [x] Access to additional recipes through Spoonacular API
+  - [x] Response caching to eliminate redundant requests
+  - [x] Conditional data scraping of unfamiliar recipes
+- [x] Recipe search bar that yields blended results from user-created recipes & spoonacular
+- [x] In Browser Audio with Spotify Web Player Integration
+- [x] Secure login/registration of user accounts with JSON Web Token & Spring Security
+- [x] User recipes, favorite recipes, and grocery list persistence
+- [x] Responsive React Web UI utilizing Material UI component library
+  - [x] Conditional Routing based on user account permissions
+- [ ] Seamless recipe-to-grocery-list option that adds a recipe's ingredients to a user's grocery list.
+- [ ] Recipe ingredient measurement conversion based on user preference (Metric / Imperial)
+- [ ] Advanced search and filtering of recipe results
+- [ ] Pagination for robust recipe search results
+- [ ] React Native Mobile UI
 
 See the [open issues](https://github.com/richzarate1997/recipe_routers/issues) for a full list of proposed features (and known issues).
 
@@ -405,10 +423,12 @@ Project Link: [https://github.com/richzarate1997/recipe_routers](https://github.
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
+* [Brendan Kendrick](https://github.com/oneowhat) - Dev10 Instructor
+* [Dev10](https://www.dev-10.com)
 * [README Template](https://github.com/othneildrew/Best-README-Template)
 * [Img Shields](https://shields.io)
-* Brendan Kendrick - Dev10 Instructor
-<!-- * []() -->
+* [React Spinners](https://www.davidhu.io/react-spinners/)
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
