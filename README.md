@@ -347,6 +347,18 @@ Now you should have the whole application available and running from the react c
 
 
 
+
+https://github.com/richzarate1997/recipe_routers/assets/104476731/1910a33e-8e18-4916-bbad-0e77d77adcb0
+
+https://github.com/richzarate1997/recipe_routers/assets/104476731/5fdd4ce0-763e-47f8-914d-fc2d8d5b4ab3
+
+https://github.com/richzarate1997/recipe_routers/assets/104476731/8db2460d-7dd2-42d7-837b-53c7c3a51909
+
+
+
+
+
+
 <!-- _For examples, please refer to the [Documentation](https://example.com)_ -->
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
