@@ -92,10 +92,8 @@ const RecipeIngredient = ({ index, recipeIngredients, units, recipeIngredient, o
             </MenuItem>
             {units.map((unit) => (
               <MenuItem key={unit.id} value={unit.id}>
-                <Tooltip title={unit.name}>
-                  <>
-                    {unit.abbreviation || recipeIngredient.ingredient.name}
-                  </>
+                <Tooltip title={unit.name || recipeIngredient.ingredient.name}>
+                  {unit.abbreviation || recipeIngredient.ingredient.name}
                 </Tooltip>
               </MenuItem>
             ))}
@@ -103,8 +101,10 @@ const RecipeIngredient = ({ index, recipeIngredients, units, recipeIngredient, o
         }
       </Grid>
       <Grid item xs={2} sx={styles.name}>
-        <Avatar alt={recipeIngredient.ingredient.name} src={recipeIngredient.ingredient.imageUrl} />
-        <Tooltip title={isNotDuplicateIngredient ? 'Split Measurement' : 'Remove'}>
+        <Tooltip title={recipeIngredient.ingredient.name}>
+          <Avatar alt={recipeIngredient.ingredient.name} src={recipeIngredient.ingredient.imageUrl} />
+        </Tooltip>
+        <Tooltip placement='right' title={isNotDuplicateIngredient ? `Add'l ${recipeIngredient.ingredient.name} measurement` : 'Remove'}>
           <IconButton onClick={handleIngredientAction} >
             {isNotDuplicateIngredient
               ? <AddCircleSharpIcon color='primary' />
