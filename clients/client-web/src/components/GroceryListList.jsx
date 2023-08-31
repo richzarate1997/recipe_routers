@@ -85,7 +85,7 @@ function GroceryListList() {
         ))}
         {mainList.list.length === 0 &&
         <>
-          <Typography px={2} textAlign='center'>Your grocery list is empty...</Typography>
+          <Typography px={2} textAlign='center' m={2}>Your grocery list is empty...</Typography>
           <Button variant='contained'><Link to='/add/ingredient'>Add groceries</Link></Button>
         </>
         }

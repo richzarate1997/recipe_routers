@@ -80,7 +80,7 @@ export function MyRecipes({ recipes, favorites }) {
           ))}
           {myRecipes.length === 0 &&
             <>
-              <Typography>You currently have no recipes...</Typography>
+              <Typography sx={{ margin: 2 }}>You currently have no recipes...</Typography>
               <Button variant='contained'><Link to='/new/recipe'>Create a recipe</Link></Button>
             </>
           }
@@ -101,8 +101,8 @@ export function MyRecipes({ recipes, favorites }) {
           {myFavorites.length === 0 &&
             <>
               <Typography>You currently have no favorites...</Typography>
+              <Typography sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', margin: 2 }}>Look for the  "<FavoriteBorder />"  to favorite one</Typography>
               <Button variant='contained'><Link to='/recipes'>Explore recipes</Link></Button>
-              <Typography sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Look for the  "<FavoriteBorder />"  to favorite one</Typography>
             </>
           }
         </List>

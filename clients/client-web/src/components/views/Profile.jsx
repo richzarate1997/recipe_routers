@@ -58,7 +58,7 @@ const Profile = ({ appUser }) => {
           labelPlacement='top'
         /> */}
       </div>
-      <Grid container columnGap={2} my={2} justifyContent={{ sm: 'center', md: 'space-evenly'}}>
+      <Grid container columnGap={2} my={2} rowGap={4} justifyContent={{ sm: 'center', md: 'space-evenly'}}>
         <Grid item xs={12} sm={12} md={5}>
           <MyRecipes recipes={user.myRecipes} favorites={user.myFavorites} />
         </Grid>
