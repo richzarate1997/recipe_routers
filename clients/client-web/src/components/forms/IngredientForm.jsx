@@ -1,121 +1,154 @@
-import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { createIngredient, findIngredientById } from "../../service/ingredientApi";
-import { Box, Button, TextField } from '@mui/material/';
-import Errors from "../Errors";
+import {
+  Box, Button, Checkbox, Dialog,
+  DialogActions, DialogContent,
+  DialogContentText, DialogTitle,
+  FormControlLabel, FormGroup,
+  Grid, Stack, TextField
+} from '@mui/material/';
+import { useState } from "react";
+import Errors from "../errors/Errors";
+import { hyphenate } from '../../modules/conversions';
+import { createIngredient } from "../../service/ingredientApi";
 
 const EMPTY_INGREDIENT = {
-    id: 0,
-    name: '',
-    aisle: '',
-    imageUrl: '',
+  id: 0,
+  name: '',
+  aisle: '',
+  imageUrl: '',
 };
 
-function IngredientForm({ onClose, onIngredientCreate }) {
-    const [ingredient, setIngredient] = useState(EMPTY_INGREDIENT);
-    const [errors, setErrors] = useState([]);
+const styles = {
+  formGroup: {
+    margin: 4,
+  },
+  dialog: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    minHeight: '100vh',
+  },
+  img: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
+  urlInput: {
+    marginBottom: 4,
+  }
+}
 
-    const { id } = useParams();
+function IngredientForm({ fullScreen, open, handleClose, onIngredientCreation }) {
+  const [ingredient, setIngredient] = useState(EMPTY_INGREDIENT);
+  const [errors, setErrors] = useState([]);
+  const [urlManualEntry, setUrlManualEntry] = useState(false);
 
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        if (id) {
-            findIngredientById(id)
-                .then(data => setIngredient(data))
-                .catch(err => {
-                    navigate("/error", {
-                        state: { msg: err }
-                    });
-                });
-        } else {
-            setIngredient(EMPTY_INGREDIENT);
-        }
-    }, [id, navigate]);
-        
-
-    const handleChange = (event) => {
-        const nextIngredient = { ...ingredient };
-        let nextValue = event.target.value;
-        nextIngredient[event.target.name] = nextValue;
-        setIngredient(nextIngredient);
+  const handleChange = (event) => {
+    const nextIngredient = { ...ingredient };
+    if (event.target.type === 'checkbox') {
+      setUrlManualEntry(event.target.checked);
+      if (!event.target.checked) {
+        nextIngredient['imageUrl'] = `https://spoonacular.com/cdn/ingredients_100x100/${hyphenate(nextIngredient['name'])}.jpg`
+      }
     }
-
-    const handleSaveIngredient = (event) => {
-        event.preventDefault();
-
-        createIngredient(ingredient)
-            .then(data => { 
-                console.log(data)
-                // onIngredientCreate(data); 
-                onClose(); 
-            })
-            .catch(err => setErrors([err]));
+    let nextValue = event.target.value;
+    nextIngredient[event.target.name] = nextValue;
+    if (event.target.name === 'name' && !urlManualEntry) {
+      nextIngredient['imageUrl'] = `https://spoonacular.com/cdn/ingredients_100x100/${hyphenate(nextValue)}.jpg`;
     }
+    setIngredient(nextIngredient);
+  }
 
-    const handleCancel = () => {
-        onClose();
-    }
+  const handleSaveIngredient = (event) => {
+    event.preventDefault();
 
+    createIngredient(ingredient)
+      .then((data) => {
+        onIngredientCreation(data);
+        handleCancel();
+      })
+      .catch(err => setErrors(err.response.data));
+  }
 
-    return (
-        <Box sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            minHeight: '100vh',
-        }}
-        >
-            <Box sx={{
-                width: '400px',
-                p: 3,
-                border: '1px solid gray',
-                borderRadius: '8px',
-                backgroundColor: '#fff',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-            }}
-            >
-                <h1>Ingredient Form</h1>
-                <Box component={'form'} onSubmit={handleSaveIngredient}>
-                    <div>
-                        <TextField
-                            label="Name"
-                            name="name"
-                            value={ingredient.name}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <div>
-                        <TextField
-                            label="Aisle"
-                            name="aisle"
-                            value={ingredient.aisle}
-                            onChange={handleChange}
-                        />
-                    </div>
-                    <div>
-                        <TextField
-                            label="Image URL"
-                            name="imageUrl"
-                            value={ingredient.imageUrl}
-                            onChange={handleChange}
-                        />
-                    </div>
-                    <div>
-                    <Button type="submit" variant="contained" color="primary">
-                        Save
-                    </Button>
-                    <Button onClick={handleCancel} variant="contained" color="secondary">
-                        Cancel
-                    </Button>
-                </div>
-                </Box>
-            </Box>
-        </Box>
-    );
+  const handleCancel = () => {
+    setErrors([]);
+    setIngredient(EMPTY_INGREDIENT);
+    setUrlManualEntry(false);
+    handleClose();
+  }
+
+  return (
+    <Dialog
+      sx={styles.dialog}
+      fullScreen={fullScreen}
+      open={open}
+      onClose={handleClose}
+      aria-labelledby='new-ingredient-form'
+    >
+      <DialogTitle id='new-ingredient-form'>New Ingredient</DialogTitle>
+      <DialogContent>
+        <DialogContentText>
+          {errors.length > 0 && <Errors errs={errors} />}
+        </DialogContentText>
+        <DialogActions>
+          <Box component={'form'} onSubmit={handleSaveIngredient} >
+            <Stack direction={'row'} alignItems={'center'}>
+              <Grid item>
+                <FormGroup sx={styles.formGroup}>
+                  <TextField
+                    label="Name"
+                    name="name"
+                    value={ingredient.name}
+                    onChange={handleChange}
+                    required
+                  />
+                </FormGroup>
+                <FormGroup sx={styles.formGroup}>
+                  <TextField
+                    label="Grocery Aisle"
+                    name="aisle"
+                    value={ingredient.aisle}
+                    onChange={handleChange}
+                  />
+                </FormGroup>
+              </Grid>
+              <Grid item sx={styles.img}>
+                <Box component='img' alt={ingredient.name} src={ingredient.imageUrl} height={100} />
+                <FormControlLabel
+                  label="Manually Enter Image URL"
+                  control={
+                    <Checkbox
+                      checked={urlManualEntry}
+                      onChange={handleChange}
+                      name="urlManualEntry"
+                    />
+                  }
+                />
+              </Grid>
+            </Stack>
+            {urlManualEntry && <FormGroup sx={ styles.urlInput }>
+              <TextField
+                label="Image URL"
+                name="imageUrl"
+                value={ingredient.imageUrl}
+                onChange={handleChange}
+              />
+            </FormGroup>
+            }
+            <FormGroup >
+              <Stack direction='row' justifyContent='space-between'>
+                <Button type="submit" variant="contained" color="primary">
+                  Add
+                </Button>
+                <Button onClick={handleCancel} variant="contained" color="secondary">
+                  Cancel
+                </Button>
+              </Stack>
+            </FormGroup>
+          </Box>
+        </DialogActions>
+      </DialogContent>
+    </Dialog>
+  );
 }
 
 export default IngredientForm;

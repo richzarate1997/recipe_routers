@@ -6,25 +6,28 @@ import {
 import AccessTimeOutlinedIcon from '@mui/icons-material/AccessTimeOutlined';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import { useNavigate } from 'react-router-dom';
-import { renderCooktime } from './modules/conversions';
+import { renderCooktime } from '../modules/conversions';
 import { scrapeRecipe } from '../service/recipeApi';
-
-const imageBase = "https://spoonacular.com/recipeImages/";
 
 const styles = {
   gridContainer: {
     display: 'flex',
-    justifyContent: 'space-around',
-    alignContent: 'flex-end'
+    justifyContent: 'space-around'
   },
   gridItem: {
     display: 'flex',
-    alignItems: 'center',
     flexDirection: 'column',
+    alignItems: 'center',
+  },
+  content: {
+    height: 160,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between'
   }
 }
 
-export default function RecipeCard({ id, imageUrl, title, cookMinutes, servings }) {
+export function RecipeCard({ id, imageUrl, title, cookMinutes, servings }) {
   const navigate = useNavigate();
   const recipe = {
     id,
@@ -32,8 +35,11 @@ export default function RecipeCard({ id, imageUrl, title, cookMinutes, servings 
     servings,
     cookMinutes
   };
-  // TODO: Consider ways to guarantee image rendering with user created image urls and blobs...
-  const renderImage = () => imageUrl.includes(imageBase) ? imageUrl : imageBase + imageUrl;
+
+  const renderImage = () => {
+    // TODO: Consider ways to guarantee image rendering with user created image urls and blobs...
+    return imageUrl;
+  };
 
   const getRecipe = () => {
     scrapeRecipe(recipe)
@@ -42,20 +48,16 @@ export default function RecipeCard({ id, imageUrl, title, cookMinutes, servings 
   }
 
   return (
-    <CardActionArea sx={{ width: 345 }}>
-      <Tooltip title={title} placement='top' arrow>
-        <Card
-          sx={{ width: 345, height: 370 }}
-          py={2}
-          onClick={() => getRecipe()}
-        >
+    <Tooltip title={title} placement='top' arrow>
+      <Card py={2} height={370} onClick={() => getRecipe()}>
+        <CardActionArea >
           <CardMedia
-            component="img"
-            height="175"
+            component='img'
+            height='175'
             image={renderImage()}
             alt={title} />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div" textAlign="center">
+          <CardContent sx={styles.content}>
+            <Typography gutterBottom variant='h5' component='div' textAlign='center'>
               {title}
             </Typography>
             <Grid container sx={styles.gridContainer}>
@@ -71,8 +73,10 @@ export default function RecipeCard({ id, imageUrl, title, cookMinutes, servings 
               </Grid>
             </Grid>
           </CardContent>
-        </Card>
-      </Tooltip>
-    </CardActionArea>
+        </CardActionArea>
+      </Card>
+    </Tooltip>
   );
 }
+
+export default RecipeCard;

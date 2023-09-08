@@ -14,6 +14,7 @@ public class SpoonacularRecipe {
     private int servings;
     private String sourceUrl;
     private String image;
+    private String imageType;
     private String instructions;
     private ArrayList<String> cuisines;
     private boolean vegetarian;
@@ -68,6 +69,14 @@ public class SpoonacularRecipe {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getImageType() {
+        return imageType;
+    }
+
+    public void setImageType(String imageType) {
+        this.imageType = imageType;
     }
 
     public String getInstructions() {
@@ -147,7 +156,6 @@ public class SpoonacularRecipe {
 
 //    All unused properties of the response
 //    private String summary;
-//    private String imageType;
 //    private ArrayList<String> dishTypes;
 //    private ArrayList<String> diets;
 //    private ArrayList<String> occasions;

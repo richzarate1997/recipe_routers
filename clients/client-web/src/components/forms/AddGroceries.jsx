@@ -5,10 +5,10 @@ import {
 } from "@mui/material";
 import { useTheme } from '@mui/material/styles';
 import { useEffect, useState } from "react";
-import { findAllIngredients } from "../service/ingredientApi";
-import { findGroceryListByName } from "../service/userApi";
-import Errors from "./Errors";
-import { updateList } from "../service/userApi";
+import { findAllIngredients } from "../../service/ingredientApi";
+import { findGroceryListByName } from "../../service/userApi";
+import Errors from "../errors/Errors";
+import { updateList } from "../../service/userApi";
 import { useNavigate } from "react-router-dom";
 
 const ITEM_HEIGHT = 48;

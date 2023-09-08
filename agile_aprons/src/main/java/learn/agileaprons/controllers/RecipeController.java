@@ -68,7 +68,7 @@ public class RecipeController {
         }
         if (bindingResult.hasErrors()) {
             List<String> errors = bindingResult.getAllErrors().stream()
-                    .map(err -> err.getDefaultMessage())
+                    .map(DefaultMessageSourceResolvable::getDefaultMessage)
                     .collect(Collectors.toList());
 
             return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);

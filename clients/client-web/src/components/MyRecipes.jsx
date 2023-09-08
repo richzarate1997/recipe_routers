@@ -1,12 +1,18 @@
-import { useEffect, useState } from 'react';
-import { Box, Tab, Tabs, List, ListItem, ListItemText, ListItemButton } from '@mui/material';
+import { FavoriteBorder } from '@mui/icons-material';
+import {
+  Avatar, Box, Button, List, 
+  ListItem, ListItemAvatar, 
+  ListItemButton, ListItemText, 
+  Paper, Tab, Tabs, Typography
+} from '@mui/material';
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 function TabPanel({ children, value, index, ...other }) {
   return (
     <div
-      role="tabpanel"
+      role='tabpanel'
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
@@ -27,10 +33,11 @@ TabPanel.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-export default function MyRecipes({ recipes, favorites }) {
+export function MyRecipes({ recipes, favorites }) {
   const [value, setValue] = useState(0);
   const [myFavorites, setMyFavorites] = useState([]);
   const [myRecipes, setMyRecipes] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setMyRecipes(recipes);
@@ -44,42 +51,64 @@ export default function MyRecipes({ recipes, favorites }) {
     setValue(newValue);
   };
 
-  const navigate = useNavigate();
-
-
-
   return (
-    <Box>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+    <Paper sx={{ height: '100%' }} elevation={4}>
+      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
         <Tabs
           value={value}
           onChange={handleChange}
-          textColor="secondary"
-          indicatorColor="secondary"
-          aria-label="recipe tabs"
+          textColor='primary'
+          indicatorColor='primary'
+          variant='contained'
+          aria-label='recipe tabs'
         >
-          <Tab value={0} label="My Recipes" />
-          <Tab value={1} label="My Favorites" />
+          <Tab value={0} label='My Recipes' />
+          <Tab value={1} label='My Favorites' />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        {myRecipes?.map(recipe => (
-          <ListItem key={recipe.id}>
-            <ListItemButton onClick={() => (navigate(`/recipe/${recipe.id}`))}  >
-              <ListItemText>{recipe.title}</ListItemText>
-            </ListItemButton>
-          </ListItem>
-        ))}
+        <List sx={{ overflow: 'auto', height: '50vh', textAlign: 'center' }}>
+          {myRecipes?.map(recipe => (
+            <ListItem key={recipe.id}>
+              <ListItemButton onClick={() => (navigate(`/recipe/${recipe.id}`))}>
+                <ListItemAvatar>
+                  <Avatar alt={recipe.title} src={recipe.imageUrl} />
+                </ListItemAvatar>
+                <ListItemText>{recipe.title}</ListItemText>
+              </ListItemButton>
+            </ListItem>
+          ))}
+          {myRecipes.length === 0 &&
+            <>
+              <Typography sx={{ margin: 2 }}>You currently have no recipes...</Typography>
+              <Button variant='contained'><Link to='/new/recipe'>Create a recipe</Link></Button>
+            </>
+          }
+        </List>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        {myFavorites?.map(favorite => (
-          <ListItem key={favorite.id}>
-            <ListItemButton onClick={() => navigate(`/recipe/${favorite.id}`)} >
-              <ListItemText>{favorite.title}</ListItemText>
-            </ListItemButton>
-          </ListItem>
-        ))}
+        <List sx={{ overflow: 'auto', height: '50vh', textAlign: 'center' }}>
+          {myFavorites?.map(favorite => (
+            <ListItem key={favorite.id}>
+              <ListItemButton onClick={() => navigate(`/recipe/${favorite.id}`)}>
+                <ListItemAvatar>
+                  <Avatar alt={favorite.title} src={favorite.imageUrl} />
+                </ListItemAvatar>
+                <ListItemText>{favorite.title}</ListItemText>
+              </ListItemButton>
+            </ListItem>
+          ))}
+          {myFavorites.length === 0 &&
+            <>
+              <Typography>You currently have no favorites...</Typography>
+              <Typography sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', margin: 2 }}>Look for the  "<FavoriteBorder />"  to favorite one</Typography>
+              <Button variant='contained'><Link to='/recipes'>Explore recipes</Link></Button>
+            </>
+          }
+        </List>
       </TabPanel>
-    </Box>
+    </Paper>
   );
 }
+
+export default MyRecipes;

@@ -82,9 +82,6 @@ export async function createRecipe(recipe) {
     return response.data;
   } else if (response.status === 403) {
     return Promise.reject('Unauthorized');
-  } else if (response.status === 400) {
-    const errors = await response.json();
-    return Promise.reject(errors);
   } else {
     const errors = await response.json();
     return Promise.reject(errors);
@@ -100,7 +97,6 @@ export async function updateRecipe(recipe) {
   } else if (response.status === 409) {
     return Promise.reject('Oopsie');
   }
-
 }
 
 function makeRecipeInit(token) {
@@ -112,7 +108,9 @@ function makeRecipeInit(token) {
 }
 
 export async function deleteRecipeById(id) {
-  const response = await axios.delete(`${API_URL}/${id}`);
+  const jwtToken = localStorage.getItem('jwt_token');
+  const init = makeRecipeInit(jwtToken);
+  const response = await axios.delete(`${API_URL}/${id}`, init);
   if (response.status === 400) {
     return Promise.reject(`Recipe: ${id} was not found.`);
   }
