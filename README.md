@@ -374,6 +374,7 @@ https://github.com/richzarate1997/recipe_routers/assets/104476731/8db2460d-7dd2-
 - [x] Responsive React Web UI utilizing Material UI component library
   - [x] Conditional Routing based on user account permissions
 - [ ] Seamless recipe-to-grocery-list option that adds a recipe's ingredients to a user's grocery list.
+- [ ] User preferences editing: including display name change and metric/imperial adjustment from Profile view
 - [ ] Recipe ingredient measurement conversion based on user preference (Metric / Imperial)
 - [ ] Advanced search and filtering of recipe results
 - [ ] Pagination for robust recipe search results
