@@ -416,9 +416,9 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 ## Contact
 
 <!-- Your Name - email@email_client.com -->
-Alice Wu - awu@dev-10.com
-Coren "Kern" Frankel - cfrankel@dev-10.com
-Richard Zarate - rzarate@dev-10.com
+Alice Wu - alice.h.wuu@gmail.com
+Coren "Kern" Frankel - coren.frankel@gmail.com
+Richard Zarate - richzarate97@gmail.com
 
 Project Link: [https://github.com/richzarate1997/recipe_routers](https://github.com/richzarate1997/recipe_routers)
 
